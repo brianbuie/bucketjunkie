@@ -1,0 +1,37 @@
+{
+  "name": "nfa",
+  "version": "1.0.0",
+  "description": "national fantasy association",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon ./start.js --ignore public/",
+    "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"WEBPACK,MONGO\" --prefix name",
+    "assets": "webpack -w --display-max-modules 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/brianbuie/nfa.git"
+  },
+  "author": "brianjamesbuie@gmail.com",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/brianbuie/nfa#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.3.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "es6-promisify": "^5.0.0",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "express-validator": "^4.2.0",
+    "mongoose": "^4.11.12",
+    "passport": "^0.4.0",
+    "pug": "^2.0.0-rc.4"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "moment": "^2.18.1",
+    "nodemon": "^1.12.1"
+  }
+}
