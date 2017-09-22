@@ -20,7 +20,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// serves up static files from the public folder. Anything in public/ will just be served up as the file it is
+// serves up static files from the public folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Takes the raw requests and turns them into usable properties on req.body
@@ -40,14 +40,15 @@ app.use(session({
   key: process.env.KEY,
   resave: false,
   saveUninitialized: false,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
 
 // // Passport JS is what we use to handle our logins
 app.use(passport.initialize());
 app.use(passport.session());
 
-// // The flash middleware let's us use req.flash('error', 'Shit!'), which will then pass that message to the next page the user requests
+// The flash middleware let's us use req.flash('error', 'Shit!')
+// which will then pass that message to the next page the user requests
 app.use(flash());
 
 // pass variables to our templates + all requests

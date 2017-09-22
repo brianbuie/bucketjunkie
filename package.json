@@ -26,12 +26,15 @@
     "express-session": "^1.15.5",
     "express-validator": "^4.2.0",
     "mongoose": "^4.11.12",
+    "moment": "^2.18.1",
     "passport": "^0.4.0",
     "pug": "^2.0.0-rc.4"
   },
   "devDependencies": {
     "concurrently": "^3.5.0",
-    "moment": "^2.18.1",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0",
     "nodemon": "^1.12.1"
   }
 }
