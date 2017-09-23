@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "watch": "nodemon ./start.js --ignore public/",
-    "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"WEBPACK,MONGO\" --prefix name",
-    "assets": "webpack -w --display-max-modules 0"
+    "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
+    "assets": "webpack -w --display-max-modules 0",
+    "test": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -31,10 +32,20 @@
     "pug": "^2.0.0-rc.4"
   },
   "devDependencies": {
+    "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
     "concurrently": "^3.5.0",
+    "css-loader": "^0.28.7",
     "eslint": "^4.7.2",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "nodemon": "^1.12.1"
+    "extract-text-webpack-plugin": "^3.0.0",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
+    "postcss-loader": "^2.0.6",
+    "sass-loader": "^6.0.6",
+    "webpack": "^3.6.0"
   }
 }
