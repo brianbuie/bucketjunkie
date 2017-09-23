@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.Promise = mongoose.Promise = global.Promise;
 
 const leagueSchema = new mongoose.Schema({
 	_id: {
