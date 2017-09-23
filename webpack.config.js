@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const javascript = {
   test: /\.(js)$/,
@@ -14,7 +15,8 @@ const javascript = {
 const postcss = {
   loader: 'postcss-loader',
   options: {
-    plugins() { return [autoprefixer({ browsers: 'last 3 versions' })]; }
+    plugins() { return [autoprefixer({ browsers: 'last 3 versions' })]; },
+    sourceMap: true
   }
 };
 
@@ -41,5 +43,6 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('style.css'),
+    new LiveReloadPlugin()
   ]
 };

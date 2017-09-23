@@ -50,6 +50,7 @@
     "nodemon": "^1.12.1",
     "postcss-loader": "^2.0.6",
     "sass-loader": "^6.0.6",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "webpack-livereload-plugin": "^0.11.0"
   }
 }

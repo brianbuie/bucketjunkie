@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    title= `${title} | ${helpers.siteName}`
+    link(rel='stylesheet', href='/dist/style.css')
+    link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.ico")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    block header
+      header.top
+        nav.nav
+          .nav__section.nav__section--pages
+            li.nav__item
+              a.nav__link.nav__link--logo(href="/")
+                != helpers.icon('basketball')
+            each item in helpers.menu
+              li.nav__item
+                a.nav__link(href=item.slug, class=(currentPath.startsWith(item.slug) ? 'nav__link--active' : ''))
+                  span #{item.title}
+          .nav__section.nav__section--user
+            if user
+              li.nav__item: a.nav__link(href="/logout", class=(currentPath.startsWith('/logout') ? 'nav__link--active' : ''))
+                != helpers.icon('logout')
+                span Logout
+              li.nav__item: a.nav__link(href="/account", class=(currentPath.startsWith('/account') ? 'nav__link--active' : ''))
+                img.avatar(src='/images/user-default.png')
+            else
+              li.nav__item: a.nav__link(href="/register", class=(currentPath.startsWith('/register') ? 'nav__link--active' : '')) Register
+              li.nav__item: a.nav__link(href="/login", class=(currentPath.startsWith('/login') ? 'nav__link--active' : '')) Log In
+
+    block messages
+      if locals.flashes
+        .inner.inner--flashes
+          .flash-messages
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .flash(class=`flash--${category}`)
+                  p.flash__text!= message
+                  button.flash__remove(onClick="this.parentElement.remove()") &times;
+    .content
+      block content
+        p This is the default!
+
+    block scripts
+      script(src="/dist/bundle.js")
+      if helpers.devScript
+        script(src=helpers.devScript)
