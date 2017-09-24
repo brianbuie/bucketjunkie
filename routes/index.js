@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const leagueController = require('../controllers/leagueController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', (req, res) => {
@@ -20,5 +21,7 @@ router.post('/account/register',
   authController.login
 );
 router.get('/account/logout', authController.logout);
+
+router.get('/leagues', authController.isLoggedIn, leagueController.leagues);
 
 module.exports = router;

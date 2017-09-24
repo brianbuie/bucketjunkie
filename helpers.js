@@ -15,5 +15,5 @@ exports.menu = [
   { slug: '/players', title: 'Players' },
   { slug: '/this-week', title: 'This Week' },
   { slug: '/activity', title: 'Activity' },
-  { slug: '/standings', title: 'Standings' },
+  { slug: '/leagues', title: 'Leagues' },
 ];
