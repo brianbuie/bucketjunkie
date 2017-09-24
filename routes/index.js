@@ -12,4 +12,9 @@ router.get('/account/login', userController.loginForm);
 router.get('/account/register', userController.registerForm);
 router.get('/account/forgot-password', userController.forgotPassword);
 
+router.post('/account/register', 
+  userController.validateRegister,
+  userController.register
+);
+
 module.exports = router;

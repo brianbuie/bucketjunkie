@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 
 const leagueSchema = new mongoose.Schema({
-	_id: {
-		type: mongoose.Schema.Types.ObjectId,
-		index: true,
-		required: true,
-		auto: true
-	},
 	name: {
 		type: String,
 		trim: true,
