@@ -11,13 +11,14 @@ router.get('/', (req, res) => {
 
 // users
 router.get('/account/login', userController.loginForm);
-router.get('/account/register', userController.registerForm);
+router.post('/account/login', authController.login);
 router.get('/account/forgot-password', userController.forgotPassword);
-
+router.get('/account/register', userController.registerForm);
 router.post('/account/register',
   userController.validateRegister,
   userController.register,
   authController.login
 );
+router.get('/account/logout', authController.logout);
 
 module.exports = router;
