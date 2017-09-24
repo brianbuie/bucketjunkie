@@ -1,10 +1,8 @@
+// FOUNDATION
 @import '../../node_modules/foundation-sites/scss/foundation';
-
 $global-flexbox: true;
-
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
-// @include foundation-grid;
 @include foundation-flex-grid;
 @include foundation-flex-classes;
 @include foundation-typography;
@@ -41,4 +39,8 @@ $global-flexbox: true;
 @include foundation-tooltip;
 @include foundation-top-bar;
 @include foundation-visibility-classes;
+// @include foundation-grid;
 // @include foundation-float-classes;
+
+// CUSTOM
+@import './partials/_flash-messages';

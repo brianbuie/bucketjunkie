@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
 exports.loginForm = (req, res) => {
-	res.send('login');
+  res.render('account/login', { title: 'Login' });
 }
 
 exports.registerForm = (req, res) => {
-	res.send('register');
+  res.render('account/register', { title: 'Register' });
+}
+
+exports.forgotPassword = (req, res) => {
+  res.render('account/forgot-password', { title: 'Forgot Password' });
 }
