@@ -12,6 +12,7 @@ const expressValidator = require('express-validator');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
+require('./handlers/userHandler');
 
 // create our Express app
 const app = express();
@@ -43,7 +44,7 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
 
-// // Passport JS is what we use to handle our logins
+// passport
 app.use(passport.initialize());
 app.use(passport.session());
 
