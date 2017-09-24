@@ -1,40 +1,40 @@
 const mongoose = require('mongoose');
 
 const leagueSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		trim: true,
-		required: 'Please enter a League name.'
-	},
-	description: {
-		type: String,
-		trim: true
-	},
-	created: {
-		type: Date,
-		default: Date.now
-	},
-	creator: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true
-	},
-	mods: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
-	members: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
-	open: {
-		type: Boolean,
-		default: false
-	}
+  name: {
+    type: String,
+    trim: true,
+    required: 'Please enter a League name.',
+  },
+  description: {
+    type: String,
+    trim: true,
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  mods: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  members: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  open: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 leagueSchema.index({
-	_id: mongoose.Schema.Types.ObjectId
+  _id: mongoose.Schema.Types.ObjectId,
 });
 
 module.exports = mongoose.model('League', leagueSchema);

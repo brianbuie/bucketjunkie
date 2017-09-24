@@ -1,4 +1,5 @@
 require('dotenv').config({ path: 'variables.env' });
+
 exports.liveReload = process.env.NODE_ENV === 'development' ? 'http://localhost:35729/livereload.js' : null;
 
 const fs = require('fs');

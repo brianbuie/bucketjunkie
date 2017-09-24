@@ -8,41 +8,41 @@ const javascript = {
   test: /\.(js)$/,
   use: [{
     loader: 'babel-loader',
-    options: { presets: ['es2015'] }
+    options: { presets: ['es2015'] },
   }],
 };
 
 const postcss = {
   loader: 'postcss-loader',
   options: {
-    plugins() { return [autoprefixer({ browsers: ['last 2 versions', 'ie >= 9', 'and_chr >= 2.3']})]; },
-    sourceMap: true
-  }
+    plugins() { return [autoprefixer({ browsers: ['last 2 versions', 'ie >= 9', 'and_chr >= 2.3'] })]; },
+    sourceMap: true,
+  },
 };
 
 const styles = {
   test: /\.(scss)$/,
-  use: ExtractTextPlugin.extract(['css-loader?sourceMap', postcss, 'sass-loader?sourceMap'])
+  use: ExtractTextPlugin.extract(['css-loader?sourceMap', postcss, 'sass-loader?sourceMap']),
 };
 
-const uglify = new webpack.optimize.UglifyJsPlugin({
-  compress: { warnings: false }
+const uglify = new webpack.optimize.UglifyJsPlugin({ // eslint-disable-line
+  compress: { warnings: false },
 });
 
 module.exports = {
   entry: {
-    App: './public/js/index.js'
+    App: './public/js/index.js',
   },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'public', 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
-	module: {
-    rules: [javascript, styles]
+  module: {
+    rules: [javascript, styles],
   },
   plugins: [
     new ExtractTextPlugin('style.css'),
-    new LiveReloadPlugin()
-  ]
+    new LiveReloadPlugin(),
+  ],
 };

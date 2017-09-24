@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     validate: [validator.isEmail, 'Invalid Email Address'],
-    required: 'Please Supply an email address'
+    required: 'Please Supply an email address',
   },
   username: {
     type: String,
@@ -21,9 +21,9 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   leagues: [{
-  	type: mongoose.Schema.Types.ObjectId,
-  	ref: 'League'
-  }]
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'League',
+  }],
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
