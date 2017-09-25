@@ -5,3 +5,5 @@ reevaluate foundation, find better scss/frontend framework
 
 setup subdomain & digitalocean server
 deployment strategy
+
+style reset password email
