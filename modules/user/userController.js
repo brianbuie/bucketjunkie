@@ -31,7 +31,7 @@ exports.createResetToken = async (req, res) => {
 exports.forgotPasswordForm = (req, res) => res.render('account/forgot-password', { title: 'Forgot Password' });
 
 exports.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) next();
+  if (req.isAuthenticated()) return next();
   req.flash('error', 'You must be logged in to do that.');
   return res.redirect('/account/login');
 };
