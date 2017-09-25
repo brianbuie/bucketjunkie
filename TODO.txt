@@ -3,7 +3,5 @@ prototype front-end UI/UX strategy
 
 reevaluate foundation, find better scss/frontend framework
 
-reorganize controllers, models, routes, etc. by feature instead of type
-
 setup subdomain & digitalocean server
 deployment strategy

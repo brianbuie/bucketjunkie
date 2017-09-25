@@ -4,7 +4,7 @@
   "description": "national fantasy association",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon ./start.js --ignore public/",
+    "watch": "nodemon ./server/start.js --ignore public/",
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "test": "eslint ."
