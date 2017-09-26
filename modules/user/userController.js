@@ -6,7 +6,7 @@ const mail = require('./mailHandler');
 
 const User = mongoose.model('User');
 
-exports.account = (req, res) => res.render('account/account', { title: 'Account' });
+exports.account = (req, res) => res.render('account/account', { title: 'Account', user: {} });
 
 exports.createResetToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });

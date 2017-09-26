@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 const League = mongoose.model('League');
 
-exports.chooseLeague = (req, res) => {
-  return res.render('leagues', { title: 'Choose League' });
-};
-
 exports.createLeague = async (req, res) => {
   const league = await (new League(req.body)).save();
   req.flash('success', `Successfully created ${league.name}`)
@@ -24,11 +20,17 @@ exports.editLeagueForm = (req, res) => {
 };
 
 exports.joinLeague = (req, res) => {
-  req.flash('success', `Join ${req.params.id}`);
   return res.render('leagues', { title: 'Join League' });
 };
 
-exports.leagueDashboard = (req, res) => {
-  req.flash('success', `${req.params.id} Dashboard`);
-  return res.render('leagues', { title: 'League Dashboard' });
+exports.leagueOverview = async (req, res) => {
+  const league = await League.findOne({ _id: req.params.id });
+  if(league) return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
+  req.flash('error', 'Sorry, that league is unavailable');
+  res.redirect('/leagues');
 };
+
+exports.publicLeagues = async (req, res) => {
+  const leagues = await League.find();
+  return res.render('league/publicLeagues', { title: 'Public Leagues', leagues });
+}

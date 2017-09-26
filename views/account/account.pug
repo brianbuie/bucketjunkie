@@ -2,3 +2,5 @@ extends ../layout
 
 block content
   p Edit Account
+  - const userPhoto = user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
+  img(src!=userPhoto)

@@ -32,10 +32,10 @@ const leagueSchema = new mongoose.Schema({
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref: 'User',
   // }],
-  // open: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  public: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 leagueSchema.index({

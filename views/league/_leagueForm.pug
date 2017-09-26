@@ -4,4 +4,6 @@ mixin leagueForm(league = {})
       input(type="text" name="name")
     label(for="description") Description
       textarea(name="description")
+    label(for="public") Public
+      input(type="checkbox" name="public")
     input.button.expanded(type="submit" value="Save →")

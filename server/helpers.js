@@ -13,8 +13,6 @@ exports.icon = name => fs.readFileSync(`../public/images/icons/${name}.svg`);
 exports.siteName = 'Fantastic';
 
 exports.menu = [
-  { slug: '/players', title: 'Players' },
-  { slug: '/this-week', title: 'This Week' },
-  { slug: '/activity', title: 'Activity' },
   { slug: '/leagues', title: 'Leagues' },
+  { slug: '/leagues/create', title: 'Create League' }
 ];
