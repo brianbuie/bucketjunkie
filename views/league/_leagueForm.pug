@@ -1,0 +1,7 @@
+mixin leagueForm(league = {})
+  form.medium-6.large-4(method="POST")
+    label(for="name") League Name
+      input(type="text" name="name")
+    label(for="description") Description
+      textarea(name="description")
+    input.button.expanded(type="submit" value="Save →")

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
+const shortId = require('shortid');
 
 const leagueSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: shortId.generate
+  },
   name: {
     type: String,
     trim: true,
@@ -14,23 +19,23 @@ const leagueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  creator: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  mods: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
-  members: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }],
-  open: {
-    type: Boolean,
-    default: false,
-  },
+  // creator: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true,
+  // },
+  // mods: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  // }],
+  // members: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  // }],
+  // open: {
+  //   type: Boolean,
+  //   default: false,
+  // },
 });
 
 leagueSchema.index({

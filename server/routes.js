@@ -22,6 +22,12 @@ router.get('/account/reset-password/:token', catchErrors(userController.resetPas
 router.post('/account/reset-password/:token', userController.validatePasswordReset, catchErrors(userController.updatePassword));
 
 // leagues
-router.get('/leagues', userController.isLoggedIn, leagueController.leagues);
+router.get('/league/:id', userController.isLoggedIn, leagueController.leagueDashboard);
+router.get('/leagues', userController.isLoggedIn, leagueController.chooseLeague);
+router.get('/leagues/create', userController.isLoggedIn, leagueController.createLeagueForm);
+router.post('/leagues/create', userController.isLoggedIn, catchErrors(leagueController.createLeague));
+router.get('/leagues/edit/:id', userController.isLoggedIn, leagueController.editLeagueForm);
+router.post('/leagues/edit/:id', userController.isLoggedIn, catchErrors(leagueController.editLeague));
+router.get('/leagues/join/:id', userController.isLoggedIn, leagueController.joinLeague);
 
 module.exports = router;
