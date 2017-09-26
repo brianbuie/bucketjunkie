@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
     required: 'Please supply a username',
     trim: true,
   },
+  photo: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   leagues: [{

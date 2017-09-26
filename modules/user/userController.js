@@ -3,6 +3,17 @@ const promisify = require('es6-promisify');
 const passport = require('passport');
 const crypto = require('crypto');
 const mail = require('./mailHandler');
+const multer = require('multer');
+const jimp = require('jimp');
+const uuid = require('uuid');
+
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    if (file.mimetype.startsWith('image/')) return next(null, true);
+    next({ message: 'That filetype is not allowed' }, false);
+  }
+}
 
 const User = mongoose.model('User');
 
@@ -75,10 +86,19 @@ exports.resetPasswordForm = async (req, res) => {
   return res.render('account/reset-password', { title: 'Reset your password' });
 };
 
+exports.resizePhoto = async (req, res, next) => {
+  if (!req.file) return next();
+  const extension = req.mimetype.split('/')[1];
+  req.body.photo = `${uuid.v4()}.${extension}`;
+  const photo = await jimp.read(req.file.buffer);
+  await photo.resize(500, jimp.AUTO);
+  await photo.write(`./public/uploads/${req.body.photo}`);
+  return next();
+}
+
 exports.updateAccount = async (req, res) => {
   const updates = {
-    username: req.body.username,
-    email: req.body.email,
+    photo: req.body.photo
   };
   await User.findOneAndUpdate(
     { _id: req.user._id },
@@ -107,6 +127,8 @@ exports.updatePassword = async (req, res) => {
   req.flash('success', 'Your password has been reset');
   return res.redirect('/');
 };
+
+exports.uploadPhoto = multer(multerOptions).single('photo');
 
 exports.validatePasswordReset = (req, res, next) => {
   if (req.body.password === req.body['confirm-password']) return next();

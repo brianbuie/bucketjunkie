@@ -11,6 +11,11 @@ router.get('/', (req, res) => {
 
 // users
 router.get('/account', userController.isLoggedIn, userController.account);
+router.post('/account',
+  catchErrors(userController.uploadPhoto),
+  catchErrors(userController.resizePhoto),
+  catchErrors(userController.updateAccount)
+);
 router.get('/account/forgot-password', userController.forgotPasswordForm);
 router.post('/account/forgot-password', catchErrors(userController.createResetToken));
 router.get('/account/login', userController.loginForm);
