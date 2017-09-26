@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 // users
 router.get('/account', userController.isLoggedIn, userController.account);
 router.post('/account',
-  catchErrors(userController.uploadPhoto),
+  userController.uploadPhoto,
   catchErrors(userController.resizePhoto),
   catchErrors(userController.updateAccount)
 );

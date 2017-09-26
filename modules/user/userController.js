@@ -17,7 +17,7 @@ const multerOptions = {
 
 const User = mongoose.model('User');
 
-exports.account = (req, res) => res.render('account/account', { title: 'Account', user: {} });
+exports.account = (req, res) => res.render('account/account', { title: 'Account' });
 
 exports.createResetToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
@@ -88,11 +88,11 @@ exports.resetPasswordForm = async (req, res) => {
 
 exports.resizePhoto = async (req, res, next) => {
   if (!req.file) return next();
-  const extension = req.mimetype.split('/')[1];
+  const extension = req.file.mimetype.split('/')[1];
   req.body.photo = `${uuid.v4()}.${extension}`;
   const photo = await jimp.read(req.file.buffer);
   await photo.resize(500, jimp.AUTO);
-  await photo.write(`./public/uploads/${req.body.photo}`);
+  await photo.write(`./public/images/uploads/${req.body.photo}`);
   return next();
 }
 

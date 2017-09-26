@@ -28,7 +28,7 @@ html
               li
                 a(href="/account/")
                   - const userPhoto = user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
-                  img.menu-photo(src!=userPhoto alt="Profile Picture")
+                  img.menu-photo(src!=userPhoto alt="Profile Picture" style="width: 25px;")
             else
               li 
                 a(href="/account/register") Register

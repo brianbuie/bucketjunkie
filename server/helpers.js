@@ -3,7 +3,7 @@ const fs = require('fs');
 require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
 exports.moment = require('moment');
 
-exports.liveReload = process.env.WEBPACK_LIVE_RELOAD === true ? 'http://localhost:35729/livereload.js' : null;
+exports.liveReload = process.env.WEBPACK_LIVE_RELOAD === "true" ? 'http://localhost:35729/livereload.js' : null;
 
 exports.dump = obj => JSON.stringify(obj, null, 2);
 
