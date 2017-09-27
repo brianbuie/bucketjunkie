@@ -21,7 +21,7 @@ const leagueSchema = new mongoose.Schema({
     default: Date.now,
   },
   members: [{
-    username: {
+    id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
@@ -29,13 +29,17 @@ const leagueSchema = new mongoose.Schema({
       type: Boolean,
       default: false
     },
-    shareId: {
+    shareToken: {
       type: String,
       default: shortId.generate
     },
-    referer: {
+    refererToken: {
       type: String,
       default: null
+    },
+    joined: {
+      type: Date,
+      default: Date.now
     }
   }],
   open: {

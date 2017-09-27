@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const League = mongoose.model('League');
 
 exports.createLeague = async (req, res) => {
+  req.body.members = [{
+    username: req.user._id,
+    moderator: true,
+    referer: 'creator'
+  }];
   const league = await (new League(req.body)).save();
   req.flash('success', `Successfully created ${league.name}`)
   res.redirect(`/league/${league._id}`);
@@ -24,7 +29,14 @@ exports.joinLeague = (req, res) => {
 };
 
 exports.leagueOverview = async (req, res) => {
-  const league = await League.findOne({ _id: req.params.id });
+  const league = await League.findOne({ _id: req.params.id }).populate({
+    path: 'members',
+    model: 'User',
+    populate: { 
+      path: 'id', 
+      model: 'User' 
+    }
+  });
   if(league) return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
   req.flash('error', 'Sorry, that league is unavailable');
   res.redirect('/leagues');
