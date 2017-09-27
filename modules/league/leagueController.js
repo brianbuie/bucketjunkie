@@ -30,7 +30,12 @@ exports.leagueOverview = async (req, res) => {
   res.redirect('/leagues');
 };
 
+exports.myLeagues = async (req, res) => {
+  const leagues = await League.find();
+  return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
+}
+
 exports.publicLeagues = async (req, res) => {
   const leagues = await League.find();
-  return res.render('league/publicLeagues', { title: 'Public Leagues', leagues });
+  return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
 }

@@ -29,7 +29,7 @@ router.post('/account/reset-password/:token', userController.validatePasswordRes
 // leagues
 router.get('/league/:id', userController.isLoggedIn, catchErrors(leagueController.leagueOverview));
 // TODO show my leagues if joined any, otherwise show public leagues
-router.get('/leagues', catchErrors(leagueController.publicLeagues));
+router.get('/leagues', catchErrors(leagueController.myLeagues));
 router.get('/leagues/public', catchErrors(leagueController.publicLeagues));
 router.get('/leagues/create', userController.isLoggedIn, leagueController.createLeagueForm);
 router.post('/leagues/create', userController.isLoggedIn, catchErrors(leagueController.createLeague));
