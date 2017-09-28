@@ -1,9 +1,11 @@
 mixin leagueForm(league = {})
   form.medium-6.large-4(method="POST")
     label(for="name") League Name
-      input(type="text" name="name")
+      input(type="text" name="name" value=league.name)
     label(for="description") Description
-      textarea(name="description")
+      textarea(name="description")= league.description
     label(for="public") Public
-      input(type="checkbox" name="public")
+      input(type="checkbox" name="public" checked=league.public)
+    label(for="open") Allow users to join
+      input(type="checkbox" name="open" checked=league.open)
     input.button.expanded(type="submit" value="Save →")

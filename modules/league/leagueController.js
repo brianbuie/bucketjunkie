@@ -12,15 +12,15 @@ exports.createLeague = async (req, res) => {
 
 exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League' });
 
-exports.editLeague = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
-
-exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
+exports.editLeagueForm = async (req, res) => {
+  const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
+  if (league) return res.render('league/editLeague', { title: 'Edit League', league });
+  req.flash('error', 'Sorry, that league is unavailable');
+  return res.redirect('/leagues');
+}
 
 exports.leagueOverview = async (req, res) => {
-  const league = await League.findOne({ _id: req.params.id }).populate({
-    path: 'members',
-    model: 'User',
-  }).exec();
+  const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
   if (league) return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
   req.flash('error', 'Sorry, that league is unavailable');
   return res.redirect('/leagues');
@@ -35,4 +35,12 @@ exports.myLeagues = async (req, res) => {
 exports.publicLeagues = async (req, res) => {
   const leagues = await League.find({ public: true });
   return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
+};
+
+exports.updateLeague = async (req, res) => {
+  req.body.public = req.body.public || false;
+  req.body.open = req.body.open || false;
+  const league = await League.findOneAndUpdate({ _id: req.params.id }, req.body, { runValidators: true });
+  req.flash('success', 'Updated League');
+  res.redirect(`/league/${league._id}`);
 };
