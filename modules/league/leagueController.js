@@ -6,10 +6,6 @@ const User = mongoose.model('User');
 exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
   const league = await (new League(req.body)).save();
-  await User.findOneAndUpdate(
-    { _id: req.user._id },
-    { $push: { leagues: league._id } },
-  );
   req.flash('success', `Successfully created ${league.name}`);
   res.redirect(`/league/${league._id}`);
 };
@@ -31,9 +27,7 @@ exports.leagueOverview = async (req, res) => {
 };
 
 exports.myLeagues = async (req, res) => {
-  const leagues = req.user.leagues.length
-    ? await League.find({ _id: { $in: req.user.leagues } })
-    : [];
+  const leagues = await League.find({ members: req.user._id });
   if (leagues.length) return res.render('league/leagueListings', { title: 'My Leagues', leagues });
   return res.redirect('/leagues/public');
 };

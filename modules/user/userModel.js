@@ -18,13 +18,12 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Invalid Email Address'],
     required: 'Please Supply an email address',
   },
-  leagues: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'League',
-  }],
   photo: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'username' });
