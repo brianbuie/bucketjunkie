@@ -32,7 +32,7 @@ exports.flashValidationErrors = (err, req, res, next) => {
   // validation errors look like
   const errorKeys = Object.keys(err.errors);
   errorKeys.forEach(key => req.flash('error', err.errors[key].message));
-  res.redirect('back');
+  return res.redirect('back');
 };
 
 
@@ -42,11 +42,11 @@ exports.flashValidationErrors = (err, req, res, next) => {
   or any other previously un-handled error, we can show good info on what happened
 */
 exports.developmentErrors = (err, req, res, next) => {
-  err.stack = err.stack || '';
+  const stack = err.stack || '';
   const errorDetails = {
     message: err.message,
     status: err.status,
-    stackHighlighted: err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>'),
+    stackHighlighted: stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>'),
   };
   res.status(err.status || 500);
   res.format({
@@ -56,6 +56,7 @@ exports.developmentErrors = (err, req, res, next) => {
     }, // Form Submit, Reload the page
     'application/json': () => res.json(errorDetails), // Ajax call, send JSON back
   });
+  return next();
 };
 
 
@@ -69,4 +70,5 @@ exports.productionErrors = (err, req, res, next) => {
     message: err.message,
     error: {},
   });
+  return next();
 };

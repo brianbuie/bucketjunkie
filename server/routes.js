@@ -11,10 +11,11 @@ router.get('/', (req, res) => {
 
 // users
 router.get('/account', userController.isLoggedIn, userController.account);
-router.post('/account',
+router.post(
+  '/account',
   userController.uploadPhoto,
   catchErrors(userController.resizePhoto),
-  catchErrors(userController.updateAccount)
+  catchErrors(userController.updateAccount),
 );
 router.get('/account/forgot-password', userController.forgotPasswordForm);
 router.post('/account/forgot-password', catchErrors(userController.createResetToken));
@@ -35,6 +36,5 @@ router.get('/leagues/create', userController.isLoggedIn, leagueController.create
 router.post('/leagues/create', userController.isLoggedIn, catchErrors(leagueController.createLeague));
 router.get('/leagues/edit/:id', userController.isLoggedIn, leagueController.editLeagueForm);
 router.post('/leagues/edit/:id', userController.isLoggedIn, catchErrors(leagueController.editLeague));
-router.get('/leagues/join/:id', userController.isLoggedIn, leagueController.joinLeague);
 
 module.exports = router;

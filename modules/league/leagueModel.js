@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
-const shortId = require('shortid');
 
 const leagueSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    index: true,
-    default: shortId.generate
-  },
   name: {
     type: String,
     trim: true,
@@ -21,30 +15,12 @@ const leagueSchema = new mongoose.Schema({
     default: Date.now,
   },
   members: [{
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    moderator: {
-      type: Boolean,
-      default: false
-    },
-    shareToken: {
-      type: String,
-      default: shortId.generate
-    },
-    refererToken: {
-      type: String,
-      default: null
-    },
-    joined: {
-      type: Date,
-      default: Date.now
-    }
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
   }],
   open: {
     type: Boolean,
-    default: true
+    default: true,
   },
   public: {
     type: Boolean,

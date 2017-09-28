@@ -11,9 +11,9 @@ const multerOptions = {
   storage: multer.memoryStorage(),
   fileFilter(req, file, next) {
     if (file.mimetype.startsWith('image/')) return next(null, true);
-    next({ message: 'That filetype is not allowed' }, false);
-  }
-}
+    return next({ message: 'That filetype is not allowed' }, false);
+  },
+};
 
 const User = mongoose.model('User');
 
@@ -94,11 +94,11 @@ exports.resizePhoto = async (req, res, next) => {
   await photo.resize(500, jimp.AUTO);
   await photo.write(`./public/images/uploads/${req.body.photo}`);
   return next();
-}
+};
 
 exports.updateAccount = async (req, res) => {
   const updates = {
-    photo: req.body.photo
+    photo: req.body.photo,
   };
   await User.findOneAndUpdate(
     { _id: req.user._id },

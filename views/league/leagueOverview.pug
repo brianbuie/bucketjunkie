@@ -8,5 +8,5 @@ block content
   p= league.description
   p 
     strong Members
-  each user in league.members
-    != helpers.dump(user)
+  pre
+    != helpers.dump(league)
