@@ -11,8 +11,7 @@ router.get('/', (req, res) => {
 
 // users
 router.get('/account', userController.isLoggedIn, userController.account);
-router.post(
-  '/account',
+router.post('/account',
   userController.uploadPhoto,
   catchErrors(userController.resizePhoto),
   catchErrors(userController.updateAccount),
@@ -23,7 +22,7 @@ router.get('/account/login', userController.loginForm);
 router.post('/account/login', userController.login);
 router.get('/account/logout', userController.logout);
 router.get('/account/register', userController.registerForm);
-router.post('/account/register', userController.validateRegister, userController.register, userController.login);
+router.post('/account/register', userController.validateRegister, catchErrors(userController.register), catchErrors(userController.login));
 router.get('/account/reset-password/:token', catchErrors(userController.resetPasswordForm));
 router.post('/account/reset-password/:token', userController.validatePasswordReset, catchErrors(userController.updatePassword));
 

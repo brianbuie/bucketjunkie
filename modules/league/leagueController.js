@@ -10,11 +10,15 @@ exports.createLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   req.body.open = req.body.open || false;
   const league = await (new League(req.body)).save();
+  if (!league) {
+    req.flash('error', 'Error creating league, please try again.');
+    return res.redirect('/league/create');
+  }
   req.flash('success', `Successfully created ${league.name}`);
   return res.redirect(`/league/${league._id}`);
 };
 
-exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League' });
+exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League', league: {} });
 
 exports.editLeagueForm = async (req, res) => {
   const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
@@ -22,10 +26,10 @@ exports.editLeagueForm = async (req, res) => {
     req.flash('error', 'Sorry, that league is unavailable');
     return res.redirect('/leagues');
   }
-  // if (!league.moderators.includes(req.user._id)) {
-  //   req.flash('error', 'You must be a moderator to edit this league');
-  //   return res.redirect(`/league/${league._id}`);
-  // }
+  if (!league.moderators.some(mod => mod.equals(req.user._id))) {
+    req.flash('error', 'You must be a moderator to edit this league');
+    return res.redirect(`/league/${league._id}`);
+  }
   return res.render('league/editLeague', { title: 'Edit League', league });
 }
 
@@ -43,9 +47,13 @@ exports.leagueOverview = async (req, res) => {
     .populate({ path: 'members', model: 'User' })
     .populate({ path: 'moderators', model: 'User' })
     .populate('createdBy');
-  if (league) return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
-  req.flash('error', 'Sorry, that league is unavailable');
-  return res.redirect('/leagues');
+  if (!league) {
+    req.flash('error', 'Sorry, that league is unavailable');
+    return res.redirect('/leagues');
+  }
+  req.user.isModerator = league.moderators.some(mod => mod._id.equals(req.user._id));
+  req.user.isMember = league.members.some(member => member._id.equals(req.user._id));
+  return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
 };
 
 exports.myLeagues = async (req, res) => {

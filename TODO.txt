@@ -1,9 +1,16 @@
+Front
+	prototype front-end UI/UX strategy
+	reevaluate foundation, find better scss/frontend framework
+	style reset password email
 
-prototype front-end UI/UX strategy
+Back
+	setup subdomain & digitalocean server
+	deployment strategy
+	handle user registration errors
+	give moderator ability to add mods
+		only creator can remove mods
+	give moderator ability to remove users
+	allow user to leave league
 
-reevaluate foundation, find better scss/frontend framework
-
-setup subdomain & digitalocean server
-deployment strategy
-
-style reset password email
+Future features
+	log all league activity

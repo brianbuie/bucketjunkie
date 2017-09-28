@@ -69,7 +69,7 @@ exports.register = async (req, res, next) => {
   });
   const register = promisify(User.register, User);
   await register(user, req.body.password);
-  next();
+  return next();
 };
 
 exports.registerForm = (req, res) => res.render('account/register', { title: 'Register' });
