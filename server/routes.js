@@ -31,6 +31,7 @@ router.get('/league/:id', userController.isLoggedIn, catchErrors(leagueControlle
 router.get('/league/:id/edit', userController.isLoggedIn, leagueController.editLeagueForm);
 router.post('/league/:id/edit', userController.isLoggedIn, catchErrors(leagueController.updateLeague));
 router.get('/league/:id/join', userController.isLoggedIn, catchErrors(leagueController.joinLeague));
+router.post('/league/:id/users', userController.isLoggedIn, catchErrors(leagueController.updateUsers));
 router.get('/leagues', catchErrors(leagueController.myLeagues));
 router.get('/leagues/public', catchErrors(leagueController.publicLeagues));
 router.get('/leagues/create', userController.isLoggedIn, leagueController.createLeagueForm);

@@ -73,8 +73,32 @@ exports.updateLeague = async (req, res) => {
   const league = await League.findOneAndUpdate({ _id: req.params.id, moderators: req.user._id }, req.body, { runValidators: true });
   if (!league) {
     req.flash('error', 'Error Updating League');
-    return res.redirect('back');
+    return res.redirect('/leagues');
   }
   req.flash('success', 'Updated League');
   res.redirect(`/league/${league._id}`);
 };
+
+exports.updateUsers = async (req, res) => {
+  if (!req.query.id || !req.query.action) {
+    req.flash('error', 'Error Updating League');
+    return res.redirect('/leagues');
+  }
+  let find = { _id: req.params.id };
+  let update = {};
+  if (req.query.action === "removeUser") {
+
+  }
+  if (req.query.action === "addModerator") {
+
+  }
+  if (req.query.action === "removeModerator") {
+
+  }
+  const league = await League.findOneAndUpdate(find, update);
+  if (!league || !req.query.id || !req.query.action) {
+    req.flash('error', 'Error Updating League');
+    return res.redirect('leagues');
+  }
+
+}
