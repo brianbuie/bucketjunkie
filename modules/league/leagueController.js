@@ -5,22 +5,44 @@ const User = mongoose.model('User');
 
 exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
+  req.body.moderators = [req.user._id];
+  req.body.createdBy = req.user._id;
+  req.body.public = req.body.public || false;
+  req.body.open = req.body.open || false;
   const league = await (new League(req.body)).save();
   req.flash('success', `Successfully created ${league.name}`);
-  res.redirect(`/league/${league._id}`);
+  return res.redirect(`/league/${league._id}`);
 };
 
 exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League' });
 
 exports.editLeagueForm = async (req, res) => {
   const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
-  if (league) return res.render('league/editLeague', { title: 'Edit League', league });
-  req.flash('error', 'Sorry, that league is unavailable');
-  return res.redirect('/leagues');
+  if (!league) {
+    req.flash('error', 'Sorry, that league is unavailable');
+    return res.redirect('/leagues');
+  }
+  // if (!league.moderators.includes(req.user._id)) {
+  //   req.flash('error', 'You must be a moderator to edit this league');
+  //   return res.redirect(`/league/${league._id}`);
+  // }
+  return res.render('league/editLeague', { title: 'Edit League', league });
+}
+
+exports.joinLeague = async (req, res) => {
+  const league = await League.findOneAndUpdate({ _id: req.params.id, open: true }, { $addToSet: { members: req.user.id } });
+  if (!league) {
+    req.flash('error', 'Unable to join league');
+    return res.redirect('/leagues');
+  }
+  return res.redirect(`/league/${league._id}`);
 }
 
 exports.leagueOverview = async (req, res) => {
-  const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
+  const league = await League.findOne({ _id: req.params.id })
+    .populate({ path: 'members', model: 'User' })
+    .populate({ path: 'moderators', model: 'User' })
+    .populate('createdBy');
   if (league) return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
   req.flash('error', 'Sorry, that league is unavailable');
   return res.redirect('/leagues');
@@ -33,14 +55,18 @@ exports.myLeagues = async (req, res) => {
 };
 
 exports.publicLeagues = async (req, res) => {
-  const leagues = await League.find({ public: true });
+  const leagues = await League.find({ public: true, open: true });
   return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
 };
 
 exports.updateLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   req.body.open = req.body.open || false;
-  const league = await League.findOneAndUpdate({ _id: req.params.id }, req.body, { runValidators: true });
+  const league = await League.findOneAndUpdate({ _id: req.params.id, moderators: req.user._id }, req.body, { runValidators: true });
+  if (!league) {
+    req.flash('error', 'Error Updating League');
+    return res.redirect('back');
+  }
   req.flash('success', 'Updated League');
   res.redirect(`/league/${league._id}`);
 };

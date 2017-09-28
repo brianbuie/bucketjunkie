@@ -31,6 +31,7 @@ router.post('/account/reset-password/:token', userController.validatePasswordRes
 router.get('/league/:id', userController.isLoggedIn, catchErrors(leagueController.leagueOverview));
 router.get('/league/:id/edit', userController.isLoggedIn, leagueController.editLeagueForm);
 router.post('/league/:id/edit', userController.isLoggedIn, catchErrors(leagueController.updateLeague));
+router.get('/league/:id/join', userController.isLoggedIn, catchErrors(leagueController.joinLeague));
 router.get('/leagues', catchErrors(leagueController.myLeagues));
 router.get('/leagues/public', catchErrors(leagueController.publicLeagues));
 router.get('/leagues/create', userController.isLoggedIn, leagueController.createLeagueForm);

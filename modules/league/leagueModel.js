@@ -14,7 +14,15 @@ const leagueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   members: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+  moderators: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
