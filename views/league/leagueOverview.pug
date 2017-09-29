@@ -22,5 +22,14 @@ block content
             span *
           if league.creator.equals(member.id)
             span *
+  p
+    strong Feed
+    ul
+      each item in activityFeed
+        li
+          strong= item.user.username + ' '
+          span= item.message + ' '
+          i= helpers.moment(item.date).fromNow()
+
   pre(style="margin-top: 60px; font-size: 12px;")
     != helpers.dump(league)

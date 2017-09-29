@@ -11,6 +11,7 @@ mongoose.connection.on('error', (err) => {
 
 require('../modules/league/leagueModel');
 require('../modules/user/userModel');
+require('../modules/activity/activityModel');
 
 const app = require('./app');
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-
 const League = mongoose.model('League');
 const User = mongoose.model('User');
+const activity = require('../activity/activityController');
 
 exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
@@ -14,6 +14,9 @@ exports.createLeague = async (req, res) => {
     req.flash('error', 'Error creating league, please try again.');
     return res.redirect('/league/create');
   }
+  req.league = league;
+  req.activity = { category: 'league', message: `created league '${league.name}'` };
+  await activity.addAction(req, res);
   req.flash('success', `Successfully created ${league.name}`);
   return res.redirect(`/league/${league._id}`);
 };
@@ -43,6 +46,9 @@ exports.joinLeague = async (req, res) => {
     req.flash('error', 'Unable to join league');
     return res.redirect('/leagues');
   }
+  req.league = league;
+  req.activity = { category: 'league', message: `joined '${league.name}'` };
+  await activity.addAction(req, res);
   return res.redirect(`/league/${league._id}`);
 }
 
@@ -58,7 +64,9 @@ exports.leagueOverview = async (req, res) => {
   req.user.isModerator = league.moderators.some(mod => mod._id.equals(req.user._id));
   req.user.isMember = league.members.some(member => member._id.equals(req.user._id));
   req.user.isCreator = league.creator.equals(req.user._id);
-  return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
+  req.league = league;
+  const activityFeed = await activity.getActions(req, res);
+  return res.render('league/leagueOverview', { title: `${league.name} Overview`, league, activityFeed });
 };
 
 exports.myLeagues = async (req, res) => {
@@ -75,11 +83,15 @@ exports.publicLeagues = async (req, res) => {
 exports.updateLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   req.body.open = req.body.open || false;
-  const league = await League.findOneAndUpdate({ _id: req.params.id, moderators: req.user._id }, req.body, { runValidators: true });
+  const league = await League.findOneAndUpdate({ _id: req.params.id, moderators: req.user._id }, req.body, { runValidators: true, new: true });
   if (!league) {
     req.flash('error', 'Error Updating League');
     return res.redirect('/leagues');
   }
+  req.league = league;
+  // TODO get actual updates
+  req.activity = { category: 'league', message: `updated '${league.name}'` };
+  await activity.addAction(req, res);
   req.flash('success', 'Updated League');
   res.redirect(`/league/${league._id}`);
 };
