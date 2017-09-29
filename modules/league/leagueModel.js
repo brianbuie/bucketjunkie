@@ -14,7 +14,7 @@ const leagueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  createdBy: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },

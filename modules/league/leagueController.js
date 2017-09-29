@@ -6,7 +6,7 @@ const User = mongoose.model('User');
 exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
   req.body.moderators = [req.user._id];
-  req.body.createdBy = req.user._id;
+  req.body.creator = req.user._id;
   req.body.public = req.body.public || false;
   req.body.open = req.body.open || false;
   const league = await (new League(req.body)).save();
@@ -21,7 +21,10 @@ exports.createLeague = async (req, res) => {
 exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League', league: {} });
 
 exports.editLeagueForm = async (req, res) => {
-  const league = await League.findOne({ _id: req.params.id }).populate({ path: 'members', model: 'User' });
+  const league = await League.findOne({ _id: req.params.id })
+    .populate({ path: 'members', model: 'User' })
+    .populate({ path: 'moderators', model: 'User' })
+    .populate('creator');
   if (!league) {
     req.flash('error', 'Sorry, that league is unavailable');
     return res.redirect('/leagues');
@@ -30,6 +33,7 @@ exports.editLeagueForm = async (req, res) => {
     req.flash('error', 'You must be a moderator to edit this league');
     return res.redirect(`/league/${league._id}`);
   }
+  req.user.isCreator = league.creator.equals(req.user._id);
   return res.render('league/editLeague', { title: 'Edit League', league });
 }
 
@@ -46,13 +50,14 @@ exports.leagueOverview = async (req, res) => {
   const league = await League.findOne({ _id: req.params.id })
     .populate({ path: 'members', model: 'User' })
     .populate({ path: 'moderators', model: 'User' })
-    .populate('createdBy');
+    .populate('creator');
   if (!league) {
     req.flash('error', 'Sorry, that league is unavailable');
     return res.redirect('/leagues');
   }
   req.user.isModerator = league.moderators.some(mod => mod._id.equals(req.user._id));
   req.user.isMember = league.members.some(member => member._id.equals(req.user._id));
+  req.user.isCreator = league.creator.equals(req.user._id);
   return res.render('league/leagueOverview', { title: `${league.name} Overview`, league });
 };
 
@@ -80,25 +85,43 @@ exports.updateLeague = async (req, res) => {
 };
 
 exports.updateUsers = async (req, res) => {
-  if (!req.query.id || !req.query.action) {
+  if (!req.query.userid || !req.query.action) {
     req.flash('error', 'Error Updating League');
     return res.redirect('/leagues');
   }
   let find = { _id: req.params.id };
   let update = {};
-  if (req.query.action === "removeUser") {
-
+  let success = [];
+  if (req.query.action === "removeMember") {
+    // can't remove creator
+    find.creator = { $ne: req.query.userid };
+    if (req.query.userid === req.user.id) {
+      // remove self from members and moderators
+      update.$pull = { members: req.query.userid, moderators: req.query.userid };
+    } else {
+      // mods can remove other non-mods
+      find.$and = [{ moderators: req.user.id }, { moderators: { $ne: req.query.userid } }];
+      update.$pull = { members: req.query.userid };
+    }
+    message = ['success', 'User successfully removed'];
   }
   if (req.query.action === "addModerator") {
-
+    // mods can add other mods
+    find.moderators = req.user.id;
+    update.$addToSet = { moderators: req.query.userid };
+    message = ['success', 'Moderator successfully added'];
   }
   if (req.query.action === "removeModerator") {
-
+    // only the creator can remove mods, creator can't be removed
+    find.$and = [{ creator: req.user.id }, { creator: { $ne: req.query.userid } }];
+    update.$pull = { moderators: req.query.userid };
+    message = ['success', 'Moderator successfully removed'];
   }
-  const league = await League.findOneAndUpdate(find, update);
-  if (!league || !req.query.id || !req.query.action) {
+  const league = await League.findOneAndUpdate(find, update, { new: true });
+  if (!league) {
     req.flash('error', 'Error Updating League');
-    return res.redirect('leagues');
+    return res.redirect(`/league/${req.params.id}`);
   }
-
+  req.flash(message);
+  return res.redirect(`/league/${league._id}`);
 }

@@ -1,0 +1,21 @@
+mixin editUsersForm(league, user)
+  strong Members
+    ul
+      each member in league.members
+        li= member.username
+
+          //- if member is a mod
+          if league.moderators.some(mod => mod.id === member.id)
+            //- if user is creator and member is not creator
+            if user.isCreator && member.id != user.id
+              form(method="POST" action=`/league/${league._id}/users?userid=${member._id}&action=removeModerator`)
+                input.button(type="submit" value="Revoke Mod")
+
+          //- if member is not a mod
+          else
+            form(method="POST" action=`/league/${league._id}/users?userid=${member._id}&action=addModerator`)
+              input.button(type="submit" value="Add Mod")
+            form(method="POST" action=`/league/${league._id}/users?userid=${member._id}&action=removeMember`)
+              input.button(type="submit" value="Remove")
+
+            

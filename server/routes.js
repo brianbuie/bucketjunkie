@@ -22,7 +22,7 @@ router.get('/account/login', userController.loginForm);
 router.post('/account/login', userController.login);
 router.get('/account/logout', userController.logout);
 router.get('/account/register', userController.registerForm);
-router.post('/account/register', userController.validateRegister, catchErrors(userController.register), catchErrors(userController.login));
+router.post('/account/register', userController.validateRegister, catchErrors(userController.register), userController.login);
 router.get('/account/reset-password/:token', catchErrors(userController.resetPasswordForm));
 router.post('/account/reset-password/:token', userController.validatePasswordReset, catchErrors(userController.updatePassword));
 

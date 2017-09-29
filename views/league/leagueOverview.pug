@@ -8,10 +8,20 @@ block content
   p= league.description
   p
     if user.isModerator
-      a(href=`/league/${league._id}/edit`) Edit
+      a(href=`/league/${league.id}/edit`) Edit
     if !user.isMember
-      a(href=`/league/${league._id}/join`) Join
+      a(href=`/league/${league.id}/join`) Join
+    if user.isMember && league.creator.id != user.id
+      form(method="POST" action=`/league/${league.id}/users?userid=${user.id}&action=removeMember`)
+        input.button(type="submit" value="Leave league")
   p 
     strong Members
-  pre
+    ul
+      each member in league.members
+        li= member.username
+          if league.moderators.some(mod => mod.id === member.id)
+            span *
+          if league.creator.equals(member.id)
+            span *
+  pre(style="margin-top: 60px; font-size: 12px;")
     != helpers.dump(league)
