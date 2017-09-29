@@ -7,10 +7,7 @@ Back
 	setup subdomain & digitalocean server
 	deployment strategy
 	handle user registration errors
-	give moderator ability to add mods
-		only creator can remove mods
-	give moderator ability to remove users
-	allow user to leave league
+	only creator can add mods?
 
 Future features
 	log all league activity

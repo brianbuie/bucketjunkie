@@ -84,44 +84,41 @@ exports.updateLeague = async (req, res) => {
   res.redirect(`/league/${league._id}`);
 };
 
-exports.updateUsers = async (req, res) => {
-  if (!req.query.userid || !req.query.action) {
-    req.flash('error', 'Error Updating League');
-    return res.redirect('/leagues');
-  }
-  let find = { _id: req.params.id };
-  let update = {};
-  let success = [];
-  if (req.query.action === "removeMember") {
-    // can't remove creator
-    find.creator = { $ne: req.query.userid };
-    if (req.query.userid === req.user.id) {
+const userActions = {
+  removeMember: (userRequesting, userAffected, find, update) => {
+    find.creator = { $ne: userAffected };
+    if (userRequesting === userAffected) {
       // remove self from members and moderators
-      update.$pull = { members: req.query.userid, moderators: req.query.userid };
+      update.$pull = { members: userAffected, moderators: userAffected };
     } else {
       // mods can remove other non-mods
-      find.$and = [{ moderators: req.user.id }, { moderators: { $ne: req.query.userid } }];
-      update.$pull = { members: req.query.userid };
+      find.$and = [{ moderators: userRequesting }, { moderators: { $ne: userAffected } }];
+      update.$pull = { members: userAffected };
     }
-    message = ['success', 'User successfully removed'];
-  }
-  if (req.query.action === "addModerator") {
-    // mods can add other mods
-    find.moderators = req.user.id;
-    update.$addToSet = { moderators: req.query.userid };
-    message = ['success', 'Moderator successfully added'];
-  }
-  if (req.query.action === "removeModerator") {
+    return { find, update };
+  },
+  addModerator: (userRequesting, userAffected, find, update) => {
+    // only mods can add other mods
+    find.moderators = userRequesting;
+    update.$addToSet = { moderators: userAffected };
+    return { find, update };
+  },
+  removeModerator: (userRequesting, userAffected, find, update) => {
     // only the creator can remove mods, creator can't be removed
-    find.$and = [{ creator: req.user.id }, { creator: { $ne: req.query.userid } }];
-    update.$pull = { moderators: req.query.userid };
-    message = ['success', 'Moderator successfully removed'];
+    find.$and = [{ creator: userRequesting }, { creator: { $ne: userAffected } }];
+    update.$pull = { moderators: userAffected };
+    return { find, update };
   }
-  const league = await League.findOneAndUpdate(find, update, { new: true });
-  if (!league) {
-    req.flash('error', 'Error Updating League');
-    return res.redirect(`/league/${req.params.id}`);
-  }
-  req.flash(message);
-  return res.redirect(`/league/${league._id}`);
 }
+
+exports.updateUser = async (req, res) => {
+  let message = 'User updated';
+  let query = userActions[req.body.action](req.user.id, req.body.id, { _id: req.params.id }, {});
+  const league = await League.findOneAndUpdate(query.find, query.update, { new: true });
+  if (!league) {
+    req.flash('error', 'Error Updating User'); 
+  } else {
+    req.flash('success', message);
+  }
+  return res.redirect(`/league/${req.params.id}`);
+};

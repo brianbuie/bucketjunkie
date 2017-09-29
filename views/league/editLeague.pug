@@ -1,13 +1,21 @@
 extends ../layout
 
-include _leagueForm
-include _editUsersForm
+include mixins/_leagueForm
+include mixins/_addModerator
+include mixins/_removeModerator
+include mixins/_removeMember
 
 block content
   p Edit League
-    .grid-x.align-center
+    .align-center
       +leagueForm(league)
-      +editUsersForm(league, user)
+      strong Members
+        ul
+          each member in league.members
+            li= member.username
+              +removeModerator(league, user, member)
+              +addModerator(league, user, member)
+              +removeMember(league, user, member)
 
   pre(style="margin-top: 60px; font-size: 12px;")
     != helpers.dump(league)

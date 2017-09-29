@@ -1,0 +1,12 @@
+mixin removeMember(league, userRequesting, userAffected)
+  - let buttonText = ""
+  //- only show if userAffected is not creator or a mod
+  if league.creator != userAffected.id && !league.moderators.some(mod => mod.id === userAffected.id)
+    if league.moderators.some(mod => mod.id === userRequesting.id)
+      - buttonText = "Remove"
+    if userRequesting.id === userAffected.id
+      - buttonText = "Leave"
+    form(method="POST" action=`/league/${league._id}/users`)
+      input(type="hidden" name="action" value="removeMember")
+      input(type="hidden" name="id" value=userAffected.id)
+      input.button(type="submit" value=buttonText)
