@@ -7,7 +7,6 @@ const User = mongoose.model('User');
 const userController = require('./userController');
 const { catchErrors } = require('../error/errorHandlers');
 
-
 router.use(expressValidator({
   customValidators: {
     isUsernameAvailable(username) {

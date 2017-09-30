@@ -40,6 +40,15 @@ exports.editLeagueForm = async (req, res) => {
   return res.render('league/editLeague', { title: 'Edit League', league });
 };
 
+exports.isModerator = async (req, res, next) => {
+  const league = await League.findOne({ _id: req.params.id, moderators: req.user._id });
+  if (!league) {
+    req.flash('error', 'You must be a moderator to do that.');
+    return res.redirect(`/leagues/${req.params._id}`);
+  }
+  return next();
+}
+
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { _id: req.params.id, open: true },
