@@ -44,7 +44,6 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.helpers = helpers;
   res.locals.flashes = req.flash();
-  // res.locals.flashes = { success: ['Success'] };
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
   next();
@@ -60,7 +59,7 @@ app.use('/', routes);
 app.use(errorHandlers.notFound);
 app.use(errorHandlers.flashValidationErrors);
 if (app.get('env') === 'development') {
-  /* Development Error Handler - Prints stack trace */
+  // Development Error Handler - Prints stack trace
   app.use(errorHandlers.developmentErrors);
 }
 app.use(errorHandlers.productionErrors);

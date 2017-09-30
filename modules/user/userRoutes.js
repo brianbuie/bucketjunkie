@@ -1,7 +1,26 @@
 const express = require('express');
+const expressValidator = require('express-validator');
+const mongoose = require('mongoose');
+
 const router = express.Router();
+const User = mongoose.model('User');
 const userController = require('./userController');
 const { catchErrors } = require('../error/errorHandlers');
+
+
+router.use(expressValidator({
+  customValidators: {
+    isUsernameAvailable(username) {
+      return new Promise((resolve, reject) => {
+        User.findOne({ username }, (err, user) => {
+          if (err) throw err;
+          if (!user) resolve();
+          reject();
+        });
+      });
+    },
+  },
+}));
 
 router.get('/', userController.isLoggedIn, userController.account);
 router.post('/', userController.uploadPhoto, catchErrors(userController.resizePhoto), catchErrors(userController.updateAccount));

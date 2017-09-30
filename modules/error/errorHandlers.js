@@ -7,7 +7,8 @@
   and pass it along to our express middleware with next()
 */
 
-exports.catchErrors = fn => function (req, res, next) {
+
+exports.catchErrors = fn => function (req, res, next) { // eslint-disable-line
   return fn(req, res, next).catch(next);
 };
 

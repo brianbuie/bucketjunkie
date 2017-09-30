@@ -136,9 +136,10 @@ exports.validatePasswordReset = (req, res, next) => {
   return res.redirect('back');
 };
 
-exports.validateRegister = (req, res, next) => {
+exports.validateRegister = async (req, res, next) => {
   req.sanitizeBody('username');
   req.checkBody('username', 'Please supply a username!').notEmpty();
+  req.checkBody('username', 'Username taken').isUsernameAvailable();
   req.checkBody('email', 'Please enter a valid email address').isEmail();
   req.sanitizeBody('email').normalizeEmail({
     remove_dots: false,
@@ -148,14 +149,13 @@ exports.validateRegister = (req, res, next) => {
   req.checkBody('password', 'Please enter a password').notEmpty();
   req.checkBody('confirm-password', 'Please confirm your password').notEmpty();
   req.checkBody('confirm-password', 'Your passwords don\'t match').equals(req.body.password);
-  const errors = req.validationErrors();
-  if (errors) {
-    req.flash('error', errors.map(err => err.msg));
-    return res.render('account/register', {
-      title: 'Register',
-      body: req.body,
-      flashes: req.flash(),
+  return req.asyncValidationErrors().then(() => next())
+    .catch((errors) => {
+      req.flash('error', errors.map(err => err.msg));
+      return res.render('account/register', {
+        title: 'Register',
+        body: req.body,
+        flashes: req.flash(),
+      });
     });
-  }
-  return next();
 };

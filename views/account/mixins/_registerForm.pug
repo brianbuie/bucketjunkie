@@ -1,0 +1,15 @@
+mixin registerForm(body = {})
+  form.medium-6.large-4(action="/account/register" method="POST")
+    p.text-center Register
+    label(for="username") Username
+      input(type="text" name="username" autocomplete="off" value=body.username)
+    label(for="email") Email Address
+      input(type="email" name="email" autocomplete="off" value=body.email)
+    label(for="password") Password
+      input(type="password" name="password" autocomplete="off" value=body.password)
+    label(for="confirm-password") Again
+      input(type="password" name="confirm-password" autocomplete="off" value=body['confirm-password'])
+    input.button.expanded(type="submit" value="Register →")
+    p.text-center
+      span Already have an account?
+      a(href="/account/login")  Login

@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
 }, {
   toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  toObject: { virtuals: true },
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'username' });

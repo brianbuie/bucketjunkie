@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const League = mongoose.model('League');
-const User = mongoose.model('User');
 const activity = require('../activity/activityController');
+
+const League = mongoose.model('League');
 
 exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
@@ -38,10 +38,13 @@ exports.editLeagueForm = async (req, res) => {
   }
   req.user.isCreator = league.creator.equals(req.user._id);
   return res.render('league/editLeague', { title: 'Edit League', league });
-}
+};
 
 exports.joinLeague = async (req, res) => {
-  const league = await League.findOneAndUpdate({ _id: req.params.id, open: true }, { $addToSet: { members: req.user.id } });
+  const league = await League.findOneAndUpdate(
+    { _id: req.params.id, open: true },
+    { $addToSet: { members: req.user.id } },
+  );
   if (!league) {
     req.flash('error', 'Unable to join league');
     return res.redirect('/leagues');
@@ -50,7 +53,7 @@ exports.joinLeague = async (req, res) => {
   req.activity = { category: 'league', message: `joined '${league.name}'` };
   await activity.addAction(req, res);
   return res.redirect(`/leagues/${league._id}`);
-}
+};
 
 exports.leagueOverview = async (req, res) => {
   const league = await League.findOne({ _id: req.params.id })
@@ -83,7 +86,11 @@ exports.publicLeagues = async (req, res) => {
 exports.updateLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   req.body.open = req.body.open || false;
-  const league = await League.findOneAndUpdate({ _id: req.params.id, moderators: req.user._id }, req.body, { runValidators: true, new: true });
+  const league = await League.findOneAndUpdate(
+    { _id: req.params.id, moderators: req.user._id },
+    req.body,
+    { runValidators: true, new: true },
+  );
   if (!league) {
     req.flash('error', 'Error Updating League');
     return res.redirect('/leagues');
@@ -93,7 +100,7 @@ exports.updateLeague = async (req, res) => {
   req.activity = { category: 'league', message: `updated '${league.name}'` };
   await activity.addAction(req, res);
   req.flash('success', 'Updated League');
-  res.redirect(`/leagues/${league._id}`);
+  return res.redirect(`/leagues/${league._id}`);
 };
 
 const userActions = {
@@ -120,15 +127,15 @@ const userActions = {
     find.$and = [{ creator: userRequesting }, { creator: { $ne: userAffected } }];
     update.$pull = { moderators: userAffected };
     return { find, update };
-  }
-}
+  },
+};
 
 exports.updateUser = async (req, res) => {
-  let message = 'User updated';
-  let query = userActions[req.body.action](req.user.id, req.body.id, { _id: req.params.id }, {});
+  const message = 'User updated';
+  const query = userActions[req.body.action](req.user.id, req.body.id, { _id: req.params.id }, {});
   const league = await League.findOneAndUpdate(query.find, query.update, { new: true });
   if (!league) {
-    req.flash('error', 'Error Updating User'); 
+    req.flash('error', 'Error Updating User');
   } else {
     req.flash('success', message);
   }

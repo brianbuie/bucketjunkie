@@ -4,30 +4,30 @@ const activitySchema = new mongoose.Schema({
   league: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'League',
-    required: 'Please supply a league'
+    required: 'Please supply a league',
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   },
   category: String,
   message: {
     type: String,
     trim: true,
-    required: 'Please supply a message'
+    required: 'Please supply a message',
   },
   modOnly: {
     type: Boolean,
-    default: false
+    default: false,
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   hidden: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Activity', activitySchema);

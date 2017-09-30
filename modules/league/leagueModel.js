@@ -16,7 +16,7 @@ const leagueSchema = new mongoose.Schema({
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   },
   members: [{
     type: mongoose.Schema.Types.ObjectId,

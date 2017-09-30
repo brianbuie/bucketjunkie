@@ -6,7 +6,6 @@ Front
 Back
 	setup subdomain & digitalocean server
 	deployment strategy
-	handle user registration errors
 	only creator can add mods?
 
 Future features

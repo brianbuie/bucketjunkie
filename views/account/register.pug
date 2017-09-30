@@ -1,18 +1,7 @@
 extends ../layout
 
+include mixins/_registerForm
+
 block content
   .grid-x.align-center
-    form.medium-6.large-4(action="/account/register" method="POST")
-      p.text-center Register
-      label(for="username") Username
-        input(type="text" name="username" autocomplete="off")
-      label(for="email") Email Address
-        input(type="email" name="email" autocomplete="off")
-      label(for="password") Password
-        input(type="password" name="password" autocomplete="off")
-      label(for="confirm-password") Again
-        input(type="password" name="confirm-password" autocomplete="off")
-      input.button.expanded(type="submit" value="Register →")
-      p.text-center
-        span Already have an account?
-        a(href="/account/login")  Login
+    +registerForm(locals.body)

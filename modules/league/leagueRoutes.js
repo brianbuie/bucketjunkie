@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const userController = require('../user/userController');
 const leagueController = require('./leagueController');
