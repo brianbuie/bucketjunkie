@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   toObject: { virtuals: true },
 });
 
-userSchema.plugin(passportLocalMongoose, { usernameField: 'username' });
+userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(mongodbErrorHandler);
 
 module.exports = mongoose.model('User', userSchema);

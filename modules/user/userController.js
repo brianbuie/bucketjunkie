@@ -139,7 +139,15 @@ exports.validatePasswordReset = (req, res, next) => {
 exports.validateRegister = async (req, res, next) => {
   req.sanitizeBody('username');
   req.checkBody('username', 'Please supply a username!').notEmpty();
-  req.checkBody('username', 'Username taken').isUsernameAvailable();
+  req.checkBody('username', 'Username taken').custom(username => {
+    return new Promise((resolve, reject) => {
+      User.findOne({ username }, (err, user) => {
+        if (err) throw err;
+        if (!user) resolve();
+        reject();
+      });
+    });
+  });
   req.checkBody('email', 'Please enter a valid email address').isEmail();
   req.sanitizeBody('email').normalizeEmail({
     remove_dots: false,
