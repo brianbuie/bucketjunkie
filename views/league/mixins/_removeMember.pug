@@ -6,7 +6,7 @@ mixin removeMember(league, userRequesting, userAffected)
       - buttonText = "Remove"
     if userRequesting.id === userAffected.id
       - buttonText = "Leave"
-    form(method="POST" action=`/league/${league._id}/users`)
+    form(method="POST" action=`/leagues/${league._id}/users`)
       input(type="hidden" name="action" value="removeMember")
       input(type="hidden" name="id" value=userAffected.id)
       input.button(type="submit" value=buttonText)

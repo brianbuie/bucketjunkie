@@ -1,7 +1,7 @@
 mixin addModerator(league, userRequesting, userAffected)
   //- only show if userRequesting is a mod and userAffected is not a mod
   if league.moderators.some(mod => mod.id === userRequesting.id) && !league.moderators.some(mod => mod.id === userAffected.id)
-    form(method="POST" action=`/league/${league._id}/users`)
+    form(method="POST" action=`/leagues/${league._id}/users`)
       input(type="hidden" name="action" value="addModerator")
       input(type="hidden" name="id" value=userAffected.id)
       input.button(type="submit" value="Add Mod")

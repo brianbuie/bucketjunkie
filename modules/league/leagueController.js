@@ -12,13 +12,13 @@ exports.createLeague = async (req, res) => {
   const league = await (new League(req.body)).save();
   if (!league) {
     req.flash('error', 'Error creating league, please try again.');
-    return res.redirect('/league/create');
+    return res.redirect('/leagues/create');
   }
   req.league = league;
   req.activity = { category: 'league', message: `created league '${league.name}'` };
   await activity.addAction(req, res);
   req.flash('success', `Successfully created ${league.name}`);
-  return res.redirect(`/league/${league._id}`);
+  return res.redirect(`/leagues/${league._id}`);
 };
 
 exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League', league: {} });
@@ -34,7 +34,7 @@ exports.editLeagueForm = async (req, res) => {
   }
   if (!league.moderators.some(mod => mod.equals(req.user._id))) {
     req.flash('error', 'You must be a moderator to edit this league');
-    return res.redirect(`/league/${league._id}`);
+    return res.redirect(`/leagues/${league._id}`);
   }
   req.user.isCreator = league.creator.equals(req.user._id);
   return res.render('league/editLeague', { title: 'Edit League', league });
@@ -49,7 +49,7 @@ exports.joinLeague = async (req, res) => {
   req.league = league;
   req.activity = { category: 'league', message: `joined '${league.name}'` };
   await activity.addAction(req, res);
-  return res.redirect(`/league/${league._id}`);
+  return res.redirect(`/leagues/${league._id}`);
 }
 
 exports.leagueOverview = async (req, res) => {
@@ -93,7 +93,7 @@ exports.updateLeague = async (req, res) => {
   req.activity = { category: 'league', message: `updated '${league.name}'` };
   await activity.addAction(req, res);
   req.flash('success', 'Updated League');
-  res.redirect(`/league/${league._id}`);
+  res.redirect(`/leagues/${league._id}`);
 };
 
 const userActions = {
@@ -132,5 +132,5 @@ exports.updateUser = async (req, res) => {
   } else {
     req.flash('success', message);
   }
-  return res.redirect(`/league/${req.params.id}`);
+  return res.redirect(`/leagues/${req.params.id}`);
 };

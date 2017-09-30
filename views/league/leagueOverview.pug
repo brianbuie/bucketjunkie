@@ -8,9 +8,9 @@ block content
   p= league.description
   p
     if user.isModerator
-      a(href=`/league/${league.id}/edit`) Edit
+      a(href=`/leagues/${league.id}/edit`) Edit
     if !user.isMember
-      a(href=`/league/${league.id}/join`) Join
+      a(href=`/leagues/${league.id}/join`) Join
     if user.isMember && league.creator.id != user.id
       +removeMember(league, user, user)
   p 
