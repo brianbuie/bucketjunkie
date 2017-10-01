@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+  p= player.player_name + ' '
+    i= player.position
+  p
+    a(href=`/nba/team/${player.team_id._id}`)= player.team_id.team_name

@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  p= `${team.city} ${team.team_name}`
+    ul
+      each player in players
+        li
+          a(href=`/nba/player/${player._id}`)= player.player_name

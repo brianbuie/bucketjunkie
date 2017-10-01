@@ -12,7 +12,8 @@ exports.icon = name => fs.readFileSync(`../public/images/icons/${name}.svg`);
 exports.siteName = 'Fantastic';
 
 exports.menu = [
-  { slug: '/leagues', title: 'Mine' },
-  { slug: '/leagues/public', title: 'Public' },
-  { slug: '/leagues/create', title: 'Create League' },
+  { slug: '/leagues', title: 'My Leagues' },
+  { slug: '/leagues/public', title: 'Join' },
+  { slug: '/leagues/create', title: 'Create' },
+  { slug: '/nba', title: 'NBA' }
 ];

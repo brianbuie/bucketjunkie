@@ -12,6 +12,8 @@ mongoose.connection.on('error', (err) => {
 require('../modules/league/leagueModel');
 require('../modules/user/userModel');
 require('../modules/activity/activityModel');
+require('../modules/nba/playerModel');
+require('../modules/nba/teamModel');
 
 const app = require('./app');
 
