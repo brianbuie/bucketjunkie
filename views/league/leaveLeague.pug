@@ -3,5 +3,5 @@ extends ../layout
 block content
   p Are you sure?
   p Leaving this league will forfeit your current roster and you won't be able to join again.
-  form(method="POST" action=`/leagues/${league._id}/leave`)
+  form(method="POST" action=`/lg/${league._id}/leave`)
     input.button(type="submit" value="Yes, I'm sure")

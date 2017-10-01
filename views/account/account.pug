@@ -5,9 +5,8 @@ block content
     form.medium-6.large-4(method="POST" enctype="multipart/form-data")
       p.text-center Edit Account
       p.text-center
-        strong= user.username
-      - const userPhoto = user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
-      img(src!=userPhoto alt="Profile Picture" style="width: 50px;")
+        strong= req.user.username
+      img(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 50px;")
       label(for="photo") Profile Picture
         input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg")
       input.button.expanded(type="submit" value="Save →")

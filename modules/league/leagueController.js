@@ -12,18 +12,18 @@ exports.createLeague = async (req, res) => {
   const league = await (new League(req.body)).save();
   if (!league) {
     req.flash('error', 'Error creating league, please try again.');
-    return res.render('/leagues/create', { title: 'Create League', league: req.body });
+    return res.render('/leagues/create', { title: 'Create League' });
   }
   req.activity = { category: 'league', message: `created league '${league.name}'` };
   req.league = league;
   await activity.addActivity(req, res);
   req.flash('success', `Successfully created ${league.name}`);
-  return res.redirect(`/leagues/${league._id}`);
+  return res.redirect(`/lg/${league._id}`);
 };
 
-exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League', league: {} });
+exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League' });
 
-exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League', league: req.league });
+exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
 
 exports.leagueOverview = async (req, res) => {
   if (!req.league.public && !req.leagueAuth.isMember) {
@@ -55,11 +55,11 @@ exports.updateLeague = async (req, res) => {
   );
   if (!league) {
     req.flash('error', 'Error Updating League');
-    return res.redirect(`/leagues/${league._id}/edit`);
+    return res.redirect(`/lg/${league._id}/edit`);
   }
   // TODO get dif between old/new for actual updates
   req.activity = { category: 'league', message: `updated '${league.name}'` };
   await activity.addActivity(req, res);
   req.flash('success', 'Updated League');
-  return res.redirect(`/leagues/${league._id}`);
+  return res.redirect(`/lg/${league._id}`);
 };

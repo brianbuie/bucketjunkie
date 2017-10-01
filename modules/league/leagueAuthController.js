@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const activity = require('../activity/activityController');
 
 const League = mongoose.model('League');
+const User = mongoose.model('User');
 
 exports.setLeague = async (req, res, next, id) => {
   if (!req.params.id) {
@@ -74,7 +75,7 @@ exports.joinLeague = async (req, res) => {
   req.league = league;
   req.activity = { category: 'league', message: `joined '${league.name}'` };
   await activity.addActivity(req, res);
-  return res.redirect(`/leagues/${league._id}`);
+  return res.redirect(`/lg/${league._id}`);
 };
 
 exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { title: 'Leave League', league: req.league });
@@ -82,7 +83,7 @@ exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { ti
 exports.leaveLeague = async (req, res) => {
   if (req.leagueAuth && req.leagueAuth.isCreator) {
     req.flash('error', 'Sorry, you can\'t leave a league you created. It would be chaos!');
-    return res.redirect(`/leagues/${req.league._id}`);
+    return res.redirect(`/lg/${req.league._id}`);
   }
   const league = await League.findOneAndUpdate(
     { creator: { $ne: req.user._id }, members: req.user._id }, 
@@ -91,9 +92,9 @@ exports.leaveLeague = async (req, res) => {
   );
   if (!league) {
     req.flash('error', 'Error Leaving league');
-    return res.redirect(`/leagues/${req.params.id}`);
+    return res.redirect(`/lg/${req.params.id}`);
   }
-  req.activity = { category: 'members', message: 'left the league' };
+  req.activity = { category: 'league', message: `left '${league.name}'` };
   await activity.addActivity(req, res);
   req.flash('success', `Left '${league.name}'`);
   res.redirect('/leagues');
@@ -109,14 +110,14 @@ exports.removeMember = async (req, res) => {
       ],
       members: req.body.member,
     },
-    { $pull: { members: req.user._id } },
+    { $pull: { members: req.body.member } },
     { new: true }
   );
   if (!league) {
     req.flash('error', 'Error Removing Member');
-    return res.redirect(`/leagues/${req.params.id}`);
+    return res.redirect(`/lg/${req.params.id}`);
   }
-  const userAffected = await User.findOne({ _id: req.body.member });
+  let userAffected = await User.findOne({ _id: req.body.member });
   if (!userAffected) {
     req.flash('Error getting user info');
     userAffected.username = 'UNKNOWN USER';
@@ -124,7 +125,7 @@ exports.removeMember = async (req, res) => {
   req.activity = { category: 'moderator', message: `removed ${userAffected.username}` };
   await activity.addActivity(req, res);
   req.flash('success', 'Removed Member');
-  return res.redirect(`/leagues/${req.params.id}`);
+  return res.redirect(`/lg/${req.params.id}`);
 };
 
 exports.addModerator = async (req, res) => {
@@ -139,9 +140,9 @@ exports.addModerator = async (req, res) => {
   ).populate('moderators');
   if (!league) {
     req.flash('error', 'Error Adding Moderator');
-    return res.redirect(`/leagues/${req.params.id}`);
+    return res.redirect(`/lg/${req.params.id}`);
   }
-  const userAffected = league.moderators.find(mod => mod._id === req.body.member);
+  let userAffected = league.moderators.find(mod => mod.id === req.body.member);
   if (!userAffected) {
     req.flash('Error getting user info');
     userAffected = { username: 'UNKNOWN USER' };
@@ -149,7 +150,7 @@ exports.addModerator = async (req, res) => {
   req.activity = { category: 'moderator', message: `added ${userAffected.username} as a moderator` };
   await activity.addActivity(req, res);
   req.flash('success', 'Added Moderator');
-  return res.redirect(`/leagues/${req.params.id}`);
+  return res.redirect(`/lg/${req.params.id}`);
 };
 
 exports.removeModerator = async (req, res) => {
@@ -163,9 +164,9 @@ exports.removeModerator = async (req, res) => {
   );
   if (!league) {
     req.flash('error', 'Error Removing Moderator');
-    return res.redirect(`/leagues/${req.params.id}`);
+    return res.redirect(`/lg/${req.params.id}`);
   }
-  const userAffected = await User.findOne({ _id: req.body.member });
+  let userAffected = await User.findOne({ _id: req.body.member });
   if (!userAffected) {
     req.flash('Error getting user info');
     userAffected = { username: 'UNKNOWN USER' };
@@ -173,5 +174,5 @@ exports.removeModerator = async (req, res) => {
   req.activity = { category: 'moderator', message: `removed ${userAffected.username} as a moderator` };
   await activity.addActivity(req, res);
   req.flash('success', 'Removed Moderator');
-  return res.redirect(`/leagues/${req.params.id}`);
+  return res.redirect(`/lg/${req.params.id}`);
 };

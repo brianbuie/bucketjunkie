@@ -1,7 +1,7 @@
-mixin loginForm()
+mixin loginForm(req = {})
   form.medium-6.large-4(action="/account/login" method="POST")
     p.text-center Login
-    label(for="username") Username
+    label(for="username" value=req.body.username) Username
       input(type="text" name="username")
     label(for="password") Password
       input(type="password" name="password")

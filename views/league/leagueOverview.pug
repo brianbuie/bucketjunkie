@@ -4,24 +4,24 @@ include mixins/_removeMember
 
 block content
   p
-    strong= league.name
-  p= league.description
+    strong= req.league.name
+  p= req.league.description
   p
-    if user.isModerator
-      a(href=`/leagues/${league.id}/edit`) Edit
-    if !user.isMember
-      a(href=`/leagues/${league.id}/join`) Join
-    if user.isMember && league.creator.id != user.id
-      +removeMember(league, user, user)
+    if req.leagueAuth.isModerator
+      a(href=`/lg/${league.id}/edit`) Edit
+    if !req.leagueAuth.isMember
+      a(href=`/lg/${league.id}/join`) Join
+    if req.leagueAuth.isMember && !req.leagueAuth.isCreator
+      a(href=`/lg/${league.id}/leave`) Leave
   p 
     strong Members
     ul
-      each member in league.members
+      each member in req.league.members
         li= member.username
-          if league.moderators.some(mod => mod.id === member.id)
-            span *
-          if league.creator.equals(member.id)
-            span *
+          if req.league.moderators.some(mod => mod.id === member.id)
+            span.moderator *
+          if req.league.creator.id === member.id
+            span.creator *
   p
     strong Feed
     ul
@@ -32,4 +32,4 @@ block content
           i= helpers.moment(item.date).fromNow()
 
   pre(style="margin-top: 60px; font-size: 12px;")
-    != helpers.dump(league)
+    != helpers.dump(req.league)

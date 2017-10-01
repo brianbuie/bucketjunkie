@@ -22,16 +22,15 @@ html
                 a(href=item.slug, class=(currentPath.startsWith(item.slug) ? 'is-active' : '')) #{item.title}
         .top-bar-right
           ul.menu
-            if user
-              if league
+            if req.user
+              if req.league
                 li
-                  a(href=`/leagues/${league.id}`)= league.name
+                  a(href=`/lg/${req.league._id}`)= req.league.name
               li
-                a(href="/account/")= user.username
+                a(href="/account/")= req.user.username
               li
                 a(href="/account/")
-                  - const userPhoto = user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
-                  img.menu-photo(src!=userPhoto alt="Profile Picture" style="width: 25px;")
+                  img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
               li
                 a(href="/account/logout") Logout
             else

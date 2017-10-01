@@ -8,14 +8,14 @@ include mixins/_removeMember
 block content
   p Edit League
     .align-center
-      +leagueForm(league)
+      +leagueForm(req)
       strong Members
         ul
-          each member in league.members
+          each member in req.league.members
             li= member.username
-              +removeModerator(league, user, member)
-              +addModerator(league, user, member)
-              +removeMember(league, user, member)
+              +removeModerator(req, member)
+              +addModerator(req, member)
+              +removeMember(req, member)
 
   pre(style="margin-top: 60px; font-size: 12px;")
-    != helpers.dump(league)
+    != helpers.dump(req.leagueAuth)
