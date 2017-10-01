@@ -124,6 +124,8 @@ exports.removeMember = async (req, res) => {
   }
   req.activity = { category: 'moderator', message: `removed ${userAffected.username}` };
   await activity.addActivity(req, res);
+  req.activity = { user: userAffected._id, category: 'league', message: `left '${league.name}'` };
+  await activity.addActivity(req, res);
   req.flash('success', 'Removed Member');
   return res.redirect(`/lg/${req.params.id}`);
 };

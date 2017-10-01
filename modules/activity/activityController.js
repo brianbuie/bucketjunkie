@@ -5,7 +5,7 @@ const Activity = mongoose.model('Activity');
 exports.addActivity = async (req, res) => {
   const action = {
     league: req.league._id,
-    user: req.user._id,
+    user: req.activity.user || req.user._id,
     category: req.activity.category,
     message: req.activity.message,
   };
@@ -13,6 +13,11 @@ exports.addActivity = async (req, res) => {
   await newAction.save();
 };
 
-exports.getActivity = async (req, res) => Activity.find({ league: req.league._id })
+exports.getActivity = async (req, res) => {
+  const member = ['league', 'roster', 'message'];
+  const moderator = ['moderator'];
+  const access = req.leagueAuth.isModerator ? moderator.concat(member) : member;
+  return await Activity.find({ league: req.league._id, category: { $in: access } })
   .populate('user')
   .sort({ date: -1 });
+};
