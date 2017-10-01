@@ -2,7 +2,12 @@ extends ../layout
 
 block content
   p= `${team.city} ${team.team_name}`
+  p Players
     ul
       each player in players
         li
           a(href=`/nba/player/${player._id}`)= player.player_name
+  p Upcoming Games
+    ul
+      each game in games
+        li= `${game.away_id.team_name} @ ${game.home_id.team_name}`
