@@ -12,10 +12,10 @@ exports.createLeague = async (req, res) => {
   const league = await (new League(req.body)).save();
   if (!league) {
     req.flash('error', 'Error creating league, please try again.');
-    return res.redirect('/leagues/create');
+    return res.render('/leagues/create', { title: 'Create League', league: req.body });
   }
-  req.league = league;
   req.activity = { category: 'league', message: `created league '${league.name}'` };
+  req.params.id = league._id;
   await activity.addAction(req, res);
   req.flash('success', `Successfully created ${league.name}`);
   return res.redirect(`/leagues/${league._id}`);
@@ -76,7 +76,7 @@ exports.leagueOverview = async (req, res) => {
   req.user.isModerator = league.moderators.some(mod => mod._id.equals(req.user._id));
   req.user.isMember = league.members.some(member => member._id.equals(req.user._id));
   req.user.isCreator = league.creator.equals(req.user._id);
-  req.league = league;
+  req.session.league = league;
   const activityFeed = await activity.getActions(req, res);
   return res.render('league/leagueOverview', { title: `${league.name} Overview`, league, activityFeed });
 };
@@ -104,7 +104,6 @@ exports.updateLeague = async (req, res) => {
     req.flash('error', 'Error Updating League');
     return res.redirect('/leagues');
   }
-  req.league = league;
   // TODO get actual updates
   req.activity = { category: 'league', message: `updated '${league.name}'` };
   await activity.addAction(req, res);
@@ -140,13 +139,14 @@ const userActions = {
 };
 
 exports.updateUser = async (req, res) => {
-  const message = 'User updated';
   const query = userActions[req.body.action](req.user.id, req.body.id, { _id: req.params.id }, {});
   const league = await League.findOneAndUpdate(query.find, query.update, { new: true });
   if (!league) {
     req.flash('error', 'Error Updating User');
   } else {
-    req.flash('success', message);
+    req.activity = { category: 'moderator', message: `updated users` };
+    await activity.addAction(req, res);
+    req.flash('success', 'User updated');
   }
   return res.redirect(`/leagues/${req.params.id}`);
 };
