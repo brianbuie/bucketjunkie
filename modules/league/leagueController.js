@@ -76,7 +76,7 @@ exports.leagueOverview = async (req, res) => {
   req.user.isModerator = league.moderators.some(mod => mod._id.equals(req.user._id));
   req.user.isMember = league.members.some(member => member._id.equals(req.user._id));
   req.user.isCreator = league.creator.equals(req.user._id);
-  req.session.league = league;
+  if(league.members.some(member => member._id === req.user._id)) req.session.league = league;
   const activityFeed = await activity.getActions(req, res);
   return res.render('league/leagueOverview', { title: `${league.name} Overview`, league, activityFeed });
 };

@@ -58,6 +58,7 @@ exports.loginForm = (req, res) => res.render('account/login', { title: 'Login' }
 
 exports.logout = (req, res) => {
   req.logout();
+  req.session.league = null;
   req.flash('success', 'logged out');
   return res.redirect('/');
 };

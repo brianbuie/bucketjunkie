@@ -23,6 +23,9 @@ html
         .top-bar-right
           ul.menu
             if user
+              if league
+                li
+                  a(href=`/leagues/${league.id}`)= league.name
               li
                 a(href="/account/")= user.username
               li

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
@@ -31,7 +32,9 @@ exports.team = async (req, res) => {
 
 exports.player = async (req, res) => {
   const player = await Player.findOne({ _id: req.params.id }).populate('team_id');
-  if (player) return res.render('nba/player', { title: player.player_name, player });
-  res.flash('error', 'error fetching player info');
-  return res.redirect('/');
-}
+  if (!player) {
+    res.flash('error', 'error fetching player info');
+    return res.redirect('/');
+  }
+  return res.render('nba/player', { title: player.player_name, player });
+};

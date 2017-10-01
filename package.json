@@ -8,7 +8,8 @@
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "test": "eslint .",
-    "data": "node ./data/load-nba-data.js"
+    "data": "node ./scripts/load-nba-data.js",
+    "images": "node ./scripts/get-images.js --players --teams"
   },
   "repository": {
     "type": "git",
@@ -57,6 +58,7 @@
     "node-sass": "^4.5.3",
     "nodemon": "^1.12.1",
     "postcss-loader": "^2.0.6",
+    "request": "^2.83.0",
     "sass-loader": "^6.0.6",
     "webpack": "^3.6.0",
     "webpack-livereload-plugin": "^0.11.0"

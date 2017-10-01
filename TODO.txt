@@ -2,6 +2,7 @@ Front
 	prototype front-end UI/UX strategy
 	reevaluate foundation, find better scss/frontend framework
 	style reset password email
+  "No way associated with the NBA" footer notice
 
 Back
 	setup subdomain & digitalocean server
