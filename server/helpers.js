@@ -24,3 +24,5 @@ exports.playerImage = id => {
   if (fs.existsSync(__dirname + `/../public${playerImagePath}`)) return playerImagePath;
   return defaultImagePath;
 };
+
+exports.userPhoto = user => user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';

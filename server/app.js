@@ -43,7 +43,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.helpers = helpers;
-  res.locals.league = req.session.league;
+  res.locals.req = req;
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.currentPath = req.path;
