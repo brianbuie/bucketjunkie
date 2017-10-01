@@ -23,9 +23,9 @@ html
         .top-bar-right
           ul.menu
             if req.user
-              if req.league
+              if req.session.league
                 li
-                  a(href=`/lg/${req.league._id}`)= req.league.name
+                  a(href=`/lg/${req.session.league._id}`)= req.session.league.name
               li
                 a(href="/account/")= req.user.username
               li

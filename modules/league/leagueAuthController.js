@@ -36,6 +36,7 @@ exports.setPermissions = (req, res, next) => {
     req.leagueAuth.isMember = req.league.members.some(member => member._id.equals(req.user._id));
     req.leagueAuth.isCreator = req.league.creator.equals(req.user._id);
   }
+  if (req.leagueAuth.isMember) req.session.league = req.league;
   return next();
 };
 
