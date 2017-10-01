@@ -7,6 +7,16 @@ Back
 	setup subdomain & digitalocean server
 	deployment strategy
 	only creator can add mods?
-
-Future features
-	log all league activity
+  add activeLeague to session
+  rosters
+    effective date (default tomorrow)
+      get rosters
+        scoring -> most recent roster with effective date less than gamedate
+        current -> most recent roster
+  propose trade system
+  schedule tasks
+    update players and teams
+    get boxscores
+    score rosters
+  improve logging
+    sort out league controller mess

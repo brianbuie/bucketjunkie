@@ -1,6 +1,6 @@
 require('dotenv').config({ path: __dirname + '/../variables.env' });
 const fs = require('fs');
-
+const moment = require('moment');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
 const Team = require('../modules/nba/teamModel');
@@ -16,11 +16,11 @@ async function deleteData() {
   await Player.remove();
   await Game.remove();
   console.log('\nData deleted!');
-  process.exit();
 }
 
-async function loadData() {
+async function data() {
   try {
+    await deleteData();
     await Team.insertMany(teams.map(team => { 
       team._id = team.id;
       team.full_name = `${team.city} ${team.team_name}`;
@@ -31,8 +31,9 @@ async function loadData() {
       return player; 
     }));
     await Game.insertMany(games.map(game => {
+      game.date = moment(game.date).subtract(1, 'months');
       game._id = game.id;
-      game.final = false;
+      game.final = game.date.isBefore(moment());
       return game;
     }));
     console.log('\nData loaded!')
@@ -43,8 +44,4 @@ async function loadData() {
   }
 }
 
-if (process.argv.includes('--delete')) {
-  deleteData();
-} else {
-  loadData();
-}
+data();
