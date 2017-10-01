@@ -65,7 +65,7 @@ exports.logout = (req, res) => {
 exports.register = async (req, res, next) => {
   const user = new User({
     email: req.body.email,
-    username: req.body.username,
+    username: req.body.username.toLowerCase(),
   });
   const register = promisify(User.register, User);
   await register(user, req.body.password);
@@ -139,9 +139,11 @@ exports.validatePasswordReset = (req, res, next) => {
 exports.validateRegister = async (req, res, next) => {
   req.sanitizeBody('username');
   req.checkBody('username', 'Please supply a username!').notEmpty();
+  req.checkBody('username', 'You can only use letters, numbers, dashes, and underscores in your username')
+    .custom(username => /^[a-zA-Z0-9-_]+$/g.test(username));
   req.checkBody('username', 'Username taken').custom(username => {
     return new Promise((resolve, reject) => {
-      User.findOne({ username }, (err, user) => {
+      User.findOne({ username: username.toLowerCase().trim() }, (err, user) => {
         if (err) throw err;
         if (!user) resolve();
         reject();
