@@ -5,4 +5,4 @@ block content
     ul
       each team in teams
         li
-          a(href=`/nba/team/${team._id}`)= `${team.city} ${team.team_name}`
+          a(href=`/nba/team/${team._id}`)= team.full_name

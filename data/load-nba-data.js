@@ -22,7 +22,8 @@ async function deleteData() {
 async function loadData() {
   try {
     await Team.insertMany(teams.map(team => { 
-      team._id = team.id; 
+      team._id = team.id;
+      team.full_name = `${team.city} ${team.team_name}`;
       return team; 
     }));
     await Player.insertMany(players.map(player => { 

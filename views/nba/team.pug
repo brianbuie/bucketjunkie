@@ -10,4 +10,7 @@ block content
   p Upcoming Games
     ul
       each game in games
-        li= `${game.away_id.team_name} @ ${game.home_id.team_name}`
+        if game.away_id._id === team._id
+          li= `@ ${game.home_id.full_name}`
+        else
+          li= `vs ${game.away_id.full_name}`

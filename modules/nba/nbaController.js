@@ -24,7 +24,7 @@ exports.team = async (req, res) => {
     .populate('home_id')
     .populate('away_id');
   const [players, team, games] = await Promise.all([playersPromise, teamPromise, gamesPromise]);
-  if (players && team && games) return res.render('nba/team', { title: `${team.city} ${team.team_name}`, players, team, games });
+  if (players && team && games) return res.render('nba/team', { title: team.full_name, players, team, games });
   res.flash('error', 'error fetching team info');
   return res.redirect('/');
 };
