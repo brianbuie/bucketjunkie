@@ -1,5 +1,7 @@
 extends ../layout
 
+include mixins/_addPlayerForm
+
 block content
   p
     img(src=helpers.playerImage(player._id) style="max-width: 50px;")
@@ -7,3 +9,5 @@ block content
     i= player.position
   p
     a(href=`/nba/team/${player.team_id._id}`)= player.team_id.full_name
+  p
+    +addPlayerForm(req, player)

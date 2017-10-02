@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+  p This would be a roster
+
+  pre(style="margin-top: 60px; font-size: 12px;")
+    != helpers.dump(req.rosters)

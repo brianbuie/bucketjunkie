@@ -17,6 +17,7 @@ require('../modules/activity/activityModel');
 require('../modules/nba/playerModel');
 require('../modules/nba/teamModel');
 require('../modules/nba/gameModel');
+require('../modules/roster/rosterModel');
 
 const app = require('./app');
 

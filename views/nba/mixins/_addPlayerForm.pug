@@ -1,0 +1,5 @@
+mixin addPlayerForm(req, member)
+  if req.session.league
+    form(method="POST" action=`/roster/add-player`)
+      input(type="hidden" name="player" value=player._id)
+      input.button(type="submit" value="Add Player")

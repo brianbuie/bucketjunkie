@@ -10,14 +10,15 @@ exports.setLeague = async (req, res, next, id) => {
     return res.redirect('/leagues');
   }
   const league = await League.findOne({ _id: req.params.id })
-    .populate({ path: 'members', model: 'User' })
-    .populate({ path: 'moderators', model: 'User' })
+    .populate('members')
+    .populate('moderators')
     .populate('creator');
   if (!league) {
     req.flash('error', 'Unable to get League Info');
     return res.redirect('/leagues');
   }
   req.league = league;
+  console.log(league);
   return next();
 };
 
