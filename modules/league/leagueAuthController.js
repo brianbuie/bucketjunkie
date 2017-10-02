@@ -95,6 +95,7 @@ exports.leaveLeague = async (req, res) => {
     req.flash('error', 'Error Leaving league');
     return res.redirect(`/lg/${req.params.id}`);
   }
+  req.session.league = undefined;
   req.activity = { category: 'league', message: `left '${league.name}'` };
   await activity.addActivity(req, res);
   req.flash('success', `Left '${league.name}'`);
