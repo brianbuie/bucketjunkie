@@ -21,3 +21,29 @@ Back
     score rosters
   improve logging
     sort out league controller mess
+
+
+route & controller map
+
+  if (user is logged in)
+    set req.user
+
+  if (league param || (req.user && session.league))
+    set req.league
+    set req.leagueAuth
+    set req.rosters
+      map to rosters.username?
+    if(user)
+      set session.league
+
+  Auth methods
+    requireLoggedIn
+      if (req.user)
+    requireLeague
+      if (req.league)
+    requireMember
+      if (req.leagueAuth.isMember)
+    requireModerator
+      if (req.leagueAuth.isModerator)
+    requireCreator
+      if (req.leagueAuth.isCreator)

@@ -1,12 +1,11 @@
 const express = require('express');
-
-const router = express.Router();
 const userRoutes = require('../modules/user/userRoutes');
 const leagueRoutesLeagues = require('../modules/league/leagueRoutesLeagues');
 const leagueRoutesLg = require('../modules/league/leagueRoutesLg');
 const nbaRoutes = require('../modules/nba/nbaRoutes');
 const rosterRoutes = require('../modules/roster/rosterRoutes');
 
+const router = express.Router();
 router.get('/', (req, res) => {
   res.render('index', { title: 'Home' });
 });
