@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const activity = require('../activity/activityController');
+const activity = require('../../activity/activityController');
 
 const League = mongoose.model('League');
 const User = mongoose.model('User');
