@@ -18,7 +18,6 @@ exports.setLeague = async (req, res, next, id) => {
     return res.redirect('/leagues');
   }
   req.league = league;
-  console.log(league);
   return next();
 };
 

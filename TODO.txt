@@ -5,10 +5,11 @@ Front
   "No way associated with the NBA" footer notice
 
 Back
-	setup subdomain & digitalocean server
-	deployment strategy
-	only creator can add mods?
   add activeLeague to session
+  add league id to member edit queries
+  main router.use functions use require statements
+  remove league from leaveleague form controller, use req.league in view
+  isMember, isModerator, and isCreator checks don't work
   rosters
     effective date (default tomorrow)
       get rosters
@@ -19,12 +20,14 @@ Back
     update players and teams
     get boxscores
     score rosters
-  improve logging
-    sort out league controller mess
+  improve activity logging
+
+Deployment
+  setup subdomain & digitalocean server
+  stage environment
 
 
-route & controller map
-
+request flow
   if (user is logged in)
     set req.user
 
@@ -47,3 +50,33 @@ route & controller map
       if (req.leagueAuth.isModerator)
     requireCreator
       if (req.leagueAuth.isCreator)
+
+league Controller map
+  leagueAuth
+    setLeague
+      set req.league
+      set req.leagueAuth
+      set req.rosters
+      if(user)
+        set session.league
+    requireLeague
+    requireMember
+    requireModerator
+    requireCreator
+
+  leagueInfo
+    createLeague
+    createLeagueForm
+    editLeagueForm
+    leagueOverview
+    myLeagues
+    publicLeagues
+    updateLeague
+
+  leagueMember
+    joinLeague
+    leaveLeagueForm
+    leaveLeague
+    removeMember
+    addModerator
+    removeModerator
