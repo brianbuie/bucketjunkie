@@ -4,66 +4,6 @@ const activity = require('../activity/activityController');
 const League = mongoose.model('League');
 const User = mongoose.model('User');
 
-exports.setLeague = async (req, res, next, id) => {
-  if (!req.params.id) {
-    req.flash('error', 'No League specified');
-    return res.redirect('/leagues');
-  }
-  const league = await League.findOne({ _id: req.params.id })
-    .populate('members')
-    .populate('moderators')
-    .populate('creator');
-  if (!league) {
-    req.flash('error', 'Unable to get League Info');
-    return res.redirect('/leagues');
-  }
-  req.league = league;
-  return next();
-};
-
-exports.setPermissions = (req, res, next) => {
-  if (!req.league) {
-    req.flash('error', 'No league property on request');
-    req.redirect('/leagues');
-  }
-  req.leagueAuth = {
-    isModerator: false,
-    isMember: false,
-    isCreator: false,
-  };
-  if (req.user) {
-    req.leagueAuth.isModerator = req.league.moderators.some(mod => mod._id.equals(req.user._id));
-    req.leagueAuth.isMember = req.league.members.some(member => member._id.equals(req.user._id));
-    req.leagueAuth.isCreator = req.league.creator.equals(req.user._id);
-  }
-  if (req.leagueAuth.isMember) req.session.league = req.league;
-  return next();
-};
-
-exports.isMember = (req, res, next) => {
-  if (req.leagueAuth && !req.leagueAuth.isMember) {
-    req.flash('error', 'You must be a member to do that');
-    res.redirect('back');
-  }
-  return next();
-};
-
-exports.isModerator = (req, res, next) => {
-  if (req.leagueAuth && !req.leagueAuth.isModerator) {
-    req.flash('error', 'You must be a moderator to do that');
-    res.redirect('back');
-  }
-  return next();
-};
-
-exports.isCreator = (req, res, next) => {
-  if (req.leagueAuth && !req.leagueAuth.isCreator) {
-    req.flash('error', 'You must be the league creator to do that');
-    res.redirect('back');
-  }
-  return next();
-};
-
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { _id: req.params.id, open: true },

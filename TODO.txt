@@ -5,11 +5,8 @@ Front
   "No way associated with the NBA" footer notice
 
 Back
-  add activeLeague to session
   add league id to member edit queries
-  main router.use functions use require statements
   remove league from leaveleague form controller, use req.league in view
-  isMember, isModerator, and isCreator checks don't work
   rosters
     effective date (default tomorrow)
       get rosters
