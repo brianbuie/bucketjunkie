@@ -15,10 +15,10 @@ exports.createLeague = async (req, res) => {
     return res.render('/leagues/create', { title: 'Create League' });
   }
   req.league = league;
-  req.actions = [{ category: 'league', message: 'created', affected: 'league' }];
+  req.actions = [{ category: 'league', message: `created ${req.league.name}` }];
   await activityService.addActivity(req);
   req.actions = undefined;
-  req.flash('success', `Successfully created ${league.name}`);
+  req.flash('success', `Successfully created ${req.league.name}`);
   return res.redirect(`/lg/${league._id}`);
 };
 
@@ -65,7 +65,7 @@ exports.updateLeague = async (req, res) => {
   }
   req.league = league;
   // TODO get dif between old/new for actual updates
-  req.actions = [{ category: 'league', message: 'updated', affected: 'league' }];
+  req.actions = [{ category: 'league', message: `updated ${req.league.name}`  }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', 'Updated League');

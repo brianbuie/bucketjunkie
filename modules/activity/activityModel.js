@@ -6,11 +6,7 @@ const activitySchema = new mongoose.Schema({
     ref: 'League',
     required: 'Please supply a league',
   },
-  user1: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  user2: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
@@ -20,7 +16,6 @@ const activitySchema = new mongoose.Schema({
     trim: true,
     required: 'Please supply a message',
   },
-  affected: String,
   date: {
     type: Date,
     default: Date.now,

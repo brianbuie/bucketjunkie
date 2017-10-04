@@ -14,7 +14,7 @@ exports.joinLeague = async (req, res) => {
     return res.redirect('/leagues');
   }
   req.league = league;
-  req.actions = [{ category: 'league', message: 'joined', affected: 'league' }];
+  req.actions = [{ category: 'league', message: `joined ${req.league.name}`  }];
   await activityService.addActivity(req);
   req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
@@ -38,7 +38,7 @@ exports.leaveLeague = async (req, res) => {
   }
   req.league = league;
   req.session.league = undefined;
-  req.actions = [{ category: 'league', message: 'left', affected: 'league' }];
+  req.actions = [{ category: 'league', message: `left ${req.league.name}`  }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', `Left '${req.league.name}'`);
@@ -65,8 +65,8 @@ exports.removeMember = async (req, res) => {
   }
   req.league = league;
   req.actions = [
-    { category: 'moderator', user2: req.body.member,  message: 'removed', affected: 'user2' },
-    { category: 'league', user1: req.body.member, message: 'left', affected: 'league' }
+    { category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
+    { category: 'league', message: `left ${req.league.name}`  }
   ];
   await activityService.addActivity(req);
   req.actions = undefined;
@@ -90,7 +90,7 @@ exports.addModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  req.actions = [{ category: 'moderator', user2: req.body.member,  message: 'added moderator', affected: 'user2' }];
+  req.actions = [{ category: 'moderator', message: `added ${await userService.getUsername(req.body.member)} as a moderator` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', 'Added Moderator');
@@ -115,7 +115,7 @@ exports.removeModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  req.actions = [{ category: 'moderator', user2: req.body.member,  message: 'removed moderator', affected: 'user2' }];
+  req.actions = [{ category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a moderator` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
