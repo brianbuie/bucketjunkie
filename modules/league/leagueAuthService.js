@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const League = mongoose.model('League');
 
 exports.setLeague = async (req, res, next) => {
-  console.log('leagueAuth.setLeague called');
   const league = await League.findOne({ _id: req.params.id })
     .populate('members')
     .populate('moderators')
@@ -14,7 +13,6 @@ exports.setLeague = async (req, res, next) => {
 };
 
 exports.setPermissions = (req, res, next) => {
-  console.log('leagueAuth.setPermissions called');
   req.leagueAuth = {
     isModerator: false,
     isMember: false,
@@ -30,7 +28,6 @@ exports.setPermissions = (req, res, next) => {
 };
 
 exports.isMember = (req, res, next) => {
-  console.log('leagueAuth.isMember called');
   if (!req.leagueAuth.isMember) {
     req.flash('error', 'You must be a member to do that');
     return res.redirect('back');
@@ -39,7 +36,6 @@ exports.isMember = (req, res, next) => {
 };
 
 exports.isModerator = (req, res, next) => {
-  console.log('leagueAuth.isModerator called');
   if (!req.leagueAuth.isModerator) {
     req.flash('error', 'You must be a moderator to do that');
     return res.redirect('back');
@@ -48,7 +44,6 @@ exports.isModerator = (req, res, next) => {
 };
 
 exports.isCreator = (req, res, next) => {
-  console.log('leagueAuth.isCreator called');
   if (!req.leagueAuth.isCreator) {
     req.flash('error', 'You must be the league creator to do that');
     return es.redirect('back');
@@ -57,7 +52,6 @@ exports.isCreator = (req, res, next) => {
 };
 
 exports.notCreator = (req, res, next) => {
-  console.log('leagueAuth.notCreator called');
   if (req.leagueAuth.isCreator) {
     req.flash('error', 'League creators can\'t do that!');
     return res.redirect('back');

@@ -1,8 +1,8 @@
 const express = require('express');
 const userController = require('../../user/userController');
-const leagueAuth = require('../auth/leagueAuthService');
-const leagueMember = require('../member/leagueMemberCtrl');
-const leagueInfo = require('../info/leagueInfoCtrl');
+const leagueAuth = require('../leagueAuthService');
+const leagueMember = require('../leagueMemberCtrl');
+const leagueInfo = require('../leagueInfoCtrl');
 const { catchErrors } = require('../../error/errorHandlers');
 
 const router = express.Router();

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const activityService = require('../../activity/activityService');
+const activityService = require('../activity/activityService');
 
 const League = mongoose.model('League');
 

@@ -9,6 +9,7 @@ Backend
   bugs
     logout sometimes doesn't remove account info from menu bar
     saving account info replaces image if none is selected
+    get actual league updates when updating league
 
   features
     league blocked users, insert users upon mod removal
@@ -17,10 +18,11 @@ Backend
     add "joinToken" to schema, populated by shortId
       /join/:joinToken allows user to join
       add ref query to login/registration flow to redirect after completion
-    keep public check in league creation
     remove "open" from league creation
       default true, switch false when draft starts
     add chat to activity feed
+    user flair
+      allow mods to check "show moderator flair" when sending message
 
   league rules
     point values for each stat type
