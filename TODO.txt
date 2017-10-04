@@ -1,14 +1,41 @@
-Front
+Frontend
 	prototype front-end UI/UX strategy
 	reevaluate foundation, find better scss/frontend framework
 	style reset password email
   "No way associated with the NBA" footer notice
 
-Back
-  remove league from leaveleague form controller, use req.league in view
-  league blocked users, insert users upon removal
-  activity service
-  user service
+Backend
+
+  bugs
+    logout sometimes doesn't remove account info from menu bar
+    saving account info replaces image if none is selected
+
+  features
+    league blocked users, insert users upon mod removal
+      check if blocked when trying to join
+    return 404 on leagues that are private and not a member of
+    add "joinToken" to schema, populated by shortId
+      /join/:joinToken allows user to join
+      add ref query to login/registration flow to redirect after completion
+    keep public check in league creation
+    remove "open" from league creation
+      default true, switch false when draft starts
+    add chat to activity feed
+
+  league rules
+    point values for each stat type
+    unique rosters
+    number of roster spots
+    unique by position?
+      might not have enough data for this
+    time limit for draft
+    roster size
+
+  draft
+    this could get hairy with performance issues.
+    autodraft based on list
+    skip after time limit
+    once all players have had a chance to draft all spots, free-for-all
 
   rosters
     effective date (default tomorrow)
@@ -16,9 +43,15 @@ Back
         scoring -> most recent roster with effective date less than gamedate
         current -> most recent roster
     propose trade system
-    
+  
+  player performance prediction
+    tomorrow's top predictions
+    next 7 days top prediction
+    league average
+
   schedule tasks
-    update players and teams
+    check for player images via nba.com script
+    update players and team info
     get boxscores
     score rosters
 

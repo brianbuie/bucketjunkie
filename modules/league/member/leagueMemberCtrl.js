@@ -11,16 +11,16 @@ exports.joinLeague = async (req, res) => {
   );
   if (!league) {
     req.flash('error', 'Unable to join league');
-    return res.redirect('/leagues');
+    return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  req.actions = [{ category: 'league', message: `joined ${req.league.name}`  }];
+  req.actions = [{ category: 'league', message: `joined ${req.league.name}` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { title: 'Leave League', league: req.league });
+exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { title: 'Leave League' });
 
 exports.leaveLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
@@ -38,7 +38,7 @@ exports.leaveLeague = async (req, res) => {
   }
   req.league = league;
   req.session.league = undefined;
-  req.actions = [{ category: 'league', message: `left ${req.league.name}`  }];
+  req.actions = [{ category: 'league', message: `left ${req.league.name}` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', `Left '${req.league.name}'`);

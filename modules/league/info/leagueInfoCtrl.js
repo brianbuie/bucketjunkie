@@ -22,7 +22,10 @@ exports.createLeague = async (req, res) => {
   return res.redirect(`/lg/${league._id}`);
 };
 
-exports.createLeagueForm = (req, res) => res.render('league/createLeague', { title: 'Create League' });
+exports.createLeagueForm = (req, res) => {
+  req.session.league = undefined;
+  res.render('league/createLeague', { title: 'Create League' });
+}
 
 exports.myLeagues = async (req, res) => {
   const leagues = await League.find({ members: req.user._id });
@@ -45,7 +48,7 @@ exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 
 exports.leagueOverview = async (req, res) => {
   if (!req.league.public && !req.leagueAuth.isMember) {
     req.flash('Sorry, that league is private');
-    res.redirect('/leagues');
+    return res.redirect('/leagues');
   }
   const activityFeed = await activityService.getActivity(req);
   return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activityFeed });
