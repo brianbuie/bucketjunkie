@@ -26,6 +26,10 @@ const leagueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
+  blocked: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
   open: {
     type: Boolean,
     default: true,

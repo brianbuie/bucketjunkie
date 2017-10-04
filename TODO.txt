@@ -12,8 +12,6 @@ Backend
     get actual league updates when updating league
 
   features
-    league blocked users, insert users upon mod removal
-      check if blocked when trying to join
     return 404 on leagues that are private and not a member of
     add "joinToken" to schema, populated by shortId
       /join/:joinToken allows user to join
@@ -56,6 +54,7 @@ Backend
     update players and team info
     get boxscores
     score rosters
+    update player performance prediction based on league rules
 
 Deployment
   setup subdomain & digitalocean server

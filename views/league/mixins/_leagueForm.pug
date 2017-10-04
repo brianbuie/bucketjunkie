@@ -7,6 +7,4 @@ mixin leagueForm(req)
       textarea(name="description")= req.league.description
     label(for="public") Public
       input(type="checkbox" name="public" checked=req.league.public)
-    label(for="open") Allow users to join
-      input(type="checkbox" name="open" checked=req.league.open)
     input.button.expanded(type="submit" value="Save →")

@@ -6,8 +6,12 @@ const League = mongoose.model('League');
 
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
-    { _id: req.league._id, open: true },
-    { $addToSet: { members: req.user.id } },
+    { 
+      _id: req.league._id, 
+      open: true,
+      blocked: { $ne: req.user._id }
+    },
+    { $addToSet: { members: req.user._id } },
   );
   if (!league) {
     req.flash('error', 'Unable to join league');
@@ -56,7 +60,10 @@ exports.removeMember = async (req, res) => {
       ],
       members: req.body.member,
     },
-    { $pull: { members: req.body.member } },
+    { 
+      $pull: { members: req.body.member },
+      $addToSet: { blocked: req.body.member }
+    },
     { new: true },
   );
   if (!league) {

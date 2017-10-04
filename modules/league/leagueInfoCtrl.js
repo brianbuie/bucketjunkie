@@ -8,7 +8,6 @@ exports.createLeague = async (req, res) => {
   req.body.moderators = [req.user._id];
   req.body.creator = req.user._id;
   req.body.public = req.body.public || false;
-  req.body.open = req.body.open || false;
   const league = await (new League(req.body)).save();
   if (!league) {
     req.flash('error', 'Error creating league, please try again.');
@@ -56,7 +55,6 @@ exports.leagueOverview = async (req, res) => {
 
 exports.updateLeague = async (req, res) => {
   req.body.public = req.body.public || false;
-  req.body.open = req.body.open || false;
   const league = await League.findOneAndUpdate(
     { _id: req.params.id, moderators: req.user._id },
     req.body,
