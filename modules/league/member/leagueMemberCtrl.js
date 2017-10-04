@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const activity = require('../../activity/activityController');
+const userService = require('../../user/userService');
 
 const League = mongoose.model('League');
-const User = mongoose.model('User');
 
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
@@ -62,12 +62,8 @@ exports.removeMember = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = await User.findOne({ _id: req.body.member });
-  if (!userAffected) {
-    req.flash('Error getting user info');
-    userAffected.username = 'UNKNOWN USER';
-  }
-  req.activity = { category: 'moderator', message: `removed ${userAffected.username}` };
+  let userAffected = await userService.getUsername(req.body.member);
+  req.activity = { category: 'moderator', message: `removed ${userAffected}` };
   await activity.addActivity(req, res);
   req.activity = { user: userAffected._id, category: 'league', message: `left '${league.name}'` };
   await activity.addActivity(req, res);
@@ -91,11 +87,7 @@ exports.addModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = league.moderators.find(mod => mod.id === req.body.member);
-  if (!userAffected) {
-    req.flash('Error getting user info');
-    userAffected = { username: 'UNKNOWN USER' };
-  }
+  let userAffected = await userService.getUsername(req.body.member);
   req.activity = { category: 'moderator', message: `added ${userAffected.username} as a moderator` };
   await activity.addActivity(req, res);
   req.flash('success', 'Added Moderator');
@@ -120,11 +112,7 @@ exports.removeModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = await User.findOne({ _id: req.body.member });
-  if (!userAffected) {
-    req.flash('Error getting user info');
-    userAffected = { username: 'UNKNOWN USER' };
-  }
+  let userAffected = await userService.getUsername(req.body.member);
   req.activity = { category: 'moderator', message: `removed ${userAffected.username} as a moderator` };
   await activity.addActivity(req, res);
   req.flash('success', 'Removed Moderator');
