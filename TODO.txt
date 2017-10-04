@@ -5,75 +5,23 @@ Front
   "No way associated with the NBA" footer notice
 
 Back
-  add league id to member edit queries
   remove league from leaveleague form controller, use req.league in view
+  league blocked users, insert users upon removal
+  activity service
+  user service
+
   rosters
     effective date (default tomorrow)
       get rosters
         scoring -> most recent roster with effective date less than gamedate
         current -> most recent roster
-  propose trade system
+    propose trade system
+    
   schedule tasks
     update players and teams
     get boxscores
     score rosters
-  improve activity logging
 
 Deployment
   setup subdomain & digitalocean server
   stage environment
-
-
-request flow
-  if (user is logged in)
-    set req.user
-
-  if (league param || (req.user && session.league))
-    set req.league
-    set req.leagueAuth
-    set req.rosters
-      map to rosters.username?
-    if(user)
-      set session.league
-
-  Auth methods
-    requireLoggedIn
-      if (req.user)
-    requireLeague
-      if (req.league)
-    requireMember
-      if (req.leagueAuth.isMember)
-    requireModerator
-      if (req.leagueAuth.isModerator)
-    requireCreator
-      if (req.leagueAuth.isCreator)
-
-league Controller map
-  leagueAuth
-    setLeague
-      set req.league
-      set req.leagueAuth
-      set req.rosters
-      if(user)
-        set session.league
-    requireLeague
-    requireMember
-    requireModerator
-    requireCreator
-
-  leagueInfo
-    createLeague
-    createLeagueForm
-    editLeagueForm
-    leagueOverview
-    myLeagues
-    publicLeagues
-    updateLeague
-
-  leagueMember
-    joinLeague
-    leaveLeagueForm
-    leaveLeague
-    removeMember
-    addModerator
-    removeModerator
