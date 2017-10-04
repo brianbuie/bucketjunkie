@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const activity = require('../../activity/activityController');
+const activityService = require('../../activity/activityService');
 const userService = require('../../user/userService');
 
 const League = mongoose.model('League');
@@ -14,8 +14,9 @@ exports.joinLeague = async (req, res) => {
     return res.redirect('/leagues');
   }
   req.league = league;
-  req.activity = { category: 'league', message: `joined '${req.league.name}'` };
-  await activity.addActivity(req, res);
+  req.actions = [{ category: 'league', message: 'joined', affected: 'league' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
 };
 
@@ -37,8 +38,9 @@ exports.leaveLeague = async (req, res) => {
   }
   req.league = league;
   req.session.league = undefined;
-  req.activity = { category: 'league', message: `left '${req.league.name}'` };
-  await activity.addActivity(req, res);
+  req.actions = [{ category: 'league', message: 'left', affected: 'league' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   req.flash('success', `Left '${req.league.name}'`);
   res.redirect('/leagues');
 };
@@ -62,11 +64,12 @@ exports.removeMember = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = await userService.getUsername(req.body.member);
-  req.activity = { category: 'moderator', message: `removed ${userAffected}` };
-  await activity.addActivity(req, res);
-  req.activity = { user: userAffected._id, category: 'league', message: `left '${league.name}'` };
-  await activity.addActivity(req, res);
+  req.actions = [
+    { category: 'moderator', user2: req.body.member,  message: 'removed', affected: 'user2' },
+    { category: 'league', user1: req.body.member, message: 'left', affected: 'league' }
+  ];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   req.flash('success', 'Removed Member');
   return res.redirect(`/lg/${req.league._id}`);
 };
@@ -87,9 +90,9 @@ exports.addModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = await userService.getUsername(req.body.member);
-  req.activity = { category: 'moderator', message: `added ${userAffected.username} as a moderator` };
-  await activity.addActivity(req, res);
+  req.actions = [{ category: 'moderator', user2: req.body.member,  message: 'added moderator', affected: 'user2' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   req.flash('success', 'Added Moderator');
   return res.redirect(`/lg/${req.league._id}`);
 };
@@ -112,9 +115,8 @@ exports.removeModerator = async (req, res) => {
     return res.redirect(`/lg/${req.league._id}`);
   }
   req.league = league;
-  let userAffected = await userService.getUsername(req.body.member);
-  req.activity = { category: 'moderator', message: `removed ${userAffected.username} as a moderator` };
-  await activity.addActivity(req, res);
-  req.flash('success', 'Removed Moderator');
+  req.actions = [{ category: 'moderator', user2: req.body.member,  message: 'removed moderator', affected: 'user2' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
 };

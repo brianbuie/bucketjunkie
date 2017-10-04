@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const activity = require('../../activity/activityController');
+const activityService = require('../../activity/activityService');
 
 const League = mongoose.model('League');
 
@@ -14,9 +14,10 @@ exports.createLeague = async (req, res) => {
     req.flash('error', 'Error creating league, please try again.');
     return res.render('/leagues/create', { title: 'Create League' });
   }
-  req.activity = { category: 'league', message: `created league '${league.name}'` };
   req.league = league;
-  await activity.addActivity(req, res);
+  req.actions = [{ category: 'league', message: 'created', affected: 'league' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   req.flash('success', `Successfully created ${league.name}`);
   return res.redirect(`/lg/${league._id}`);
 };
@@ -46,7 +47,7 @@ exports.leagueOverview = async (req, res) => {
     req.flash('Sorry, that league is private');
     res.redirect('/leagues');
   }
-  const activityFeed = await activity.getActivity(req, res);
+  const activityFeed = await activityService.getActivity(req);
   return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activityFeed });
 };
 
@@ -62,9 +63,11 @@ exports.updateLeague = async (req, res) => {
     req.flash('error', 'Error Updating League');
     return res.redirect(`/lg/${league._id}/edit`);
   }
+  req.league = league;
   // TODO get dif between old/new for actual updates
-  req.activity = { category: 'league', message: `updated '${league.name}'` };
-  await activity.addActivity(req, res);
+  req.actions = [{ category: 'league', message: 'updated', affected: 'league' }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   req.flash('success', 'Updated League');
   return res.redirect(`/lg/${league._id}`);
 };

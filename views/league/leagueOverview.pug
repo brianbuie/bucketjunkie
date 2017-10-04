@@ -1,6 +1,6 @@
 extends ../layout
 
-include mixins/_removeMember
+include mixins/_actionDisplay
 
 block content
   p
@@ -26,10 +26,7 @@ block content
     strong Feed
     ul
       each item in activityFeed
-        li
-          strong= item.user.username + ' '
-          span= item.message + ' '
-          i= helpers.moment(item.date).fromNow()
+        +actionDisplay(item)
 
   pre(style="margin-top: 60px; font-size: 12px;")
     != helpers.dump(req.league)

@@ -1,0 +1,10 @@
+mixin actionDisplay(action)
+  li
+    strong= action.user1.username + ' '
+    span= action.message + ' '
+    strong
+      if action.affected === 'league'
+        != action.league.name + ' '
+      if action.affected === 'user2'
+        != action.user2.username + ' '
+    i= helpers.moment(action.date).fromNow()
