@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const activityService = require('../activity/activityService');
+const rosterService = require('../roster/rosterService');
 
 const League = mongoose.model('League');
 
@@ -46,8 +47,9 @@ exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 
 
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
-  const activityFeed = await activityService.getActivity(req);
-  return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activityFeed });
+  const promises = [activityService.getActivity(req), rosterService.getRosters(req.league)];
+  const [activity, rosters] = await Promise.all(promises);
+  return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
 };
 
 exports.updateLeague = async (req, res) => {
