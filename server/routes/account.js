@@ -1,8 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const userController = require('./userController');
-const { catchErrors } = require('../error/errorHandlers');
+const userController = require('../controllers/userController');
+const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', userController.isLoggedIn, userController.account);
 router.post('/', userController.uploadPhoto, catchErrors(userController.resizePhoto), catchErrors(userController.updateAccount));

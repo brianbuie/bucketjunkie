@@ -11,13 +11,13 @@ mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
 
-require('../modules/league/leagueModel');
-require('../modules/user/userModel');
-require('../modules/activity/activityModel');
-require('../modules/nba/playerModel');
-require('../modules/nba/teamModel');
-require('../modules/nba/gameModel');
-require('../modules/roster/rosterModel');
+require('./models/League');
+require('./models/User');
+require('./models/Activity');
+require('./models/Player');
+require('./models/Team');
+require('./models/Game');
+require('./models/Roster');
 
 const app = require('./app');
 

@@ -9,10 +9,15 @@ const passport = require('passport');
 const promisify = require('es6-promisify');
 const flash = require('connect-flash');
 const expressValidator = require('express-validator');
-const routes = require('./routes');
+const routes = require('./routes/index');
 const helpers = require('./helpers');
-const errorHandlers = require('../modules/error/errorHandlers');
-require('../modules/user/userHandler');
+const errorHandlers = require('./handlers/errorHandlers');
+
+const User = mongoose.model('User');
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 const app = express();
 

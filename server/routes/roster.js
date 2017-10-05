@@ -1,7 +1,7 @@
 const express = require('express');
-const userController = require('../user/userController');
-const rosterController = require('./rosterController');
-const { catchErrors } = require('../error/errorHandlers');
+const userController = require('../controllers/userController');
+const rosterController = require('../controllers/rosterController');
+const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
