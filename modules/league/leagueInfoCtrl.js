@@ -44,11 +44,8 @@ exports.publicLeagues = async (req, res) => {
 
 exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
 
-exports.leagueOverview = async (req, res) => {
-  if (!req.league.public && !req.leagueAuth.isMember) {
-    req.flash('Sorry, that league is private');
-    return res.redirect('/leagues');
-  }
+exports.leagueOverview = async (req, res, next) => {
+  if (!req.league.public && !req.leagueAuth.isMember) return next();
   const activityFeed = await activityService.getActivity(req);
   return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activityFeed });
 };

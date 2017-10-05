@@ -13,7 +13,6 @@ Backend
     flashes sometimes get lost
 
   features
-    return 404 on leagues that are private and not a member of
     add chat to activity feed
     user flair
       allow mods to check "show moderator flair" when sending message
