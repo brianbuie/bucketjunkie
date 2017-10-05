@@ -35,9 +35,9 @@ html
                 a(href="/account/logout") Logout
             else
               li 
-                a(href="/account/register") Register
+                a(href=`/account/register${ref}`) Register
               li
-                a(href="/account/login") Log In
+                a(href=`/account/login${ref}`) Log In
 
     block messages
       if locals.flashes

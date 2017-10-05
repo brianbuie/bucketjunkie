@@ -10,14 +10,10 @@ Backend
     logout sometimes doesn't remove account info from menu bar
     saving account info replaces image if none is selected
     get actual league updates when updating league
+    flashes sometimes get lost
 
   features
     return 404 on leagues that are private and not a member of
-    add "joinToken" to schema, populated by shortId
-      /join/:joinToken allows user to join
-      add ref query to login/registration flow to redirect after completion
-    remove "open" from league creation
-      default true, switch false when draft starts
     add chat to activity feed
     user flair
       allow mods to check "show moderator flair" when sending message
@@ -32,6 +28,7 @@ Backend
     roster size
 
   draft
+    switch league open to false
     this could get hairy with performance issues.
     autodraft based on list
     skip after time limit

@@ -1,5 +1,5 @@
-mixin loginForm(req = {})
-  form.medium-6.large-4(action="/account/login" method="POST")
+mixin loginForm(req = {}, ref)
+  form.medium-6.large-4(action=`/account/login${ref}` method="POST")
     p.text-center Login
     label(for="username" value=req.body.username) Username
       input(type="text" name="username")
@@ -8,3 +8,6 @@ mixin loginForm(req = {})
     input.button.expanded(type="submit" value="Log In →")
     p.text-center
       a(href="/account/forgot-password") Forgot your password?
+    p.text-center
+      span or
+      a(href=`/account/register${ref}`)  Register

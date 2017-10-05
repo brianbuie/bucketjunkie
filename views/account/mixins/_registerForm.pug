@@ -1,5 +1,5 @@
-mixin registerForm(req = { body: {} })
-  form.medium-6.large-4(action="/account/register" method="POST")
+mixin registerForm(req, ref)
+  form.medium-6.large-4(action=`/account/register${ref}` method="POST")
     p.text-center Register
     label(for="username") Username
       input(type="text" name="username" autocomplete="off" value=req.body.username)
@@ -12,4 +12,4 @@ mixin registerForm(req = { body: {} })
     input.button.expanded(type="submit" value="Register →")
     p.text-center
       span Already have an account?
-      a(href="/account/login")  Login
+      a(href=`/account/login${ref}`)  Login

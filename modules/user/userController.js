@@ -44,15 +44,24 @@ exports.forgotPasswordForm = (req, res) => res.render('account/forgot-password',
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next();
   req.flash('error', 'You must be logged in to do that.');
-  return res.redirect('/account/login');
+  return res.redirect(`/account/login?ref=${req.originalUrl}`);
 };
 
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/account/login',
-  failureFlash: 'Try again',
-  successRedirect: '/',
-  successFlash: 'Logged In',
-});
+exports.login = function(req, res, next) {
+  passport.authenticate('local', function(err, user, info){
+    const ref = req.query.ref ? `?ref=${req.query.ref}` : '/';
+    if (err) return next(err);
+    if (!user) {
+      req.flash('error', 'Try again');
+      return res.redirect('/account/login' + ref);
+    }
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      req.flash('Logged In');
+      return res.redirect(req.query.ref || '/');
+    });
+  })(req, res, next);
+};
 
 exports.loginForm = (req, res) => res.render('account/login', { title: 'Login' });
 
