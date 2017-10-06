@@ -1,6 +1,6 @@
 extends ../layout
 
-include mixins/_addPlayerForm
+include ../roster/mixins/_addPlayerForm
 
 block content
   p
@@ -10,4 +10,5 @@ block content
   p
     a(href=`/nba/team/${player.team_id._id}`)= player.team_id.full_name
   p
-    +addPlayerForm(req, player)
+    if req.session.league
+      +addPlayerForm(player)

@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.use(userController.isLoggedIn);
 router.use(catchErrors(leagueAuth.sessionLeague));
-router.use(catchErrors(rosterController.setRosters));
+router.get('/', rosterController.userRoster);
+router.use(catchErrors(rosterController.leagueRosters));
 router.post('/add-player', catchErrors(rosterController.addPlayer));
 
 module.exports = router;

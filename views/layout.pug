@@ -26,6 +26,8 @@ html
               if req.session.league
                 li
                   a(href=`/lg/${req.session.league._id}`)= req.session.league.name
+                li
+                  a(href='/roster') Roster
               li
                 a(href="/account/")= req.user.username
               li
