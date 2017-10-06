@@ -3,9 +3,9 @@ const fs = require('fs');
 const moment = require('moment');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
-const Team = require('../modules/nba/teamModel');
-const Player = require('../modules/nba/playerModel');
-const Game = require('../modules/nba/gameModel');
+const Team = require('../server/models/Team');
+const Player = require('../server/models/Player');
+const Game = require('../server/models/Game');
 
 const teams = JSON.parse(fs.readFileSync(__dirname + '/data/teams.json', 'utf-8'));
 const players = JSON.parse(fs.readFileSync(__dirname + '/data/players.json', 'utf-8'));

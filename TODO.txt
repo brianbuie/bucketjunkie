@@ -29,7 +29,7 @@ Backend
 
   draft
     switch league open to false
-    this could get hairy with performance issues.
+    this could get hairy if site experiences performance issues.
     autodraft based on list
     skip after time limit
     once all players have had a chance to draft all spots, free-for-all
