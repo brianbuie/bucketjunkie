@@ -7,7 +7,7 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.use('/:id', catchErrors(auth.setLeague));
+router.use('/:id', catchErrors(auth.paramLeague));
 router.use('/:id', auth.setPermissions);
 router.get('/:id', catchErrors(leagueInfo.leagueOverview));
 

@@ -8,6 +8,7 @@ exports.getRosters = async league => {
     .sort({ effective: -1 })
     .limit(1)
     .populate('user')
+    .populate('players')
   ));
   return rawRosters.map(roster => roster.length ? roster[0] : roster);
 };

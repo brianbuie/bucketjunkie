@@ -2,13 +2,24 @@ const mongoose = require('mongoose');
 
 const League = mongoose.model('League');
 
-exports.setLeague = async (req, res, next) => {
-  const league = await League.findOne({ _id: req.params.id })
+const getLeague = async id => {
+  const league = await League.findOne({ _id: id })
     .populate('members')
     .populate('moderators')
     .populate('creator');
-  if (!league) throw Error('No League');
-  req.league = league;
+  if (!league) throw Error('No League Found');
+  return league;
+};
+
+exports.paramLeague = async (req, res, next) => {
+  if (!req.params.id) throw Error('No ID parameter');
+  req.league = await getLeague(req.params.id);
+  return next();
+};
+
+exports.sessionLeague = async (req, res, next) => {
+  if (!req.session.league) throw Error('No League on session');
+  req.league = await getLeague(req.session.league._id);
   return next();
 };
 
