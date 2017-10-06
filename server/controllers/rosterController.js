@@ -21,25 +21,17 @@ exports.viewRoster = (req, res) => res.render('roster/roster', { title: 'Roster'
 
 exports.addPlayer = async (req, res, next) => {
   if (!req.body.player) throw Error('No Player specified');
-  if (!rosterService.playerIsAvailable(req.rosters, req.body.player)) {
-    req.flash('error', 'That player isn\'t available');
-    return res.redirect('back');
-  }
+  if (!rosterService.playerIsAvailable(req.rosters, req.body.player)) return req.oops('That player isn\'t available');
   const current = req.rosters.find(roster => roster.user && roster.user.equals(req.user._id));
   const roster = await rosterService.rosterToEdit(req.user, req.league, current);
   const [update, player] = await Promise.all([
     Roster.findOneAndUpdate({ _id: roster._id }, { $addToSet: { players: req.body.player } }),
     nbaService.player(req.body.player)
   ]);
-  if (!update) {
-    req.flash('error', 'Unable to add player');
-    return res.redirect('back');
-  }
+  if (!update) return req.oops('Unable to add player');
   req.actions = [{ category: 'roster', message: `drafted ${player.player_name} of the ${player.team_id.full_name}` }];
   await activityService.addActivity(req);
-  req.actions = undefined;
-  req.flash('success', 'Added player');
-  return res.redirect(`/lg/${req.league._id}`);
+  return req.greatJob('Added player', `/lg/${req.league._id}`);
 };
 
 exports.removePlayer = async (req, res, next) => {
@@ -49,13 +41,8 @@ exports.removePlayer = async (req, res, next) => {
     Roster.findOneAndUpdate({ _id: roster._id }, { $pull: { players: req.body.player } }),
     nbaService.player(req.body.player)
   ]);
-  if (!update) {
-    req.flash('error', 'Unable to remove player');
-    return res.redirect('back');
-  }
+  if (!update) return req.oops('Unable to remove player');
   req.actions = [{ category: 'roster', message: `dropped ${player.player_name}` }];
   await activityService.addActivity(req);
-  req.actions = undefined;
-  req.flash('success', 'Removed player');
-  return res.redirect(`/lg/${req.league._id}`);
+  return req.greatJob('Removed player', `/lg/${req.league._id}`);
 };

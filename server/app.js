@@ -12,6 +12,7 @@ const expressValidator = require('express-validator');
 const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
+const flashHandlers = require('./handlers/flashHandlers');
 
 const User = mongoose.model('User');
 
@@ -60,12 +61,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(flashHandlers.oops);
+app.use(flashHandlers.greatJob);
+
 app.use('/', routes);
 
 app.use(errorHandlers.notFound);
 app.use(errorHandlers.flashValidationErrors);
 if (app.get('env') === 'development') {
-  // Development Error Handler - Prints stack trace
   app.use(errorHandlers.developmentErrors);
 }
 app.use(errorHandlers.productionErrors);

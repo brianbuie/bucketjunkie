@@ -11,6 +11,7 @@ Backend
     saving account info replaces image if none is selected
     get actual league updates when updating league
     flashes sometimes get lost
+    roster times are weird, make sure node and mongo time is nsync
 
   features
     add chat to activity feed
@@ -34,10 +35,6 @@ Backend
     once all players have had a chance to draft all spots, free-for-all
 
   rosters
-    effective date (default tomorrow)
-      get rosters
-        scoring -> most recent roster with effective date less than gamedate
-        current -> most recent roster
     propose trade system
   
   player performance prediction

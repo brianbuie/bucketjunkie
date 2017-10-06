@@ -19,6 +19,5 @@ exports.getActivity = async req => {
   return await Activity.find({ league: req.league._id, category: { $in: access } })
     .sort({ date: -1 })
     .limit(5)
-    .populate('league')
     .populate('user');
 };
