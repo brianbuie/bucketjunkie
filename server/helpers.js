@@ -18,6 +18,17 @@ exports.menu = [
   { slug: '/nba', title: 'NBA' }
 ];
 
+exports.pointValues = [
+  { attr: 'ftm', name: 'Free Throw made' },
+  { attr: 'fg2m', name: '2-point field goal' },
+  { attr: 'fg3m', name: '3-point field goal' },
+  { attr: 'reb', name: 'Rebound' },
+  { attr: 'ast', name: 'Assist' },
+  { attr: 'blk', name: 'Block' },
+  { attr: 'stl', name: 'Steal' },
+  { attr: 'to', name: 'Turnover' },
+];
+
 exports.playerImage = id => {
   const defaultImagePath = '/images/player-default.png';
   const playerImagePath = `/images/players/${id}.png`;

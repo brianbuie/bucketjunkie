@@ -46,3 +46,7 @@ $global-flexbox: true;
 @import './partials/_flash-messages';
 @import './partials/_menu-photo';
 @import './partials/_activity-feed';
+
+body {
+  padding-bottom: 120px;
+}

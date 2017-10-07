@@ -1,9 +1,33 @@
-mixin leagueForm(league)
-  form.medium-6.large-4(method="POST")
+mixin leagueForm(league, exists = false)
+  form(method="POST")
     label(for="name") League Name
       input(type="text" name="name" value=league.name)
     label(for="description") Description
       textarea(name="description")= league.description
-    label(for="public") Public
+    label(for="public") Public 
       input(type="checkbox" name="public" checked=league.public)
-    input.button.expanded(type="submit" value="Save →")
+    
+    if exists
+      label(for="open") Allow users to join
+        input(type="checkbox" name="open" checked=league.open)
+    
+    if !exists
+      p League Type
+        label(for="fantasy") Fantasy
+          input(type="radio" id="fantasy" name="leagueType" value="fantasy" checked=(league.leagueType != "contest"))
+        label(for="contest") Contest
+          input(type="radio" id="contest" name="leagueType" value="contest" checked=(league.leagueType == "contest"))
+    
+    if !exists || !league.started
+      label(for="start") Start
+        - const dateInput = league.start ? helpers.moment(league.start) : helpers.moment().add(1, 'days')
+        input(type="datetime-local" name="start" value=dateInput.format('YYYY-MM-DDTHH:mm'))
+      label(for="rosterSize") Roster Size (max 20)
+        input(name="rosterSize" type="number" value=(league.rosterSize || 5))
+      p Point Values (max 100 for each)
+        each stat in helpers.pointValues
+          label(for=`pointValues[${stat.attr}]`)= stat.name
+            - let statInput = league.pointValues ? league.pointValues[stat.attr] : 0
+            input(type="number" name=`pointValues[${stat.attr}]` value=statInput)
+    - const buttonText = exists ? "Save →" : "Create →"
+    input.button.expanded(type="submit" value=buttonText)

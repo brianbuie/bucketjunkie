@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 const { body, validationResult } = require('express-validator/check');
-const { matchedData, sanitize } = require('express-validator/filter');
+const { matchedData, sanitizeBody } = require('express-validator/filter');
 const activityService = require('../services/activityService');
 const rosterService = require('../services/rosterService');
 const userService = require('../services/userService');
@@ -8,33 +9,33 @@ const userService = require('../services/userService');
 const League = mongoose.model('League');
 
 exports.validateLeague = [
-  sanitize('name').trim(),
+  sanitizeBody('name').trim(),
   body('name').isLength({ min: 3 })
     .withMessage('Your league must have a name'),
-  sanitize('description'),
-  sanitize('public'),
-  sanitize('uniqueRosters'),
-  sanitize('rosterSize').toInt(),
-  body('rosterSize').custom(val => val > 1)
-    .withMessage('Roster Size must be greater than 0'),
-  sanitize('pointValues.*').toInt(),
+  sanitizeBody('description'),
+  body('leagueType').isIn(['fantasy', 'contest']).optional(),
+  body('start').custom(val => moment(val).isAfter(moment()))
+    .withMessage('Start time must be in the future').optional(),
+  body('rosterSize').custom(val => val >= 1 && val <= 20)
+    .withMessage('Roster Size must be between 1 and 20').optional(),
+  sanitizeBody('pointValues.*').toInt(),
   body('pointValues.*').custom(val => val < 100)
-    .withMessage('Point values must be less than 100'),
-  body('pointValues').custom(val => Object.keys(val).some(k => val[k] > 0))
-    .withMessage('At least one stat must be more than 0'),
+    .withMessage('Point values must be less than 100').optional(),
+  body('pointValues').custom(val => Object.keys(val).some(k => val[k] != 0))
+    .withMessage('At least one stat must have a value').optional(),
 ];
 
 exports.createLeague = async (req, res) => {
+  req.body.public = req.body.public || false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    errors.array().map(e => req.flash('error', e.msg));
-    return res.redirect('back');
+    req.flash('error', errors.array().map(e => e.msg));
+    return this.createLeagueForm(req, res);
   }
+  req.body.uniqueRosters = req.body.leagueType === "fantasy";
   req.body.members = [req.user._id];
   req.body.moderators = [req.user._id];
   req.body.creator = req.user._id;
-  req.body.public = req.body.public || false;
-  req.body.uniqueRosters = req.body.uniqueRosters || false;
   const league = await (new League(req.body)).save();
   if (!league) return req.oops('Something went wrong');
   req.league = league;
@@ -43,19 +44,38 @@ exports.createLeague = async (req, res) => {
   return req.greatJob('League created', `/lg/${league._id}`);
 };
 
+exports.updateLeague = async (req, res) => {
+  req.body.public = req.body.public || false;
+  req.body.open = req.body.open || false;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    errors.array().map(e => req.flash('error', e.msg));
+    return res.redirect('back');
+  }
+  req.league.set(req.body);
+  if (!req.league.isModified()) {
+    return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
+  }
+  const rules = ['pointValues', 'rosterSize', 'uniqueRosters'];
+  if (req.league.started && req.league.modifiedPaths().some(path => rules.includes(path))) {
+    return req.oops('The league has already started');
+  }
+  req.actions = req.league.modifiedPaths().map(path => {
+    return { 
+      category: 'league', message: `updated the league ${path} to "${req.league[path]}"` 
+    };
+  });
+  await req.league.save(err => err ? req.oops('Error updating league', `/lg/${league._id}/edit`) : null);
+  await activityService.addActivity(req);
+  req.flash('success', 'Updated League');
+  return res.redirect(`/lg/${req.league._id}`);
+};
+
+exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
+
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
-  const pointValues = [
-    { attr: 'ftm', name: 'Free Throw made' },
-    { attr: 'fg2m', name: '2-point field goal' },
-    { attr: 'fg3m', name: '3-point field goal' },
-    { attr: 'reb', name: 'Rebound' },
-    { attr: 'ast', name: 'Assist' },
-    { attr: 'blk', name: 'Block' },
-    { attr: 'stl', name: 'Steal' },
-    { attr: 'to', name: 'Turnover' },
-  ];
-  res.render('league/createLeague', { title: 'Create League', pointValues });
+  res.render('league/createLeague', { title: 'Create League', body: req.body });
 }
 
 exports.myLeagues = async (req, res) => {
@@ -74,8 +94,6 @@ exports.publicLeagues = async (req, res) => {
   return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
 };
 
-exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
-
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
   const promises = [activityService.getActivity(req), rosterService.getRosters(req.league)];
@@ -83,42 +101,8 @@ exports.leagueOverview = async (req, res, next) => {
   return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
 };
 
-exports.validateUpdate = [
-  sanitize('name').trim(),
-  body('name').isLength({ min: 3 })
-    .withMessage('Your league must have a name'),
-  sanitize('description'),
-  sanitize('public'),
-];
-
-exports.updateLeague = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    errors.array().map(e => req.flash('error', e.msg));
-    return res.redirect('back');
-  }
-  req.body.public = req.body.public || false;
-  req.league.set(req.body);
-  if (!req.league.isModified()) {
-    return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
-  }
-  req.actions = req.league.modifiedPaths().map(path => {
-    const msg = { category: 'league', message: 'updated the leage' };
-    if (path === 'public') {
-      msg.message+= req.league.public ? ' to public' : ' to private';
-    } else {
-      msg.message+= ` ${path} to '${req.league[path]}'`;
-    }
-    return msg;
-  });
-  await req.league.save(err => err ? req.oops('Error updating league', `/lg/${league._id}/edit`) : null);
-  await activityService.addActivity(req);
-  req.flash('success', 'Updated League');
-  return res.redirect(`/lg/${req.league._id}`);
-};
-
 exports.validateChat = [
-  sanitize('message')
+  sanitizeBody('message')
 ];
 
 exports.chat = async (req, res) => {

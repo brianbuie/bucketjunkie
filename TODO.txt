@@ -18,7 +18,8 @@ MVP
     roster moves need to be extracted for reusability
 
   league
-    set deadline (editable?)
+    add check if started before updating rules
+    leaveLeague deletes rosters
 
   draft
     only in fantasy mode, contest is rosters right away

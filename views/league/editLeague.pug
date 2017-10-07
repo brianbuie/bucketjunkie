@@ -6,9 +6,10 @@ include mixins/_removeModerator
 include mixins/_removeMember
 
 block content
-  p Edit League
-    .align-center
-      +leagueForm(req.league)
+  .grid-x.align-center
+    .medium-6.large-4
+      p Edit League
+      +leagueForm(req.league, exists = true)
       strong Members
         ul
           each member in req.league.members

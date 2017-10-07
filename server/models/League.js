@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const leagueSchema = new mongoose.Schema({
   name: {
@@ -9,10 +10,6 @@ const leagueSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
-  },
-  created: {
-    type: Date,
-    default: Date.now,
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,
@@ -30,14 +27,6 @@ const leagueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
-  open: {
-    type: Boolean,
-    default: true,
-  },
-  public: {
-    type: Boolean,
-    default: false,
-  },
   uniqueRosters: {
     type: Boolean,
     default: true,
@@ -56,10 +45,33 @@ const leagueSchema = new mongoose.Schema({
     stl: { type: Number, default: 0 },
     to: { type: Number, default: 0 },
   },
+  open: {
+    type: Boolean,
+    default: true,
+  },
+  start: {
+    type: Date,
+    default: moment().add(1, 'days')
+  },
+  public: {
+    type: Boolean,
+    default: false,
+  },
   deleted: {
     type: Boolean,
     default: false
-  }
+  },
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+}, {
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true }
+});
+
+leagueSchema.virtual('started').get(function() {
+  return moment(this.start).isBefore();
 });
 
 module.exports = mongoose.model('League', leagueSchema);
