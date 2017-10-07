@@ -9,7 +9,6 @@ Backend
   bugs
     logout sometimes doesn't remove account info from menu bar
     saving account info replaces image if none is selected
-    get actual league updates when updating league
     flashes sometimes get lost
     flashes on form errors and res.redirect('back') makes form submit disabled
     roster times are weird, make sure node and mongo time is nsync

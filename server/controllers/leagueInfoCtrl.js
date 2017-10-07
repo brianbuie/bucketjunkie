@@ -46,7 +46,7 @@ exports.createLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   req.body.uniqueRosters = req.body.uniqueRosters || false;
   const league = await (new League(req.body)).save();
-  if (!league) req.oops('Something went wrong');
+  if (!league) return req.oops('Something went wrong');
   req.league = league;
   req.actions = [{ category: 'league', message: `created ${req.league.name}` }];
   await activityService.addActivity(req);
@@ -83,22 +83,36 @@ exports.leagueOverview = async (req, res, next) => {
   return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
 };
 
+exports.validateUpdate = [
+  sanitize('name').trim(),
+  body('name').isLength({ min: 3 })
+    .withMessage('Your league must have a name'),
+  sanitize('description'),
+  sanitize('public'),
+];
+
 exports.updateLeague = async (req, res) => {
-  req.body.public = req.body.public || false;
-  const league = await League.findOneAndUpdate(
-    { _id: req.params.id, moderators: req.user._id },
-    req.body,
-    { runValidators: true, new: true },
-  );
-  if (!league) {
-    req.flash('error', 'Error Updating League');
-    return res.redirect(`/lg/${league._id}/edit`);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    errors.array().map(e => req.flash('error', e.msg));
+    return res.redirect('back');
   }
-  req.league = league;
-  // TODO get dif between old/new for actual updates
-  req.actions = [{ category: 'league', message: `updated ${req.league.name}`  }];
+  req.body.public = req.body.public || false;
+  req.league.set(req.body);
+  if (!req.league.isModified()) {
+    return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
+  }
+  req.actions = req.league.modifiedPaths().map(path => {
+    const msg = { category: 'league', message: 'updated the leage' };
+    if (path === 'public') {
+      msg.message+= req.league.public ? ' to public' : ' to private';
+    } else {
+      msg.message+= ` ${path} to ${req.league[path]}`;
+    }
+    return msg;
+  });
+  await req.league.save(err => err ? req.oops('Error updating league', `/lg/${league._id}/edit`) : null);
   await activityService.addActivity(req);
-  req.actions = undefined;
   req.flash('success', 'Updated League');
-  return res.redirect(`/lg/${league._id}`);
+  return res.redirect(`/lg/${req.league._id}`);
 };

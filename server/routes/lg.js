@@ -16,7 +16,7 @@ router.get('/:id/join', catchErrors(leagueMember.joinLeague));
 router.get('/:id/leave', auth.isMember, auth.notCreator, leagueMember.confirmLeaveLeague);
 router.post('/:id/leave', auth.isMember, auth.notCreator, catchErrors(leagueMember.leaveLeague));
 router.get('/:id/edit', auth.isModerator, leagueInfo.editLeagueForm);
-router.post('/:id/edit', auth.isModerator, catchErrors(leagueInfo.updateLeague));
+router.post('/:id/edit', auth.isModerator, leagueInfo.validateUpdate, catchErrors(leagueInfo.updateLeague));
 router.post('/:id/members/remove', auth.isModerator, catchErrors(leagueMember.removeMember));
 router.post('/:id/moderators/add', auth.isCreator, catchErrors(leagueMember.addModerator));
 router.post('/:id/moderators/remove', auth.isCreator, catchErrors(leagueMember.removeModerator));
