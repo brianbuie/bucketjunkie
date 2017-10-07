@@ -1,20 +1,20 @@
 const express = require('express');
-
-const router = express.Router();
-const userController = require('../controllers/userController');
+const user = require('../controllers/userController');
 const auth = require('../controllers/authController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
-router.get('/', auth.isLoggedIn, userController.account);
-router.post('/', userController.uploadPhoto, catchErrors(userController.resizePhoto), catchErrors(userController.updateAccount));
-router.get('/forgot-password', userController.forgotPasswordForm);
-router.post('/forgot-password', catchErrors(userController.createResetToken));
-router.get('/login', userController.loginForm);
-router.post('/login', userController.login);
-router.get('/logout', userController.logout);
-router.get('/register', userController.registerForm);
-router.post('/register', catchErrors(userController.validateRegister), catchErrors(userController.register), userController.login);
-router.get('/reset-password/:token', catchErrors(userController.resetPasswordForm));
-router.post('/reset-password/:token', userController.validatePasswordReset, catchErrors(userController.updatePassword));
+const router = express.Router();
+
+router.get('/', auth.isLoggedIn, user.account);
+router.post('/', user.uploadPhoto, catchErrors(user.resizePhoto), catchErrors(user.updateAccount));
+router.get('/forgot-password', user.forgotPasswordForm);
+router.post('/forgot-password', catchErrors(user.createResetToken));
+router.get('/login', user.loginForm);
+router.post('/login', user.login);
+router.get('/logout', user.logout);
+router.get('/register', user.registerForm);
+router.post('/register', catchErrors(user.validateRegister), catchErrors(user.register), user.login);
+router.get('/reset-password/:token', catchErrors(user.resetPasswordForm));
+router.post('/reset-password/:token', user.validatePasswordReset, catchErrors(user.updatePassword));
 
 module.exports = router;

@@ -15,8 +15,7 @@ MVP
     roster times are weird, make sure node and mongo time is nsync
 
   refactors
-    combine user.isloggedin and leagueAuthService into Authcontroller
-    leagueInfo and leagueMember should be a monolithic leagueController
+    validationOops handler
 
   league
     set deadline (editable?)

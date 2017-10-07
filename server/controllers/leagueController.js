@@ -3,19 +3,9 @@ const { body, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 const activityService = require('../services/activityService');
 const rosterService = require('../services/rosterService');
+const userService = require('../services/userService');
 
 const League = mongoose.model('League');
-
-const pointValues = [
-  { attr: 'ftm', name: 'Free Throw made' },
-  { attr: 'fg2m', name: '2-point field goal' },
-  { attr: 'fg3m', name: '3-point field goal' },
-  { attr: 'reb', name: 'Rebound' },
-  { attr: 'ast', name: 'Assist' },
-  { attr: 'blk', name: 'Block' },
-  { attr: 'stl', name: 'Steal' },
-  { attr: 'to', name: 'Turnover' },
-];
 
 exports.validateLeague = [
   sanitize('name').trim(),
@@ -55,6 +45,16 @@ exports.createLeague = async (req, res) => {
 
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
+  const pointValues = [
+    { attr: 'ftm', name: 'Free Throw made' },
+    { attr: 'fg2m', name: '2-point field goal' },
+    { attr: 'fg3m', name: '3-point field goal' },
+    { attr: 'reb', name: 'Rebound' },
+    { attr: 'ast', name: 'Assist' },
+    { attr: 'blk', name: 'Block' },
+    { attr: 'stl', name: 'Steal' },
+    { attr: 'to', name: 'Turnover' },
+  ];
   res.render('league/createLeague', { title: 'Create League', pointValues });
 }
 
@@ -130,5 +130,113 @@ exports.chat = async (req, res) => {
   req.actions = [{ category: 'message', message: req.body.message }];
   const msg = await activityService.addActivity(req);
   if (!msg) return req.oops('Error sending message, try again');
+  return res.redirect(`/lg/${req.league._id}`);
+};
+
+exports.joinLeague = async (req, res) => {
+  const league = await League.findOneAndUpdate(
+    { 
+      _id: req.league._id, 
+      open: true,
+      blocked: { $ne: req.user._id }
+    },
+    { $addToSet: { members: req.user._id } },
+  );
+  if (!league) return req.oops('Unable to join league', `/lg/${req.league._id}`);
+  req.league = league;
+  req.actions = [{ category: 'league', message: `joined ${req.league.name}` }];
+  await activityService.addActivity(req);
+  return res.redirect(`/lg/${req.league._id}`);
+};
+
+exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { title: 'Leave League' });
+
+exports.leaveLeague = async (req, res) => {
+  const league = await League.findOneAndUpdate(
+    { 
+      _id: req.league._id,
+      creator: { $ne: req.user._id }, 
+      members: req.user._id,
+    }, 
+    { $pull: { members: req.user._id, moderators: req.user._id, }, }, 
+    { new: true },
+  );
+  if (!league) return req.oops('Error Leaving league', `/lg/${req.league._id}`);
+  req.league = league;
+  req.session.league = undefined;
+  req.actions = [{ category: 'league', message: `left ${req.league.name}` }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
+  req.flash('success', `Left '${req.league.name}'`);
+  res.redirect('/leagues');
+};
+
+exports.removeMember = async (req, res) => {
+  const league = await League.findOneAndUpdate(
+    { 
+      _id: req.league._id,
+      creator: { $ne: req.body.member },
+      $and: [
+        { moderators: { $ne: req.body.member } },
+        { moderators: req.user._id },
+      ],
+      members: req.body.member,
+    },
+    { 
+      $pull: { members: req.body.member },
+      $addToSet: { blocked: req.body.member }
+    },
+    { new: true },
+  );
+  if (!league) return req.oop('Error Removing Member' `/lg/${req.league._id}`);
+  req.league = league;
+  req.actions = [
+    { category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
+    { category: 'league', message: `left ${req.league.name}`  }
+  ];
+  await activityService.addActivity(req);
+  req.actions = undefined;
+  req.flash('success', 'Removed Member');
+  return res.redirect(`/lg/${req.league._id}`);
+};
+
+exports.addModerator = async (req, res) => {
+  const league = await League.findOneAndUpdate(
+    { 
+      _id: req.league._id,
+      creator: req.user._id, 
+      moderators: { $ne: req.body.member }, 
+      members: req.body.member,
+    },
+    { $addToSet: { moderators: req.body.member } },
+    { new: true },
+  ).populate('moderators');
+  if (!league) return req.oops('Error Adding Moderator', `/lg/${req.league._id}`);
+  req.league = league;
+  req.actions = [{ category: 'moderator', message: `added ${await userService.getUsername(req.body.member)} as a moderator` }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
+  req.flash('success', 'Added Moderator');
+  return res.redirect(`/lg/${req.league._id}`);
+};
+
+exports.removeModerator = async (req, res) => {
+  const league = await League.findOneAndUpdate(
+    { 
+      _id: req.league._id,
+      $and: [
+        { creator: req.user._id, },
+        { creator: { $ne: req.body.member } }
+      ],
+      moderators: req.body.member,
+    },
+    { $pull: { moderators: req.body.member } },
+    { new: true },
+  );
+  if (!league) return req.oops('Error Removing Moderator', `/lg/${req.league._id}`);
+  req.league = league;
+  req.actions = [{ category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a moderator` }];
+  await activityService.addActivity(req);
+  req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
 };
