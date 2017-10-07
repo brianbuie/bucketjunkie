@@ -1,5 +1,7 @@
 extends ../layout
 
+include ../roster/mixins/_addPlayerForm
+
 block content
   p
     != helpers.teamLogo(team.abbreviation)
@@ -11,6 +13,8 @@ block content
           a(href=`/nba/player/${player._id}`)
             img(src=helpers.playerImage(player._id) style="max-width: 70px;")
             != player.player_name
+          if req.session.league
+            +addPlayerForm(player)
   p Upcoming Games
     ul
       each game in games

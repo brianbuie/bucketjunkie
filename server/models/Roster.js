@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 
 const rosterSchema = new mongoose.Schema({
   league: {
@@ -12,7 +11,7 @@ const rosterSchema = new mongoose.Schema({
   },
   effective: {
     type: Date,
-    default: moment().add(1, 'days').startOf('day')
+    default: Date.now
   },
   players: [{
     type: Number,

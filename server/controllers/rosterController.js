@@ -7,40 +7,42 @@ const nbaService = require('../services/nbaService');
 const Roster = mongoose.model('Roster');
 const League = mongoose.model('League');
 
-exports.leagueRosters = async (req, res, next) => {
-  req.rosters = await rosterService.getRosters(req.league);
-  return next();
-};
+const playerIsAvailable = (rosters, playerId) => !rosters.some(roster => {
+  if (!roster || !roster.players) return false;
+  return roster.players.some(player => player._id == playerId);
+});
 
-exports.userRoster = async (req, res, next) => {
-  req.roster = await rosterService.getRosters(req.league, req.user);
-  return next();
+exports.viewRoster = async (req, res) => {
+  const roster = await rosterService.getRoster(req.league, req.user);
+  return res.render('roster/roster', { title: 'Roster', roster });
 };
-
-exports.viewRoster = (req, res) => res.render('roster/roster', { title: 'Roster' });
 
 exports.addPlayer = async (req, res, next) => {
   if (!req.body.player) return req.oops('No player specified');
-  const current = req.rosters.find(roster => roster.user && roster.user.equals(req.user._id));
-  if (current && current.players && current.players.length >= req.league.rosterSize) return req.oops('Your roster is full', '/roster');
-  const uniqueTo = req.league.uniqueRosters ? req.rosters : [current];
-  if (!rosterService.playerIsAvailable(uniqueTo, req.body.player)) return req.oops('That player isn\'t available');
-  const roster = await rosterService.rosterToEdit(req.user, req.league, current);
+  const leagueRosters = await rosterService.getRosters(req.league);
+  let roster = leagueRosters.find(roster => roster.user && roster.user.equals(req.user._id));
+  if (!roster) roster = { players: [] };
+  if (roster.players.length >= req.league.rosterSize) return req.oops('Your roster is full', '/roster');
+  const checkAgainst = req.league.uniqueRosters ? leagueRosters : [roster];
+  if (!playerIsAvailable(checkAgainst, req.body.player)) return req.oops('That player isn\'t available');
+  roster.players.push(req.body.player);
   const [update, player] = await Promise.all([
-    Roster.findOneAndUpdate({ _id: roster._id }, { $addToSet: { players: req.body.player } }),
+    (new Roster({ league: req.league, user: req.user, players: roster.players })).save(),
     nbaService.player(req.body.player)
   ]);
   if (!update) return req.oops('Unable to add player');
-  req.actions = [{ category: 'roster', message: `drafted ${player.player_name} of the ${player.team_id.full_name}` }];
+  req.actions = [{ category: 'roster', message: `picked up ${player.player_name} of the ${player.team_id.full_name}` }];
   await activityService.addActivity(req);
   return req.greatJob('Added player', `/lg/${req.league._id}`);
 };
 
 exports.removePlayer = async (req, res, next) => {
-  if (!req.body.player) throw Error('No Player specified');
-  const roster = await rosterService.rosterToEdit(req.user, req.league, req.roster);
+  if (!req.body.player) return req.oops('No player specified');
+  let roster = await rosterService.getRoster(req.league, req.user);
+  if (!roster) return req.oops('Couldn\'t find roster')
+  roster.players = roster.players.filter(player => player._id != req.body.player);
   const [update, player] = await Promise.all([
-    Roster.findOneAndUpdate({ _id: roster._id }, { $pull: { players: req.body.player } }),
+    (new Roster({ league: req.league, user: req.user, players: roster.players })).save(),
     nbaService.player(req.body.player)
   ]);
   if (!update) return req.oops('Unable to remove player');

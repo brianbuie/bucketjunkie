@@ -12,7 +12,7 @@ MVP
 
   bugs
     saving account info replaces image if none is selected
-    roster times are weird, make sure node and mongo time is nsync
+    roster times are weird, make sure node and mongo time is nsync with gametimes
 
   refactors
     validationOops handler
@@ -34,11 +34,6 @@ MVP
   rosters
     replace player on roster
     propose trade system
-    remove roster effective delay?
-      every move creates a new roster, score roster that was effective at gametime
-        make sure db time is nsync with gametime
-      deal with issue of gaming the system on days with early games 
-        maybe this encourages more participation? you still have to drop players from your roster to add new ones
   
   scoring
     rely on API as much as possible, evaluate db storing if certain requests start to hurt
