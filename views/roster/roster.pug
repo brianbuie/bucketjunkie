@@ -3,14 +3,17 @@ extends ../layout
 include ./mixins/_removePlayerForm
 
 block content
-  each player in req.roster.players
-    p
-      img(src=helpers.playerImage(player._id) style="max-width: 50px;")
-    p= player.player_name + ' '
-      i= player.position
-    p
-      if req.session.league
-        +removePlayerForm(player)
+  if req.roster.players
+    each player in req.roster.players
+      p
+        img(src=helpers.playerImage(player._id) style="max-width: 50px;")
+      p= player.player_name + ' '
+        i= player.position
+      p
+        if req.session.league
+          +removePlayerForm(player)
 
-  pre(style="font-size: 12px;")
-    != helpers.dump(req.roster)
+    pre(style="font-size: 12px;")
+      != helpers.dump(req.roster)
+  else
+    p No Players selected yet.

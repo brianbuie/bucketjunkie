@@ -8,7 +8,7 @@ include mixins/_removeMember
 block content
   p Edit League
     .align-center
-      +leagueForm(req)
+      +leagueForm(req.league)
       strong Members
         ul
           each member in req.league.members

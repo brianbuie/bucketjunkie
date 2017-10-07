@@ -11,7 +11,9 @@ Backend
     saving account info replaces image if none is selected
     get actual league updates when updating league
     flashes sometimes get lost
+    flashes on form errors and res.redirect('back') makes form submit disabled
     roster times are weird, make sure node and mongo time is nsync
+    properly send back req.body on form failures (login, register, create league)
 
   features
     add chat to activity feed
@@ -19,13 +21,9 @@ Backend
       allow mods to check "show moderator flair" when sending message
 
   league rules
-    point values for each stat type
     unique rosters
     number of roster spots
-    unique by position?
-      might not have enough data for this
     time limit for draft
-    roster size
 
   draft
     switch league open to false
@@ -35,6 +33,8 @@ Backend
     once all players have had a chance to draft all spots, free-for-all
 
   rosters
+    check if roster is full when adding player
+    redirect flow for replacing player on full roster
     propose trade system
   
   player performance prediction

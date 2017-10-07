@@ -1,10 +1,9 @@
-mixin leagueForm(req)
-  - req.league = req.league || {}
+mixin leagueForm(league)
   form.medium-6.large-4(method="POST")
     label(for="name") League Name
-      input(type="text" name="name" value=req.league.name)
+      input(type="text" name="name" value=league.name)
     label(for="description") Description
-      textarea(name="description")= req.league.description
+      textarea(name="description")= league.description
     label(for="public") Public
-      input(type="checkbox" name="public" checked=req.league.public)
+      input(type="checkbox" name="public" checked=league.public)
     input.button.expanded(type="submit" value="Save →")

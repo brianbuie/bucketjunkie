@@ -1,8 +1,24 @@
 extends ../layout
 
-include mixins/_leagueForm
-
 block content
   p Create League
     .grid-x.align-center
-      +leagueForm(req)
+      form.medium-6.large-4(method="POST")
+        label(for="name") League Name
+          input(type="text" name="name")
+        label(for="description") Description
+          textarea(name="description")
+        label(for="public") Public 
+          input(type="checkbox" name="public")
+        p League Type
+          label(for="unique-true") Fantasy
+            input(type="radio" id="unique-true" name="uniqueRosters" value="true" checked)
+          label(for="unique-false") Contest
+            input(type="radio" id="unique-false" name="uniqueRosters" value="")
+        label(for="rosterSize") Roster Size (max 20)
+          input(name="rosterSize" type="number" value="5")
+        p Point Values (max 100 for each)
+          each stat in pointValues
+            label(for=`pointValues[${stat.attr}]`)= stat.name
+              input(type="number" name=`pointValues[${stat.attr}]` value="0")
+        input.button.expanded(type="submit" value="Save →")

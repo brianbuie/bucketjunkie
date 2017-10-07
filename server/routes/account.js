@@ -12,7 +12,7 @@ router.get('/login', userController.loginForm);
 router.post('/login', userController.login);
 router.get('/logout', userController.logout);
 router.get('/register', userController.registerForm);
-router.post('/register', userController.validateRegister, catchErrors(userController.register), userController.login);
+router.post('/register', catchErrors(userController.validateRegister), catchErrors(userController.register), userController.login);
 router.get('/reset-password/:token', catchErrors(userController.resetPasswordForm));
 router.post('/reset-password/:token', userController.validatePasswordReset, catchErrors(userController.updatePassword));
 

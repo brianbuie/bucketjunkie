@@ -38,6 +38,24 @@ const leagueSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  uniqueRosters: {
+    type: Boolean,
+    default: true,
+  },
+  rosterSize: {
+    type: Number,
+    default: 5,
+  },
+  pointValues: {
+    ftm: { type: Number, default: 0 },
+    fg2m: { type: Number, default: 0 }, // fgm - fg3m
+    fg3m: { type: Number, default: 0 },
+    reb: { type: Number, default: 0 }, // oreb + dreb
+    ast: { type: Number, default: 0 },
+    blk: { type: Number, default: 0 },
+    stl: { type: Number, default: 0 },
+    to: { type: Number, default: 0 },
+  },
 });
 
 module.exports = mongoose.model('League', leagueSchema);
