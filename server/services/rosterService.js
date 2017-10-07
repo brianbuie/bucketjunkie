@@ -18,7 +18,7 @@ exports.getRoster = async (league, user) => {
 }
 
 exports.playerIsAvailable = (rosters, playerId) => !rosters.some(roster => {
-  if (!roster.players) return false;
+  if (!roster || !roster.players) return false;
   return roster.players.some(player => player._id == playerId);
 });
 

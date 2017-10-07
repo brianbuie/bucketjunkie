@@ -3,6 +3,7 @@ Frontend
 	reevaluate foundation, find better scss/frontend framework
 	style reset password email
   "No way associated with the NBA" footer notice
+  slowly move methods to API calls on the front-end
 
 Backend
 
@@ -18,18 +19,23 @@ Backend
     add chat to activity feed
     user flair
       allow mods to check "show moderator flair" when sending message
+    sort public leagues by time until deadline
+    add number of players to league listing
+    add description to league listing
+    account notifications
 
-  league rules
-    unique rosters
-    number of roster spots
-    time limit for draft
+  league
+    only allow creator to edit league
+    set deadline (edit?)
+    delete league (add deleted flag to schema)
 
   draft
+    snake order
+    Require a draftlist
+    deadline for when autodraft will perform
+    user will be skipped if draft list runs out
+    notify user if current computed autodraft will leave them without players
     switch league open to false
-    this could get hairy if site experiences performance issues.
-    autodraft based on list
-    skip after time limit
-    once all players have had a chance to draft all spots, free-for-all
 
   rosters
     replace player on roster
@@ -41,8 +47,9 @@ Backend
     league average
 
   schedule tasks
+    perform autodraft
     check for player images via nba.com script
-    update players and team info
+    update players and team info (switch nba service to just API calls?)
     get boxscores
     score rosters
     update player performance prediction based on league rules
