@@ -18,6 +18,6 @@ exports.getActivity = async req => {
   const access = req.leagueAuth.isModerator ? member.concat(moderator) : member;
   return await Activity.find({ league: req.league._id, category: { $in: access } })
     .sort({ date: -1 })
-    .limit(5)
+    .limit(10)
     .populate('user');
 };

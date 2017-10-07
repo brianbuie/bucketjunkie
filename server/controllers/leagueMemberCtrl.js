@@ -13,14 +13,10 @@ exports.joinLeague = async (req, res) => {
     },
     { $addToSet: { members: req.user._id } },
   );
-  if (!league) {
-    req.flash('error', 'Unable to join league');
-    return res.redirect(`/lg/${req.league._id}`);
-  }
+  if (!league) return req.oops('Unable to join league', `/lg/${req.league._id}`);
   req.league = league;
   req.actions = [{ category: 'league', message: `joined ${req.league.name}` }];
   await activityService.addActivity(req);
-  req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);
 };
 

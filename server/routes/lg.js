@@ -13,6 +13,7 @@ router.get('/:id', catchErrors(leagueInfo.leagueOverview));
 
 router.use(userController.isLoggedIn);
 router.get('/:id/join', catchErrors(leagueMember.joinLeague));
+router.post('/:id/chat', auth.isMember, leagueInfo.validateChat, leagueInfo.chat);
 router.get('/:id/leave', auth.isMember, auth.notCreator, leagueMember.confirmLeaveLeague);
 router.post('/:id/leave', auth.isMember, auth.notCreator, catchErrors(leagueMember.leaveLeague));
 router.get('/:id/edit', auth.isModerator, leagueInfo.editLeagueForm);

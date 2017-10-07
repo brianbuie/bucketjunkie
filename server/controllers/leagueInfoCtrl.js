@@ -116,3 +116,19 @@ exports.updateLeague = async (req, res) => {
   req.flash('success', 'Updated League');
   return res.redirect(`/lg/${req.league._id}`);
 };
+
+exports.validateChat = [
+  sanitize('message')
+];
+
+exports.chat = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    errors.array().map(e => req.flash('error', e.msg));
+    return res.redirect(`/lg/${req.league._id}`);
+  }
+  req.actions = [{ category: 'message', message: req.body.message }];
+  const msg = await activityService.addActivity(req);
+  if (!msg) return req.oops('Error sending message, try again');
+  return res.redirect(`/lg/${req.league._id}`);
+};

@@ -1,7 +1,5 @@
 extends ../layout
 
-include mixins/_actionDisplay
-
 block content
   p
     strong= req.league.name
@@ -22,11 +20,20 @@ block content
             span.moderator *
           if req.league.creator.id === member.id
             span.creator *
-  p
+  .medium-6
     strong Feed
-    ul
-      each item in activity
-        +actionDisplay(item)
+    ul.feed
+      each action in activity.reverse()
+        li.action__item(class=action.category)
+          strong= action.user.username + ' '
+          p.action__content= action.message + ' '
+          if action.category != 'message'
+            i= helpers.moment(action.date).fromNow()
+            
+    if req.leagueAuth.isMember
+      form(method="Post" action=`/lg/${league.id}/chat`)
+        input(type="text" name="message")
+        input(type="submit" value="Send")
 
   pre(style="font-size: 12px;")
     != helpers.dump(req.league)
