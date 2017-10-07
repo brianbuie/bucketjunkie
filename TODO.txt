@@ -1,50 +1,51 @@
-Frontend
-	prototype front-end UI/UX strategy
-	reevaluate foundation, find better scss/frontend framework
-	style reset password email
-  "No way associated with the NBA" footer notice
-  slowly move methods to API calls on the front-end
+MVP
 
-Backend
+  Frontend
+    prototype front-end UI/UX strategy
+    reevaluate foundation, maybe go back to bootstrap
+    "No way associated with the NBA" footer notice
+    leaderboard
+      season
+      yesterday
+      last 7 days
+      last 30 days
 
   bugs
-    logout sometimes doesn't remove account info from menu bar
     saving account info replaces image if none is selected
-    flashes sometimes get lost
-    flashes on form errors and res.redirect('back') makes form submit disabled
     roster times are weird, make sure node and mongo time is nsync
-    properly send back req.body on form failures (login, register, create league)
 
-  features
-    add chat to activity feed
-    user flair
-      allow mods to check "show moderator flair" when sending message
-    sort public leagues by time until deadline
-    add number of players to league listing
-    add description to league listing
-    account notifications
+  refactors
+    combine user.isloggedin and leagueAuthService into Authcontroller
+    leagueInfo and leagueMember should be a monolithic leagueController
 
   league
-    only allow creator to edit league
-    set deadline (edit?)
-    delete league (add deleted flag to schema)
+    set deadline (editable?)
+    update 'drafted' language in activity
+    delete league (add deleted flag to schema, filter in listing everywhere)
 
   draft
+    only in fantasy mode, contest is rosters right away
+    switch league open to false
     snake order
     Require a draftlist
     deadline for when autodraft will perform
     user will be skipped if draft list runs out
     notify user if current computed autodraft will leave them without players
-    switch league open to false
 
   rosters
     replace player on roster
     propose trade system
+    remove roster effective delay?
+      every move creates a new roster, score roster that was effective at gametime
+        make sure db time is nsync with gametime
+      deal with issue of gaming the system on days with early games 
+        maybe this encourages more participation? you still have to drop players from your roster to add new ones
   
-  player performance prediction
-    tomorrow's top predictions
-    next 7 days top prediction
-    league average
+  scoring
+    rely on API as much as possible, evaluate db storing if certain requests start to hurt
+
+  nbaService
+    map api requests to a service methods that can be switched to DB lookups if necessary
 
   schedule tasks
     perform autodraft
@@ -52,8 +53,43 @@ Backend
     update players and team info (switch nba service to just API calls?)
     get boxscores
     score rosters
-    update player performance prediction based on league rules
 
-Deployment
-  setup subdomain & digitalocean server
-  stage environment
+  Deployment
+    setup subdomain & digitalocean server
+    stage environment
+    Get a mail service to handle password resets
+
+
+
+FUTURE
+
+  Bugs
+    logout sometimes doesn't remove account info from menu bar
+    flashes sometimes get lost
+    flashes on form errors and res.redirect('back') makes form submit disabled on create league
+    properly send back req.body on form failures (login, register, create league)
+
+  refactors
+    remove req from being passed to views?
+
+  features
+    user flair
+      allow mods to check "show moderator flair" when sending message
+    sort public leagues by time until deadline
+    add league images
+    add number of players to league listing
+    add description to league listing
+    account notifications
+    add Display name to user schema, update on every login
+    hidden flag on user accounts (banned, deleted accounts)
+
+  player performance prediction
+    tomorrow's top predictions
+    next 7 days top prediction
+    top free agents
+
+  Frontend
+    style reset password email to be in-line with site style
+    filter feed based on action type
+    slowly move methods to API calls on the front-end
+      chat first!
