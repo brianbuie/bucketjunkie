@@ -15,12 +15,10 @@ MVP
     roster times are weird, make sure node and mongo time is nsync with gametimes
 
   refactors
-    validationOops handler
+    roster moves need to be extracted for reusability
 
   league
     set deadline (editable?)
-    update 'drafted' language in activity
-    delete league (add deleted flag to schema, filter in listing everywhere)
 
   draft
     only in fantasy mode, contest is rosters right away
@@ -32,7 +30,6 @@ MVP
     notify user if current computed autodraft will leave them without players
 
   rosters
-    replace player on roster
     propose trade system
   
   scoring
@@ -65,6 +62,9 @@ FUTURE
 
   refactors
     remove req from being passed to views?
+
+  league
+    filter for deleted on league schema
 
   features
     user flair

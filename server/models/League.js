@@ -56,6 +56,10 @@ const leagueSchema = new mongoose.Schema({
     stl: { type: Number, default: 0 },
     to: { type: Number, default: 0 },
   },
+  deleted: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('League', leagueSchema);
