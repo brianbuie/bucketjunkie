@@ -1,8 +1,8 @@
 const express = require('express');
-
-const router = express.Router();
 const nbaController = require('../controllers/nbaController');
 const { catchErrors } = require('../handlers/errorHandlers');
+
+const router = express.Router();
 
 router.get('/', catchErrors(nbaController.allTeams));
 router.get('/team/:id', catchErrors(nbaController.team));

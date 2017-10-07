@@ -1,17 +1,16 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const auth = require('../services/leagueAuthService');
+const auth = require('../controllers/authController');
 const leagueMember = require('../controllers/leagueMemberCtrl');
 const leagueInfo = require('../controllers/leagueInfoCtrl');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.use('/:id', catchErrors(auth.paramLeague));
-router.use('/:id', auth.setPermissions);
+router.use('/:id', catchErrors(auth.useParam));
 router.get('/:id', catchErrors(leagueInfo.leagueOverview));
 
-router.use(userController.isLoggedIn);
+router.use(auth.isLoggedIn);
 router.get('/:id/join', catchErrors(leagueMember.joinLeague));
 router.post('/:id/chat', auth.isMember, leagueInfo.validateChat, leagueInfo.chat);
 router.get('/:id/leave', auth.isMember, auth.notCreator, leagueMember.confirmLeaveLeague);

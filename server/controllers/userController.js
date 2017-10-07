@@ -41,12 +41,6 @@ exports.createResetToken = async (req, res) => {
 
 exports.forgotPasswordForm = (req, res) => res.render('account/forgot-password', { title: 'Forgot Password' });
 
-exports.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) return next();
-  req.flash('error', 'You must be logged in to do that.');
-  return res.redirect(`/account/login?ref=${req.originalUrl}`);
-};
-
 exports.login = function(req, res, next) {
   passport.authenticate('local', function(err, user, info){
     const ref = req.query.ref ? `?ref=${req.query.ref}` : '/';

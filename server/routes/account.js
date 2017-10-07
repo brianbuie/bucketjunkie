@@ -2,9 +2,10 @@ const express = require('express');
 
 const router = express.Router();
 const userController = require('../controllers/userController');
+const auth = require('../controllers/authController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
-router.get('/', userController.isLoggedIn, userController.account);
+router.get('/', auth.isLoggedIn, userController.account);
 router.post('/', userController.uploadPhoto, catchErrors(userController.resizePhoto), catchErrors(userController.updateAccount));
 router.get('/forgot-password', userController.forgotPasswordForm);
 router.post('/forgot-password', catchErrors(userController.createResetToken));
