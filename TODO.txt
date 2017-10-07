@@ -32,8 +32,7 @@ Backend
     once all players have had a chance to draft all spots, free-for-all
 
   rosters
-    check if roster is full when adding player
-    redirect flow for replacing player on full roster
+    replace player on roster
     propose trade system
   
   player performance prediction

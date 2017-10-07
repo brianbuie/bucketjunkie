@@ -20,9 +20,10 @@ exports.userRoster = async (req, res, next) => {
 exports.viewRoster = (req, res) => res.render('roster/roster', { title: 'Roster' });
 
 exports.addPlayer = async (req, res, next) => {
-  if (!req.body.player) throw Error('No Player specified');
+  if (!req.body.player) return req.oops('No player specified');
   if (!rosterService.playerIsAvailable(req.rosters, req.body.player)) return req.oops('That player isn\'t available');
   const current = req.rosters.find(roster => roster.user && roster.user.equals(req.user._id));
+  if (current && current.players && current.players.length >= req.league.rosterSize) return req.oops('Your roster is full', '/roster');
   const roster = await rosterService.rosterToEdit(req.user, req.league, current);
   const [update, player] = await Promise.all([
     Roster.findOneAndUpdate({ _id: roster._id }, { $addToSet: { players: req.body.player } }),

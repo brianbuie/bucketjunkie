@@ -107,7 +107,7 @@ exports.updateLeague = async (req, res) => {
     if (path === 'public') {
       msg.message+= req.league.public ? ' to public' : ' to private';
     } else {
-      msg.message+= ` ${path} to ${req.league[path]}`;
+      msg.message+= ` ${path} to '${req.league[path]}'`;
     }
     return msg;
   });
