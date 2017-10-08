@@ -18,6 +18,7 @@ require('./models/Player');
 require('./models/Team');
 require('./models/Game');
 require('./models/Roster');
+require('./models/Draft');
 
 const app = require('./app');
 

@@ -74,4 +74,8 @@ leagueSchema.virtual('started').get(function() {
   return moment(this.start).isBefore();
 });
 
+leagueSchema.virtual('drafting').get(function() {
+  return !this.started && this.uniqueRosters
+});
+
 module.exports = mongoose.model('League', leagueSchema);

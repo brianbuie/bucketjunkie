@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const draftListSchema = new mongoose.Schema({
+const draftSchema = new mongoose.Schema({
   league: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'League',
@@ -15,4 +15,4 @@ const draftListSchema = new mongoose.Schema({
   }],
 });
 
-module.exports = mongoose.model('DraftList', draftListSchema);
+module.exports = mongoose.model('Draft', draftSchema);
