@@ -60,9 +60,9 @@ exports.updateLeague = async (req, res) => {
   if (req.league.started && req.league.modifiedPaths().some(path => rules.includes(path))) {
     return req.oops('The league has already started');
   }
-  req.actions = req.league.modifiedPaths().map(path => {
-    return { category: 'league', message: `updated the league ${path} to "${req.league[path]}"` };
-  });
+  req.actions = req.league.modifiedPaths()
+    .filter(path => path != 'pointValues')
+    .map(path => { return { category: 'league', message: `updated the league ${path} to "${req.league[path]}"` } });
   await req.league.save(err => err ? req.oops('Error updating league', `/lg/${league._id}/edit`) : null);
   await activityService.addActivity(req);
   req.flash('success', 'Updated League');

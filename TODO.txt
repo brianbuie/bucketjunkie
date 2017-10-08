@@ -18,17 +18,12 @@ MVP
     roster moves need to be extracted for reusability
 
   league
-    add check if started before updating rules
     leaveLeague deletes rosters
 
   draft
-    only in fantasy mode, contest is rosters right away
-    switch league open to false
     snake order
-    Require a draftlist
     deadline for when autodraft will perform
     user will be skipped if draft list runs out
-    notify user if current computed autodraft will leave them without players
 
   rosters
     propose trade system
