@@ -1,8 +1,9 @@
 extends ../layout
 
 block content
-  p
-    strong= req.league.name
+  if !league.started
+    .count-down(data-start=league.start)= `${helpers.moment(league.start).toNow(true)} until AutoDraft`
+  h3= req.league.name
   p= req.league.description
   p
     if req.leagueAuth.isModerator

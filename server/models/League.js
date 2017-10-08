@@ -82,7 +82,7 @@ leagueSchema.virtual('drafting').get(function() {
 
 leagueSchema.statics.jobs = {};
 
-/*
+
 leagueSchema.pre('save', function(next) {
   if (!this.isModified('start') || !this.uniqueRosters) return next();
   console.log(`Scheduling autodraft for ${this.name} \t${this.start}`);
@@ -97,6 +97,6 @@ leagueSchema.pre('save', function(next) {
   });
   return next();
 });
-*/
+
 
 module.exports = mongoose.model('League', leagueSchema);

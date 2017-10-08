@@ -74,12 +74,12 @@ exports.autoDraft = async league => {
     return actions.push(action);
   };
   while (round < league.rosterSize) {
-    active = false; round++;
+    round++;
     league.members.forEach(user => simRound(user)); pick = 0; round++;
     league.members.reverse().forEach(user => simRound(user)); pick = 0;
   }
   const update = await Promise.all(rosters.map(roster => (new Roster(roster)).save()));
-  if (!update) throw new Error('Error adding roster, need to draft again');
+  console.log(update);
   const addActions = await Activity.insertMany(actions, { ordered: true });
-  if (!addActions) throw new Error('Error adding actions');
+  // TODO HANDLE ERRORS HERE
 };

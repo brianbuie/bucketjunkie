@@ -91,7 +91,3 @@ exports.moveDraft = async (req, res) => {
   return req.greatJob('Player moved');
 };
 
-exports.autoDraft = async (req, res) => {
-  await rosterService.autoDraft(req.league);
-  return res.redirect(`/lg/${req.league._id}`);
-}
