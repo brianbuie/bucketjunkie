@@ -2,7 +2,9 @@ require('dotenv').config({ path: __dirname + '/../variables.env' });
 const fs = require('fs');
 const moment = require('moment');
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE);
+mongoose.connect(process.env.DATABASE, {
+  useMongoClient: true
+});
 const Team = require('../server/models/Team');
 const Player = require('../server/models/Player');
 const Game = require('../server/models/Game');

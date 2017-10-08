@@ -75,6 +75,7 @@ exports.removePlayer = async (req, res) => {
 };
 
 exports.replacePlayerForm = async (req, res) => {
+  if (req.league.drafting) return req.oops('League is still drafting');
   if (!req.query.player) return req.oops('No player specified', `/lg/${req.league._id}`);
   const [roster, player] = await Promise.all([
     rosterService.getRoster(req.league, req.user),
@@ -84,6 +85,7 @@ exports.replacePlayerForm = async (req, res) => {
 };
 
 exports.replacePlayer = async (req, res) => {
+  if (req.league.drafting) return req.oops('League is still drafting');
   if (!req.query.player) return req.oops('No player specified to add', `/lg/${req.league._id}`);
   if (!req.body.player) return req.oops('No player specified to drop', `/lg/${req.league._id}`);
   const leagueRosters = await rosterService.getRosters(req.league);
