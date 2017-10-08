@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const schedule = require('node-schedule');
+const rosterService = require('../services/rosterService');
 
 const leagueSchema = new mongoose.Schema({
   name: {
@@ -81,19 +82,21 @@ leagueSchema.virtual('drafting').get(function() {
 
 leagueSchema.statics.jobs = {};
 
+/*
 leagueSchema.pre('save', function(next) {
-  if (!this.isModified('start')) return next();
-  const time = this.start;
-  const name = this.name;
-  console.log(`Scheduling autodraft for ${name} \t${time}`);
+  if (!this.isModified('start') || !this.uniqueRosters) return next();
+  console.log(`Scheduling autodraft for ${this.name} \t${this.start}`);
   if (this.constructor.jobs[this.id]) {
-    console.log(`canceling previous job for ${name}`);
+    console.log(`canceling previous autodraft for ${this.name}`);
     this.constructor.jobs[this.id].cancel();
   }
-  this.constructor.jobs[this.id] = schedule.scheduleJob(time, function() {
-    console.log(`Would autodraft for ${name} \t${time}`);
+  this.populate('members');
+  const league = this;
+  this.constructor.jobs[this.id] = schedule.scheduleJob(this.start, function() { 
+    rosterService.autoDraft(league);
   });
   return next();
 });
+*/
 
 module.exports = mongoose.model('League', leagueSchema);

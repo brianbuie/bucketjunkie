@@ -10,7 +10,6 @@ mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
 
-require('./models/League');
 require('./models/User');
 require('./models/Activity');
 require('./models/Player');
@@ -18,6 +17,7 @@ require('./models/Team');
 require('./models/Game');
 require('./models/Roster');
 require('./models/Draft');
+require('./models/League');
 
 const app = require('./app');
 

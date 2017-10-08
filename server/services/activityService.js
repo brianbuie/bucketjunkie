@@ -12,12 +12,14 @@ exports.addActivity = async req => {
   return await Promise.all(activityPromises);
 };
 
+exports.addAction = async action => (new Activity(action)).save();
+
 exports.getActivity = async req => {
   const member = ['league', 'roster', 'message'];
   const moderator = ['moderator'];
   const access = req.leagueAuth.isModerator ? member.concat(moderator) : member;
   return await Activity.find({ league: req.league._id, category: { $in: access } })
-    .sort({ date: -1 })
+    .sort({ _id: -1 })
     .limit(10)
     .populate('user');
 };

@@ -7,11 +7,6 @@ const nbaService = require('../services/nbaService');
 const Roster = mongoose.model('Roster');
 const Draft = mongoose.model('Draft');
 
-const playerIsAvailable = (lists, playerId) => !lists.some(list => {
-  if (!list || !list.players) return false;
-  return list.players.some(player => player._id == playerId);
-});
-
 exports.viewRoster = async (req, res) => {
   if (req.league.drafting) {
     const draft = await Draft.findOne({ user: req.user, league: req.league }).populate('players');
@@ -33,20 +28,12 @@ const addToDraft = async (req, res) => {
 exports.addPlayer = async (req, res) => {
   if (!req.body.player) return req.oops('No player specified');
   if (req.league.drafting) return addToDraft(req, res);
-  const leagueRosters = await rosterService.getRosters(req.league);
-  let roster = leagueRosters.find(roster => roster.user && roster.user.equals(req.user._id));
-  if (!roster) roster = { players: [] };
-  if (roster.players.length >= req.league.rosterSize) return res.redirect(`/roster/replace?player=${req.body.player}`);
-  const checkAgainst = req.league.uniqueRosters ? leagueRosters : [roster];
-  if (!playerIsAvailable(checkAgainst, req.body.player)) return req.oops('That player isn\'t available');
-  roster.players.push(req.body.player);
-  const [update, player] = await Promise.all([
-    (new Roster({ league: req.league, user: req.user, players: roster.players })).save(),
-    nbaService.player(req.body.player)
-  ]);
-  if (!update) return req.oops('Unable to add player');
-  req.actions = [{ category: 'roster', message: `picked up ${player.player_name} of the ${player.team_id.full_name}` }];
-  await activityService.addActivity(req);
+  try {
+    await rosterService.addToRoster(req.league, req.user, req.body.player);
+  } catch(err) {
+    if (err.message === "Roster Full") return req.oops(err.message, `/roster/replace?player=${req.body.player}`);
+    return req.oops(err.message);
+  }
   return req.greatJob('Added player', `/lg/${req.league._id}`);
 };
 
@@ -61,17 +48,12 @@ const removeFromDraft = async (req, res) => {
 exports.removePlayer = async (req, res) => {
   if (!req.body.player) return req.oops('No player specified');
   if (req.league.drafting) return removeFromDraft(req, res);
-  let roster = await rosterService.getRoster(req.league, req.user);
-  if (!roster) return req.oops('Couldn\'t find roster');
-  roster.players = roster.players.filter(player => player._id != req.body.player);
-  const [update, player] = await Promise.all([
-    (new Roster({ league: req.league, user: req.user, players: roster.players })).save(),
-    nbaService.player(req.body.player)
-  ]);
-  if (!update) return req.oops('Unable to remove player');
-  req.actions = [{ category: 'roster', message: `dropped ${player.player_name}` }];
-  await activityService.addActivity(req);
-  return req.greatJob('Removed player', `/lg/${req.league._id}`);
+  try {
+    await rosterService.removeFromRoster(req.league, req.user, req.body.player);
+  } catch(err) {
+    return req.oops(err.message);
+  }
+  return req.greatJob('Removed player', `/roster`);
 };
 
 exports.replacePlayerForm = async (req, res) => {
@@ -88,23 +70,12 @@ exports.replacePlayer = async (req, res) => {
   if (req.league.drafting) return req.oops('League is still drafting');
   if (!req.query.player) return req.oops('No player specified to add', `/lg/${req.league._id}`);
   if (!req.body.player) return req.oops('No player specified to drop', `/lg/${req.league._id}`);
-  const leagueRosters = await rosterService.getRosters(req.league);
-  let roster = leagueRosters.find(roster => roster.user && roster.user.equals(req.user._id));
-  const checkAgainst = req.league.uniqueRosters ? leagueRosters : [roster];
-  if (!playerIsAvailable(checkAgainst, req.query.player)) return req.oops('That player isn\'t available', `/lg/${req.league._id}`);
-  roster.players = roster.players.filter(player => player._id != req.body.player);
-  roster.players.push(req.query.player);
-  const [update, playerAdded, playerDropped] = await Promise.all([
-    (new Roster({ league: req.league, user: req.user, players: roster.players })).save(),
-    nbaService.player(req.query.player),
-    nbaService.player(req.body.player)
-  ]);
-  if (!update) return req.oops('Unable to swap player');
-  req.actions = [
-    { category: 'roster', message: `dropped ${playerDropped.player_name}` },
-    { category: 'roster', message: `picked up ${playerAdded.player_name}` }
-  ];
-  await activityService.addActivity(req);
+  try {
+    await rosterService.removeFromRoster(req.league, req.user, req.body.player);
+    await rosterService.addToRoster(req.league, req.user, req.query.player);
+  } catch(err) {
+    return req.oops(err.message);
+  }
   return req.greatJob('Replaced player', `/lg/${req.league._id}`);
 };
 
@@ -119,3 +90,8 @@ exports.moveDraft = async (req, res) => {
   await draft.save();
   return req.greatJob('Player moved');
 };
+
+exports.autoDraft = async (req, res) => {
+  await rosterService.autoDraft(req.league);
+  return res.redirect(`/lg/${req.league._id}`);
+}
