@@ -13,7 +13,11 @@ MVP
   bugs
     saving account info replaces image if none is selected
     roster times are weird, make sure node and mongo time is nsync with gametimes
-    leagueSchema update triggering autodraft schedules job on league in current state, can't get update.
+
+  autodraft
+    scan for leagues to autodraft every 15 minutes
+    don't allow edit league start time to be less than 30 minutes from now
+    change "started" flag from virtual to being set by autodrafter
 
   league
     leaveLeague deletes rosters and any other data associate with league (drafts, scores)

@@ -31,7 +31,7 @@ async function data() {
     await deleteData();
     console.log('full send');
 
-    const players = await goGet('/player', {});
+    let allPlayers = await goGet('/player', {});
     const games = await goGet('/game', { season: 2016 });
     const teams = await goGet('/team', {});
     // const boxes = [];
@@ -42,12 +42,6 @@ async function data() {
       team.full_name = `${team.city} ${team.team_name}`;
       return team; 
     }));
-    await Player.insertMany(players.map(player => { 
-      player._id = player.id;
-      player.team = player.team_id;
-      player.name = player.player_name;
-      return player; 
-    }));
     await Game.insertMany(games.map(game => {
       game._id = game.id;
       game.home = game.home_id;
@@ -57,6 +51,20 @@ async function data() {
       game.final = game.date.isBefore(moment());
       return game;
     }));
+
+    allPlayers = allPlayers.slice(500, 520);
+
+    const playerBoxes = await Promise.all(allPlayers.map(async player => {
+      return new Promise(async (resolve, reject) => {
+        player._id = player.id;
+        player.team = player.team_id;
+        player.name = player.player_name;
+        player.scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
+        resolve(player);
+      });
+    }));
+
+    console.log(playerBoxes);
 
     console.log('\nData loaded!')
     process.exit();
