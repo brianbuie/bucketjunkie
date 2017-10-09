@@ -7,14 +7,15 @@ const gameSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  home_id: {
+  home: {
     type: Number,
     ref: 'Team'
   },
-  away_id: {
+  away: {
     type: Number,
     ref: 'Team'
   },
+  season: Number,
   date: Date,
   final: Boolean
 });

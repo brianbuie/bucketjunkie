@@ -8,7 +8,7 @@ const teamSchema = new mongoose.Schema({
     required: true,
   },
   city: String,
-  team_name: String,
+  name: String,
   full_name: String,
   abbreviation: String,
 });

@@ -8,7 +8,7 @@
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "test": "eslint .",
-    "data": "node ./scripts/load-nba-data.js",
+    "data": "node ./scripts/get-nba-data.js",
     "images": "node ./scripts/get-images.js --players --teams"
   },
   "repository": {

@@ -7,11 +7,11 @@ const playerSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  team_id: {
+  team: {
     type: Number,
     ref: 'Team'
   },
-  player_name: String,
+  name: String,
   first_name: String,
   last_name: String,
   position: String
