@@ -31,7 +31,7 @@ async function data() {
     await deleteData();
     console.log('full send');
 
-    let allPlayers = await goGet('/player', {});
+    let players = await goGet('/player', {});
     const games = await goGet('/game', { season: 2016 });
     const teams = await goGet('/team', {});
     // const boxes = [];
@@ -52,19 +52,21 @@ async function data() {
       return game;
     }));
 
-    allPlayers = allPlayers.slice(500, 520);
-
-    const playerBoxes = await Promise.all(allPlayers.map(async player => {
+    await Promise.all(players.map(async player => {
       return new Promise(async (resolve, reject) => {
         player._id = player.id;
         player.team = player.team_id;
         player.name = player.player_name;
-        player.scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
-        resolve(player);
+        let scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
+        if (!scores.length) resolve();
+        console.log('Inserting ' + player.name);
+        const playerInsert = await (new Player(player)).save();
+        if (!playerInsert) reject();
+        const boxes = await Box.insertMany(scores);
+        if (!boxes) reject();
+        resolve();
       });
     }));
-
-    console.log(playerBoxes);
 
     console.log('\nData loaded!')
     process.exit();
@@ -85,6 +87,10 @@ async function goGet(path, query) {
     options.qs.api_key = process.env.API_KEY;
     request(options, function (error, response, body) {
       if (error) reject(error);
+      if (response.statusCode != 200) {
+        console.log(response.statusCode);
+        reject();
+      }
       resolve(JSON.parse(body));
     });
   });
