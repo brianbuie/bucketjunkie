@@ -35,7 +35,7 @@ exports.addToRoster = async (league, user, player, rosters = null, verb = 'picke
   roster.players.push(player);
   const update = await (new Roster({ user: roster.user, league: roster.league, players: roster.players })).save();
   if (!update) throw new Error('Unable to add player');
-  const action = await activityService.addAction({ user, league, category: 'roster', message: `${verb} ${player.player_name}` });
+  const action = await activityService.addAction({ user, league, category: 'roster', message: `${verb} ${player.name}` });
   if (!action) throw new Error('Unable to add action');
 };
 
@@ -47,7 +47,7 @@ exports.removeFromRoster = async (league, user, player, rosters = null, verb = '
   roster.players = roster.players.filter(p => !p.equals(player));
   const update = await (new Roster({ user: roster.user, league: roster.league, players: roster.players })).save();
   if (!update) throw new Error('Unable to remove player');
-  const action = await activityService.addAction({ user, league, category: 'roster', message: `${verb} ${player.player_name}` });
+  const action = await activityService.addAction({ user, league, category: 'roster', message: `${verb} ${player.name}` });
   if (!action) throw new Error('Unable to add action');
 };
 
@@ -70,7 +70,7 @@ exports.autoDraft = async league => {
       return actions.push(action);
     }
     rosters[rosterIndex].players.push(player);
-    action.message = `drafted ${player.player_name} with the ${suffix(pick)} pick of round ${round}`;
+    action.message = `drafted ${player.name} with the ${suffix(pick)} pick of round ${round}`;
     return actions.push(action);
   };
   while (round < league.rosterSize) {

@@ -5,20 +5,20 @@ include ../roster/mixins/_addPlayerForm
 block content
   p
     != helpers.teamLogo(team.abbreviation)
-  p= `${team.city} ${team.team_name}`
+  p= `${team.full_name}`
   p Players
     ul
       each player in players
         li
           a(href=`/nba/player/${player._id}`)
             img(src=helpers.playerImage(player._id) style="max-width: 70px;")
-            != player.player_name
+            != player.name
           if req.session.league
             +addPlayerForm(player)
   p Upcoming Games
     ul
       each game in games
         if game.away_id._id === team._id
-          li= `@ ${game.home_id.full_name}`
+          li= `@ ${game.home.full_name}`
         else
-          li= `vs ${game.away_id.full_name}`
+          li= `vs ${game.away.full_name}`

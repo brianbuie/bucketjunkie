@@ -34,7 +34,6 @@ async function data() {
     let players = await goGet('/player', {});
     const games = await goGet('/game', { season: 2016 });
     const teams = await goGet('/team', {});
-    // const boxes = [];
 
     await Team.insertMany(teams.map(team => { 
       team._id = team.id;
@@ -47,28 +46,21 @@ async function data() {
       game.home = game.home_id;
       game.away = game.away_id;
       // for testing
-      game.date = moment(game.date).subtract(1, 'months');
+      game.date = moment(game.date).subtract(1, 'months').subtract(1, 'years');
       game.final = game.date.isBefore(moment());
       return game;
     }));
-
-    await Promise.all(players.map(async player => {
-      return new Promise(async (resolve, reject) => {
-        player._id = player.id;
-        player.team = player.team_id;
-        player.name = player.player_name;
-        let scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
-        if (!scores.length) resolve();
-        console.log('Inserting ' + player.name);
-        const playerInsert = await (new Player(player)).save();
-        if (!playerInsert) reject();
-        const boxes = await Box.insertMany(scores);
-        if (!boxes) reject();
-        resolve();
-      });
+    await Player.insertMany(players.map(player => {
+      player._id = player.id;
+      player.team = player.team_id;
+      player.name = player.player_name;
+      return player;
     }));
 
-    console.log('\nData loaded!')
+    // TODO get boxscores for each player, remove player if no boxscores
+    // let scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
+
+    console.log('\nData loaded!');
     process.exit();
   } catch(e) {
     console.log(e);
@@ -89,7 +81,7 @@ async function goGet(path, query) {
       if (error) reject(error);
       if (response.statusCode != 200) {
         console.log(response.statusCode);
-        reject();
+        reject(response);
       }
       resolve(JSON.parse(body));
     });

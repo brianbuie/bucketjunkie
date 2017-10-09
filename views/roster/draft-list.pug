@@ -8,7 +8,7 @@ block content
       each player in draft.players
         li
           img(src=helpers.playerImage(player._id) style="max-width: 50px;")
-          != player.player_name + ' '
+          != player.name + ' '
           +removePlayerForm(player)
           form(method="POST" action=`/roster/move`)
             input(type="hidden" name="player" value=player._id)

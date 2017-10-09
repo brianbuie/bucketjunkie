@@ -7,7 +7,7 @@ block content
     each player in roster.players
       p
         img(src=helpers.playerImage(player._id) style="max-width: 50px;")
-      p= player.player_name + ' '
+      p= player.name + ' '
         i= player.position
       p
         +removePlayerForm(player)

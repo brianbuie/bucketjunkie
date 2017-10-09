@@ -5,10 +5,10 @@ include ../roster/mixins/_addPlayerForm
 block content
   p
     img(src=helpers.playerImage(player._id) style="max-width: 50px;")
-  p= player.player_name + ' '
+  p= player.name + ' '
     i= player.position
   p
-    a(href=`/nba/team/${player.team_id._id}`)= player.team_id.full_name
+    a(href=`/nba/team/${player.team._id}`)= player.team.full_name
   p
     if req.session.league
       +addPlayerForm(player)
