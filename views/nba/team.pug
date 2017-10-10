@@ -15,10 +15,3 @@ block content
             != player.name
           if req.session.league
             +addPlayerForm(player)
-  p Upcoming Games
-    ul
-      each game in games
-        if game.away_id._id === team._id
-          li= `@ ${game.home.full_name}`
-        else
-          li= `vs ${game.away.full_name}`

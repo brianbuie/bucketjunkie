@@ -3,7 +3,6 @@ const fs = require('fs');
 
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
-const Game = mongoose.model('Game');
 
 exports.allTeams = async (req, res) => {
   const teams = await Team.find();
@@ -15,17 +14,11 @@ exports.allTeams = async (req, res) => {
 exports.team = async (req, res) => {
   const playersPromise = Player.find({ team: req.params.id });
   const teamPromise = Team.findOne({ _id: req.params.id });
-  const gamesPromise = Game
-    .find({ 
-      $or: [{ home: req.params.id }, { away: req.params.id }], 
-      date: { $gt: new Date() },
-      final: false
-    })
-    .limit(10)
-    .populate('home')
-    .populate('away');
-  const [players, team, games] = await Promise.all([playersPromise, teamPromise, gamesPromise]);
-  if (players && team && games) return res.render('nba/team', { title: team.full_name, players, team, games });
+  const [playersRaw, team] = await Promise.all([playersPromise, teamPromise]);
+  let players = await Promise.all(playersRaw.map(player => Player.getAverages(player._id)));
+  players = players.map(player => player[0]);
+  console.log(players);
+  if (players && team) return res.render('nba/team', { title: team.full_name, players, team });
   res.flash('error', 'error fetching team info');
   return res.redirect('/');
 };

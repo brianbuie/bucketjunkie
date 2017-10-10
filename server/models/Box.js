@@ -22,12 +22,15 @@ const boxSchema = new mongoose.Schema({
   min: String,
   fgm: Number,
   fga: Number,
+  fg2m: Number,
+  fg2a: Number,
   fg3m: Number,
   fg3a: Number,
   ftm: Number,
   fta: Number,
   oreb: Number,
   dreb: Number,
+  reb: Number,
   ast: Number,
   blk: Number,
   stl: Number,
@@ -42,14 +45,6 @@ const boxSchema = new mongoose.Schema({
 
 boxSchema.virtual('complete').get(function() {
   return this.period === "f";
-});
-
-boxSchema.virtual('fg2m').get(function() {
-  return this.fgm - this.fg3m;
-});
-
-boxSchema.virtual('reb').get(function() {
-  return this.oreb + this.dreb;
 });
 
 module.exports = mongoose.model('Box', boxSchema);

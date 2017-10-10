@@ -29,18 +29,19 @@ async function deleteData() {
 async function data() {
   try {
     await deleteData();
-    console.log('full send');
 
     let players = await goGet('/player', {});
     const games = await goGet('/game', { season: 2016 });
     const teams = await goGet('/team', {});
 
+    console.log('\ninserting teams');
     await Team.insertMany(teams.map(team => { 
       team._id = team.id;
       team.name = team.team_name;
       team.full_name = `${team.city} ${team.team_name}`;
       return team; 
     }));
+    console.log('\ninserting games');
     await Game.insertMany(games.map(game => {
       game._id = game.id;
       game.home = game.home_id;
@@ -50,15 +51,32 @@ async function data() {
       game.final = game.date.isBefore(moment());
       return game;
     }));
+    console.log('\ninserting players');
     await Player.insertMany(players.map(player => {
       player._id = player.id;
       player.team = player.team_id;
       player.name = player.player_name;
       return player;
     }));
+    console.log('\ngetting boxscores');
+    const boxscores = await Promise.all(players.map(player => goGet('/boxscore/player', { player_id: player._id, season: 2016 }))); 
+    const toInsert = [];
+    boxscores.forEach(player => {
+      if (player.length) player.map(score => toInsert.push(score));
+    });
+    console.log('\ninserting boxscores');
+    await Box.insertMany(toInsert.map(score => {
+      score.game = score.game_id;
+      score.team = score.team_id;
+      score.player = score.player_id;
+      score.opponent = score.opponent_id;
+      score.fg2a = score.fga - score.fg3a;
+      score.fgm = score.fgm - score.fg3m;
+      score.reb = score.oreb + score.dreb;
+      return score;
+    }));
 
-    // TODO get boxscores for each player, remove player if no boxscores
-    // let scores = await goGet('/boxscore/player', { player_id: player._id, season: 2016 });
+    // TODO recheck results errors
 
     console.log('\nData loaded!');
     process.exit();
@@ -79,11 +97,13 @@ async function goGet(path, query) {
     options.qs.api_key = process.env.API_KEY;
     request(options, function (error, response, body) {
       if (error) reject(error);
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
+        resolve(JSON.parse(body));
+      } else {
+        console.log(options);
         console.log(response.statusCode);
-        reject(response);
+        resolve([]);
       }
-      resolve(JSON.parse(body));
     });
   });
 }
