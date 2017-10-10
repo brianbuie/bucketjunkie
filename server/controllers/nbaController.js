@@ -17,6 +17,14 @@ exports.team = async (req, res) => {
   const [playersRaw, team] = await Promise.all([playersPromise, teamPromise]);
   let players = await Promise.all(playersRaw.map(player => Player.getAverages(player._id)));
   players = players.map(player => player[0]);
+  if (req.league) {
+    players = players.map(player => {
+      player = player.toObject();
+      const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+      player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * league.pointValues[stat]), 0);
+      return player;
+    });
+  }
   console.log(players);
   if (players && team) return res.render('nba/team', { title: team.full_name, players, team });
   res.flash('error', 'error fetching team info');

@@ -41,6 +41,7 @@ async function data() {
       team.full_name = `${team.city} ${team.team_name}`;
       return team; 
     }));
+
     console.log('\ninserting games');
     await Game.insertMany(games.map(game => {
       game._id = game.id;
@@ -51,6 +52,7 @@ async function data() {
       game.final = game.date.isBefore(moment());
       return game;
     }));
+
     console.log('\ninserting players');
     await Player.insertMany(players.map(player => {
       player._id = player.id;
@@ -58,12 +60,14 @@ async function data() {
       player.name = player.player_name;
       return player;
     }));
+
     console.log('\ngetting boxscores');
     const boxscores = await Promise.all(players.map(player => goGet('/boxscore/player', { player_id: player._id, season: 2016 }))); 
     const toInsert = [];
     boxscores.forEach(player => {
       if (player.length) player.map(score => toInsert.push(score));
     });
+
     console.log('\ninserting boxscores');
     await Box.insertMany(toInsert.map(score => {
       score.game = score.game_id;
@@ -96,13 +100,15 @@ async function goGet(path, query) {
     };
     options.qs.api_key = process.env.API_KEY;
     request(options, function (error, response, body) {
-      if (error) reject(error);
-      if (response.statusCode == 200) {
-        resolve(JSON.parse(body));
-      } else {
-        console.log(options);
-        console.log(response.statusCode);
+      if (error) {
+        console.log(error);
         resolve([]);
+      }
+      if (!response || response.statusCode != 200) {
+        console.log(options);
+        resolve([]);
+      } else {
+        resolve(JSON.parse(body));
       }
     });
   });
