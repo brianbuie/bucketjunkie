@@ -71,7 +71,7 @@ async function data() {
       score.player = score.player_id;
       score.opponent = score.opponent_id;
       score.fg2a = score.fga - score.fg3a;
-      score.fgm = score.fgm - score.fg3m;
+      score.fg2m = score.fgm - score.fg3m;
       score.reb = score.oreb + score.dreb;
       return score;
     }));
