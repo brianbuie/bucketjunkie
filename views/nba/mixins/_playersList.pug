@@ -1,0 +1,26 @@
+include ../../roster/mixins/_addPlayerForm
+
+mixin playersList(players)
+  p Top Players
+  table
+    thead
+      tr
+        th
+        th
+        th Fantasy Score
+        each stat in helpers.pointValues
+          th= stat.attr
+    tbody
+      each player in players
+        tr
+          td
+            if req.session.league
+              +addPlayerForm(player)
+          td
+            a(href=`/nba/player/${player._id}`)
+              img(src=helpers.playerImage(player._id) style="max-width: 70px;")
+              != player.name
+          td= Math.round(player.score)
+          each stat in helpers.pointValues
+            - let val = Math.round(player.averages[stat.attr]) || ''
+            td= val

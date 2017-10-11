@@ -14,12 +14,14 @@ const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 const flashHandlers = require('./handlers/flashHandlers');
 const autoDraftStartup = require('./jobs/autoDraftStartup');
+const updateAverages = require('./jobs/updateAverages');
 
 const User = mongoose.model('User');
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// updateAverages.init();
 autoDraftStartup.init();
 
 const app = express();

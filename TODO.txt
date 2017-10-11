@@ -28,6 +28,16 @@ MVP
   scoring
     rely on API as much as possible, evaluate db storing if certain requests start to hurt
 
+  nba listing
+    "top" gets all players sorted by average
+      filter all players based on query params
+        free agents
+        team
+        playing today
+    player page shows all performances this season
+      upcoming games
+
+
   nbaService
     map api requests to a service methods that can be switched to DB lookups if necessary
 

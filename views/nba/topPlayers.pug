@@ -1,28 +1,6 @@
 extends ../layout
 
-include ../roster/mixins/_addPlayerForm
+include ./mixins/_playersList
 
 block content
-  p
-    //- != helpers.teamLogo(team.abbreviation)
-  p Top Players
-  table
-    thead
-      tr
-        th
-        th Fantasy Score
-        each stat in helpers.pointValues
-          th= stat.attr
-    tbody
-      each player in players
-        tr
-          td
-            a(href=`/nba/player/${player._id}`)
-              //- img(src=helpers.playerImage(player._id) style="max-width: 70px;")
-              != player.name
-            if req.session.league
-              +addPlayerForm(player)
-          td= Math.round(player.score)
-          each stat in helpers.pointValues
-            - let val = Math.round(player.averages[stat.attr]) || ''
-            td= val
+  +playersList(players)

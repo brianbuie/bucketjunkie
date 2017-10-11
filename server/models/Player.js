@@ -11,6 +11,16 @@ const playerSchema = new mongoose.Schema({
     type: Number,
     ref: 'Team'
   },
+  averages: {
+    ftm: { type: Number, default: 0 },
+    fg2m: { type: Number, default: 0 },
+    fg3m: { type: Number, default: 0 },
+    reb: { type: Number, default: 0 },
+    ast: { type: Number, default: 0 },
+    blk: { type: Number, default: 0 },
+    stl: { type: Number, default: 0 },
+    to: { type: Number, default: 0 },
+  },
   name: String,
   first_name: String,
   last_name: String,
@@ -27,6 +37,7 @@ playerSchema.statics.getAverages = function(id) {
         as: 'boxes' 
     } },
     { $project: {
+        _id: '$$ROOT._id',
         team: '$$ROOT.team',
         name: '$$ROOT.name',
         first_name: '$$ROOT.first_name',
