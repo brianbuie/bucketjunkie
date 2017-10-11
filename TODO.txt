@@ -33,8 +33,10 @@ MVP
 
   schedule tasks
     check for player images via nba.com script
-    update players and team info (switch nba service to just API calls?)
+    update players and team info
+    schedule autodrafts
     get boxscores
+    update player averages
     score rosters
 
   Deployment

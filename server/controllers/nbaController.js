@@ -19,17 +19,40 @@ exports.team = async (req, res) => {
   players = players.map(player => player[0]);
   if (req.league) {
     players = players.map(player => {
-      player = player.toObject();
       const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
-      player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * league.pointValues[stat]), 0);
+      player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * req.league.pointValues[stat]), 0);
       return player;
     });
+    players.sort((a,b) => {
+      if (a.score < b.score) return 1;
+      if (a.score > b.score) return -1;
+      return 0;
+    });
   }
-  console.log(players);
   if (players && team) return res.render('nba/team', { title: team.full_name, players, team });
   res.flash('error', 'error fetching team info');
   return res.redirect('/');
 };
+
+exports.topPlayers = async (req, res) => {
+  const allPlayers = await Player.find({});
+  let players = await Promise.all(allPlayers.map(player => Player.getAverages(player._id)));
+  players = players.map(player => player[0]);
+  if (req.league) {
+    players = players.map(player => {
+      const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+      player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * req.league.pointValues[stat]), 0);
+      return player;
+    });
+    players.sort((a,b) => {
+      if (a.score < b.score) return 1;
+      if (a.score > b.score) return -1;
+      return 0;
+    });
+  }
+  players.splice(50);
+  return res.render('nba/topPlayers', { title: 'Top Players', players });
+}
 
 exports.player = async (req, res) => {
   const player = await Player.findOne({ _id: req.params.id }).populate('team');

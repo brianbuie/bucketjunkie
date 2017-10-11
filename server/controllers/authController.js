@@ -41,6 +41,14 @@ exports.useSession = async (req, res, next) => {
   return next();
 };
 
+exports.optionalSession = async(req, res, next) => {
+  if (!req.session.league || !req.isAuthenticated()) return next();
+  req.league = await getLeague(req.session.league._id);
+  req.leagueAuth = setPermissions(req.league, req.user);
+  if (req.leagueAuth.isMember) req.session.league = req.league;
+  return next();
+}
+
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next();
   req.oops('You must be logged in to do that.', `/account/login?ref=${req.originalUrl}`);
