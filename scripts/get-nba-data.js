@@ -48,7 +48,7 @@ async function data() {
       game.home = game.home_id;
       game.away = game.away_id;
       // for testing
-      game.date = moment(game.date).subtract(1, 'months').subtract(1, 'years');
+      game.date = moment(game.date).subtract(1, 'months').add(1, 'years');
       game.final = game.date.isBefore(moment());
       return game;
     }));
