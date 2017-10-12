@@ -13,7 +13,7 @@ const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 const flashHandlers = require('./handlers/flashHandlers');
-const autoDraftStartup = require('./jobs/autoDraftStartup');
+const autoDraft = require('./jobs/autoDraft');
 const updateAverages = require('./jobs/updateAverages');
 
 const User = mongoose.model('User');
@@ -22,7 +22,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // updateAverages.init();
-autoDraftStartup.init();
+autoDraft.startup();
 
 const app = express();
 

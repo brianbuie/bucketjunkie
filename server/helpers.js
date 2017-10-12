@@ -15,7 +15,7 @@ exports.menu = [
   { slug: '/leagues', title: 'My Leagues' },
   { slug: '/leagues/public', title: 'Join' },
   { slug: '/leagues/create', title: 'Create' },
-  { slug: '/nba', title: 'NBA' }
+  { slug: '/nba/top', title: 'NBA' }
 ];
 
 exports.pointValues = [

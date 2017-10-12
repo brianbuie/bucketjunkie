@@ -20,7 +20,7 @@ mixin leagueForm(league, exists = false)
     
     if !exists || !league.started
       label(for="start") Start
-        - const dateInput = league.start ? helpers.moment(league.start) : helpers.moment().add(1, 'minutes')
+        - const dateInput = league.start ? helpers.moment(league.start) : helpers.moment().add(6, 'minutes')
         input(type="datetime-local" name="start" value=dateInput.format('YYYY-MM-DDTHH:mm'))
       label(for="rosterSize") Roster Size (max 20)
         input(name="rosterSize" type="number" value=(league.rosterSize || 5))

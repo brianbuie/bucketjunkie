@@ -14,8 +14,8 @@ exports.validateLeague = [
     .withMessage('Your league must have a name'),
   sanitizeBody('description'),
   body('leagueType').isIn(['fantasy', 'contest']).optional(),
-  body('start').custom(val => moment(val).isAfter(moment()))
-    .withMessage('Start time must be in the future').optional(),
+  body('start').custom(val => moment(val).isAfter(moment().add(5, "m")))
+    .withMessage('Start time must be at least 5 minutes in the future').optional(),
   body('rosterSize').custom(val => val >= 1 && val <= 20)
     .withMessage('Roster Size must be between 1 and 20').optional(),
   sanitizeBody('pointValues.*').toInt(),

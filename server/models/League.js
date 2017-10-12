@@ -55,6 +55,10 @@ const leagueSchema = new mongoose.Schema({
     type: Date,
     default: moment().add(1, 'days')
   },
+  started: {
+    type: Boolean,
+    default: false
+  },
   public: {
     type: Boolean,
     default: false,
@@ -72,31 +76,8 @@ const leagueSchema = new mongoose.Schema({
   toJSON: { virtuals: true }
 });
 
-leagueSchema.virtual('started').get(function() {
-  return moment(this.start).isBefore();
-});
-
 leagueSchema.virtual('drafting').get(function() {
   return !this.started && this.uniqueRosters
 });
-
-leagueSchema.statics.jobs = {};
-
-
-leagueSchema.pre('save', function(next) {
-  if (!this.isModified('start') || !this.uniqueRosters) return next();
-  console.log(`Scheduling autodraft for ${this.name} \t${this.start}`);
-  if (this.constructor.jobs[this.id]) {
-    console.log(`canceling previous autodraft for ${this.name}`);
-    this.constructor.jobs[this.id].cancel();
-  }
-  this.populate('members');
-  const league = this;
-  this.constructor.jobs[this.id] = schedule.scheduleJob(this.start, function() { 
-    rosterService.autoDraft(league);
-  });
-  return next();
-});
-
 
 module.exports = mongoose.model('League', leagueSchema);
