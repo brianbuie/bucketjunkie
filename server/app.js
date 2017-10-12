@@ -13,16 +13,14 @@ const routes = require('./routes/index');
 const helpers = require('./helpers');
 const errorHandlers = require('./handlers/errorHandlers');
 const flashHandlers = require('./handlers/flashHandlers');
-const autoDraft = require('./jobs/autoDraft');
-const updateAverages = require('./jobs/updateAverages');
+const jobManager = require('./jobs/jobManager');
+
+jobManager.startup();
 
 const User = mongoose.model('User');
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// updateAverages.init();
-autoDraft.startup();
 
 const app = express();
 

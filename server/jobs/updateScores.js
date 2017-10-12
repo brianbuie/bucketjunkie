@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const game = mongoose.model('Game');
+const Game = mongoose.model('Game');
 
 exports.startup = () => {
-  // get yesterday's games
+  // get games with date before now, final: false
 
   // foreach game
     // if game is complete
