@@ -14,14 +14,8 @@ MVP
     saving account info replaces image if none is selected
     roster times are weird, make sure node and mongo time is nsync with gametimes
 
-  league
-    leaveLeague deletes rosters and any other data associate with league (drafts, scores)
-
   rosters
     propose trade system
-  
-  scoring
-    rely on API as much as possible, evaluate db storing if certain requests start to hurt
 
   nba listing
     "top" gets all players sorted by average
@@ -39,9 +33,6 @@ MVP
   schedule tasks
     check for player images via nba.com script
     update players and team info
-    get boxscores
-    update player averages
-    score rosters
 
   Deployment
     setup subdomain & digitalocean server

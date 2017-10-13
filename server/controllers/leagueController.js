@@ -7,6 +7,9 @@ const rosterService = require('../services/rosterService');
 const userService = require('../services/userService');
 
 const League = mongoose.model('League');
+const Roster = mongoose.model('Roster');
+const Draft = mongoose.model('Draft');
+const Score = mongoose.model('Score');
 
 exports.validateLeague = [
   sanitizeBody('name').trim(),
@@ -144,6 +147,8 @@ exports.leaveLeague = async (req, res) => {
     { new: true },
   );
   if (!league) return req.oops('Error Leaving league', `/lg/${req.league._id}`);
+  const removeQ = { league: req.league._id, user: req.user._id };
+  await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
   req.session.league = undefined;
   req.actions = [{ category: 'league', message: `left ${req.league.name}` }];
@@ -170,7 +175,9 @@ exports.removeMember = async (req, res) => {
     },
     { new: true },
   );
-  if (!league) return req.oop('Error Removing Member' `/lg/${req.league._id}`);
+  if (!league) return req.oops('Error Removing Member' `/lg/${req.league._id}`);
+  const removeQ = { league: req.league._id, user: req.body.member };
+  await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
   req.actions = [
     { category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
