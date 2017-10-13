@@ -19,4 +19,12 @@ const rosterSchema = new mongoose.Schema({
   }],
 });
 
+rosterSchema.statics.effectiveAt = function(date) {
+  return this.aggregate([
+    { $match: { effective: { $lt: date } } },
+    { $sort: { effective: 1 } },
+    { $group: { _id: "$league", user: "$user" } }
+  ]);
+};
+
 module.exports = mongoose.model('Roster', rosterSchema);
