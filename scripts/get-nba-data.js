@@ -47,6 +47,7 @@ async function data() {
       game._id = game.id;
       game.home = game.home_id;
       game.away = game.away_id;
+      
       // for testing
       game.date = moment(game.date).subtract(1, 'months').add(1, 'years');
       game.final = game.date.isBefore(moment());
@@ -62,22 +63,25 @@ async function data() {
     }));
 
     console.log('\ngetting boxscores');
-    const boxscores = await Promise.all(players.map(player => goGet('/boxscore/player', { player_id: player._id, season: 2016 }))); 
+    const gameBoxes = await Promise.all(games.map(game => {
+      if (game.final) return goGet('/boxscore/player', { game_id: game._id });
+      return [];
+    })); 
     const toInsert = [];
-    boxscores.forEach(player => {
-      if (player.length) player.map(score => toInsert.push(score));
+    gameBoxes.forEach(game => {
+      if (game.length) game.map(box => toInsert.push(box));
     });
 
     console.log('\ninserting boxscores');
-    await Box.insertMany(toInsert.map(score => {
-      score.game = score.game_id;
-      score.team = score.team_id;
-      score.player = score.player_id;
-      score.opponent = score.opponent_id;
-      score.fg2a = score.fga - score.fg3a;
-      score.fg2m = score.fgm - score.fg3m;
-      score.reb = score.oreb + score.dreb;
-      return score;
+    await Box.insertMany(toInsert.map(box => {
+      box.game = box.game_id;
+      box.team = box.team_id;
+      box.player = box.player_id;
+      box.opponent = box.opponent_id;
+      box.fg2a = box.fga - box.fg3a;
+      box.fg2m = box.fgm - box.fg3m;
+      box.reb = box.oreb + box.dreb;
+      return box;
     }));
 
     // TODO recheck results errors
