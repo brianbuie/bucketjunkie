@@ -16,6 +16,7 @@ const Team = require('../server/models/Team');
 const Player = require('../server/models/Player');
 const Game = require('../server/models/Game');
 const Box = require('../server/models/Box');
+const Score = require('../server/models/Score');
 
 
 async function deleteData() {
@@ -23,6 +24,7 @@ async function deleteData() {
   await Player.remove();
   await Game.remove();
   await Box.remove();
+  await Score.remove();
   console.log('\nData deleted!');
 }
 
@@ -50,7 +52,7 @@ async function data() {
       
       // for testing
       game.date = moment(game.date).subtract(1, 'months').add(1, 'years');
-      game.final = game.date.isBefore(moment());
+      game.final = false;
       return game;
     }));
 
@@ -61,30 +63,6 @@ async function data() {
       player.name = player.player_name;
       return player;
     }));
-
-    console.log('\ngetting boxscores');
-    const gameBoxes = await Promise.all(games.map(game => {
-      if (game.final) return goGet('/boxscore/player', { game_id: game._id });
-      return [];
-    })); 
-    const toInsert = [];
-    gameBoxes.forEach(game => {
-      if (game.length) game.map(box => toInsert.push(box));
-    });
-
-    console.log('\ninserting boxscores');
-    await Box.insertMany(toInsert.map(box => {
-      box.game = box.game_id;
-      box.team = box.team_id;
-      box.player = box.player_id;
-      box.opponent = box.opponent_id;
-      box.fg2a = box.fga - box.fg3a;
-      box.fg2m = box.fgm - box.fg3m;
-      box.reb = box.oreb + box.dreb;
-      return box;
-    }));
-
-    // TODO recheck results errors
 
     console.log('\nData loaded!');
     process.exit();

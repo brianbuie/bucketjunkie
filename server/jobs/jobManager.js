@@ -1,4 +1,3 @@
-const schedule = require('node-schedule');
 const autoDraft = require('./autoDraft');
 const updateAverages = require('./updateAverages');
 const updateScores = require('./updateScores');
@@ -9,10 +8,10 @@ exports.startup = () => {
   // sets its own schedule
   autoDraft.startup();
 
-  // update averages hourly, on minute 57
-  const updateAverageRule = new schedule.RecurrenceRule();
-  updateAverageRule.minute = 57;
-  jobs.updatAverages = schedule.scheduleJob(updateAverageRule, function() { updateAverages.update(); });
-
-  updateScores.startup();
+  // ever 30 minutes: updateScores 5 minutes later, updateAverages 10 minutes later
+  // ensures these tasks won't overlap
+  setInterval(() => {
+    setTimeout(updateScores.update, 5*60*1000)
+    setTimeout(updateAverages.update, 10*60*1000)
+  }, 30*60*1000);
 };
