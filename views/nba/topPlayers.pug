@@ -3,4 +3,7 @@ extends ../layout
 include ./mixins/_playersList
 
 block content
+  each team in teams
+    a(href=`/nba/players?team=${team._id}`, class=(activeTeam === team._id ? 'is-active' : ''), style="max-width: 25px;")
+      != helpers.teamLogo(team.abbreviation)
   +playersList(players)

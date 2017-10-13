@@ -1,8 +1,20 @@
 MVP
 
   Frontend
-    prototype front-end UI/UX strategy
-    reevaluate foundation, maybe go back to bootstrap
+    Views
+      League homepage
+        member scoreboard
+        current roster
+        activity feed
+
+      League listing (reuse on myleagues, public leagues)
+      League edit/create form
+      Player listing
+
+      unauthenticated homepage (marketingish)
+      login/register
+      account edit
+
     "No way associated with the NBA" footer notice
     leaderboard
       season
@@ -12,7 +24,8 @@ MVP
 
   bugs
     saving account info replaces image if none is selected
-    roster times are weird, make sure node and mongo time is nsync with gametimes
+
+  move categories to config file that gets pulled in everywhere just in case it needs to change
 
   rosters
     propose trade system
