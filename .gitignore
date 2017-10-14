@@ -1,5 +1,5 @@
 node_modules/*
 *.DS_STORE
 variables.env
-public/dist/*
-public/images/uploads/*
+client/public/dist/*
+client/public/images/uploads/*

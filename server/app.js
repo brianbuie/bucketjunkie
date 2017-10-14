@@ -24,10 +24,10 @@ passport.deserializeUser(User.deserializeUser());
 
 const app = express();
 
-app.set('views', path.resolve(__dirname, '..', 'views'));
+app.set('views', path.resolve(__dirname, '..', 'client/views'));
 app.set('view engine', 'pug');
 
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
+app.use(express.static(path.resolve(__dirname, '..', 'client/public')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

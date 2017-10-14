@@ -3,9 +3,15 @@ MVP
   Frontend
     Views
       League homepage
-        member scoreboard
-        current roster
-        activity feed
+        Rosters (expandable)
+        Draft list
+        Activity feed (tabs)
+        League info
+
+      Account page
+        logout
+        Add photo
+        Myleagues
 
       League listing (reuse on myleagues, public leagues)
       League edit/create form
@@ -55,6 +61,9 @@ MVP
 
 
 FUTURE
+
+  fontend
+    marketing unauthenticated homepage
 
   Bugs
     logout sometimes doesn't remove account info from menu bar
