@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const LiveReloadPlugin = require('webpack-livereload-plugin');
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -16,7 +14,16 @@ const sassResources = {
   }
 };
 
-const cssDev = [ 'style-loader', 'css-loader?sourceMap', 'postcss-loader', 'sass-loader', sassResources ];
+const postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    plugins: loader => [
+      require('autoprefixer')({ browsers: ['last 3 versions'] }),
+    ]
+  }
+}
+
+const cssDev = [ 'style-loader', 'css-loader?sourceMap', postCssLoader, 'sass-loader', sassResources ];
 
 const cssProd = ExtractTextPlugin.extract({
   fallback: 'style-loader',
@@ -29,13 +36,14 @@ const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoint
 
 module.exports = {
   entry: {
-    app: './client/src/index.js',
+    app: ['./client/src/index.js'],
     bootstrap: bootstrapConfig,
   },
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'client/public/dist'),
     filename: '[name].bundle.js',
+    publicPath: 'http://localhost:8081/dist/'
   },
   module: {
     rules: [
@@ -67,14 +75,10 @@ module.exports = {
       Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
       // Util: "exports-loader?Util!bootstrap/js/dist/util",
     }),
-    new LiveReloadPlugin(),
     new ExtractTextPlugin({
       filename: '[name].css',
       disable: !isProd,
       allChunks: true
-    }),
-    new webpack.LoaderOptionsPlugin({
-      postcss: {},
     })
   ],
 };

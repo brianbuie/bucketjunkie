@@ -23,7 +23,22 @@ require('./models/Box');
 
 const app = require('./app');
 
-app.set('port', process.env.PORT || 7777);
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
-});
+if (process.env.NODE_ENV === 'development') {
+  const webpack = require('webpack');
+  const WebpackDevServer = require('webpack-dev-server');
+  const webpackConfig = require('../webpack.config.js');
+
+  webpackConfig.entry.app.unshift("webpack-dev-server/client?http://localhost:8081");
+  const devServer = new WebpackDevServer(webpack(webpackConfig), {
+    contentBase: path.resolve(__dirname, '..', 'client/public/dist/'),
+    hot: false,
+    quiet: false,
+    noInfo: false,
+    publicPath: '/dist/',
+    stats: { colors: true }
+  });
+  devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
+}
+
+app.set('port', 8080);
+app.listen(app.get('port'), () => console.log(`Express running → PORT ${app.get('port')}`));

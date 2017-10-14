@@ -29,6 +29,12 @@ app.set('view engine', 'pug');
 
 app.use(express.static(path.resolve(__dirname, '..', 'client/public')));
 
+if (app.get('env') === 'development') {
+  const proxy = require('proxy-middleware');
+  const url = require('url');
+  app.use('/dist', proxy(url.parse('http://localhost:8081/dist')));
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

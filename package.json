@@ -4,7 +4,7 @@
   "description": "national fantasy association",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon ./server/start.js --ignore public/",
+    "dev": "nodemon ./server/start.js --ignore client/src/",
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "test": "eslint .",
@@ -69,6 +69,7 @@
     "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.0.6",
     "precss": "^2.0.0",
+    "proxy-middleware": "^0.15.0",
     "request": "^2.83.0",
     "resolve-url-loader": "^2.1.1",
     "sass-loader": "^6.0.6",
@@ -76,6 +77,6 @@
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.6.0",
-    "webpack-livereload-plugin": "^0.11.0"
+    "webpack-dev-server": "^2.9.1"
   }
 }
