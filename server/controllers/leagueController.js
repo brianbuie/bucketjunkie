@@ -95,6 +95,12 @@ exports.publicLeagues = async (req, res) => {
   return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
 };
 
+const sortByScore = (a,b) => {
+  if (a.score < b.score) return 1;
+  if (a.score > b.score) return -1;
+  return 0;
+}
+
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
   const [activity, rosters, scores] = await Promise.all([
@@ -106,15 +112,20 @@ exports.leagueOverview = async (req, res, next) => {
   league.members = league.members.map(member => {
     const score = scores.find(score => score._id.equals(member._id));
     const roster = rosters.find(roster => roster.user._id.equals(member._id));
+    if (roster) {
+      member.roster = roster.players.map(player => {
+        player = player.toObject();
+        const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+        player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * league.pointValues[stat]), 0);
+        return player;
+      }).sort(sortByScore);
+    } else {
+      member.roster = [];
+    }
     member.score =  score ? score.score : 0;
-    member.roster = roster || [];
     return member;
   });
-  league.members.sort((a,b) => {
-    if (a.score < b.score) return 1;
-    if (a.score > b.score) return -1;
-    return 0;
-  });
+  league.members.sort(sortByScore);
   return res.render('league', { title: `${req.league.name} Overview`, league, activity });
 };
 

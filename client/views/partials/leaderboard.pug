@@ -1,10 +1,24 @@
-.bg-light
-  a.link-discreet(href="#mockup", data-toggle="collapse", aria-expanded="false", aria-controls="mockup")
-    .d-flex.flex-row.justify-content-start.align-items-center
-      .p-3
-        h2.my-0 200
-      .py-3
-        img.profile-picture.rounded-circle(src="/images/user-default.png")
-      .p-3
-        h3.font-weight-normal.my-0 Username
-  .collapse(id="mockup") Content content content
+each user in league.members 
+  .bg-light.mb-3
+    a.link-discreet(href=`#${user.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${user.username}-roster`)
+      .d-flex.flex-row.justify-content-start.align-items-center
+        .p-3
+          h2.my-0= user.score
+        .py-3
+          img.profile-picture.rounded-circle(src="/images/user-default.png")
+        .p-3
+          h3.font-weight-normal.my-0= user.username
+    .collapse(id=`${user.username}-roster`)
+      if !user.roster.length
+        p.text-center.text-italic.disabled No players on roster
+      else
+        table.table.table-striped
+          tbody
+            each player in user.roster
+              tr
+                td.text-center.align-middle
+                  h3.my-0.font-weight-normal= Math.round(player.score)
+                td.pb-0.align-bottom
+                  img(src=helpers.playerImage(player._id), style="max-width: 65px;")
+                td.align-middle
+                  h5.my-0.font-weight-normal= player.name
