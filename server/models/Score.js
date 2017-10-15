@@ -24,4 +24,11 @@ const scoreSchema = new mongoose.Schema({
   points: Number
 });
 
+scoreSchema.statics.getTotalScores = function(leagueId) {
+  return this.aggregate([
+    { $match: { league: leagueId } },
+    { $group: { _id: '$user', score: { $sum: '$points' } } }
+  ]);
+}
+
 module.exports = mongoose.model('Score', scoreSchema);

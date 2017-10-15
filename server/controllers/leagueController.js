@@ -97,9 +97,25 @@ exports.publicLeagues = async (req, res) => {
 
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
-  const promises = [activityService.getActivity(req), rosterService.getRosters(req.league)];
-  const [activity, rosters] = await Promise.all(promises);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
+  const [activity, rosters, scores] = await Promise.all([
+    activityService.getActivity(req), 
+    rosterService.getRosters(req.league),
+    Score.getTotalScores(req.league._id)
+  ]);
+  const league = req.league.toObject();
+  league.members = league.members.map(member => {
+    const score = scores.find(score => score._id.equals(member._id));
+    const roster = rosters.find(roster => roster.user._id.equals(member._id));
+    member.score =  score ? score.score : 0;
+    member.roster = roster || [];
+    return member;
+  });
+  league.members.sort((a,b) => {
+    if (a.score < b.score) return 1;
+    if (a.score > b.score) return -1;
+    return 0;
+  });
+  return res.render('league', { title: `${req.league.name} Overview`, league, activity });
 };
 
 exports.validateChat = [
