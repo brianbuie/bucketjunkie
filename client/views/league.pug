@@ -1,0 +1,17 @@
+extends ./layout
+
+block content
+  .row
+    .col
+      if league.started
+        include ./partials/leaderboard
+      else
+        include ./partials/draftlist
+    .col
+      include ./partials/activityFeed
+    .col
+      include ./partials/leagueInfo
+
+  pre(style="font-size: 12px;")
+    != helpers.dump(req.league)
+    != helpers.dump(rosters)

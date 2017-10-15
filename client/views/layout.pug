@@ -12,54 +12,44 @@ html
   body
 
     block header
-      nav.navbar
-        .top-bar-left
-          ul.menu.icons
-            li
-              a(href="/")
-                i.fi-list
-                strong #{helpers.siteName}
-            each item in helpers.menu
-              li
-                a(href=item.slug, class=(currentPath.startsWith(item.slug) ? 'is-active' : '')) #{item.title}
-        .top-bar-right
-          ul.menu
-            if req.user
-              if req.session.league
-                li
-                  a(href=`/lg/${req.session.league._id}`)= req.session.league.name
-                li
-                  a(href='/roster') Roster
-              li
-                a(href="/account/")= req.user.username
-              li
-                a(href="/account/")
-                  img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
-              li
-                a(href="/account/logout") Logout
+      nav.navbar.navbar-expand-lg.bg-dark
+        a.navbar-brand(href="/")
+          img(src="/images/logo.svg")
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            if league
+              a.nav-link(href=`/lg/${league._id}`)= league.name
             else
-              li 
-                a(href=`/account/register${ref}`) Register
-              li
-                a(href=`/account/login${ref}`) Log In
+              a.nav-link(href="/leagues/") Leagues
+          li.nav-item
+            a.nav-link(href="/nba/players") Players
+        ul.navbar-nav
+          if user
+            li.nav-item
+              a.nav-link(href="/account/")= user.username
+            li.nav-item
+              a.nav-link(href="/account/")
+                img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
+          else
+            li.nav-item 
+              a.nav-link(href=`/account/register${ref}`) Register
+            li.nav-item
+              a.nav-link(href=`/account/login${ref}`) Log In
+
 
     block messages
       if locals.flashes
-        .row.align-right.flash-messages
-          - const categories = Object.keys(locals.flashes)
-          each category in categories
-            each message in flashes[category]
-              //- TODO make these dismissable
-              .callout.small-12.medium-8.large-6(class=`${category}` data-closable="slide-out-right")
-                != message
-                button.close-button(aria-label="Dismiss Alert" type="button" data-close) 
-                  span(aria-hidden="true") &times;
+        - const categories = Object.keys(locals.flashes)
+        each category in categories
+          each message in flashes[category]
+            .alert.alert-dismissible.fade.show(class=`alert-${category}` role="alert")
+              button.close(aria-label="Close" type="button" data-dismiss="alert") 
+                span(aria-hidden="true") &times;
+              != message
 
-    .grid-container
+    .container-fluid.main
       block content
 
     block scripts
       script(src="/dist/bootstrap.bundle.js")
       script(src="/dist/app.bundle.js")
-      if !helpers.isProd
-        script(src=helpers.liveReload)

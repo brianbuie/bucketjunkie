@@ -58,6 +58,7 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.helpers = helpers;
   res.locals.req = req;
+  res.locals.user = req.user;
   res.locals.ref = req.query.ref ? `?ref=${req.query.ref}` : '/'
   res.locals.flashes = req.flash();
   res.locals.currentPath = req.path;

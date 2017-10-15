@@ -7,16 +7,7 @@ exports.isProd = process.env.NODE_ENV === 'production';
 
 exports.dump = obj => JSON.stringify(obj, null, 2);
 
-exports.teamLogo = abbreviation => fs.readFileSync(__dirname + `/../public/images/teams/${abbreviation}.svg`);
-
-exports.siteName = 'Fantastic';
-
-exports.menu = [
-  { slug: '/leagues', title: 'My Leagues' },
-  { slug: '/leagues/public', title: 'Join' },
-  { slug: '/leagues/create', title: 'Create' },
-  { slug: '/nba/players', title: 'NBA' }
-];
+exports.teamLogo = abbreviation => fs.readFileSync(__dirname + `/../client/public/images/teams/${abbreviation}.svg`);
 
 exports.pointValues = [
   { attr: 'ftm', name: 'Free Throw made' },
@@ -32,7 +23,7 @@ exports.pointValues = [
 exports.playerImage = id => {
   const defaultImagePath = '/images/player-default.png';
   const playerImagePath = `/images/players/${id}.png`;
-  if (fs.existsSync(__dirname + `/../public${playerImagePath}`)) return playerImagePath;
+  if (fs.existsSync(__dirname + `/../client/public${playerImagePath}`)) return playerImagePath;
   return defaultImagePath;
 };
 

@@ -1,0 +1,73 @@
+//
+// Colors
+//
+
+$white:  #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:  #000 !default;
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$brand-gold: #EABF73;
+$green: #64CC8E; // success
+$red: #D86F6A; // danger
+$light-blue: #88A6BF;
+$dark-gray: #4D5459;
+$medium-gray: #6F777F;
+$light-gray: #C8CCCE;
+$lighter-gray: #DAE0E0;
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  error: $red,
+  light: $light-gray,
+  dark: $gray-800
+);
+
+//
+// Spacers
+//
+$spacer: 1rem !default;
+$spacer-sm: $spacer/2;
+$spacer-lg: $spacer * 2;
+
+
+//
+// Options
+//
+$enable-rounded:            false;
+$enable-shadows:            false;
+$enable-gradients:          false;
+$enable-transitions:        true;
+$enable-hover-media-query:  false;
+$enable-grid-classes:       true;
+$enable-print-styles:       false;
+
+
+//
+// Setup
+//
+$font-family-sans-serif: 'Maven Pro', sans-serif;
+$body-color: $dark-gray;
+$body-bg: $medium-gray;
+$link-color: $light-blue;

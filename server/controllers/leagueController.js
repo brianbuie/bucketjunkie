@@ -99,7 +99,7 @@ exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
   const promises = [activityService.getActivity(req), rosterService.getRosters(req.league)];
   const [activity, rosters] = await Promise.all(promises);
-  return res.render('league/leagueOverview', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, activity, rosters});
 };
 
 exports.validateChat = [

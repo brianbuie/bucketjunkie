@@ -6,10 +6,12 @@
     "postcss-loader?sourceMap",
     "sass-loader?sourceMap"
   ],
+  "preBootstrapCustomizations": "./client/src/sass/variables.scss",
   "extractStyles": false,
   "styles": {
     "mixins": true,
     "print": true,
+    // core
     "buttons": true,
     "code": true,
     "forms": true,
@@ -18,6 +20,7 @@
     "reboot": true,
     "tables": true,
     "type": true,
+    // components
     "alert": true,
     "badge": true,
     "breadcrumb": true,
@@ -35,6 +38,7 @@
     "pagination": true,
     "progress": true,
     "transitions": true,
+    // components with js
     "carousel": true,
     "modal": true,
     "popover": true,

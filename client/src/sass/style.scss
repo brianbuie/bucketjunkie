@@ -1,5 +1,16 @@
-@import './partials/_test-partial';
-
 body {
   padding-bottom: 120px;
+}
+
+.main {
+  padding-top: $spacer-lg;
+}
+
+.profile-picture {
+  max-width: $spacer-lg;
+}
+
+.link-discreet, .link-discreet:hover {
+  color: $body-color;
+  text-decoration: none;
 }

@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'development') {
     quiet: false,
     noInfo: false,
     publicPath: '/dist/',
-    stats: { colors: true }
+    stats: "minimal"
   });
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
 }
