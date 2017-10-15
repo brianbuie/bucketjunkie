@@ -111,7 +111,7 @@ exports.leagueOverview = async (req, res, next) => {
   const league = req.league.toObject();
   league.members = league.members.map(member => {
     const score = scores.find(score => score._id.equals(member._id));
-    const roster = rosters.find(roster => roster.user._id.equals(member._id));
+    const roster = rosters ? rosters.find(roster => roster.user._id.equals(member._id)) : null;
     if (roster) {
       member.roster = roster.players.map(player => {
         player = player.toObject();

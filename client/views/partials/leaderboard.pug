@@ -1,20 +1,20 @@
-each user in league.members 
+each member in league.members 
   .bg-light.mb-3
-    a.link-discreet(href=`#${user.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${user.username}-roster`)
+    a.link-discreet(href=`#${member.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${member.username}-roster`)
       .d-flex.flex-row.justify-content-start.align-items-center
         .p-3
-          h2.my-0= user.score
+          h2.my-0= member.score
         .py-3
           img.profile-picture.rounded-circle(src="/images/user-default.png")
         .p-3
-          h3.font-weight-normal.my-0= user.username
-    .collapse(id=`${user.username}-roster`)
-      if !user.roster.length
+          h3.font-weight-normal.my-0= member.username
+    .collapse(id=`${member.username}-roster`)
+      if !member.roster.length
         p.text-center.text-italic.disabled No players on roster
       else
         table.table.table-striped
           tbody
-            each player in user.roster
+            each player in member.roster
               tr
                 td.text-center.align-middle
                   h3.my-0.font-weight-normal= Math.round(player.score)
@@ -22,3 +22,20 @@ each user in league.members
                   img(src=helpers.playerImage(player._id), style="max-width: 65px;")
                 td.align-middle
                   h5.my-0.font-weight-normal= player.name
+                if user && member.id === user.id
+                  td.align-middle
+                    button.btn.btn-sm.btn-danger(data-toggle="modal" data-target="#dropPlayer" data-playerName=player.name) &times;
+
+.modal.fade#dropPlayer(tabindex="-1", role="dialog", aria-hidden="true")
+  .modal-dialog(role="document")
+    .modal-content.bg-light
+      .modal-header
+        h5.modal-title Drop Player
+        button.close(type="button", data-dismiss="modal", aria-label="Close")
+          span(aria-hidden="true") &times;
+      .modal-body Player Name
+      .modal-footer
+        button.btn.btn-secondary(data-dismiss="modal") Cancel
+        form(method="POST" action=`/roster/remove-player`)
+          input(type="hidden" name="player" value="")
+          button.btn.btn-danger(type="submit") Drop
