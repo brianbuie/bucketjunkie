@@ -108,36 +108,34 @@ const appendPlayerScore = (player, pointValues) => {
   return player;
 };
 
-// this is a mess
+const leagueDrafting = async (req, res) => {
+  const [activity, draftList] = await Promise.all([
+    activityService.getActivity(req),
+    Draft.findOne({ user: req.user, league: req.league }).populate('players')
+  ]);
+  let draft = draftList ? draftList.toObject() : {};
+  draft.players = draft.players ? draft.players.map(player => appendPlayerScore(player, req.league.pointValues)) : [];
+  console.log(draft);
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity });
+};
+
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
-  const [activity, rosters, scores, draftList] = await Promise.all([
+  if (req.league.drafting) return leagueDrafting(req, res);
+  const [activity, rostersRaw, scores] = await Promise.all([
     activityService.getActivity(req), 
     rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
-    Draft.findOne({ user: req.user, league: req.league }).populate('players')
   ]);
-  const league = req.league.toObject();
-  const draft = draftList.toObject();
-  if (!league.drafting) {
-    league.members = league.members.map(member => {
-      const score = scores.find(score => score._id.equals(member._id));
-      // this is weird, rosterService returns [ [] ] when no rosters found
-      const roster = rosters ? rosters.find(roster => roster.user._id.equals(member._id)) : null;
-      if (roster) {
-        member.roster = roster.players.map(player => appendPlayerScore(player, league.pointValues)).sort(sortByScore);
-      } else {
-        member.roster = [];
-      }
-      member.score =  score ? score.score : 0;
-      return member;
-    });
-    league.members.sort(sortByScore);
-  } else {
-    draft.players = draft.players.map(player => appendPlayerScore(player, league.pointValues));
-  }
+  let rosters = rostersRaw.map(roster => {
+    roster = roster._id ? roster.toObject() : null;
+    if (!roster) return null;
+    const score = scores.find(score => score_id.equals(roster.user._id));
+    roster.players = roster.players.map(player => appendPlayerScore(player, req.league.pointValues)).sort(sortByScore);
+    roster.score = score ? score.score : 0;
+  }).sort(sortByScore);
   console.log(rosters);
-  return res.render('league', { title: `${req.league.name} Overview`, league, draft, activity });
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity });
 };
 
 exports.validateChat = [
