@@ -35,7 +35,8 @@ if (process.env.NODE_ENV === 'development') {
     quiet: false,
     noInfo: false,
     publicPath: '/dist/',
-    stats: "minimal"
+    stats: "minimal",
+    headers: { "Access-Control-Allow-Origin": "*" }
   });
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
 }

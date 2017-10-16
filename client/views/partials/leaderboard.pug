@@ -24,7 +24,24 @@ each member in league.members
                   h5.my-0.font-weight-normal= player.name
                 if user && member.id === user.id
                   td.align-middle
-                    button.btn.btn-sm.btn-danger(data-toggle="modal" data-target="#dropPlayer" data-playerName=player.name) &times;
+                    a.danger(href="",
+                      data-toggle="modal",
+                      data-target="#dropPlayer",
+                      data-playerName=player.name
+                      data-playerid=player._id)
+                      i.fa.fa-minus-circle.text-danger
+            if member.roster.length < league.rosterSize
+              - let emptySpots = league.rosterSize - member.roster.length
+              while emptySpots
+                tr
+                  td.text-center.align-middle
+                    h3.my-0.font-weight-normal.text-secondary 0
+                  td.pb-0.align-bottom
+                    img(src='/images/player-default.png', style="max-width: 65px;")
+                  td.align-middle
+                    p.my-0.font-weight-normal.text-secondary (empty)
+                  td
+                - emptySpots--
 
 .modal.fade#dropPlayer(tabindex="-1", role="dialog", aria-hidden="true")
   .modal-dialog(role="document")

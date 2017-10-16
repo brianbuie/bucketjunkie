@@ -1,9 +1,11 @@
 $(document).ready(function(){
-  $('#dropPlayer').on('shown.bs.modal', function (event) {
+  $('#dropPlayer').on('show.bs.modal', function (event) {
     console.log('dropPlayer called');
     const button = $(event.relatedTarget);
     const playerName = button.data('playername');
+    const playerId = button.data('playerid');
     const modal = $(this);
-    modal.find('.modal-body').val(playerName);
+    modal.find('.modal-body').text(playerName);
+    modal.find('input[name="player"]').val(playerId);
   });
 });

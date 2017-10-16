@@ -42,7 +42,7 @@ const removeFromDraft = async (req, res) => {
     { $pull: { players: req.body.player } }
   );
   if (!draft.ok) return req.oops('Error removing player');
-  return res.redirect('/roster');
+  return res.redirect(`/lg/${req.league._id}`);
 };
 
 exports.removePlayer = async (req, res) => {
@@ -53,7 +53,7 @@ exports.removePlayer = async (req, res) => {
   } catch(err) {
     return req.oops(err.message);
   }
-  return req.greatJob('Removed player', `/roster`);
+  return req.greatJob('Removed player', `/lg/${req.league._id}`);
 };
 
 exports.replacePlayerForm = async (req, res) => {
