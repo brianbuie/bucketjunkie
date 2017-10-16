@@ -6,7 +6,7 @@ div(class=(league.members[0].score > 0 ? 'show-winning' : ''))
           .p-3
             h2.my-0= member.score
           .py-3
-            img.profile-picture.rounded-circle(src="/images/user-default.png")
+            img.profile-picture.rounded-circle(src=helpers.userPhoto(member))
           .p-3
             h3.font-weight-normal.my-0= member.username
       .collapse(id=`${member.username}-roster`)

@@ -123,7 +123,7 @@ exports.leagueOverview = async (req, res, next) => {
     league.members = league.members.map(member => {
       const score = scores.find(score => score._id.equals(member._id));
       // this is weird, rosterService returns [ [] ] when no rosters found
-      const roster = rosters && rosters[0].length ? rosters.find(roster => roster.user._id.equals(member._id)) : null;
+      const roster = rosters ? rosters.find(roster => roster.user._id.equals(member._id)) : null;
       if (roster) {
         member.roster = roster.players.map(player => appendPlayerScore(player, league.pointValues)).sort(sortByScore);
       } else {
@@ -136,6 +136,7 @@ exports.leagueOverview = async (req, res, next) => {
   } else {
     draft.players = draft.players.map(player => appendPlayerScore(player, league.pointValues));
   }
+  console.log(rosters);
   return res.render('league', { title: `${req.league.name} Overview`, league, draft, activity });
 };
 

@@ -22,20 +22,6 @@ exports.pointValues = [
   { attr: 'to', name: 'Turnover' },
 ];
 
-exports.generateTimer = league => {
-  const l = moment(league.start);
-  const n = moment();
-  const intervals = [l.diff(n, 'days'), l.diff(n, 'hours'), l.diff(n, 'minutes'), l.diff(n, 'seconds')];
-  let text = '';
-  intervals.forEach(i => {
-    if (i) {
-      if (text) text+= ':';
-      text+= i;
-    }
-  });
-  return text;
-}
-
 exports.playerImage = id => {
   const defaultImagePath = '/images/player-default.png';
   const playerImagePath = `/images/players/${id}.png`;
