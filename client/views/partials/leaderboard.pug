@@ -1,17 +1,15 @@
-each member in league.members 
-  .bg-light.mb-3
-    a.link-discreet(href=`#${member.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${member.username}-roster`)
-      .d-flex.flex-row.justify-content-start.align-items-center
-        .p-3
-          h2.my-0= member.score
-        .py-3
-          img.profile-picture.rounded-circle(src="/images/user-default.png")
-        .p-3
-          h3.font-weight-normal.my-0= member.username
-    .collapse(id=`${member.username}-roster`)
-      if !member.roster.length
-        p.text-center.text-italic.disabled No players on roster
-      else
+div(class=(league.members[0].score > 0 ? 'show-winning' : ''))
+  each member in league.members 
+    .member-card.bg-light.mb-3
+      a.link-discreet(href=`#${member.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${member.username}-roster`)
+        .member-overview.d-flex.flex-row.justify-content-start.align-items-center
+          .p-3
+            h2.my-0= member.score
+          .py-3
+            img.profile-picture.rounded-circle(src="/images/user-default.png")
+          .p-3
+            h3.font-weight-normal.my-0= member.username
+      .collapse(id=`${member.username}-roster`)
         table.table.table-striped
           tbody
             each player in member.roster
@@ -43,16 +41,16 @@ each member in league.members
                   td
                 - emptySpots--
 
-.modal.fade#dropPlayer(tabindex="-1", role="dialog", aria-hidden="true")
-  .modal-dialog(role="document")
-    .modal-content.bg-light
-      .modal-header
-        h5.modal-title Drop Player
-        button.close(type="button", data-dismiss="modal", aria-label="Close")
-          span(aria-hidden="true") &times;
-      .modal-body Player Name
-      .modal-footer
-        button.btn.btn-secondary(data-dismiss="modal") Cancel
-        form(method="POST" action=`/roster/remove-player`)
-          input(type="hidden" name="player" value="")
-          button.btn.btn-danger(type="submit") Drop
+  .modal.fade#dropPlayer(tabindex="-1", role="dialog", aria-hidden="true")
+    .modal-dialog(role="document")
+      .modal-content.bg-light
+        .modal-header
+          h5.modal-title Drop Player
+          button.close(type="button", data-dismiss="modal", aria-label="Close")
+            span(aria-hidden="true") &times;
+        .modal-body Player Name
+        .modal-footer
+          button.btn.btn-secondary(data-dismiss="modal") Cancel
+          form(method="POST" action=`/roster/remove-player`)
+            input(type="hidden" name="player" value="")
+            button.btn.btn-danger(type="submit") Drop

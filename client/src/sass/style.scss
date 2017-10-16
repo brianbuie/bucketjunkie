@@ -16,3 +16,7 @@ body {
   color: $body-color;
   text-decoration: none;
 }
+
+.show-winning .member-card:nth-child(1) .member-overview{
+  background-color: $brand-gold;
+}

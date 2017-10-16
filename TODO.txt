@@ -3,7 +3,6 @@ MVP
   Frontend
     Views
       League homepage
-        Rosters (expandable)
         Draft list
         Activity feed (tabs)
         League info
@@ -16,10 +15,6 @@ MVP
       League listing (reuse on myleagues, public leagues)
       League edit/create form
       Player listing
-
-      unauthenticated homepage (marketingish)
-      login/register
-      account edit
 
     "No way associated with the NBA" footer notice
     leaderboard

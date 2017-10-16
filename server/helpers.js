@@ -1,7 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
-exports.moment = require('moment');
+const moment = require('moment');
+
+exports.moment = moment;
 
 exports.isProd = process.env.NODE_ENV === 'production';
 
@@ -19,6 +21,20 @@ exports.pointValues = [
   { attr: 'stl', name: 'Steal' },
   { attr: 'to', name: 'Turnover' },
 ];
+
+exports.generateTimer = league => {
+  const l = moment(league.start);
+  const n = moment();
+  const intervals = [l.diff(n, 'days'), l.diff(n, 'hours'), l.diff(n, 'minutes'), l.diff(n, 'seconds')];
+  let text = '';
+  intervals.forEach(i => {
+    if (i) {
+      if (text) text+= ':';
+      text+= i;
+    }
+  });
+  return text;
+}
 
 exports.playerImage = id => {
   const defaultImagePath = '/images/player-default.png';
