@@ -50,7 +50,7 @@ exports.update = async () => {
               (new Score(score)).save()
             ]);
             const action = {
-              user: member, league, category: 'score',
+              user: member, league, category: 'scores',
               message: `scored ${total} points from ${player.name} vs. ${opponent.abbreviation}`
             };
             await activityService.addAction(action);

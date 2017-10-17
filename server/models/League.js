@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
-const schedule = require('node-schedule');
-const rosterService = require('../services/rosterService');
 
 const leagueSchema = new mongoose.Schema({
   name: {

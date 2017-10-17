@@ -150,10 +150,10 @@ exports.chat = async (req, res) => {
     errors.array().map(e => req.flash('error', e.msg));
     return res.redirect(`/lg/${req.league._id}`);
   }
-  req.actions = [{ category: 'message', message: req.body.message }];
+  req.actions = [{ category: 'chat', message: req.body.message }];
   const msg = await activityService.addActivity(req);
   if (!msg) return req.oops('Error sending message, try again');
-  return res.redirect(`/lg/${req.league._id}`);
+  return res.redirect('back');
 };
 
 exports.joinLeague = async (req, res) => {
@@ -218,7 +218,7 @@ exports.removeMember = async (req, res) => {
   await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
   req.actions = [
-    { category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
+    { category: 'moderation', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
     { category: 'league', message: `left ${req.league.name}`  }
   ];
   await activityService.addActivity(req);
@@ -240,7 +240,7 @@ exports.addModerator = async (req, res) => {
   ).populate('moderators');
   if (!league) return req.oops('Error Adding Moderator', `/lg/${req.league._id}`);
   req.league = league;
-  req.actions = [{ category: 'moderator', message: `added ${await userService.getUsername(req.body.member)} as a moderator` }];
+  req.actions = [{ category: 'moderation', message: `added ${await userService.getUsername(req.body.member)} as a moderator` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', 'Added Moderator');
@@ -262,7 +262,7 @@ exports.removeModerator = async (req, res) => {
   );
   if (!league) return req.oops('Error Removing Moderator', `/lg/${req.league._id}`);
   req.league = league;
-  req.actions = [{ category: 'moderator', message: `removed ${await userService.getUsername(req.body.member)} as a moderator` }];
+  req.actions = [{ category: 'moderation', message: `removed ${await userService.getUsername(req.body.member)} as a moderator` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   return res.redirect(`/lg/${req.league._id}`);

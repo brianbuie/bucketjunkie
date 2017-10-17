@@ -24,7 +24,7 @@ const autoDraft = async id => {
   const simRound = user => {
     pick++;
     if (round > league.rosterSize) return;
-    let action = { user, league, category: 'roster' };
+    let action = { user, league, category: 'rosters' };
     let rosterIndex = rosters.findIndex(roster => roster.user.equals(user));
     let draft = drafts.find(draft => draft.user.equals(user));
     if (!draft) draft = { players: [] };
