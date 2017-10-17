@@ -121,7 +121,6 @@ const leagueDrafting = async (req, res) => {
 };
 
 exports.leagueOverview = async (req, res, next) => {
-  if (!req.league.public && !req.leagueAuth.isMember) return next();
   if (req.league.drafting) return leagueDrafting(req, res);
   const [activityAll, rostersRaw, scores] = await Promise.all([
     activityService.getActivity(req), 
