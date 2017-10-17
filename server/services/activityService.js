@@ -15,7 +15,7 @@ exports.addActivity = async req => {
 exports.addAction = async action => (new Activity(action)).save();
 
 exports.getActivity = async req => {
-  const member = ['league', 'rosters', 'scoring', 'chat'];
+  const member = ['league', 'rosters', 'scores', 'chat'];
   const moderator = ['moderation'];
   const access = req.leagueAuth.isModerator ? member.concat(moderator) : member;
   return await Activity.find({ league: req.league._id, category: { $in: access } })
