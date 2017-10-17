@@ -1,18 +1,18 @@
-div(class=(league.members[0].score > 0 ? 'show-winning' : ''))
-  each member in league.members 
+div(class=(rosters[0].score > 0 ? 'show-winning' : ''))
+  each roster in rosters 
     .member-card.bg-light.mb-3
-      a.link-discreet(href=`#${member.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${member.username}-roster`)
+      a.link-discreet(href=`#${roster.user.username}-roster`, data-toggle="collapse", aria-expanded="false", aria-controls=`${roster.user.username}-roster`)
         .member-overview.d-flex.flex-row.justify-content-start.align-items-center
           .p-3
-            h2.my-0= member.score
+            h2.my-0= roster.score
           .py-3
-            img.profile-picture.rounded-circle(src=helpers.userPhoto(member))
+            img.profile-picture.rounded-circle(src=helpers.userPhoto(roster.user))
           .p-3
-            h3.font-weight-normal.my-0= member.username
-      .collapse(id=`${member.username}-roster`)
+            h3.font-weight-normal.my-0= roster.user.username
+      .collapse(id=`${roster.user.username}-roster`)
         table.table.table-striped
           tbody
-            each player in member.roster
+            each player in roster.players
               tr
                 td.text-center.align-middle
                   h3.my-0.font-weight-normal= Math.round(player.score)
@@ -20,7 +20,7 @@ div(class=(league.members[0].score > 0 ? 'show-winning' : ''))
                   img(src=helpers.playerImage(player._id), style="max-width: 65px;")
                 td.align-middle
                   h5.my-0.font-weight-normal= player.name
-                if user && member.id === user.id
+                if user && roster.user.id === user.id
                   td.align-middle
                     a.danger(href="",
                       data-toggle="modal",
@@ -28,8 +28,8 @@ div(class=(league.members[0].score > 0 ? 'show-winning' : ''))
                       data-playerName=player.name
                       data-playerid=player._id)
                       i.fa.fa-minus-circle.text-danger
-            if member.roster.length < league.rosterSize
-              - let emptySpots = league.rosterSize - member.roster.length
+            if roster.players.length < league.rosterSize
+              - let emptySpots = league.rosterSize - roster.players.length
               while emptySpots
                 tr
                   td.text-center.align-middle

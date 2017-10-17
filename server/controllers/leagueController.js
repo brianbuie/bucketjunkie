@@ -109,33 +109,35 @@ const appendPlayerScore = (player, pointValues) => {
 };
 
 const leagueDrafting = async (req, res) => {
-  const [activity, draftList] = await Promise.all([
+  const [activityAll, draftList] = await Promise.all([
     activityService.getActivity(req),
     Draft.findOne({ user: req.user, league: req.league }).populate('players')
   ]);
   let draft = draftList ? draftList.toObject() : {};
   draft.players = draft.players ? draft.players.map(player => appendPlayerScore(player, req.league.pointValues)) : [];
-  console.log(draft);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity });
+  const feedFilter = req.query.activity ? req.query.activity : 'all';
+  const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter });
 };
 
 exports.leagueOverview = async (req, res, next) => {
   if (!req.league.public && !req.leagueAuth.isMember) return next();
   if (req.league.drafting) return leagueDrafting(req, res);
-  const [activity, rostersRaw, scores] = await Promise.all([
+  const [activityAll, rostersRaw, scores] = await Promise.all([
     activityService.getActivity(req), 
     rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
   ]);
   let rosters = rostersRaw.map(roster => {
-    roster = roster._id ? roster.toObject() : null;
-    if (!roster) return null;
-    const score = scores.find(score => score_id.equals(roster.user._id));
+    roster = roster._id ? roster.toObject() : roster;
+    const score = scores.find(score => score._id.equals(roster.user._id));
     roster.players = roster.players.map(player => appendPlayerScore(player, req.league.pointValues)).sort(sortByScore);
     roster.score = score ? score.score : 0;
+    return roster;
   }).sort(sortByScore);
-  console.log(rosters);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity });
+  const feedFilter = req.query.activity ? req.query.activity : 'all';
+  const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter });
 };
 
 exports.validateChat = [

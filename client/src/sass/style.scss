@@ -1,5 +1,7 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
+@import "./partials/activityFeed";
+
 body {
   padding-bottom: 120px;
 }
@@ -17,6 +19,6 @@ body {
   text-decoration: none;
 }
 
-.show-winning .member-card:nth-child(1) .member-overview{
+.show-winning .member-card:nth-child(1) .member-overview {
   background-color: $brand-gold;
 }

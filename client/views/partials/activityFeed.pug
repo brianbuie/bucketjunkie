@@ -1,0 +1,17 @@
+.bg-light.d-flex.flex-column.activity
+  ul.nav.nav-fill
+    - const categories = ["all", "chat", "rosters", "scoring", "league"]
+    each category in categories
+      li.nav-item
+        a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
+  .activity__feed
+    each action in activity.reverse()
+      .py-1.px-2(class=`activity__item--${action.category}`)
+        strong.pr-1= action.user.username
+        span= action.message
+  form(method="Post" action=`/lg/${league.id}/chat`)
+    .form-group.row.my-0
+      .col.pr-0
+        input.form-control(type="text" name="message" placeholder="Chat")
+      .col-sm-auto.pl-0
+        button.btn.btn-success(type="submit") Send

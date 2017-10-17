@@ -7,22 +7,13 @@ const nbaService = require('../services/nbaService');
 const Roster = mongoose.model('Roster');
 const Draft = mongoose.model('Draft');
 
-exports.viewRoster = async (req, res) => {
-  if (req.league.drafting) {
-    const draft = await Draft.findOne({ user: req.user, league: req.league }).populate('players');
-    return res.render('roster/draft-list', { title: 'Draft List', draft });
-  }
-  const roster = await rosterService.getRoster(req.league, req.user);
-  return res.render('roster/roster', { title: 'Roster', roster });
-};
-
 const addToDraft = async (req, res) => {
   let draft = await Draft.update({ user: req.user, league: req.league }, 
     { $addToSet: { players: req.body.player } },
     { upsert: true }
   );
   if (!draft.ok) return req.oops('Error adding player');
-  return res.redirect('/roster');
+  return req.greatJob('Added player', `/lg/${req.league._id}`);
 };
 
 exports.addPlayer = async (req, res) => {

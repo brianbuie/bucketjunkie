@@ -15,7 +15,7 @@ exports.getRoster = async (league, user) => {
     .limit(1)
     .populate('user')
     .populate('players');
-  return roster.length ? roster[0] : roster;
+  return roster.length ? roster[0] : { league: league._id, user, players: [] };
 };
 
 exports.playerIsAvailable = (lists, player) => !lists.some(list => {

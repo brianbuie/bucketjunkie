@@ -1,0 +1,15 @@
+.activity {
+  .nav-link {
+    color: $body-color;
+    background-color: lighten($medium-gray, 10);
+
+    &.active, &:hover {
+      background-color: $light-gray;
+    }
+  }
+}
+
+.activity__feed {
+  height: 50vh;
+  overflow-y: auto;
+}

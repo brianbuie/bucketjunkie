@@ -3,7 +3,8 @@ MVP
   Frontend
     Views
       League homepage
-        Draft list
+        Unauthenticated league overview, non member view
+          only members can see overview? provide league details from listing page?
         Activity feed (tabs)
         League info
 
