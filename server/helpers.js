@@ -9,8 +9,6 @@ exports.isProd = process.env.NODE_ENV === 'production';
 
 exports.dump = obj => JSON.stringify(obj, null, 2);
 
-exports.teamLogo = abbreviation => fs.readFileSync(__dirname + `/../client/public/images/teams/${abbreviation}.svg`);
-
 exports.pointValues = [
   { attr: 'ftm', name: 'Free Throw made' },
   { attr: 'fg2m', name: '2-point field goal' },
