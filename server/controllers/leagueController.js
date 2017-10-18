@@ -77,12 +77,6 @@ exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
   res.render('league/createLeague', { title: 'Create League', body: req.body });
-}
-
-exports.myLeagues = async (req, res) => {
-  const leagues = await League.find({ members: req.user._id });
-  if (leagues.length) return res.render('league/leagueListings', { title: 'My Leagues', leagues });
-  return res.redirect('/leagues/public');
 };
 
 exports.publicLeagues = async (req, res) => {
@@ -90,9 +84,13 @@ exports.publicLeagues = async (req, res) => {
     public: true,
     open: true,
   };
-  if (req.user) query.members = { $ne: req.user._id };
+  let myLeagues = [];
+  if (req.user) {
+    query.members = { $ne: req.user._id };
+    myLeagues = await League.find({ members: req.user._id });
+  }
   const leagues = await League.find(query);
-  return res.render('league/leagueListings', { title: 'Public Leagues', leagues });
+  return res.render('leagueListing', { title: 'Public Leagues', leagues, myLeagues });
 };
 
 const sortByScore = (a,b) => {
@@ -109,7 +107,8 @@ const appendPlayerScore = (player, pointValues) => {
 };
 
 const leagueDrafting = async (req, res) => {
-  const [activityAll, draftList] = await Promise.all([
+  const [myLeagues, activityAll, draftList] = await Promise.all([
+    League.find({ members: req.user._id }),
     activityService.getActivity(req),
     Draft.findOne({ user: req.user, league: req.league }).populate('players')
   ]);
@@ -117,12 +116,13 @@ const leagueDrafting = async (req, res) => {
   draft.players = draft.players ? draft.players.map(player => appendPlayerScore(player, req.league.pointValues)) : [];
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter });
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter, myLeagues });
 };
 
 exports.leagueOverview = async (req, res, next) => {
   if (req.league.drafting) return leagueDrafting(req, res);
-  const [activityAll, rostersRaw, scores] = await Promise.all([
+  const [myLeagues, activityAll, rostersRaw, scores] = await Promise.all([
+    League.find({ members: req.user._id }),
     activityService.getActivity(req), 
     rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
@@ -136,7 +136,7 @@ exports.leagueOverview = async (req, res, next) => {
   }).sort(sortByScore);
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter });
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues });
 };
 
 exports.validateChat = [

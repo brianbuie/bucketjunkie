@@ -26,6 +26,7 @@ MVP
 
   bugs
     saving account info replaces image if none is selected
+    join league should check if user is already member before creating activity
 
   move categories to config file that gets pulled in everywhere just in case it needs to change
 
