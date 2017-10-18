@@ -3,15 +3,10 @@ MVP
   Frontend
     Views
       League homepage
-        Unauthenticated league overview, non member view
-          only members can see overview? provide league details from listing page?
-        Activity feed (tabs)
         League info
 
       Account page
-        logout
         Add photo
-        Myleagues
 
       League listing (reuse on myleagues, public leagues)
       League edit/create form

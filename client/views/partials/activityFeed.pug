@@ -7,7 +7,7 @@
   .activity__feed
     each action in activity.reverse()
       .py-1.px-2(class=`activity__item--${action.category}`)
-        strong.pr-1= action.user.username
+        strong.pr-2= action.user.username
         span= action.message
   if !feedFilter || ['all', 'chat'].includes(feedFilter)
     form(method="Post" action=`/lg/${league.id}/chat`)
