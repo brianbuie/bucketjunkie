@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 const nbaService = require('../services/nbaService');
 const activityService = require('../services/activityService');
 
@@ -9,7 +10,6 @@ const Score = mongoose.model('Score');
 const Box = mongoose.model('Box');
 
 exports.update = async () => {
-  console.log('checking for unscored games');
   const [unscoredGames, leagues] = await Promise.all([
     Game.find({ final: false, date: { $lt: Date.now() } }),
     League.find({ started: true })
@@ -17,7 +17,7 @@ exports.update = async () => {
   unscoredGames.forEach(async game => {
     const gameState = await nbaService.fetchGame(game._id).catch(err => console.log(err));
     if (!gameState || !gameState.final) return;
-    console.log(`Updating scores for game ${game._id}`);
+    console.log(`${moment().format()}: Updating scores for game ${game._id}`);
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
     if (!boxes) return;
     await Promise.all([

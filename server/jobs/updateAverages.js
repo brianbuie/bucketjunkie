@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const schedule = require('node-schedule');
+const moment = require('moment');
 
 const Player = mongoose.model('Player');
 
 exports.update = async () => {
-  console.log('Updating player averages');
+  const start = Date.now();
   const allPlayers = await Player.find({});
   let players = await Promise.all(allPlayers.map(player => Player.getAverages(player._id)));
   players = players.map(player => player[0]);
@@ -14,5 +15,5 @@ exports.update = async () => {
     categories.forEach(cat => update[`averages.${cat}`] = player.averages[cat]);
     return Player.findOneAndUpdate({ _id: player._id }, update, { new: true });
   }));
-  console.log('Finished updating averages');
+  console.log(`${moment().format()}: Updated player averages in ${Date.now() - start}ms`);
 };
