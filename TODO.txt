@@ -1,58 +1,25 @@
 MVP
 
-  Frontend
-    Views
-      League homepage
-        League info
-
-      Account page
-        Add photo
-
-      League listing (reuse on myleagues, public leagues)
-      League edit/create form
-      Player listing
-
-    "No way associated with the NBA" footer notice
-    leaderboard
-      season
-      yesterday
-      last 7 days
-      last 30 days
-
-  bugs
-    saving account info replaces image if none is selected
-    join league should check if user is already member before creating activity
-
-  move categories to config file that gets pulled in everywhere just in case it needs to change
-
-  rosters
-    propose trade system
-
-  nba listing
-    "top" gets all players sorted by average
-      filter all players based on query params
-        free agents
-        team
-        playing today
-    player page shows all performances this season
-      upcoming games
-
-
-  nbaService
-    map api requests to a service methods that can be switched to DB lookups if necessary
-
-  schedule tasks
-    check for player images via nba.com script
-    update players and team info
-
-  Deployment
-    setup subdomain & digitalocean server
-    stage environment
-    Get a mail service to handle password resets
+  League overview - League info section
+  League edit/create form
+  Account page - "Add Photo" (check for photo before replacing)
+  Reuse playerListing on /players page
+  Footer "No way associated with the NBA", all links, logo, etc.
+  Player pages - all boxscores
+  Bug: Join league shold check if user is already a member before creating activity
+  Prepare all API calls for failure & switching sources (funnel through nbaService)
+  Change team images to _id.svg instead of abbreviation
+  move categories to config file
+  login/register forms
+  filter topPlayers for free agents, playing today
+  Deployment to Digital Ocean
+  Mail service to handle password resets
 
 
 
 FUTURE
+
+  Staging droplet on Digital Ocean
 
   fontend
     marketing unauthenticated homepage
@@ -60,22 +27,21 @@ FUTURE
   Bugs
     logout sometimes doesn't remove account info from menu bar
     flashes sometimes get lost
-    flashes on form errors and res.redirect('back') makes form submit disabled on create league
-    properly send back req.body on form failures (login, register, create league)
-
-  refactors
-    remove req from being passed to views?
 
   league
     filter for deleted on league schema
+
+  schedule tasks
+    check for player images via nba.com
+    update players and team info (important if players get traded)
 
   features
     user flair
       allow mods to check "show moderator flair" when sending message
     sort public leagues by time until deadline
     add league images
-    add number of players to league listing
-    add description to league listing
+    Propose trades
+    Granular leaderboard (yesterday, last week, last month)
     account notifications
     add Display name to user schema, update on every login
     hidden flag on user accounts (banned, deleted accounts)
@@ -87,6 +53,5 @@ FUTURE
 
   Frontend
     style reset password email to be in-line with site style
-    filter feed based on action type
     slowly move methods to API calls on the front-end
       chat first!

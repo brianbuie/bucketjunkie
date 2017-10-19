@@ -1,16 +1,16 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 })
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
   .row.no-gutters.py-2
-    .col-2
-      img.rounded-circle(src=helpers.playerImage(player._id) style="max-width: 100%;")
-    .col-8.d-flex.flex-column
+    .col-2.px-1
+      .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
+    .col-8.d-flex.flex-column.px-2
       h4.m-0.font-weight-normal= player.name
       div
         if player._id
           table(style="width:100%;")
             tr
               each day in upcomingDays
-                td.one-seventh.faded-2.text-center= day.format('ddd').toUpperCase()
+                td.one-seventh.faded-2.text-center.text-sm= day.format('ddd').toUpperCase()
             tr
               each day in upcomingGames
                 td.px-1.one-seventh.text-center
