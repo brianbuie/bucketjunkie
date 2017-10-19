@@ -3,7 +3,7 @@ extends ../layout
 block content
   each team in teams
     a(href=`/nba/players?team=${team._id}`, class=(activeTeam === team._id ? 'is-active' : ''), style="max-width: 25px;")
-      img(src=`/images/teams/${team.abbreviation}.svg`)
+      img(src=helpers.teamImage(team._id))
   table
     thead
       tr

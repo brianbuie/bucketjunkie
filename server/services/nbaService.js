@@ -4,6 +4,7 @@ const moment = require('moment');
 
 const Player = mongoose.model('Player');
 const Team = mongoose.model('Team');
+const Game = mongoose.model('Game');
 
 exports.player = async id => await Player.findOne({ _id: id }).populate('team');
 
@@ -24,11 +25,17 @@ const mutateGame = game => {
   game._id = game.id;
   game.home = game.home_id;
   game.away = game.away_id;
-  
-  // for testing
-  game.date = moment(game.date).subtract(1, 'months').add(1, 'years');
   return game;
-}
+};
+
+exports.gamesForDays = async days => {
+  const dates = [];
+  for (let i = 0; i < days; i++) {
+    dates.push(moment().add(i, 'days').format('MM/DD/YYYY'));
+  }
+  const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
+  return gamesByDay.map(day => day.map(game => mutateGame(game)));
+};
 
 const fetch = async (path, query) => {
   return new Promise((resolve, reject) => {

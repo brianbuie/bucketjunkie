@@ -5,6 +5,7 @@ const { matchedData, sanitizeBody } = require('express-validator/filter');
 const activityService = require('../services/activityService');
 const rosterService = require('../services/rosterService');
 const userService = require('../services/userService');
+const nbaService = require('../services/nbaService');
 
 const League = mongoose.model('League');
 const Roster = mongoose.model('Roster');
@@ -107,25 +108,27 @@ const appendPlayerScore = (player, pointValues) => {
 };
 
 const leagueDrafting = async (req, res) => {
-  const [myLeagues, activityAll, draftList] = await Promise.all([
+  const [myLeagues, activityAll, draftList, upcomingGames] = await Promise.all([
     League.find({ members: req.user._id }),
     activityService.getActivity(req),
-    Draft.findOne({ user: req.user, league: req.league }).populate('players')
+    Draft.findOne({ user: req.user, league: req.league }).populate('players'),
+    nbaService.gamesForDays(7)
   ]);
   let draft = draftList ? draftList.toObject() : {};
   draft.players = draft.players ? draft.players.map(player => appendPlayerScore(player, req.league.pointValues)) : [];
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter, myLeagues });
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter, myLeagues, upcomingGames });
 };
 
 exports.leagueOverview = async (req, res, next) => {
   if (req.league.drafting) return leagueDrafting(req, res);
-  const [myLeagues, activityAll, rostersRaw, scores] = await Promise.all([
+  const [myLeagues, activityAll, rostersRaw, scores, upcomingGames] = await Promise.all([
     League.find({ members: req.user._id }),
     activityService.getActivity(req), 
     rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
+    nbaService.gamesForDays(7)
   ]);
   let rosters = rostersRaw.map(roster => {
     roster = roster._id ? roster.toObject() : roster;
@@ -136,7 +139,7 @@ exports.leagueOverview = async (req, res, next) => {
   }).sort(sortByScore);
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues });
+  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues, upcomingGames });
 };
 
 exports.validateChat = [

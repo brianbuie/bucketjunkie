@@ -2,16 +2,16 @@ extends ./layout
 
 block content
   .row
-    .col
+    .col-5
       if league.started
         include ./partials/leaderboard
       else
         include ./partials/draftlist
-    .col-5
+    .col-7
       include ./partials/activityFeed
-    .col
       include ./partials/leagueInfo
 
   pre(style="font-size: 12px;")
     != helpers.dump(league)
     != helpers.dump(activity)
+    != helpers.dump(upcomingGames)
