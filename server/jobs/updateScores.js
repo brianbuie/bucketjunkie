@@ -15,9 +15,9 @@ exports.update = async () => {
     League.find({ started: true })
   ]);
   unscoredGames.forEach(async game => {
+    const start = Date.now();
     const gameState = await nbaService.fetchGame(game._id).catch(err => console.log(err));
     if (!gameState || !gameState.final) return;
-    console.log(`${moment().format()}: Updating scores for game ${game._id}`);
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
     if (!boxes) return;
     await Promise.all([
@@ -62,5 +62,6 @@ exports.update = async () => {
       Game.findOneAndUpdate({ _id: game.id }, { final: true }),
       boxes.map(box => (new Box(box)).save())
     ]);
+    console.log(`${moment().format()}: Updated scores for game ${game._id} in ${Date.now() - start}ms`);
   })
 };

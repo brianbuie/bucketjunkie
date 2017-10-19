@@ -6,13 +6,12 @@ MVP
   Reuse playerListing on /players page
   Footer "No way associated with the NBA", all links, logo, etc.
   Player pages - all boxscores
-  Bug: Join league shold check if user is already a member before creating activity
   Prepare all API calls for failure & switching sources (funnel through nbaService)
   move categories to config file
   login/register forms
   filter topPlayers for free agents, playing today
   update league point values to be between -10 and 10
-  Scrub DBs and change over to 2017 season data
+  Scrub DBs and change over to 2017 season data (scrub again after all teams have played)
   Deployment to Digital Ocean
   Mail service to handle password resets
   Update favicon with gold icon

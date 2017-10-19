@@ -163,7 +163,8 @@ exports.joinLeague = async (req, res) => {
     { 
       _id: req.league._id, 
       open: true,
-      blocked: { $ne: req.user._id }
+      blocked: { $ne: req.user._id },
+      members: { $ne: req.user._id }
     },
     { $addToSet: { members: req.user._id } },
   );

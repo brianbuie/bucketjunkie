@@ -17,6 +17,7 @@ const Player = require('../server/models/Player');
 const Game = require('../server/models/Game');
 const Box = require('../server/models/Box');
 const Score = require('../server/models/Score');
+const nbaService = require('../server/services/nbaService');
 
 
 async function deleteData() {
@@ -32,9 +33,9 @@ async function data() {
   try {
     await deleteData();
 
-    let players = await goGet('/player', {});
-    const games = await goGet('/game', { season: 2016 });
-    const teams = await goGet('/team', {});
+    let players = await nbaService.fetchAllPlayers();
+    const games = await nbaService.fetchAllGames();
+    const teams = await nbaService.fetchAllTeams();
 
     console.log('\ninserting teams');
     await Team.insertMany(teams.map(team => { 
@@ -49,9 +50,6 @@ async function data() {
       game._id = game.id;
       game.home = game.home_id;
       game.away = game.away_id;
-      
-      // for testing
-      game.date = moment(game.date).subtract(1, 'months').add(1, 'years');
       game.final = false;
       return game;
     }));
@@ -70,30 +68,6 @@ async function data() {
     console.log(e);
     process.exit();
   }
-}
-
-async function goGet(path, query) {
-  return new Promise((resolve, reject) => {
-    const options = {
-      method: 'POST',
-      url: 'http://api.probasketballapi.com' + path,
-      qs: query,
-      headers: { 'cache-control': 'no-cache' },
-    };
-    options.qs.api_key = process.env.API_KEY;
-    request(options, function (error, response, body) {
-      if (error) {
-        console.log(error);
-        resolve([]);
-      }
-      if (!response || response.statusCode != 200) {
-        console.log(options);
-        resolve([]);
-      } else {
-        resolve(JSON.parse(body));
-      }
-    });
-  });
 }
 
 data();

@@ -28,15 +28,6 @@ const mutateGame = game => {
   return game;
 };
 
-exports.gamesForDays = async days => {
-  const dates = [];
-  for (let i = 0; i < days; i++) {
-    dates.push(moment().add(i, 'days').format('MM/DD/YYYY'));
-  }
-  const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
-  return gamesByDay.map(day => day.map(game => mutateGame(game)));
-};
-
 const fetch = async (path, query) => {
   return new Promise((resolve, reject) => {
     const options = {
@@ -54,11 +45,11 @@ const fetch = async (path, query) => {
   });
 };
 
-// exports.fetchAllPlayers = () => fetch('/player', {});
+exports.fetchAllPlayers = () => fetch('/player', {});
 
-// exports.fetchAllTeams = () => fetch('/team', {});
+exports.fetchAllTeams = () => fetch('/team', {});
 
-// exports.fetchAllGames = () => fetch('/game', { season: 2016 });
+exports.fetchAllGames = () => fetch('/game', { season: 2017 }); // Todo: predict season
 
 exports.fetchGame = async id => {
   const game = await fetch('/game', { game_id: id }).catch(err => console.log(`error for game ${id}: ${err}`));
@@ -72,4 +63,13 @@ exports.fetchGame = async id => {
 exports.fetchBoxscoresByGame = async id => {
   const boxscores = await fetch('/boxscore/player', { game_id: id, season: 2016 }).catch(err => console.log(`error for boxscores ${id}: ${err}`));
   return boxscores ? boxscores.map(boxscore => mutateBoxscore(boxscore)) : null;
+};
+
+exports.gamesForDays = async days => {
+  const dates = [];
+  for (let i = 0; i < days; i++) {
+    dates.push(moment().add(i, 'days').format('MM/DD/YYYY'));
+  }
+  const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
+  return gamesByDay.map(day => day.map(game => mutateGame(game)));
 };
