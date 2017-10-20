@@ -1,0 +1,25 @@
+extends layout
+
+include mixins/playerListing
+
+block content
+  .container
+    .row.no-gutters
+      each team in teams
+        .col
+          a(href=`/nba/players?team=${team._id}`, class=(activeTeam === team._id ? 'is-active' : ''))
+            img(src=helpers.teamImage(team._id))
+    - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = []);
+    .bg-light.mx-auto(style="max-width: 600px;")
+      each player in players
+        .d-flex.flex-row.align-items-center
+          +playerListing(player)
+          if league && !takenPlayers.some(takenPlayer => takenPlayer._id === player._id)
+            form(method="POST" action=`/roster/add-player`)
+              input(type="hidden" name="player" value=player._id)
+              button(type="submit")
+                i.fa.fa-plus-circle.text-success
+          else
+            form
+              button(disabled)
+                i.fa.fa-plus-circle.text-success

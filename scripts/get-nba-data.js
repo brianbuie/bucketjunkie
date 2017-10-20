@@ -17,7 +17,13 @@ const Player = require('../server/models/Player');
 const Game = require('../server/models/Game');
 const Box = require('../server/models/Box');
 const Score = require('../server/models/Score');
+const Activity = require('../server/models/Activity');
+const Roster = require('../server/models/Roster');
+const League = require('../server/models/League');
+
 const nbaService = require('../server/services/nbaService');
+const updateScores = require('../server/jobs/updateScores');
+const updateAverages = require('../server/jobs/updateAverages');
 
 
 async function deleteData() {
@@ -60,9 +66,13 @@ async function data() {
       player.team = player.team_id;
       player.name = player.player_name;
       return player;
-    }));
+    }).filter(player => player.team));
 
     console.log('\nData loaded!');
+
+    await updateScores.update();
+    await updateAverages.update();
+
     process.exit();
   } catch(e) {
     console.log(e);
