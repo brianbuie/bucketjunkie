@@ -1,19 +1,31 @@
 require('dotenv').config({ path: __dirname + '/../variables.env' });
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
 const request = require('request');
 
-// DOES NOT WORK ANYMORE
-function getPlayerImages(players) {
+mongoose.connect(process.env.DATABASE, {
+  useMongoClient: true
+});
+mongoose.Promise = global.Promise;
+mongoose.connection.on('error', (err) => {
+  console.error(`🚫 → ${err.message}`);
+});
+
+const Player = require('../server/models/Player');
+
+// ends up timing out, too lazy to fix right now.
+async function getPlayerImages() {
+  const players = await Player.find({});
   players.forEach(player => {
-    const foreign = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.id}.png`;
-    const local = path.resolve(__dirname, '..', `public/images/players/${player.id}.png`);
+    const foreign = `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player._id}.png`;
+    const local = path.resolve(__dirname, '..', `client/public/images/players/${player._id}.png`);
     const r = request(foreign);
     r.on('response', response => {
       if(response.statusCode === 200) {
         return r.pipe(fs.createWriteStream(local));
       }
-      console.log(`No image for ${player.player_name}`);
+      console.log(`No image for ${player.name}`);
     });
   });
 }
@@ -65,5 +77,5 @@ function getTeamImages() {
   });
 }
 
-// if (process.argv.includes('--players')) getPlayerImages(players);
+if (process.argv.includes('--players')) getPlayerImages();
 if (process.argv.includes('--teams')) getTeamImages();
