@@ -13,33 +13,11 @@ div(class=(rosters[0].score > 0 ? 'show-winning' : ''))
             h3.font-weight-normal.my-0= roster.user.username
       .collapse(id=`${roster.user.username}-roster`)
         each player in roster.players
-          .d-flex.flex-row
-            +playerListing(player)
-            if user && roster.user.id === user.id
-              .align-middle
-                a.danger(href="",
-                  data-toggle="modal",
-                  data-target="#dropPlayer",
-                  data-playerName=player.name
-                  data-playerid=player._id)
-                  i.fa.fa-minus-circle.text-danger
+          +playerListing(player)
         if roster.players.length < league.rosterSize
           - let emptySpots = league.rosterSize - roster.players.length
           while emptySpots
-            .d-flex.flex-row
-              +playerListing()
+            +playerListing()
             - emptySpots--
 
-  .modal.fade#dropPlayer(tabindex="-1", role="dialog", aria-hidden="true")
-    .modal-dialog(role="document")
-      .modal-content.bg-light
-        .modal-header
-          h5.modal-title Drop Player
-          button.close(type="button", data-dismiss="modal", aria-label="Close")
-            span(aria-hidden="true") &times;
-        .modal-body Player Name
-        .modal-footer
-          button.btn.btn-secondary(data-dismiss="modal") Cancel
-          form(method="POST" action=`/roster/remove-player`)
-            input(type="hidden" name="player" value="")
-            button.btn.btn-danger(type="submit") Drop
+  include playerModals

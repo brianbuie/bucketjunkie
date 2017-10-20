@@ -1,12 +1,14 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 })
+  - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = []);
+  - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
-  .row.no-gutters.py-2
-    .col-2.px-1
-      .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
-    .col-8.d-flex.flex-column.px-2
-      h4.m-0.font-weight-normal= player.name
-      div
-        if player._id
+  .d-flex.flex-row.align-items-center
+    .row.no-gutters.py-2
+      .col-2.px-1
+        .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
+      .col-8.d-flex.flex-column.px-2
+        h4.m-0.font-weight-normal= player.name
+        div
           table(style="width:100%;")
             tr
               each day in upcomingDays
@@ -19,5 +21,23 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 })
                       img(src=helpers.teamImage(game.away))
                     if game.away === player.team
                       img(src=helpers.teamImage(game.home))
-    .col-2
-      h2.text-center.m-0= Math.round(player.score)
+      .col-2
+        h2.text-center.m-0= Math.round(player.score)
+    if userRoster.players.some(_player => _player._id == player._id)
+      .align-middle
+        a.danger(href="",
+          data-toggle="modal",
+          data-target="#dropPlayer",
+          data-playerName=player.name
+          data-playerid=player._id)
+          i.fa.fa-minus-circle.text-danger
+    else
+      - const availibilityClass = player._id && !takenPlayers.some(takenPlayer => takenPlayer._id === player._id) ? '' : 'invisible';
+      .align-middle
+        a.success(href="",
+          class=availibilityClass
+          data-toggle="modal",
+          data-target="#addPlayer",
+          data-playerName=player.name
+          data-playerid=player._id)
+          i.fa.fa-plus-circle.text-success

@@ -3,7 +3,7 @@ MVP
   League overview - League info section
   League edit/create form
   Account page - "Add Photo" (check for photo before replacing)
-  Reuse playerListing on /players page
+  Reuse playerListing in playerDraft
   Footer "No way associated with the NBA", all links, logo, etc.
   Player pages - all boxscores
   Prepare all API calls for failure & switching sources (funnel through nbaService)

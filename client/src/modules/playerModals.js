@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  $('#dropPlayer').on('show.bs.modal', function (event) {
-    console.log('dropPlayer called');
+  $('.playerModal').on('show.bs.modal', function (event) {
+    console.log('playerModal called');
     const button = $(event.relatedTarget);
     const playerName = button.data('playername');
     const playerId = button.data('playerid');
