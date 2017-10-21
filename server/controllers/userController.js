@@ -17,14 +17,11 @@ const multerOptions = {
 
 const User = mongoose.model('User');
 
-exports.account = (req, res) => res.render('account/account', { title: 'Account' });
+exports.account = (req, res) => res.render('account/account', { title: 'Account', user: req.user });
 
 exports.createResetToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (!user) {
-    req.flash('error', 'No user found with that e-mail address');
-    return res.redirect('/account/forgot-password');
-  }
+  if (!user) return req.oops('No user found with that e-mail address');
   user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
   user.resetPasswordExpires = Date.now() + 3600000;
   await user.save();
@@ -57,7 +54,7 @@ exports.login = function(req, res, next) {
   })(req, res, next);
 };
 
-exports.loginForm = (req, res) => res.render('account/login', { title: 'Login' });
+exports.loginForm = (req, res) => res.render('account/login', { title: 'Login', body: req.body });
 
 exports.logout = (req, res) => {
   req.logout();
@@ -76,7 +73,7 @@ exports.register = async (req, res, next) => {
   return next();
 };
 
-exports.registerForm = (req, res) => res.render('account/register', { title: 'Register' });
+exports.registerForm = (req, res) => res.render('account/register', { title: 'Register', body: req.body });
 
 exports.resetPasswordForm = async (req, res) => {
   const user = await User.findOne({

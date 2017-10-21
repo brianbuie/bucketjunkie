@@ -1,12 +1,25 @@
 extends ../layout
 
 block content
-  .grid-x.align-center
-    form.medium-6.large-4(method="POST" enctype="multipart/form-data")
-      p.text-center Edit Account
-      p.text-center
-        strong= req.user.username
-      img(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 50px;")
-      label(for="photo") Profile Picture
-        input(type="file" name="photo" id="photo" accept="image/gif, image/png, image/jpeg")
-      input.button.expanded(type="submit" value="Save →")
+  .row
+    .col-sm-3.mx-auto.p-3.bg-light
+      h2.text-center= user.username
+      .text-center.pt-3.pb-5
+        a.success(href="" data-toggle="modal" data-target="#editPhoto")
+          img.rounded-circle(src=helpers.userPhoto(user), alt="Profile Picture" style="width: 100px;")
+
+  #editPhoto.modal.fade.playerModal(tabindex="-1", role="dialog", aria-hidden="true")
+    .modal-dialog(role="document")
+      form(method="POST" enctype="multipart/form-data")
+        .modal-content.bg-light
+          .modal-header
+            h5.modal-title Edit Profile Picture
+            button.close(type="button", data-dismiss="modal", aria-label="Close")
+              span(aria-hidden="true") &times;
+          .modal-body
+            .form-group
+              label(for="photo") New Profile Picture
+              input#photo.form-control-file(type="file" name="photo" accept="image/gif, image/png, image/jpeg")
+          .modal-footer
+            button.btn.btn-secondary(data-dismiss="modal") Cancel
+            button.btn.btn-success(type="submit") Save →
