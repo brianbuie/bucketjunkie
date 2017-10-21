@@ -1,8 +1,0 @@
-extends ../layout
-
-block content
-  p All Teams
-    ul
-      each team in teams
-        li
-          a(href=`/nba/team/${team._id}`)= team.full_name

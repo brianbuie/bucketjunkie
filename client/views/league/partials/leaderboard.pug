@@ -1,4 +1,4 @@
-include ../mixins/playerListing
+include ../../nba/mixins/playerListing
 
 - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
 - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
@@ -28,4 +28,4 @@ div(class=(rosters[0] && rosters[0].score > 0 ? 'show-winning' : ''))
             +playerListing()
             - emptySpots--
 
-  include playerModals
+  include ../../nba/partials/playerModals

@@ -73,11 +73,11 @@ exports.updateLeague = async (req, res) => {
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.editLeagueForm = (req, res) => res.render('league/editLeague', { title: 'Edit League' });
+exports.editLeagueForm = (req, res) => res.render('league/edit', { title: 'Edit League' });
 
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
-  res.render('league/createLeague', { title: 'Create League', body: req.body });
+  res.render('league/create', { title: 'Create League', body: req.body });
 };
 
 exports.publicLeagues = async (req, res) => {
@@ -91,7 +91,7 @@ exports.publicLeagues = async (req, res) => {
     myLeagues = await League.find({ members: req.user._id });
   }
   const leagues = await League.find(query);
-  return res.render('leagueListing', { title: 'Public Leagues', leagues, myLeagues });
+  return res.render('league/leagues', { title: 'Public Leagues', leagues, myLeagues });
 };
 
 const sortByScore = (a,b) => {
@@ -127,7 +127,7 @@ exports.leagueOverview = async (req, res, next) => {
   }).sort(sortByScore);
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues, upcomingGames });
+  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues, upcomingGames });
 };
 
 exports.validateChat = [
@@ -163,7 +163,7 @@ exports.joinLeague = async (req, res) => {
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.confirmLeaveLeague = (req, res) => res.render('league/leaveLeague', { title: 'Leave League' });
+exports.confirmLeaveLeague = (req, res) => res.render('league/leave', { title: 'Leave League' });
 
 exports.leaveLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(

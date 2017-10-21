@@ -1,4 +1,0 @@
-mixin removePlayerForm(player)
-  form(method="POST" action=`/roster/remove-player`)
-    input(type="hidden" name="player" value=player._id)
-    input.button.tiny(type="submit" value="Remove Player")
