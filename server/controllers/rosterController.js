@@ -13,7 +13,7 @@ const addToDraft = async (req, res) => {
     { upsert: true }
   );
   if (!draft.ok) return req.oops('Error adding player');
-  return req.greatJob('Added player', `/lg/${req.league._id}`);
+  return req.greatJob('Added player');
 };
 
 exports.addPlayer = async (req, res) => {
@@ -25,7 +25,7 @@ exports.addPlayer = async (req, res) => {
     if (err.message === "Roster Full") return req.oops(err.message, `/roster/replace?player=${req.body.player}`);
     return req.oops(err.message);
   }
-  return req.greatJob('Added player', `/lg/${req.league._id}`);
+  return req.greatJob('Added Player');
 };
 
 const removeFromDraft = async (req, res) => {
@@ -33,7 +33,7 @@ const removeFromDraft = async (req, res) => {
     { $pull: { players: req.body.player } }
   );
   if (!draft.ok) return req.oops('Error removing player');
-  return res.redirect(`/lg/${req.league._id}`);
+  return req.greatJob('Removed Player');
 };
 
 exports.removePlayer = async (req, res) => {
@@ -44,7 +44,7 @@ exports.removePlayer = async (req, res) => {
   } catch(err) {
     return req.oops(err.message);
   }
-  return req.greatJob('Removed player', `/lg/${req.league._id}`);
+  return req.greatJob('Removed player');
 };
 
 exports.replacePlayerForm = async (req, res) => {

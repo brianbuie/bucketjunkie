@@ -1,10 +1,7 @@
-mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 })
-  - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = []);
-  - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
-  - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
+mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, showArrows = false)
   .d-flex.flex-row.align-items-center
     .row.no-gutters.py-2.flex-grow(class=(!player._id ? "faded-3" : ""))
-      if league.drafting
+      if league.drafting && showArrows
         .col.flex-shrink.align-middle.text-center.py-0
           .d-flex.flex-column.text-bold
             form(method="POST" action=`/roster/move`)

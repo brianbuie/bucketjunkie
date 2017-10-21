@@ -5,6 +5,7 @@ const nbaService = require('../services/nbaService');
 
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
+const Draft = mongoose.model('Draft');
 
 const sortPlayers = (playersToSort, req) => {
   let pointValues = { ftm: 1, fg2m: 2, fg3m: 3, reb: 1, ast: 1, blk: 1, stl: 1, to: -1 };
@@ -23,15 +24,16 @@ const sortPlayers = (playersToSort, req) => {
 };
 
 exports.players = async (req, res) => {
-  const league = req.league;
   const findQ = {};
   if (req.query.team) findQ.team = req.query.team;
-  const [allPlayers, teams, rosters, upcomingGames] = await Promise.all([
+  const [allPlayers, teams, upcomingGames] = await Promise.all([
     Player.find(findQ),
     Team.find({}),
-    rosterService.getRosters(league),
     nbaService.gamesForDays(7)
   ]);
+  const rosters = req.league.drafting
+    ? await Draft.find({ user: req.user, league: req.league }).populate('players').populate('user')
+    : await rosterService.getRosters(req.league);
   const players = sortPlayers(allPlayers, req).slice(0, 49);
-  return res.render('players', { title: 'Top Players', league, players, teams, rosters, upcomingGames, activeTeam: req.query.team });
+  return res.render('players', { title: 'Top Players', league: req.league, players, teams, rosters, upcomingGames, activeTeam: req.query.team });
 };

@@ -1,5 +1,9 @@
 include ../mixins/playerListing
 
+- const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
+- const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
+- const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
+
 div(class=(rosters[0] && rosters[0].score > 0 ? 'show-winning' : ''))
   each roster in rosters 
     .member-card.bg-light.mb-3
@@ -16,7 +20,7 @@ div(class=(rosters[0] && rosters[0].score > 0 ? 'show-winning' : ''))
         if league.drafting
           h5.text-center.my-0.py-3.faded-2 MY DRAFT LIST
         each player in roster.players
-          +playerListing(player)
+          +playerListing(player, showArrows = league.drafting)
         - league.rosterSize = !league.drafting ? league.rosterSize : 1
         if roster.players.length < league.rosterSize
           - let emptySpots = league.rosterSize - roster.players.length
