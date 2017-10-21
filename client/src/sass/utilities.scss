@@ -1,0 +1,38 @@
+img {
+  max-width: 100%;
+}
+
+.faded-1 {
+  opacity: 0.8;
+}
+.faded-2 {
+  opacity: 0.6;
+}
+.faded-3 {
+  opacity: 0.4;
+}
+.faded-4 {
+  opacity: 0.2;
+}
+
+.text-sm {
+  font-size: 0.5rem;
+}
+
+.one-seventh {
+  width: 14.25%;
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.link-discreet, 
+.link-discreet:hover {
+  color: $body-color;
+  text-decoration: none;
+}
