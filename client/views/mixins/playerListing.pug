@@ -3,10 +3,23 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 })
   - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
   .d-flex.flex-row.align-items-center
-    .row.no-gutters.py-2
+    .row.no-gutters.py-2.flex-grow(class=(!player._id ? "faded-3" : ""))
+      if league.drafting
+        .col.flex-shrink.align-middle.text-center.py-0
+          .d-flex.flex-column.text-bold
+            form(method="POST" action=`/roster/move`)
+              input(type="hidden" name="player" value=player._id)
+              input(type="hidden" name="delta" value=-1)
+              button.btn.btn-sm.btn-link.link-discreet(type="submit")
+                i.fa.fa-arrow-up
+            form(method="POST" action=`/roster/move`)
+              input(type="hidden" name="player" value=player._id)
+              input(type="hidden" name="delta" value=1)
+              button.btn.btn-sm.btn-link.link-discreet(type="submit")
+                i.fa.fa-arrow-down
       .col-2.px-1
         .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
-      .col-8.d-flex.flex-column.px-2
+      .col.flex-grow.d-flex.flex-column.px-2
         h4.m-0.font-weight-normal= player.name
         div
           table(style="width:100%;")

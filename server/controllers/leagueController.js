@@ -23,8 +23,8 @@ exports.validateLeague = [
   body('rosterSize').custom(val => val >= 1 && val <= 20)
     .withMessage('Roster Size must be between 1 and 20').optional(),
   sanitizeBody('pointValues.*').toInt(),
-  body('pointValues.*').custom(val => val < 100)
-    .withMessage('Point values must be less than 100').optional(),
+  body('pointValues.*').custom(val => val <= 10 && val >= -10)
+    .withMessage('Point values must be between -10 and 10').optional(),
   body('pointValues').custom(val => Object.keys(val).some(k => val[k] != 0))
     .withMessage('At least one stat must have a value').optional(),
 ];
@@ -107,33 +107,21 @@ const appendPlayerScore = (player, pointValues) => {
   return player;
 };
 
-const leagueDrafting = async (req, res) => {
-  const [myLeagues, activityAll, draftList, upcomingGames] = await Promise.all([
+exports.leagueOverview = async (req, res, next) => {
+  const [myLeagues, activityAll, scores, upcomingGames] = await Promise.all([
     League.find({ members: req.user._id }),
     activityService.getActivity(req),
-    Draft.findOne({ user: req.user, league: req.league }).populate('players'),
-    nbaService.gamesForDays(7)
-  ]);
-  let draft = draftList ? draftList.toObject() : {};
-  draft.players = draft.players ? draft.players.map(player => appendPlayerScore(player, req.league.pointValues)) : [];
-  const feedFilter = req.query.activity ? req.query.activity : 'all';
-  const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league', { title: `${req.league.name} Overview`, league: req.league, draft, activity, feedFilter, myLeagues, upcomingGames });
-};
-
-exports.leagueOverview = async (req, res, next) => {
-  if (req.league.drafting) return leagueDrafting(req, res);
-  const [myLeagues, activityAll, rostersRaw, scores, upcomingGames] = await Promise.all([
-    League.find({ members: req.user._id }),
-    activityService.getActivity(req), 
-    rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7)
   ]);
+  const rostersRaw = req.league.drafting
+    ? await Draft.find({ user: req.user, league: req.league }).populate('players').populate('user')
+    : await rosterService.getRosters(req.league);
   let rosters = rostersRaw.map(roster => {
     roster = roster._id ? roster.toObject() : roster;
     const score = scores.find(score => score._id.equals(roster.user._id));
-    roster.players = roster.players.map(player => appendPlayerScore(player, req.league.pointValues)).sort(sortByScore);
+    roster.players = roster.players.map(player => appendPlayerScore(player, req.league.pointValues))
+    roster.players = !req.league.drafting ? roster.players.sort(sortByScore) : roster.players;
     roster.score = score ? score.score : 0;
     return roster;
   }).sort(sortByScore);
