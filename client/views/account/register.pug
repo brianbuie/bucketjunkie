@@ -6,8 +6,8 @@ block content
       h2.text-center Register
       form(action=`/account/register${ref}` method="POST")
         .form-group
-          label(for="username" value=body.username) Username
-          input#username.form-control(type="text" name="username")
+          label(for="username") Username
+          input#username.form-control(type="text" name="username" value=body.username)
         .form-group
           label(for="email") Email Address
           small.faded-2  (for password resets)

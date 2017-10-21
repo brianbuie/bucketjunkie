@@ -1,5 +1,0 @@
-mixin addModerator(req, member)
-  if req.leagueAuth.isCreator && !req.league.moderators.some(mod => mod.id === member.id)
-    form(method="POST" action=`/lg/${req.league._id}/moderators/add`)
-      input(type="hidden" name="member" value=member._id)
-      input.button(type="submit" value="Add Mod")

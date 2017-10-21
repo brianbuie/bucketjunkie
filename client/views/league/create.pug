@@ -1,9 +1,0 @@
-extends ../layout
-
-include mixins/_leagueForm
-
-block content
-  .grid-x.align-center
-    .medium-6.large-4
-      p Create League
-      +leagueForm(req.body, exists = false)

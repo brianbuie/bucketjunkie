@@ -1,5 +1,0 @@
-mixin removeModerator(req, member)
-  if req.leagueAuth.isCreator && req.user.id != member.id && req.league.moderators.some(mod => mod.id === member.id)
-    form(method="POST" action=`/lg/${req.league._id}/moderators/remove`)
-      input(type="hidden" name="member" value=member._id)
-      input.button(type="submit" value="Remove Mod")

@@ -73,11 +73,11 @@ exports.updateLeague = async (req, res) => {
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.editLeagueForm = (req, res) => res.render('league/edit', { title: 'Edit League' });
+exports.editLeagueForm = (req, res) => res.render('league/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });
 
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
-  res.render('league/create', { title: 'Create League', body: req.body });
+  res.render('league/edit', { title: 'Create League', body: req.body });
 };
 
 exports.publicLeagues = async (req, res) => {
