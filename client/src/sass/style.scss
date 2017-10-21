@@ -1,39 +1,7 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 @import "./partials/activityFeed";
-
-body {
-  padding-bottom: 120px;
-}
-
-img {
-  max-width: 100%;
-}
-
-.faded-1 {
-  opacity: 0.8;
-}
-.faded-2 {
-  opacity: 0.6;
-}
-.faded-3 {
-  opacity: 0.4;
-}
-.faded-4 {
-  opacity: 0.2;
-}
-
-.text-sm {
-  font-size: 0.5rem;
-}
-
-.one-seventh {
-  width: 14.25%;
-}
-
-.main {
-  padding-top: $spacer-lg;
-}
+@import "./utilities";
 
 .profile-picture {
   max-width: $spacer-lg;
@@ -49,11 +17,6 @@ img {
 
 .logo-xs {
   max-width: $spacer-lg;
-}
-
-.link-discreet, .link-discreet:hover {
-  color: $body-color;
-  text-decoration: none;
 }
 
 .show-winning .member-card:nth-child(1) .member-overview {

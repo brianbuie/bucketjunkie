@@ -10,53 +10,59 @@ html
       link(rel='stylesheet', href='/dist/style.css')
     link(rel="shortcut icon" type="image/png" href="/images/icons/favicon.ico")
   body
-
-    block header
-      nav.navbar.navbar-expand-lg.bg-dark
-        a.navbar-brand(href="/")
-          img(src="/images/logo.svg")
-        ul.navbar-nav.mr-auto
-          if league
-            li.nav-item
-              a.nav-link(href=`/lg/${league._id}`)= league.name
-          li.nav-item.dropdown
-            a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false") Leagues
-            .dropdown-menu.bg-light
-              if myLeagues && myLeagues.length
-                each myLeague in myLeagues
-                  a.dropdown-item(href=`/lg/${myLeague._id}`)= myLeague.name
-                .dropdown-divider
-              a.dropdown-item(href="/leagues/public") Join
-              a.dropdown-item(href="/leagues/create") Create
-          li.nav-item
-            a.nav-link(href="/nba/players") Players
-        ul.navbar-nav
-          if user
+    .full-height.d-flex.flex-column
+      block header
+        nav.navbar.navbar-expand-lg.bg-dark
+          a.navbar-brand(href="/")
+            img(src="/images/logo.svg")
+          ul.navbar-nav.mr-auto
+            if league
+              li.nav-item
+                a.nav-link(href=`/lg/${league._id}`)= league.name
             li.nav-item.dropdown
-              a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false")= user.username
-              .dropdown-menu.dropdown-menu-right.bg-light
-                a.dropdown-item(href="/account/") Account
-                a.dropdown-item(href="/account/logout") Logout
+              a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false") Leagues
+              .dropdown-menu.bg-light
+                if myLeagues && myLeagues.length
+                  each myLeague in myLeagues
+                    a.dropdown-item(href=`/lg/${myLeague._id}`)= myLeague.name
+                  .dropdown-divider
+                a.dropdown-item(href="/leagues/public") Join
+                a.dropdown-item(href="/leagues/create") Create
             li.nav-item
-              a.nav-link(href="/account/")
-                img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
-          else
-            li.nav-item
-              a.nav-link(href=`/account/login${ref}`) Log In
+              a.nav-link(href="/nba/players") Players
+          ul.navbar-nav
+            if user
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false")= user.username
+                .dropdown-menu.dropdown-menu-right.bg-light
+                  a.dropdown-item(href="/account/") Account
+                  a.dropdown-item(href="/account/logout") Logout
+              li.nav-item
+                a.nav-link(href="/account/")
+                  img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
+            else
+              li.nav-item
+                a.nav-link(href=`/account/login${ref}`) Log In
 
+      block messages
+        if locals.flashes
+          - const categories = Object.keys(locals.flashes)
+          each category in categories
+            each message in flashes[category]
+              .alert.alert-dismissible.fade.show(class=`alert-${category}` role="alert")
+                button.close(aria-label="Close" type="button" data-dismiss="alert") 
+                  span(aria-hidden="true") &times;
+                != message
 
-    block messages
-      if locals.flashes
-        - const categories = Object.keys(locals.flashes)
-        each category in categories
-          each message in flashes[category]
-            .alert.alert-dismissible.fade.show(class=`alert-${category}` role="alert")
-              button.close(aria-label="Close" type="button" data-dismiss="alert") 
-                span(aria-hidden="true") &times;
-              != message
+      .container-fluid.py-5.flex-grow
+        block content
 
-    .container-fluid.main
-      block content
+      footer.footer
+        .container-fluid.bg-dark.py-3
+          .text-center
+            img.faded-3(src="/images/logo.svg")
+          .text-center.mt-3= `© ${helpers.moment().format('YYYY')}` 
+          .text-center.mt-3 BUCKETJUNKIE IS IN NO WAY ASSOCIATED WITH THE NATIONAL BASKETBALL LEAGUE
 
     block scripts
       script(src="/dist/app.bundle.js")
