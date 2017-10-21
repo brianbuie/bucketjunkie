@@ -31,6 +31,10 @@ img {
   flex-grow: 1;
 }
 
+.flex-shrink {
+  flex-grow: 0;
+}
+
 .link-discreet, 
 .link-discreet:hover {
   color: $body-color;

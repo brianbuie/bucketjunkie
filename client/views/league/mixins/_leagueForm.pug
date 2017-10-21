@@ -24,7 +24,7 @@ mixin leagueForm(league, exists = false)
         input(type="datetime-local" name="start" value=dateInput.format('YYYY-MM-DDTHH:mm'))
       label(for="rosterSize") Roster Size (max 20)
         input(name="rosterSize" type="number" value=(league.rosterSize || 5))
-      p Point Values (max 100 for each)
+      p Point Values
         each stat in helpers.pointValues
           label(for=`pointValues[${stat.attr}]`)= stat.name
             - let statInput = league.pointValues ? league.pointValues[stat.attr] : 0
