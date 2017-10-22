@@ -89,7 +89,7 @@ exports.publicLeagues = async (req, res) => {
     query.members = { $ne: req.user._id };
   }
   const leagues = await League.find(query);
-  return res.render('league/public', { title: 'Public Leagues', leagues });
+  return res.render('league/public', { title: 'Join A League', leagues });
 };
 
 exports.setMyLeagues = async (req, res, next) => {

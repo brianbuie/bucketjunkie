@@ -1,0 +1,8 @@
+mixin leagueListing(league)
+  .d-flex.flex-row
+    h4.my-0.mr-auto= league.name
+    p.my-0= `${league.members.length} Member${league.members.length > 1 ? 's' : ''}`
+  small.faded-2
+    - const startVerb = helpers.moment(league.start).isBefore(helpers.moment()) ? 'Started' : 'Starting'
+    =`${league.uniqueRosters ? 'Fantasy' : 'Contest'} | ${league.rosterSize} Players | ${startVerb} ${helpers.moment(league.start).fromNow()}`
+  p.m-0= league.description

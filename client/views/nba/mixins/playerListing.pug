@@ -1,5 +1,5 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, showArrows = false)
-  .player__listing.d-flex.flex-row.align-items-center
+  .striped.d-flex.flex-row.align-items-center
     .row.no-gutters.p-3.flex-grow(class=(!player._id ? "faded-3" : ""))
 
       if league.drafting && showArrows

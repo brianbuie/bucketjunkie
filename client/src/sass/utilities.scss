@@ -44,3 +44,8 @@ img {
   color: $body-color;
   text-decoration: none;
 }
+
+.striped:nth-child(even),
+.striped:nth-child(even)>.striped-child {
+  background-color: rgba(255, 255, 255, 0.2);  
+}
