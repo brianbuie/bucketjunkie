@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/public', catchErrors(league.publicLeagues));
 
 router.use(auth.isLoggedIn);
-router.get('/', catchErrors(league.publicLeagues)); // Is this necessary?
+router.get('/', catchErrors(league.myLeagues));
 router.get('/create', league.createLeagueForm);
 router.post('/create', league.validateLeague, catchErrors(league.createLeague));
 

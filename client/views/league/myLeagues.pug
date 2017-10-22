@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  p= title
+  ul
+    each league in myLeagues
+      li
+        a(href=`/lg/${league._id}`)= league.name

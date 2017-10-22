@@ -6,6 +6,7 @@ const nbaService = require('../services/nbaService');
 const Team = mongoose.model('Team');
 const Player = mongoose.model('Player');
 const Draft = mongoose.model('Draft');
+const League = mongoose.model('League');
 
 const sortPlayers = (playersToSort, req) => {
   let pointValues = { ftm: 1, fg2m: 2, fg3m: 3, reb: 1, ast: 1, blk: 1, stl: 1, to: -1 };

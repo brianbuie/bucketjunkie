@@ -1,7 +1,10 @@
 const express = require('express');
+const { catchErrors } = require('../handlers/errorHandlers');
+const leagueController = require('../controllers/leagueController');
 
 const router = express.Router();
-router.get('/', (req, res) => res.render('index', { title: 'Home' }));
+router.use('/', catchErrors(leagueController.setMyLeagues));
+router.get('/', catchErrors(leagueController.myLeagues));
 router.use('/account', require('./account'));
 router.use('/leagues', require('./leagues'));
 router.use('/lg', require('./lg'));

@@ -85,13 +85,21 @@ exports.publicLeagues = async (req, res) => {
     public: true,
     open: true,
   };
-  let myLeagues = [];
   if (req.user) {
     query.members = { $ne: req.user._id };
-    myLeagues = await League.find({ members: req.user._id });
   }
   const leagues = await League.find(query);
-  return res.render('league/leagues', { title: 'Public Leagues', leagues, myLeagues });
+  return res.render('league/public', { title: 'Public Leagues', leagues });
+};
+
+exports.setMyLeagues = async (req, res, next) => {
+  res.locals.myLeagues = req.user ? await League.find({ members: req.user._id }) : [];
+  return next();
+}
+
+exports.myLeagues = async (req, res) => {
+  if (!req.user || !res.locals.myLeagues.length) return this.publicLeagues(req, res);
+  return res.render('league/myLeagues', { title: 'My Leagues' });
 };
 
 const sortByScore = (a,b) => {
@@ -108,8 +116,7 @@ const appendPlayerScore = (player, pointValues) => {
 };
 
 exports.leagueOverview = async (req, res, next) => {
-  const [myLeagues, activityAll, scores, upcomingGames] = await Promise.all([
-    League.find({ members: req.user._id }),
+  const [activityAll, scores, upcomingGames] = await Promise.all([
     activityService.getActivity(req),
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7)
@@ -127,7 +134,7 @@ exports.leagueOverview = async (req, res, next) => {
   }).sort(sortByScore);
   const feedFilter = req.query.activity ? req.query.activity : 'all';
   const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, myLeagues, upcomingGames });
+  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, upcomingGames });
 };
 
 exports.validateChat = [
