@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
+const Team = mongoose.model('Team')
 const Activity = mongoose.model('Activity');
+const Score = mongoose.model('Score');
 
 exports.addActivity = async req => {
   const activityPromises = req.actions.map(action => {
@@ -15,11 +17,24 @@ exports.addActivity = async req => {
 exports.addAction = async action => (new Activity(action)).save();
 
 exports.getActivity = async req => {
-  const member = ['league', 'rosters', 'scores', 'chat'];
+  const member = ['league', 'rosters', 'chat'];
   const moderator = ['moderation'];
   const access = req.leagueAuth.isModerator ? member.concat(moderator) : member;
-  return await Activity.find({ league: req.league._id, category: { $in: access } })
-    .sort({ _id: -1 })
-    .limit(30)
-    .populate('user');
+  let [activity, scores] = await Promise.all([
+    Activity.find({ league: req.league._id, category: { $in: access } })
+      .populate('user'),
+    Score.find({ league: req.league._id })
+      .populate('user')
+      .populate('player')
+      .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
+  ]);
+  let scoresActivity = scores.map(score => {
+    return {
+      user: score.user,
+      category: 'scores',
+      message: `scored ${score.points} points from ${score.player.name} vs. ${score.box.opponent.abbreviation}`,
+      date: score.box.game.date
+    }
+  });
+  return activity.concat(scoresActivity).sort((a,b) => new Date(b.date) - new Date(a.date));
 };

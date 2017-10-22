@@ -17,9 +17,9 @@ const scoreSchema = new mongoose.Schema({
     type: Number,
     ref: 'Player',
   },
-  game: {
+  box: {
     type: Number,
-    ref: 'Game',
+    ref: 'Box',
   },
   points: Number
 });
