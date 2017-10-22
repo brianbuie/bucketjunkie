@@ -25,7 +25,7 @@ async function getPlayerImages() {
       if(response.statusCode === 200) {
         return r.pipe(fs.createWriteStream(local));
       }
-      console.log(`No image for ${player.name}`);
+      return console.log(`No image for ${player.name}`);
     });
   });
 }
