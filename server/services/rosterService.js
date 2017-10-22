@@ -30,7 +30,7 @@ exports.addToRoster = async (league, user, player, rosters = null, verb = 'picke
   if (!roster) roster = { user, league, players: [] };
   const checkAgainst = league.uniqueRosters ? rosters : [roster];
   if (!this.playerIsAvailable(checkAgainst, player)) throw new Error('Player is taken');
-  if (roster.players.length >= league.rosterSize) throw new Error('Roster Full');
+  if (roster.players.length >= league.rosterSize) throw new Error('Roster full');
   roster.players.push(player);
   const update = await (new Roster({ user: roster.user, league: roster.league, players: roster.players })).save();
   if (!update) throw new Error('Unable to add player');

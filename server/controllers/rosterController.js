@@ -22,7 +22,7 @@ exports.addPlayer = async (req, res) => {
   try {
     await rosterService.addToRoster(req.league, req.user, req.body.player);
   } catch(err) {
-    if (err.message === "Roster Full") return req.oops(err.message, `/roster/replace?player=${req.body.player}`);
+    if (err.message === "Roster full") return req.oops('Roster full, drop a player and try again');
     return req.oops(err.message);
   }
   return req.greatJob('Added Player');
@@ -45,29 +45,6 @@ exports.removePlayer = async (req, res) => {
     return req.oops(err.message);
   }
   return req.greatJob('Removed player');
-};
-
-exports.replacePlayerForm = async (req, res) => {
-  if (req.league.drafting) return req.oops('League is still drafting');
-  if (!req.query.player) return req.oops('No player specified', `/lg/${req.league._id}`);
-  const [roster, player] = await Promise.all([
-    rosterService.getRoster(req.league, req.user),
-    nbaService.player(req.query.player)
-  ]);
-  return res.render('roster/replace', { title: 'Replace Player', roster, player });
-};
-
-exports.replacePlayer = async (req, res) => {
-  if (req.league.drafting) return req.oops('League is still drafting');
-  if (!req.query.player) return req.oops('No player specified to add', `/lg/${req.league._id}`);
-  if (!req.body.player) return req.oops('No player specified to drop', `/lg/${req.league._id}`);
-  try {
-    await rosterService.removeFromRoster(req.league, req.user, req.body.player);
-    await rosterService.addToRoster(req.league, req.user, req.query.player);
-  } catch(err) {
-    return req.oops(err.message);
-  }
-  return req.greatJob('Replaced player', `/lg/${req.league._id}`);
 };
 
 exports.moveDraft = async (req, res) => {
