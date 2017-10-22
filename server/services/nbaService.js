@@ -61,7 +61,7 @@ exports.fetchGame = async id => {
 // exports.fetchBoxscoresByPlayer = (id) => fetch('/boxscore/player', { player_id: id, season: 2016 });
 
 exports.fetchBoxscoresByGame = async id => {
-  const boxscores = await fetch('/boxscore/player', { game_id: id, season: 2016 }).catch(err => console.log(`error for boxscores ${id}: ${err}`));
+  const boxscores = await fetch('/boxscore/player', { game_id: id }).catch(err => console.log(`error for boxscores ${id}: ${err}`));
   return boxscores ? boxscores.map(boxscore => mutateBoxscore(boxscore)) : null;
 };
 

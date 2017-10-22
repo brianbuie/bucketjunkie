@@ -8,6 +8,9 @@ exports.startup = () => {
   // sets its own schedule
   autoDraft.startup();
 
+  // updateScores.update()
+  // updateAverages.update()
+
   // ever 30 minutes: updateScores 5 minutes later, updateAverages 10 minutes later
   // ensures these tasks won't overlap
   setInterval(() => {

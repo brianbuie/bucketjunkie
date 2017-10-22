@@ -16,10 +16,8 @@ exports.update = async () => {
   ]);
   unscoredGames.forEach(async game => {
     const start = Date.now();
-    const gameState = await nbaService.fetchGame(game._id).catch(err => console.log(err));
-    if (!gameState || !gameState.final) return;
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
-    if (!boxes) return;
+    if (!boxes.length || boxes[0].period !== "f") return;
     await Promise.all([
       leagues.forEach(async league => {
         await league.members.forEach(async member => {

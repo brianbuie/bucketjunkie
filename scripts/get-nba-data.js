@@ -70,7 +70,7 @@ async function data() {
 
     console.log('\nData loaded!');
 
-    await updateScores.update();
+    await updateScores.update()
     await updateAverages.update();
 
     process.exit();
