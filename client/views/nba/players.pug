@@ -8,12 +8,18 @@ block content
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
   .container
     .row.no-gutters
-      each team in teams
-        .col
-          a(href=`/nba/players?team=${team._id}`, class=(activeTeam === team._id ? 'is-active' : ''))
-            img(src=helpers.teamImage(team._id))
-    .bg-light.mx-auto(style="max-width: 600px;")
-      each player in players
-        +playerListing(player)
+      .bg-light.col-sm-10.col-md-8.mx-auto.mb-4.p-3
+        h2.text-center Top Players
+        .d-flex.flex-row.flex-wrap
+          .team__filter(class=(!activeTeam ? 'active' : ''))
+            a(href=`/nba/players`)
+              img(src='/images/teams/nba.svg')
+          each team in teams
+            .team__filter(class=(team._id == activeTeam ? 'active' : ''))
+              a(href=`/nba/players?team=${team._id}`)
+                img(src=helpers.teamImage(team._id))
+      .bg-light.col-sm-10.col-md-8.mx-auto
+        each player in players
+          +playerListing(player)
 
   include partials/playerModals

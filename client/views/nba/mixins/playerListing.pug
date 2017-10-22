@@ -1,6 +1,7 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, showArrows = false)
-  .d-flex.flex-row.align-items-center
-    .row.no-gutters.py-2.flex-grow(class=(!player._id ? "faded-3" : ""))
+  .player__listing.d-flex.flex-row.align-items-center
+    .row.no-gutters.p-3.flex-grow(class=(!player._id ? "faded-3" : ""))
+
       if league.drafting && showArrows
         .col.flex-shrink.align-middle.text-center.py-0
           .d-flex.flex-column.text-bold
@@ -14,10 +15,12 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, sho
               input(type="hidden" name="delta" value=1)
               button.btn.btn-sm.btn-link.link-discreet(type="submit")
                 i.fa.fa-arrow-down
+      
       .col-2.px-1
         .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
+      
       .col.flex-grow.d-flex.flex-column.px-2
-        h4.m-0.font-weight-normal= player.name
+        h4.mb-2.font-weight-normal= player.name
         div
           table(style="width:100%;")
             tr
@@ -31,19 +34,21 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, sho
                       img(src=helpers.teamImage(game.away))
                     if game.away === player.team
                       img(src=helpers.teamImage(game.home))
-      .col-2
-        h2.text-center.m-0= Math.round(player.score)
-    if userRoster.players.some(_player => _player._id == player._id)
-      .align-middle
+    
+      .col-2.d-flex.flex-column.justify-content-center
+        h1.text-center.faded-1.m-0= Math.round(player.score)
+        p.text-sm.text-center.faded-2.my-0 AVG
+
+    .align-middle.text-lg.px-2
+      if userRoster.players.some(_player => _player._id == player._id)
         a.danger(href="",
           data-toggle="modal",
           data-target="#dropPlayer",
           data-playerName=player.name
           data-playerid=player._id)
           i.fa.fa-minus-circle.text-danger
-    else
-      - const availibilityClass = player._id && !takenPlayers.some(takenPlayer => takenPlayer._id === player._id) ? '' : 'invisible';
-      .align-middle
+      else
+        - const availibilityClass = player._id && !takenPlayers.some(takenPlayer => takenPlayer._id === player._id) ? '' : 'invisible';
         a.success(href="",
           class=availibilityClass
           data-toggle="modal",
