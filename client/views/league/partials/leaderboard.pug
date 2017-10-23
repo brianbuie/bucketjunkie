@@ -21,9 +21,9 @@ div(class=(rosters[0] && rosters[0].score > 0 ? 'show-winning' : ''))
           h5.text-center.my-0.py-3.faded-2 MY DRAFT LIST
         each player in roster.players
           +playerListing(player, showArrows = league.drafting)
-        - league.rosterSize = !league.drafting ? league.rosterSize : 1
-        if roster.players.length < league.rosterSize
-          - let emptySpots = league.rosterSize - roster.players.length
+        - const displaySpots = !league.drafting ? league.rosterSize : 1
+        if roster.players.length < displaySpots
+          - let emptySpots = displaySpots - roster.players.length
           while emptySpots
             +playerListing()
             - emptySpots--
