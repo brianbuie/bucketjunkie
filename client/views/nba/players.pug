@@ -4,7 +4,7 @@ include mixins/playerListing
 
 block content
   - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
-  - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0]
+  - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0] || { players: [] }
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
   .container
     .row.no-gutters

@@ -29,6 +29,7 @@ exports.useParam = async (req, res, next) => {
   if (!req.params.id) return req.oops('Please specify a league');
   req.league = await getLeague(req.params.id);
   req.leagueAuth = setPermissions(req.league, req.user);
+  res.locals.leagueAuth = req.leagueAuth;
   if (req.leagueAuth.isMember) req.session.league = req.league;
   return next();
 };
@@ -37,6 +38,7 @@ exports.useSession = async (req, res, next) => {
   if (!req.session.league) return req.oops('Please specify a league');
   req.league = await getLeague(req.session.league._id);
   req.leagueAuth = setPermissions(req.league, req.user);
+  res.locals.leagueAuth = req.leagueAuth;
   if (req.leagueAuth.isMember) req.session.league = req.league;
   return next();
 };
@@ -45,6 +47,7 @@ exports.optionalSession = async(req, res, next) => {
   if (!req.session.league || !req.isAuthenticated()) return next();
   req.league = await getLeague(req.session.league._id);
   req.leagueAuth = setPermissions(req.league, req.user);
+  res.locals.leagueAuth = req.leagueAuth;
   if (req.leagueAuth.isMember) req.session.league = req.league;
   return next();
 }

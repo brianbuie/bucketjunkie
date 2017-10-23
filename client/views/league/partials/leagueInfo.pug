@@ -1,0 +1,21 @@
+.container.bg-light.my-4.p-3
+  .d-flex.flex-row
+    h4.my-0.mr-auto= league.name
+    if leagueAuth.isModerator
+      p.my-0
+        a(href=`/lg/${league._id}/edit`) Edit
+  small.faded-2
+    - const startVerb = helpers.moment(league.start).isBefore(helpers.moment()) ? 'Started' : 'Starting'
+    =`${league.uniqueRosters ? 'Fantasy' : 'Contest'} | ${league.rosterSize} Players | ${startVerb} ${helpers.moment(league.start).fromNow()}`
+  p.m-0= league.description
+  .row.mt-3
+    .col-6
+      h5.my-0.py-1.px-3 Point Values
+      each stat in helpers.pointValues
+        .d-flex.flex-row.justify-content-between.striped.py-1.px-3
+          .faded-1= stat.attr.toUpperCase()
+          .text-right= league.pointValues[stat.attr]
+    .col-6
+      h5.my-0.py-1.px-3 Members
+      each member in league.members
+        p.my-0.striped.py-1.px-3= member.username

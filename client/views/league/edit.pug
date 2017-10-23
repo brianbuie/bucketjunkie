@@ -70,12 +70,12 @@ block content
   
   if formLeague.members
     .row
-      .col-md-6.col-lg-4.mx-auto.p-3.my-3.bg-light
+      .col-md-8.col-lg-6.mx-auto.p-3.my-3.bg-light
         h2.text-center Members
         each member in formLeague.members
-          .row
+          .row.striped.p-3
             .col
-              h3= member.username
+              h5= member.username
             if leagueAuth.isCreator && user.id != member.id && league.moderators.some(mod => mod.id === member.id)
               .col
                 form(method="POST" action=`/lg/${league._id}/moderators/remove`)
@@ -83,11 +83,11 @@ block content
                   button.btn.btn-danger(type="submit") Remove Mod
             if leagueAuth.isCreator && !league.moderators.some(mod => mod.id === member.id)
               .col
-                form(method="POST" action=`/lg/${req.league._id}/moderators/add`)
+                form(method="POST" action=`/lg/${league._id}/moderators/add`)
                   input(type="hidden" name="member" value=member._id)
                   button.btn.btn-success(type="submit") Add Mod
-            if req.leagueAuth.isModerator && !req.league.moderators.some(mod => mod.id === member.id)
+            if leagueAuth.isModerator && !league.moderators.some(mod => mod.id === member.id)
               .col
-                form(method="POST" action=`/lg/${req.league._id}/members/remove`)
+                form(method="POST" action=`/lg/${league._id}/members/remove`)
                   input(type="hidden" name="member" value=member._id)
                   button.btn.btn-danger(type="submit") Remove
