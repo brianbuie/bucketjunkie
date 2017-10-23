@@ -18,6 +18,13 @@ exports.getRoster = async (league, user) => {
   return roster.length ? roster[0] : { league: league._id, user, players: [] };
 };
 
+exports.getDraft = async (league, user) => {
+  const draft = await Draft.find({ league, user })
+    .populate('players')
+    .populate('user');
+  return draft.length ? draft : [{ league: league._id, user, players: [] }];
+};
+
 exports.playerIsAvailable = (lists, player) => !lists.some(list => {
   if (!list || !list.players) return false;
   return list.players.some(p => p.equals(player));

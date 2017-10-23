@@ -33,7 +33,7 @@ exports.players = async (req, res) => {
     nbaService.gamesForDays(7)
   ]);
   const rosters = req.league.drafting
-    ? await Draft.find({ user: req.user, league: req.league }).populate('players').populate('user')
+    ? await rosterService.getDraft(req.league, req.user)
     : await rosterService.getRosters(req.league);
   const players = sortPlayers(allPlayers, req).slice(0, 49);
   return res.render('nba/players', { title: 'Top Players', league: req.league, players, teams, rosters, upcomingGames, activeTeam: req.query.team });

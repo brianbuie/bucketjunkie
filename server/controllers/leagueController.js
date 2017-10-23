@@ -122,7 +122,7 @@ exports.leagueOverview = async (req, res, next) => {
     nbaService.gamesForDays(7)
   ]);
   const rostersRaw = req.league.drafting
-    ? await Draft.find({ user: req.user, league: req.league }).populate('players').populate('user')
+    ? await rosterService.getDraft(req.league, req.user)
     : await rosterService.getRosters(req.league);
   let rosters = rostersRaw.map(roster => {
     roster = roster._id ? roster.toObject() : roster;
