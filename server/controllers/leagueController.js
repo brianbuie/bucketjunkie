@@ -96,6 +96,7 @@ exports.publicLeagues = async (req, res) => {
   };
   if (req.user) {
     query.members = { $ne: req.user._id };
+    query.blocked = { $ne: req.user._id };
   }
   const leagues = await League.find(query);
   return res.render('league/public', { title: 'Join A League', leagues });
