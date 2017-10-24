@@ -179,8 +179,6 @@ exports.joinLeague = async (req, res) => {
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.confirmLeaveLeague = (req, res) => res.render('league/leave', { title: 'Leave League' });
-
 exports.leaveLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { 

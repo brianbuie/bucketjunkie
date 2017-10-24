@@ -3,4 +3,4 @@ import '../../node_modules/font-awesome/scss/font-awesome.scss';
 
 import './sass/style.scss';
 
-import './modules/playerModals';
+import './modules/dynamicModal';

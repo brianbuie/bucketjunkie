@@ -18,4 +18,17 @@
     .col-6
       h5.my-0.py-1.px-3 Members
       each member in league.members
-        p.my-0.striped.py-1.px-3= member.username
+        .my-0.striped.py-1.px-3.d-flex.flex-row.justify-content-between
+          p.my-0= member.username
+          if !leagueAuth.isCreator && member.id === user.id
+            a.text-danger.ml-auto(href="",
+              data-toggle="modal",
+              data-target="#dynamicModal",
+              data-title="Are you sure?",
+              data-body="Leaving this league will forfeit your current roster or draft list.",
+              data-form-method="POST",
+              data-form-action=`/lg/${req.league._id}/leave`,
+              data-input-name="",
+              data-input-value="",
+              data-button-class="btn-danger",
+              data-button-text="Leave") Leave

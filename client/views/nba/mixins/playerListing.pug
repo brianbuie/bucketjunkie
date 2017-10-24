@@ -43,16 +43,28 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, sho
       if userRoster.players.some(_player => _player._id == player._id)
         a.danger(href="",
           data-toggle="modal",
-          data-target="#dropPlayer",
-          data-playerName=player.name
-          data-playerid=player._id)
+          data-target="#dynamicModal",
+          data-title="Drop Player",
+          data-body=player.name,
+          data-form-method="POST",
+          data-form-action="/roster/remove-player",
+          data-input-name="player",
+          data-input-value=player._id,
+          data-button-class="btn-danger",
+          data-button-text="Drop")
           i.fa.fa-minus-circle.text-danger
       else
         - const availibilityClass = player._id && !takenPlayers.some(takenPlayer => takenPlayer._id === player._id) ? '' : 'invisible';
         a.success(href="",
           class=availibilityClass
           data-toggle="modal",
-          data-target="#addPlayer",
-          data-playerName=player.name
-          data-playerid=player._id)
+          data-target="#dynamicModal",
+          data-title="Add Player",
+          data-body=player.name,
+          data-form-method="POST",
+          data-form-action="/roster/add-player",
+          data-input-name="player",
+          data-input-value=player._id,
+          data-button-class="btn-success",
+          data-button-text="Add")
           i.fa.fa-plus-circle.text-success

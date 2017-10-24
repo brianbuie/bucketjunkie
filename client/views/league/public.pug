@@ -12,8 +12,19 @@ block content
             .col-11
               +leagueListing(league)
             .col-1.d-flex.flex-column.justify-content-center.text-lg.text-center.px-2
-              a.success(href=`/lg/${league._id}/join`)
+              a.text-danger(href="",
+                data-toggle="modal",
+                data-target="#dynamicModal",
+                data-title="Join League",
+                data-body=league.name,
+                data-form-method="GET",
+                data-form-action=`/lg/${league._id}/join`,
+                data-input-name="",
+                data-input-value="",
+                data-button-class="btn-success",
+                data-button-text="Join")
                 i.fa.fa-plus-circle.text-success
+                  
         if !leagues.length
           p.text-center.font-italic No open leagues.
           p.text-center.font-italic You should create one...

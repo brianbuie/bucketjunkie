@@ -78,16 +78,42 @@ block content
               h5= member.username
             if leagueAuth.isCreator && user.id != member.id && league.moderators.some(mod => mod.id === member.id)
               .col
-                form(method="POST" action=`/lg/${league._id}/moderators/remove`)
-                  input(type="hidden" name="member" value=member._id)
-                  button.btn.btn-danger(type="submit") Remove Mod
+                a.btn.btn-danger(href=""
+                  data-toggle="modal",
+                  data-target="#dynamicModal",
+                  data-title="Remove Moderator",
+                  data-body=member.username,
+                  data-form-method="POST",
+                  data-form-action=`/lg/${league._id}/moderators/remove`,
+                  data-input-name="member",
+                  data-input-value=member._id,
+                  data-button-class="btn-danger",
+                  data-button-text="Remove") Remove Mod
+
             if leagueAuth.isCreator && !league.moderators.some(mod => mod.id === member.id)
               .col
-                form(method="POST" action=`/lg/${league._id}/moderators/add`)
-                  input(type="hidden" name="member" value=member._id)
-                  button.btn.btn-success(type="submit") Add Mod
+                a.btn.btn-success(href=""
+                  data-toggle="modal",
+                  data-target="#dynamicModal",
+                  data-title="Add Moderator",
+                  data-body=member.username,
+                  data-form-method="POST",
+                  data-form-action=`/lg/${league._id}/moderators/add`,
+                  data-input-name="member",
+                  data-input-value=member._id,
+                  data-button-class="btn-success",
+                  data-button-text="Add") Add Mod
+
             if leagueAuth.isModerator && !league.moderators.some(mod => mod.id === member.id)
               .col
-                form(method="POST" action=`/lg/${league._id}/members/remove`)
-                  input(type="hidden" name="member" value=member._id)
-                  button.btn.btn-danger(type="submit") Remove
+                a.btn.btn-danger(href=""
+                  data-toggle="modal",
+                  data-target="#dynamicModal",
+                  data-title="Ban User",
+                  data-body=member.username,
+                  data-form-method="POST",
+                  data-form-action=`/lg/${league._id}/members/remove`,
+                  data-input-name="member",
+                  data-input-value=member._id,
+                  data-button-class="btn-danger",
+                  data-button-text="Ban") Ban
