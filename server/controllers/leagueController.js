@@ -222,14 +222,11 @@ exports.removeMember = async (req, res) => {
   const removeQ = { league: req.league._id, user: req.body.member };
   await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
-  req.actions = [
-    { category: 'moderation', message: `removed ${await userService.getUsername(req.body.member)} as a member` },
-    { category: 'league', message: `left ${req.league.name}`  }
-  ];
-  await activityService.addActivity(req);
-  req.actions = undefined;
-  req.flash('success', 'Removed Member');
-  return res.redirect(`/lg/${req.league._id}`);
+  await Promise.all([
+    activityService.addAction({ league: req.league, user: req.user, category: 'moderation', message: `removed ${await userService.getUsername(req.body.member)} as a member` }),
+    activityService.addAction({ league: req.league, user: req.body.member, category: 'league', message: `left ${req.league.name}` })
+  ]);
+  return req.greatJob('Removed Member');
 };
 
 exports.addModerator = async (req, res) => {
