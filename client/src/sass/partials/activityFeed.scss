@@ -9,9 +9,9 @@
   }
 }
 
-.activity__feed {
+#activity__feed {
   height: 50vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .activity__item--rosters,

@@ -4,7 +4,7 @@
     each category in categories
       li.nav-item
         a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
-  .activity__feed
+  #activity__feed
     each action in activity.reverse()
       .py-1.px-2(class=`activity__item--${action.category}`)
         strong.pr-2= action.user.username
