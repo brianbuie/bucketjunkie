@@ -41,5 +41,5 @@ if (process.env.NODE_ENV === 'development') {
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
 }
 
-app.set('port', 8080);
+app.set('port', 80);
 app.listen(app.get('port'), () => console.log(`Express running → PORT ${app.get('port')}`));
