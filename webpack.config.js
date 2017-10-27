@@ -1,8 +1,10 @@
 const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, 'variables.env') });
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === 'production';
+console.log(`Webpack building in ${process.env.NODE_ENV} mode`);
 
 const sassResources = {
   loader: 'sass-resources-loader', 
@@ -27,7 +29,7 @@ const cssDev = [ 'style-loader', 'css-loader?sourceMap', postCssLoader, 'sass-lo
 const cssProd = ExtractTextPlugin.extract({
   fallback: 'style-loader',
   use: [ 'css-loader', 'sass-loader', sassResources ],
-  publicPath: '/client/public/dist'
+  publicPath: '/dist/'
 });
 
 const cssConfig = isProd ? cssProd : cssDev;
@@ -38,9 +40,9 @@ module.exports = {
   },
   devtool: 'source-map',
   output: {
-    path: path.resolve(__dirname, 'client/public/dist'),
+    path: path.resolve(__dirname, 'client/public/dist/'),
     filename: '[name].bundle.js',
-    publicPath: 'http://localhost:8081/dist/'
+    publicPath: '/'
   },
   module: {
     rules: [

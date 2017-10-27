@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
   const webpackConfig = require('../webpack.config.js');
 
   webpackConfig.entry.app.unshift("webpack-dev-server/client?http://localhost:8081");
+  webpackConfig.output.publicPath = 'http://localhost:8081/dist/';
   const devServer = new WebpackDevServer(webpack(webpackConfig), {
     contentBase: path.resolve(__dirname, '..', 'client/public/dist/'),
     hot: false,
@@ -39,7 +40,9 @@ if (process.env.NODE_ENV === 'development') {
     headers: { "Access-Control-Allow-Origin": "*" }
   });
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
+  app.set('port', 8084);
+} else {
+  app.set('port', 8084);
 }
 
-app.set('port', 80);
 app.listen(app.get('port'), () => console.log(`Express running → PORT ${app.get('port')}`));

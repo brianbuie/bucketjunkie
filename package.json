@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./server/start.js --ignore client/src/",
-    "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"NODE,WEBPACK\" --prefix name",
-    "assets": "webpack -w --display-max-modules 0",
+    "prod": "webpack && pm2 start ./server/start.js --name nfa",
     "test": "eslint .",
     "data": "node ./scripts/get-nba-data.js",
     "images": "node ./scripts/get-images.js --players"
@@ -43,6 +42,7 @@
     "ordinal-number-suffix": "^0.1.1",
     "passport": "^0.4.0",
     "passport-local-mongoose": "^4.2.1",
+    "pm2": "^2.7.2",
     "popper.js": "^1.12.5",
     "pug": "^2.0.0-rc.4",
     "slugs": "^0.1.3",
