@@ -40,9 +40,7 @@ if (process.env.NODE_ENV === 'development') {
     headers: { "Access-Control-Allow-Origin": "*" }
   });
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
-  app.set('port', 8084);
-} else {
-  app.set('port', 8084);
 }
 
+app.set('port', process.env.PORT);
 app.listen(app.get('port'), () => console.log(`Express running → PORT ${app.get('port')}`));
