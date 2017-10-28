@@ -6,3 +6,11 @@ setTimeout(() => {
   const height = feed[0].scrollHeight;
   feed.scrollTop(height);
 }, 1000);
+
+setTimeout(() => {
+  $.ajax({
+    url: '/activity'
+  }).done(function(data) {
+    console.log(data);
+  })
+}, 1000);
