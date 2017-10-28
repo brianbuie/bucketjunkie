@@ -34,13 +34,17 @@ exports.update = async () => {
           const total = categories.reduce(function(acc, cur) {
             return acc + (parseInt(box[cur]) * league.pointValues[cur]);
           }, 0);
+          // make the score's recorded date 3 hours after game start if the score is added way later
+          const approxGameEnd = moment(game.date).add(3, 'hours');
+          const recordDate = approxGameEnd.isBefore(moment()) ? approxGameEnd : moment();
           return (new Score({ 
             league: league._id,
             user: roster.user,
             roster: roster._id,
             player: box.player,
             box: box,
-            points: total
+            points: total,
+            date: recordDate
           })).save();
         }));
       }));

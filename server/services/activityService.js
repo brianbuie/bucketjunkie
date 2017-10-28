@@ -22,12 +22,21 @@ exports.getActivity = async req => {
   let categories = req.leagueAuth.isModerator ? member.concat(moderator) : member;
   if (req.query.activity) categories = categories.filter(cat => cat === req.query.activity);
   let activity = [];
+  const newerThan = req.query.newerThan ? req.query.newerThan : req.league.created;
+  const olderThan = req.query.olderThan ? req.query.olderThan : Date.now();
   if (req.query.activity != 'scores') {
-    activity = await Activity.find({ league: req.league._id, category: { $in: categories } })
+    activity = await Activity.find({ 
+      league: req.league._id, 
+      category: { $in: categories },
+      date: { $gt: newerThan, $lt: olderThan }
+    })
       .populate('user');
   }
   if (categories.includes('scores')) {
-    const scores = await Score.find({ league: req.league._id })
+    const scores = await Score.find({ 
+      league: req.league._id, 
+      date: { $gt: newerThan, $lt: olderThan }
+    })
       .populate('user')
       .populate('player')
       .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
@@ -37,7 +46,7 @@ exports.getActivity = async req => {
         user: score.user,
         category: 'scores',
         message: `scored ${score.points} points from ${score.player.name} vs. ${score.box.opponent.abbreviation}`,
-        date: score.box.game.date
+        date: score.date
       }
     }));
   }

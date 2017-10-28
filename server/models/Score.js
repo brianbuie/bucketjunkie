@@ -21,7 +21,11 @@ const scoreSchema = new mongoose.Schema({
     type: Number,
     ref: 'Box',
   },
-  points: Number
+  points: Number,
+  date: {
+    type: Date,
+    default: Date.now
+  },
 });
 
 scoreSchema.statics.getTotalScores = function(leagueId) {
