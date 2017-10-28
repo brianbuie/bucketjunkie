@@ -43,16 +43,17 @@ html
             else
               li.nav-item
                 a.nav-link(href=`/account/login${ref}`) Log In
-
-      block messages
-        if locals.flashes
-          - const categories = Object.keys(locals.flashes)
-          each category in categories
-            each message in flashes[category]
-              .alert.alert-dismissible.fade.show(class=`alert-${category}` role="alert")
-                button.close(aria-label="Close" type="button" data-dismiss="alert") 
-                  span(aria-hidden="true") &times;
-                != message
+      
+      #errors
+        block messages
+          if locals.flashes
+            - const categories = Object.keys(locals.flashes)
+            each category in categories
+              each message in flashes[category]
+                .alert.alert-dismissible.fade.show(class=`alert-${category}` role="alert")
+                  button.close(aria-label="Close" type="button" data-dismiss="alert") 
+                    span(aria-hidden="true") &times;
+                  != message
 
       .container-fluid.py-5.flex-grow
         block content

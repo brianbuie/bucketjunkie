@@ -8,9 +8,9 @@
         a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
   #activity__feed
   if !feedFilter || ['all', 'chat'].includes(feedFilter)
-    form(method="Post" action=`/lg/${league.id}/chat`)
+    form#chat__form
       .form-group.row.my-0
         .col.pr-0
-          input.form-control(type="text" name="message" placeholder="Chat")
+          input#chat__input.form-control(type="text" name="message" placeholder="Chat" autocomplete="off")
         .col-sm-auto.pl-0
           button.btn.btn-success(type="submit") Send

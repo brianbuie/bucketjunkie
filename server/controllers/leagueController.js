@@ -145,22 +145,6 @@ exports.leagueOverview = async (req, res, next) => {
   return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, feedFilter, upcomingGames });
 };
 
-exports.validateChat = [
-  sanitizeBody('message')
-];
-
-exports.chat = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    errors.array().map(e => req.flash('error', e.msg));
-    return res.redirect(`/lg/${req.league._id}`);
-  }
-  req.actions = [{ category: 'chat', message: req.body.message }];
-  const msg = await activityService.addActivity(req);
-  if (!msg) return req.oops('Error sending message, try again');
-  return res.redirect('back');
-};
-
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { 

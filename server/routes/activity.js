@@ -9,5 +9,6 @@ const router = express.Router();
 router.use(auth.isLoggedIn);
 router.use(catchErrors(auth.useSession));
 router.get('/', catchErrors(activity.get));
+router.post('/chat', activity.validateChat, catchErrors(activity.chat));
 
 module.exports = router;

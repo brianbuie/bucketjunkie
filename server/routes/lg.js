@@ -8,7 +8,6 @@ const router = express.Router();
 router.use('/:id', catchErrors(auth.useParam));
 router.get('/:id', auth.isMember, catchErrors(league.leagueOverview));
 router.get('/:id/join', auth.isLoggedIn, catchErrors(league.joinLeague));
-router.post('/:id/chat', auth.isMember, league.validateChat, league.chat);
 router.post('/:id/leave', auth.isMember, auth.notCreator, catchErrors(league.leaveLeague));
 router.get('/:id/edit', auth.isModerator, league.editLeagueForm);
 router.post('/:id/edit', auth.isModerator, league.validateLeague, catchErrors(league.updateLeague));

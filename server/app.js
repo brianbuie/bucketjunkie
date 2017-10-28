@@ -76,7 +76,7 @@ app.use(flashHandlers.greatJob);
 app.use('/', routes);
 
 app.use(errorHandlers.notFound);
-app.use(errorHandlers.flashValidationErrors);
+// app.use(errorHandlers.flashValidationErrors);
 if (app.get('env') === 'development') {
   app.use(errorHandlers.developmentErrors);
 }
