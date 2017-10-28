@@ -33,6 +33,7 @@ exports.getActivity = async req => {
       .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
     activity = activity.concat(scores.map(score => {
       return {
+        _id: score._id,
         user: score.user,
         category: 'scores',
         message: `scored ${score.points} points from ${score.player.name} vs. ${score.box.opponent.abbreviation}`,

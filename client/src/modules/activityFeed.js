@@ -19,6 +19,7 @@ function activityFeed() {
       Accept: 'application/json'
     },
     success: function(activity) {
+      console.log(activity);
       activity.forEach(action => {
         $(feed).append(renderAction(action));
       });
