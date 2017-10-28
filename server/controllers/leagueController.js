@@ -126,8 +126,7 @@ const appendPlayerScore = (player, pointValues) => {
 };
 
 exports.leagueOverview = async (req, res, next) => {
-  const [activityAll, scores, upcomingGames] = await Promise.all([
-    activityService.getActivity(req),
+  const [scores, upcomingGames] = await Promise.all([
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7)
   ]);
@@ -142,9 +141,8 @@ exports.leagueOverview = async (req, res, next) => {
     roster.score = score ? score.score : 0;
     return roster;
   }).sort(sortByScore);
-  const feedFilter = req.query.activity ? req.query.activity : 'all';
-  const activity = feedFilter === 'all' ? activityAll : activityAll.filter(action => action.category === feedFilter);
-  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, activity, feedFilter, upcomingGames });
+  const feedFilter = req.query.activity ? req.query.activity : '';
+  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, feedFilter, upcomingGames });
 };
 
 exports.validateChat = [

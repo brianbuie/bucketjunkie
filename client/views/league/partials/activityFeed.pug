@@ -1,14 +1,12 @@
 .bg-light.d-flex.flex-column.activity
   ul.nav.nav-fill
-    - const categories = ["all", "chat", "rosters", "scores", "league"]
+    li.nav-item
+      a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=`/lg/${league.id}`) all
+    - const categories = ["chat", "rosters", "scores", "league"]
     each category in categories
       li.nav-item
         a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
   #activity__feed
-    each action in activity.reverse()
-      .py-1.px-2(class=`activity__item--${action.category}`)
-        strong.pr-2= action.user.username
-        span= action.message
   if !feedFilter || ['all', 'chat'].includes(feedFilter)
     form(method="Post" action=`/lg/${league.id}/chat`)
       .form-group.row.my-0

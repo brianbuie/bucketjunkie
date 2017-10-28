@@ -1,16 +1,29 @@
+function renderAction(action) {
+  return `
+    <div class="py-1 px-2 activity__item--${action.category}">
+      <strong class="pr-2">${action.user.username}</strong>
+      <span>${action.message}</span>
+    </div>
+  `;
+}
 
-// webpack delay on inlining styles causes a delay in getting the actual height
-// this is bullshit that shouldn't be there in prod
-setTimeout(() => {
-  const feed = $('#activity__feed');
-  const height = feed[0].scrollHeight;
-  feed.scrollTop(height);
-}, 1000);
-
-setTimeout(() => {
+function activityFeed() {
+  const feed = $('#activity__feed')[0];
+  if (!feed) return;
   $.ajax({
-    url: '/activity'
-  }).done(function(data) {
-    console.log(data);
-  })
-}, 1000);
+    type: "GET",
+    url: `/activity${location.search}`,
+    success: function(activity) {
+      activity.forEach(action => {
+        $(feed).append(renderAction(action));
+      });
+      const height = feed.scrollHeight;
+      $(feed).scrollTop(height);
+    },
+    error: function(err) {
+      console.log(err.responseText);
+    },
+  });
+}
+
+activityFeed();

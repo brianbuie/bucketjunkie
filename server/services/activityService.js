@@ -17,24 +17,28 @@ exports.addActivity = async req => {
 exports.addAction = async action => (new Activity(action)).save();
 
 exports.getActivity = async req => {
-  const member = ['league', 'rosters', 'chat'];
+  const member = ['league', 'rosters', 'chat', 'scores'];
   const moderator = ['moderation'];
-  const access = req.leagueAuth.isModerator ? member.concat(moderator) : member;
-  let [activity, scores] = await Promise.all([
-    Activity.find({ league: req.league._id, category: { $in: access } })
-      .populate('user'),
-    Score.find({ league: req.league._id })
+  let categories = req.leagueAuth.isModerator ? member.concat(moderator) : member;
+  if (req.query.activity) categories = categories.filter(cat => cat === req.query.activity);
+  let activity = [];
+  if (req.query.activity != 'scores') {
+    activity = await Activity.find({ league: req.league._id, category: { $in: categories } })
+      .populate('user');
+  }
+  if (categories.includes('scores')) {
+    const scores = await Score.find({ league: req.league._id })
       .populate('user')
       .populate('player')
       .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
-  ]);
-  let scoresActivity = scores.map(score => {
-    return {
-      user: score.user,
-      category: 'scores',
-      message: `scored ${score.points} points from ${score.player.name} vs. ${score.box.opponent.abbreviation}`,
-      date: score.box.game.date
-    }
-  });
-  return activity.concat(scoresActivity).sort((a,b) => new Date(b.date) - new Date(a.date));
+    activity = activity.concat(scores.map(score => {
+      return {
+        user: score.user,
+        category: 'scores',
+        message: `scored ${score.points} points from ${score.player.name} vs. ${score.box.opponent.abbreviation}`,
+        date: score.box.game.date
+      }
+    }));
+  }
+  return activity.sort((a,b) => new Date(b.date) - new Date(a.date));
 };
