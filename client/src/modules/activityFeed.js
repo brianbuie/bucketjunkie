@@ -1,4 +1,5 @@
 const queryString = require('query-string');
+const moment = require('moment');
 const error = require('./error');
 const renderAction = require('./renderAction');
 
@@ -28,10 +29,37 @@ function getNewActivity() {
   });
 }
 
+const dateSeparator = function(date) {
+  const calendarFormat = {
+    lastDay : '[Yesterday]',
+    sameDay : '[Today]',
+    nextDay : '[Tomorrow]',
+    lastWeek : 'dddd',
+    nextWeek : 'dddd',
+    sameElse : 'L'
+  };
+  return `
+    <div class="py-2 mx-auto text-center activity__item--date">
+      <span title="${moment(date).format('YYYY-MM-DD')}">
+        ${moment(date).calendar(null, calendarFormat)}
+      </span>
+    </div>
+  `;
+}
+
 function handleNewActivity(activity) {
   if (activity.length) console.log(activity);
   const feed = $('#activity__feed')[0];
   activity.forEach(action => {
+    if (activityItems.length) {
+      const lastDay = moment(activityItems[activityItems.length - 1].date).format('YYYY-MM-DD');
+      const newDay = moment(action.date).format('YYYY-MM-DD');
+      if (moment(newDay).isAfter(lastDay)) {
+        $(feed).append(dateSeparator(action.date));
+      }
+    } else {
+      $(feed).append(dateSeparator(action.date));
+    }
     $(feed).append(renderAction(action));
     activityItems.push(action);
     $(feed).scrollTop(feed.scrollHeight);
