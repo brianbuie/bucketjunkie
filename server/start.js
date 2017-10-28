@@ -27,9 +27,10 @@ if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');
   const WebpackDevServer = require('webpack-dev-server');
   const webpackConfig = require('../webpack.config.js');
+  const ip = require('ip').address();
 
-  webpackConfig.entry.app.unshift("webpack-dev-server/client?http://localhost:8081");
-  webpackConfig.output.publicPath = 'http://localhost:8081/dist/';
+  webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://${ip}:8081`);
+  webpackConfig.output.publicPath = `http://${ip}:8081/dist/`;
   const devServer = new WebpackDevServer(webpack(webpackConfig), {
     contentBase: path.resolve(__dirname, '..', 'client/public/dist/'),
     hot: false,
