@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const rosterService = require('../services/rosterService');
-const activityService = require('../services/activityService');
 const nbaService = require('../services/nbaService');
 
 const Roster = mongoose.model('Roster');

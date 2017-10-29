@@ -43,7 +43,7 @@ exports.createLeague = async (req, res) => {
   const league = await (new League(req.body)).save();
   if (!league) return req.oops('Something went wrong');
   req.league = league;
-  req.actions = [{ category: 'league', message: `created ${req.league.name}` }];
+  req.actions = [{ category: 'league', message: `created league "${req.league.name}"` }];
   await activityService.addActivity(req);
   return req.greatJob('League created', `/lg/${league._id}`);
 };
@@ -157,7 +157,7 @@ exports.joinLeague = async (req, res) => {
   );
   if (!league) return req.oops('Unable to join league', `/lg/${req.league._id}`);
   req.league = league;
-  req.actions = [{ category: 'league', message: `joined ${req.league.name}` }];
+  req.actions = [{ category: 'league', message: `joined` }];
   await activityService.addActivity(req);
   return res.redirect(`/lg/${req.league._id}`);
 };
@@ -177,7 +177,7 @@ exports.leaveLeague = async (req, res) => {
   await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
   req.session.league = undefined;
-  req.actions = [{ category: 'league', message: `left ${req.league.name}` }];
+  req.actions = [{ category: 'league', message: `left` }];
   await activityService.addActivity(req);
   req.actions = undefined;
   req.flash('success', `Left '${req.league.name}'`);
@@ -206,8 +206,8 @@ exports.removeMember = async (req, res) => {
   await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
   req.league = league;
   await Promise.all([
-    activityService.addAction({ league: req.league, user: req.user, category: 'moderation', message: `removed ${await userService.getUsername(req.body.member)} as a member` }),
-    activityService.addAction({ league: req.league, user: req.body.member, category: 'league', message: `left ${req.league.name}` })
+    activityService.addAction({ league: req.league, user: req.user, category: 'moderation', message: `banned ${await userService.getUsername(req.body.member)}` }),
+    activityService.addAction({ league: req.league, user: req.body.member, category: 'league', message: `left` })
   ]);
   return req.greatJob('Removed Member');
 };

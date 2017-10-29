@@ -30,14 +30,14 @@ exports.getActivity = async req => {
       category: { $in: categories },
       date: { $gt: newerThan, $lt: olderThan }
     })
-      .populate('user');
+      .populate('user', 'username');
   }
   if (categories.includes('scores')) {
     const scores = await Score.find({ 
       league: req.league._id, 
       date: { $gt: newerThan, $lt: olderThan }
     })
-      .populate('user')
+      .populate('user', 'username')
       .populate('player')
       .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
     activity = activity.concat(scores.map(score => {
