@@ -13,36 +13,44 @@ html
     .full-height.d-flex.flex-column
       block header
         nav.navbar.navbar-expand-lg.bg-dark
-          a.navbar-brand(href="/")
-            img(src="/images/logo.svg")
-          ul.navbar-nav.mr-auto
+
+          .d-flex
+            a.navbar-brand(href="/")
+              img.d-none.d-lg-block(src="/images/logo.svg")
+              img.d-block.d-lg-none(src="/images/icons/icon.svg")
+
+          ul.navbar-nav.d-flex.flex-row.flex-grow.justify-content-start
             if league
-              li.nav-item
+              li.nav-item.pl-3
                 a.nav-link(href=`/lg/${league._id}`)= league.name
+              li.nav-item.pl-3
+                a.nav-link(href="/nba/players") Players
+
+          a.navbar-toggler(href="" data-toggle="collapse" data-target="#collapsible-menu" aria-expanded="false")
+            span.fa.fa-bars.text-primary
+
+          #collapsible-menu.collapse.navbar-collapse.justify-content-end
+            ul.navbar-nav
+              if user
+                li.nav-item.dropdown.text-right
+                  a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false") Leagues
+                  .dropdown-menu.bg-dark.text-right
+                    if myLeagues && myLeagues.length
+                      each myLeague in myLeagues
+                        a.nav-link.pr-4(href=`/lg/${myLeague._id}`)= myLeague.name
+                    a.nav-link.pr-4(href="/leagues/public") Join
+                    a.nav-link.pr-4(href="/leagues/create") Create
+                li.nav-item.dropdown.text-right
+                  a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false")= user.username
+                  .dropdown-menu.dropdown-menu-right.bg-dark.text-right
+                    a.nav-link.pr-4(href="/account/") Account
+                    a.nav-link.pr-4(href="/account/logout") Logout
+                li.nav-item.d-none.d-lg-block
+                  a.nav-link(href="/account/")
+                    img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
+              else
                 li.nav-item
-                  a.nav-link(href="/nba/players") Players
-          ul.navbar-nav
-            if user
-              li.nav-item.dropdown
-                a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false") Leagues
-                .dropdown-menu.bg-light
-                  if myLeagues && myLeagues.length
-                    each myLeague in myLeagues
-                      a.dropdown-item(href=`/lg/${myLeague._id}`)= myLeague.name
-                    .dropdown-divider
-                  a.dropdown-item(href="/leagues/public") Join
-                  a.dropdown-item(href="/leagues/create") Create
-              li.nav-item.dropdown
-                a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false")= user.username
-                .dropdown-menu.dropdown-menu-right.bg-light
-                  a.dropdown-item(href="/account/") Account
-                  a.dropdown-item(href="/account/logout") Logout
-              li.nav-item
-                a.nav-link(href="/account/")
-                  img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
-            else
-              li.nav-item
-                a.nav-link(href=`/account/login${ref}`) Log In
+                  a.nav-link(href=`/account/login${ref}`) Log In
       
       #errors
         block messages

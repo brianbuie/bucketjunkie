@@ -10,7 +10,7 @@
   if !feedFilter || ['all', 'chat'].includes(feedFilter)
     form#chat__form
       .form-group.row.my-0
-        .col.pr-0
+        .col.pr-0.flex-grow
           input#chat__input.form-control(type="text" name="message" placeholder="Chat" autocomplete="off")
-        .col-sm-auto.pl-0
+        .col.pl-0.flex-shrink
           button.btn.btn-success(type="submit") Send

@@ -9,15 +9,14 @@ block content
   .container
     .row.no-gutters
       .bg-light.col-sm-10.col-md-8.mx-auto.mb-4.p-3
-        h2.text-center Top Players
-        .d-flex.flex-row.flex-wrap
-          .team__filter(class=(!activeTeam ? 'active' : ''))
-            a(href=`/nba/players`)
-              img(src='/images/teams/nba.svg')
-          each team in teams
-            .team__filter(class=(team._id == activeTeam ? 'active' : ''))
-              a(href=`/nba/players?team=${team._id}`)
-                img(src=helpers.teamImage(team._id))
+        .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
+          a(href=`/nba/players`)
+            img(src='/images/teams/nba.svg')
+        each team in teams
+          .team__filter.d-inline-block(class=(team._id == activeTeam ? 'active' : ''))
+            a(href=`/nba/players?team=${team._id}`)
+              img(src=helpers.teamImage(team._id))
       .bg-light.col-sm-10.col-md-8.mx-auto
+        h2.text-center.my-3 Top Players
         each player in players
           +playerListing(player)
