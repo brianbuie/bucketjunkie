@@ -8,7 +8,11 @@ const Game = mongoose.model('Game');
 
 exports.player = async id => await Player.findOne({ _id: id }).populate('team');
 
+exports.players = async (query = null) => await Player.find(query);
+
 exports.team = async id => await Team.findOne({ _id: id });
+
+exports.teams = async () => await Team.find({});
 
 const mutateBoxscore = box => {
   box.game = box.game_id;
@@ -72,4 +76,18 @@ exports.gamesForDays = async days => {
   }
   const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
   return gamesByDay.map(day => day.map(game => mutateGame(game)));
+};
+
+exports.sortPlayers = (playersToSort, pointValues) => {
+  let players = playersToSort.map(player => {
+    const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+    player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * pointValues[stat]), 0);
+    return player;
+  });
+  players.sort((a,b) => {
+    if (a.score < b.score) return 1;
+    if (a.score > b.score) return -1;
+    return 0;
+  });
+  return players;
 };

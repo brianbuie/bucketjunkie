@@ -6,26 +6,29 @@ block content
       .d-flex.py-3
         h4.my-0.mr-3= league.name
         .flex-grow.d-flex.px-3.justify-content-between.align-items-center
-          a(href=`/lg/${league._id}${helpers.activityQueryString(feedFilter)}`)
+          a(href=`/lg/${league._id}${helpers.queryStringify(query)}`)
             span.fa.fa-user-circle
-          a(href=`/nba/players`)
+          a(href=`/lg/${league._id}/players${helpers.queryStringify(query)}`)
             span.fa.fa-user-plus
-          a(href=`/lg/${league._id}/info${helpers.activityQueryString(feedFilter)}`)
+          a(href=`/lg/${league._id}/info${helpers.queryStringify(query)}`)
             span.fa.fa-info-circle
           if leagueAuth.isModerator
             a(href=`/lg/${league._id}/edit`)
               span.fa.fa-pencil-square
       block dynamic
 
+    - const activityQuery = Object.assign({}, query)
     .col-md-6
       .bg-light.d-flex.flex-column.activity
         ul.nav.nav-fill
           li.nav-item
-            a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=`?activity=`) all
+            - activityQuery.activity = ''
+            a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery)) all
           - const categories = ["chat", "rosters", "scores", "league"]
           each category in categories
+            - activityQuery.activity = category
             li.nav-item
-              a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
+              a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery))= category
         #activity__feed
         if !feedFilter || ['all', 'chat'].includes(feedFilter)
           form#chat__form

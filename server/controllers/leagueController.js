@@ -148,6 +148,21 @@ exports.leaderBoard = async (req, res) => {
 exports.info = (req, res) => {
   const feedFilter = req.query.activity ? req.query.activity : '';
   return res.render('league/info', { title: `${req.league.name}`, league: req.league, feedFilter });
+};
+
+exports.players = async (req, res) => {
+  const findQ = req.query.team ? { team: req.query.team } : {};
+  const [allPlayers, teams, upcomingGames] = await Promise.all([
+    nbaService.players(findQ),
+    nbaService.teams(),
+    nbaService.gamesForDays(7)
+  ]);
+  const rosters = req.league.drafting
+    ? await rosterService.getDraft(req.league, req.user)
+    : await rosterService.getRosters(req.league);
+  const players = nbaService.sortPlayers(allPlayers, req.league.pointValues).slice(0, 49);
+  const feedFilter = req.query.activity ? req.query.activity : '';
+  return res.render('nba/players', { title: 'Top Players', league: req.league, players, teams, rosters, upcomingGames, activeTeam: req.query.team, feedFilter });
 }
 
 exports.joinLeague = async (req, res) => {

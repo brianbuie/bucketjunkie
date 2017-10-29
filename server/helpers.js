@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
 const moment = require('moment');
+const queryString = require('query-string');
 
 exports.moment = moment;
 
@@ -30,5 +31,10 @@ exports.playerImage = id => {
 exports.teamImage = id => `/images/teams/${id}.svg`;
 
 exports.userPhoto = user => user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
+
+exports.queryStringify = query => {
+  const stringified = queryString.stringify(query);
+  return stringified.length ? `?${stringified}` : '';
+};
 
 exports.activityQueryString = feedFilter => feedFilter ? `?activity=${feedFilter}` : '';

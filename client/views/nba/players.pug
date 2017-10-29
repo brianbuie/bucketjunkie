@@ -1,22 +1,27 @@
-extends ../layout
+extends ../league/base
 
 include mixins/playerListing
 
-block content
+block dynamic
   - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
   - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0] || { players: [] }
   - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
-  .container
-    .row.no-gutters
-      .bg-light.col-sm-10.col-md-8.mx-auto.mb-4.p-3
-        .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
-          a(href=`/nba/players`)
-            img(src='/images/teams/nba.svg')
-        each team in teams
-          .team__filter.d-inline-block(class=(team._id == activeTeam ? 'active' : ''))
-            a(href=`/nba/players?team=${team._id}`)
-              img(src=helpers.teamImage(team._id))
-      .bg-light.col-sm-10.col-md-8.mx-auto
-        h2.text-center.my-3 Top Players
-        each player in players
-          +playerListing(player)
+  - const playerQuery = Object.assign({}, query)
+  .bg-light
+    h2.text-center.py-2 Top Players
+    a.link-discreet(href="#filters", data-toggle="collapse") 
+      span.px-1.fa.fa-filter
+      span Filter
+    .collapse.p-2(id=`filters`)
+      .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
+        - delete playerQuery.team
+        a(href=helpers.queryStringify(playerQuery))
+          img(src='/images/teams/nba.svg')
+      each team in teams
+        .team__filter.d-inline-block(class=(team._id == activeTeam ? 'active' : ''))
+          - playerQuery.team = team._id
+          a(href=helpers.queryStringify(playerQuery))
+            img(src=helpers.teamImage(team._id))
+
+    each player in players
+      +playerListing(player)
