@@ -16,15 +16,7 @@ html
 
           .d-flex
             a.navbar-brand(href="/")
-              img.d-none.d-lg-block(src="/images/logo.svg")
-              img.d-block.d-lg-none(src="/images/icons/icon.svg")
-
-          ul.navbar-nav.d-flex.flex-row.flex-grow.justify-content-start
-            if league
-              li.nav-item.pl-3
-                a.nav-link(href=`/lg/${league._id}`)= league.name
-              li.nav-item.pl-3
-                a.nav-link(href="/nba/players") Players
+              img(src="/images/logo.svg")
 
           a.navbar-toggler(href="" data-toggle="collapse" data-target="#collapsible-menu" aria-expanded="false")
             span.fa.fa-bars.text-primary

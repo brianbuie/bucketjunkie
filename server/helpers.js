@@ -30,3 +30,5 @@ exports.playerImage = id => {
 exports.teamImage = id => `/images/teams/${id}.svg`;
 
 exports.userPhoto = user => user.photo ? `/images/uploads/${user.photo}` : '/images/user-default.png';
+
+exports.activityQueryString = feedFilter => feedFilter ? `?activity=${feedFilter}` : '';

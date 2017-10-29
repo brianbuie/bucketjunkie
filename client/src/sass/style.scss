@@ -23,8 +23,8 @@ body {
   background-attachment: fixed;
 }
 
-.profile-picture {
-  max-width: $spacer-lg;
+.member__picture {
+  max-width: $spacer-xl;
 }
 
 .player__picture {
@@ -39,7 +39,7 @@ body {
   max-width: $spacer-lg;
 }
 
-.show-winning .member-card:nth-child(1) .member-overview {
+.show-winning .member__card:nth-child(1) .member__overview {
   background-color: $brand-gold;
 }
 
@@ -49,16 +49,5 @@ body {
   &.active,
   &:hover {
     background-color: darken($light-gray, 10);
-  }
-}
-
-.navbar-collapse {
-  flex-basis: unset;
-
-  &.show, &.collapsing {
-    flex-basis: 100%;
-  }
-  @include media-breakpoint-up(lg) {
-    flex-basis: unset !important;
   }
 }

@@ -125,7 +125,7 @@ const appendPlayerScore = (player, pointValues) => {
   return player;
 };
 
-exports.leagueOverview = async (req, res, next) => {
+exports.leaderBoard = async (req, res) => {
   const [scores, upcomingGames] = await Promise.all([
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7)
@@ -142,8 +142,13 @@ exports.leagueOverview = async (req, res, next) => {
     return roster;
   }).sort(sortByScore);
   const feedFilter = req.query.activity ? req.query.activity : '';
-  return res.render('league/overview', { title: `${req.league.name} Overview`, league: req.league, rosters, feedFilter, upcomingGames });
+  return res.render('league/leaderboard', { title: `${req.league.name}`, league: req.league, rosters, feedFilter, upcomingGames });
 };
+
+exports.info = (req, res) => {
+  const feedFilter = req.query.activity ? req.query.activity : '';
+  return res.render('league/info', { title: `${req.league.name}`, league: req.league, feedFilter });
+}
 
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(

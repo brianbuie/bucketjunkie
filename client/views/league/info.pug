@@ -1,0 +1,32 @@
+extends base
+
+block dynamic
+  .container.bg-light.p-3
+    small.faded-2
+      - const startVerb = helpers.moment(league.start).isBefore(helpers.moment()) ? 'Started' : 'Starting'
+      =`${league.uniqueRosters ? 'Fantasy' : 'Contest'} | ${league.rosterSize} Players | ${startVerb} ${helpers.moment(league.start).fromNow()}`
+    p.m-0= league.description
+    .row.mt-3
+      .col-6
+        h5.my-0.py-1.px-3 Point Values
+        each stat in helpers.pointValues
+          .d-flex.flex-row.justify-content-between.striped.py-1.px-3
+            .faded-1= stat.attr.toUpperCase()
+            .text-right= league.pointValues[stat.attr]
+      .col-6
+        h5.my-0.py-1.px-3 Members
+        each member in league.members
+          .my-0.striped.py-1.px-3.d-flex.flex-row.justify-content-between
+            p.my-0= member.username
+            if !leagueAuth.isCreator && member.id === user.id
+              a.text-danger.ml-auto(href="",
+                data-toggle="modal",
+                data-target="#dynamicModal",
+                data-title="Are you sure?",
+                data-body="Leaving this league will forfeit your current roster or draft list.",
+                data-form-method="POST",
+                data-form-action=`/lg/${req.league._id}/leave`,
+                data-input-name="",
+                data-input-value="",
+                data-button-class="btn-danger",
+                data-button-text="Leave") Leave

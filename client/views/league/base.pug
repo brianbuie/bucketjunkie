@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+  .row.no-gutters
+    .col-md-6.px-3
+      .d-flex.py-3
+        h4.my-0.mr-3= league.name
+        .flex-grow.d-flex.px-3.justify-content-between.align-items-center
+          a(href=`/lg/${league._id}${helpers.activityQueryString(feedFilter)}`)
+            span.fa.fa-user-circle
+          a(href=`/nba/players`)
+            span.fa.fa-user-plus
+          a(href=`/lg/${league._id}/info${helpers.activityQueryString(feedFilter)}`)
+            span.fa.fa-info-circle
+          if leagueAuth.isModerator
+            a(href=`/lg/${league._id}/edit`)
+              span.fa.fa-pencil-square
+      block dynamic
+
+    .col-md-6
+      .bg-light.d-flex.flex-column.activity
+        ul.nav.nav-fill
+          li.nav-item
+            a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=`?activity=`) all
+          - const categories = ["chat", "rosters", "scores", "league"]
+          each category in categories
+            li.nav-item
+              a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=`?activity=${category}`)= category
+        #activity__feed
+        if !feedFilter || ['all', 'chat'].includes(feedFilter)
+          form#chat__form
+            .form-group.my-0
+              .pr-0
+                input#chat__input.form-control.border-0(type="text" name="message" placeholder="Chat" autocomplete="off")
