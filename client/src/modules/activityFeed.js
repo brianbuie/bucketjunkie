@@ -4,7 +4,6 @@ const error = require('./error');
 const render = require('./renderHelpers');
 
 let activityItems = [];
-
 let activityTimeout;
 
 function generateQueryString() {

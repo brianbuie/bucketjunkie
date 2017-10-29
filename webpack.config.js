@@ -2,6 +2,7 @@ const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, 'variables.env') });
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WebpackBundleSizeAnalyzerPlugin = require('webpack-bundle-size-analyzer').WebpackBundleSizeAnalyzerPlugin;
 
 const isProd = process.env.NODE_ENV === 'production';
 console.log(`Webpack building in ${process.env.NODE_ENV} mode`);
@@ -78,6 +79,7 @@ module.exports = {
       filename: '[name].css',
       disable: !isProd,
       allChunks: true
-    })
+    }),
+    new WebpackBundleSizeAnalyzerPlugin('./bundle-size-report.txt')
   ],
 };
