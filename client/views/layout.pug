@@ -63,7 +63,7 @@ html
                     span(aria-hidden="true") &times;
                   != message
 
-      .container-fluid.py-5.flex-grow
+      .container-fluid.px-0.flex-grow.d-flex.flex-column
         block content
 
       .modal.fade#dynamicModal(tabindex="-1", role="dialog", aria-hidden="true")
@@ -79,13 +79,6 @@ html
               form(method="POST" action="")
                 input(type="hidden" name="" value="")
                 button(type="submit") ButtonText
-
-      footer.footer
-        .container-fluid.bg-dark.py-3
-          .text-center
-            img.faded-3(src="/images/logo.svg")
-          .text-center.mt-3= `© ${helpers.moment().format('YYYY')}` 
-          .text-center.mt-3 BUCKETJUNKIE IS IN NO WAY ASSOCIATED WITH THE NATIONAL BASKETBALL LEAGUE
 
     block scripts
       script(src="/dist/app.bundle.js")

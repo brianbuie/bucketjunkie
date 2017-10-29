@@ -9,8 +9,6 @@
   #activity__feed
   if !feedFilter || ['all', 'chat'].includes(feedFilter)
     form#chat__form
-      .form-group.row.my-0
-        .col.pr-0.flex-grow
-          input#chat__input.form-control(type="text" name="message" placeholder="Chat" autocomplete="off")
-        .col.pl-0.flex-shrink
-          button.btn.btn-success(type="submit") Send
+      .form-group.my-0
+        .pr-0
+          input#chat__input.form-control.border-0(type="text" name="message" placeholder="Chat" autocomplete="off")

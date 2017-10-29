@@ -1,6 +1,6 @@
-extends ../layout
+extends base
 
-block content
+block dynamic
   - const formLeague = league || body || {}
   .row
     .col-md-8.col-lg-6.mx-auto.p-3.bg-light
@@ -70,7 +70,7 @@ block content
   
   if formLeague.members
     .row
-      .col-md-8.col-lg-6.mx-auto.p-3.my-3.bg-light
+      .col-md-8.col-lg-6.mx-auto.p-3.bg-light
         h2.text-center Members
         each member in formLeague.members
           .row.striped.p-3

@@ -1,9 +1,11 @@
 extends ../layout
 
 block content
-  .row
-    .col-md-5
-      include partials/leaderboard
-    .col-md-7
-      include partials/activityFeed
-      include partials/leagueInfo
+  .row.no-gutters
+    .col-md-6
+      block dynamic
+        include partials/leaderboard
+        include partials/leagueInfo
+    .col-md-6
+      block feed
+        include partials/activityFeed

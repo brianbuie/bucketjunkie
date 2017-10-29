@@ -82,11 +82,11 @@ exports.updateLeague = async (req, res) => {
   return res.redirect(`/lg/${req.league._id}`);
 };
 
-exports.editLeagueForm = (req, res) => res.render('league/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });
+exports.editLeagueForm = (req, res) => res.render('leagues/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });
 
 exports.createLeagueForm = (req, res) => {
   req.session.league = undefined;
-  res.render('league/edit', { title: 'Create League', body: req.body });
+  res.render('leagues/edit', { title: 'Create League', body: req.body });
 };
 
 exports.publicLeagues = async (req, res) => {
@@ -99,7 +99,7 @@ exports.publicLeagues = async (req, res) => {
     query.blocked = { $ne: req.user._id };
   }
   const leagues = await League.find(query);
-  return res.render('league/public', { title: 'Join A League', leagues });
+  return res.render('leagues/public', { title: 'Join A League', leagues });
 };
 
 exports.setMyLeagues = async (req, res, next) => {
@@ -109,7 +109,7 @@ exports.setMyLeagues = async (req, res, next) => {
 
 exports.myLeagues = async (req, res) => {
   if (!req.user || !res.locals.myLeagues.length) return this.publicLeagues(req, res);
-  return res.render('league/myLeagues', { title: 'My Leagues' });
+  return res.render('leagues/myLeagues', { title: 'My Leagues' });
 };
 
 const sortByScore = (a,b) => {
