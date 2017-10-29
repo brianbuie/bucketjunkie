@@ -9,9 +9,10 @@ block dynamic
   - const playerQuery = Object.assign({}, query)
   .bg-light
     h2.text-center.py-2 Top Players
-    a.link-discreet(href="#filters", data-toggle="collapse") 
-      span.px-1.fa.fa-filter
-      span Filter
+    .text-center.py-1
+      a(href="#filters", data-toggle="collapse") 
+        span.px-1.fa.fa-filter
+        span Filter
     .collapse.p-2(id=`filters`)
       .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
         - delete playerQuery.team

@@ -1,8 +1,8 @@
 extends ../layout
 
 block content
-  .row.no-gutters
-    .col-md-6.px-3
+  .row.no-gutters.height-100
+    .col-sm-6.px-3.scroll-y
       .d-flex.py-3
         h4.my-0.mr-3= league.name
         .flex-grow.d-flex.px-3.justify-content-between.align-items-center
@@ -18,20 +18,25 @@ block content
       block dynamic
 
     - const activityQuery = Object.assign({}, query)
-    .col-md-6
-      .bg-light.d-flex.flex-column.activity
-        ul.nav.nav-fill
-          li.nav-item
-            - activityQuery.activity = ''
-            a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery)) all
-          - const categories = ["chat", "rosters", "scores", "league"]
-          each category in categories
-            - activityQuery.activity = category
+    .col-sm-6.max-height-100.d-flex.flex-column.justify-content-end.activity__container
+      a#activity--collapse__toggler(href="#activity--collapse" data-toggle="collapse")
+        .bg-dark.py-2.text-center Activity
+      #activity--collapse.collapse.hide.height-100
+        .d-flex.flex-column.height-100
+          ul.nav.nav-fill
             li.nav-item
-              a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery))= category
-        #activity__feed
-        if !feedFilter || ['all', 'chat'].includes(feedFilter)
-          form#chat__form
-            .form-group.my-0
-              .pr-0
-                input#chat__input.form-control.border-0(type="text" name="message" placeholder="Chat" autocomplete="off")
+              - activityQuery.activity = ''
+              a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery)) all
+            - const categories = ["chat", "rosters", "scores", "league"]
+            each category in categories
+              - activityQuery.activity = category
+              li.nav-item
+                a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery))= category
+          
+          #activity__feed.scroll-y.flex-grow.height-100.bg-light
+          
+          if !feedFilter || ['all', 'chat'].includes(feedFilter)
+            form#chat__form
+              .form-group.my-0
+                .pr-0
+                  input#chat__input.form-control.border-0(type="text" name="message" placeholder="Chat" autocomplete="off")

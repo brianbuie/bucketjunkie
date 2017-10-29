@@ -1,4 +1,7 @@
-.activity {
+.activity__container {
+  .nav {
+    border-bottom: 3px solid $light-gray;
+  }
   .nav-link {
     color: $body-color;
     background-color: lighten($medium-gray, 10);
@@ -7,11 +10,24 @@
       background-color: $light-gray;
     }
   }
+
+  position: fixed;
+  bottom: 0;
+  @include media-breakpoint-up(sm) {
+    position: relative;
+  }
 }
 
-#activity__feed {
-  height: 100%;
-  overflow-y: scroll;
+#activity--collapse__toggler {
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
+}
+
+#activity--collapse {
+  @include media-breakpoint-up(sm) {
+    display: block;
+  }
 }
 
 .activity__item--rosters,

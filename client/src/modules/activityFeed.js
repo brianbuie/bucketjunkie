@@ -22,6 +22,7 @@ function getNewActivity() {
     },
     success: (activity) => handleNewActivity(activity),
     error: function(err) {
+      error(err.responseJSON);
       console.log(err.responseText);
       activityTimeout = setTimeout(getNewActivity, 5000);
     },
@@ -41,8 +42,8 @@ function handleNewActivity(activity) {
     }
     $(feed).append(render.action(action));
     activityItems.push(action);
-    $(feed).scrollTop(feed.scrollHeight);
   });
+  $(feed).scrollTop(feed.scrollHeight);
   activityTimeout = setTimeout(getNewActivity, 10000);
 }
 if ($('#activity__feed')[0]) {
