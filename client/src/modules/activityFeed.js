@@ -32,13 +32,11 @@ function handleNewActivity(activity) {
   if (activity.length) console.log(activity);
   const feed = $('#activity__feed')[0];
   activity.forEach(action => {
-    if (activityItems.length) {
-      const lastDay = moment(activityItems[activityItems.length - 1].date).format('YYYY-MM-DD');
-      const newDay = moment(action.date).format('YYYY-MM-DD');
-      if (moment(newDay).isAfter(lastDay)) {
-        $(feed).append(render.dateSeparator(action.date));
-      }
-    } else {
+    const lastDay = activityItems.length
+      ? moment(activityItems[activityItems.length - 1].date).format('YYYY-MM-DD')
+      : '1988-04-08'; // Happy birthday to me!
+    const newDay = moment(action.date).format('YYYY-MM-DD');
+    if (moment(newDay).isAfter(lastDay)) {
       $(feed).append(render.dateSeparator(action.date));
     }
     $(feed).append(render.action(action));
