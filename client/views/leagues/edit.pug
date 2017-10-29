@@ -67,6 +67,8 @@ block dynamic
         
         .py-3
           button.btn.btn-block.btn-success(type="submit")= formLeague._id ? "Save →" : "Create →"
+          if formLeague._id
+            a.btn.btn-block.btn-secondary(href=`/lg/${formLeague._id}`) ← Cancel
   
   if formLeague.members
     .row
