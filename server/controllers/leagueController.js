@@ -13,10 +13,10 @@ const Draft = mongoose.model('Draft');
 const Score = mongoose.model('Score');
 
 exports.validateLeague = [
-  sanitizeBody('name').trim(),
+  sanitizeBody('name').trim().blacklist('<>'),
   body('name').isLength({ min: 3 })
     .withMessage('Your league must have a name'),
-  sanitizeBody('description'),
+  sanitizeBody('description').blacklist('<>'),
   body('leagueType').isIn(['fantasy', 'contest']).optional(),
   body('start').custom(val => moment(val).isAfter(moment().add(5, "m")))
     .withMessage('Start time must be at least 5 minutes in the future').optional(),

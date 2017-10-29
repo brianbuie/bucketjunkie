@@ -140,6 +140,7 @@ exports.validatePasswordReset = (req, res, next) => {
 exports.validateRegister = async (req, res, next) => {
   req.sanitizeBody('username');
   req.checkBody('username', 'Please supply a username!').notEmpty();
+  req.checkBody('username', 'Usernames must be less than 15 characters').isLength({ max: 15 });
   req.checkBody('username', 'You can only use letters, numbers, dashes, and underscores in your username')
     .custom(username => /^[a-zA-Z0-9-_]+$/g.test(username));
   req.checkBody('username', 'Username taken').custom(username => {

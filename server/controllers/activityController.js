@@ -8,7 +8,7 @@ exports.get = async (req, res) => {
 };
 
 exports.validateChat = [
-  sanitizeBody('message')
+  sanitizeBody('message').blacklist('<>')
 ];
 
 exports.chat = async (req, res) => {
