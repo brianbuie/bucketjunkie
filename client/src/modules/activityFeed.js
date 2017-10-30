@@ -30,6 +30,7 @@ function getNewActivity() {
 }
 
 function handleNewActivity(activity) {
+  activityTimeout = setTimeout(getNewActivity, 10000);
   if (!activity.length) return;
   console.log(activity);
   const feed = $('#activity__feed')[0];
@@ -48,7 +49,6 @@ function handleNewActivity(activity) {
     activityItems.push(action);
   });
   if (autoScroll) $(feed).scrollTop(feed.scrollHeight);
-  activityTimeout = setTimeout(getNewActivity, 10000);
 }
 if ($('#activity__feed')[0]) {
   getNewActivity();
