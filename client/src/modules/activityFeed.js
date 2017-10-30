@@ -22,7 +22,6 @@ function getNewActivity() {
     },
     success: (activity) => handleNewActivity(activity),
     error: function(err) {
-      error(err.responseJSON);
       console.log(err.responseText);
       activityTimeout = setTimeout(getNewActivity, 5000);
     },
