@@ -1,26 +1,27 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, showArrows = false)
   .striped.d-flex.flex-row.align-items-center
-    .row.no-gutters.p-3.flex-grow(class=(!player._id ? "faded-3" : ""))
 
-      if league.drafting && showArrows
-        .col.flex-shrink.align-middle.text-center.py-0
-          .d-flex.flex-column.text-bold
-            form(method="POST" action=`/roster/move`)
-              input(type="hidden" name="player" value=player._id)
-              input(type="hidden" name="delta" value=-1)
-              button.btn.btn-sm.btn-link.link-discreet(type="submit")
-                i.fa.fa-arrow-up
-            form(method="POST" action=`/roster/move`)
-              input(type="hidden" name="player" value=player._id)
-              input(type="hidden" name="delta" value=1)
-              button.btn.btn-sm.btn-link.link-discreet(type="submit")
-                i.fa.fa-arrow-down
+    if league.drafting && showArrows
+      .align-middle.text-center.py-0
+        .d-flex.flex-column.text-bold
+          form(method="POST" action=`/roster/move`)
+            input(type="hidden" name="player" value=player._id)
+            input(type="hidden" name="delta" value=-1)
+            button.btn.btn-sm.btn-link.link-discreet(type="submit")
+              i.fa.fa-arrow-up
+          form(method="POST" action=`/roster/move`)
+            input(type="hidden" name="player" value=player._id)
+            input(type="hidden" name="delta" value=1)
+            button.btn.btn-sm.btn-link.link-discreet(type="submit")
+              i.fa.fa-arrow-down
+
+    .row.no-gutters.py-3.flex-grow(class=(!player._id ? "faded-3" : ""))
       
-      .col-2.px-1
+      .col-2.px-1.d-flex.flex-column.justify-content-center
         .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
       
-      .col.flex-grow.d-flex.flex-column.px-2
-        h4.mb-2.font-weight-normal= player.name
+      .col-8.px-2
+        h4.mb-2.font-weight-normal.text-truncate= player.name
         div
           table(style="width:100%;")
             tr
