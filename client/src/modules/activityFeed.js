@@ -30,8 +30,12 @@ function getNewActivity() {
 }
 
 function handleNewActivity(activity) {
-  if (activity.length) console.log(activity);
+  if (!activity.length) return;
+  console.log(activity);
   const feed = $('#activity__feed')[0];
+  // only auto scroll down if within 100px of the bottom
+  const autoScroll = feed.scrollHeight - ($(feed).height() + feed.scrollTop) < 100;
+
   activity.forEach(action => {
     const lastDay = activityItems.length
       ? moment(activityItems[activityItems.length - 1].date).format('YYYY-MM-DD')
@@ -43,7 +47,7 @@ function handleNewActivity(activity) {
     $(feed).append(render.action(action));
     activityItems.push(action);
   });
-  $(feed).scrollTop(feed.scrollHeight);
+  if (autoScroll) $(feed).scrollTop(feed.scrollHeight);
   activityTimeout = setTimeout(getNewActivity, 10000);
 }
 if ($('#activity__feed')[0]) {
