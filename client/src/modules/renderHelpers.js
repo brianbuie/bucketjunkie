@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 exports.action = function(action) {
   return `
     <div class="py-1 px-2 activity__item--${action.category}">

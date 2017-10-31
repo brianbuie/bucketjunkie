@@ -56,11 +56,14 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      '$': "jquery",
-      'jQuery': "jquery",
-      "window.jQuery": "jquery",
+      '$': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+      'jQuery': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+      "window.jQuery": path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
       'Popper': ['popper.js', 'default'],
       "window.Popper": 'popper.js',
+      "moment": "moment",
+
+      // bootstrap stuff
       // Tether: "tether",
       // "window.Tether": "tether",
       // Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
@@ -75,6 +78,7 @@ module.exports = {
       // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
       // Util: "exports-loader?Util!bootstrap/js/dist/util",
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new ExtractTextPlugin({
       filename: '[name].css',
       disable: !isProd,

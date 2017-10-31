@@ -1,5 +1,4 @@
 const queryString = require('query-string');
-const moment = require('moment');
 const error = require('./error');
 const render = require('./renderHelpers');
 
