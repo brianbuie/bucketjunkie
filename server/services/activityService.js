@@ -31,6 +31,7 @@ exports.getActivity = async req => {
       date: { $gt: newerThan, $lt: olderThan }
     })
       .populate('user', 'username');
+    activity = activity.map(action => action.toObject());
   }
   if (categories.includes('scores')) {
     const scores = await Score.find({ 
@@ -50,5 +51,15 @@ exports.getActivity = async req => {
       }
     }));
   }
-  return activity.sort((a,b) => new Date(b.date) - new Date(a.date));
+  activity = activity.map((act, i) => {
+    act.key = i;
+    return act;
+  });
+  return activity.sort((a,b) => {
+    const dateDiff = new Date(b.date) - new Date(a.date);
+    if (dateDiff == 0) {
+      return b.key - a.key;
+    }
+    return dateDiff;
+  });
 };
