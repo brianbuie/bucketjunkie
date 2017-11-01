@@ -6,18 +6,35 @@ const activityService = require('../services/activityService');
 const Game = mongoose.model('Game');
 const Roster = mongoose.model('Roster');
 const League = mongoose.model('League');
+const Player = mongoose.model('Player');
 const Score = mongoose.model('Score');
 const Box = mongoose.model('Box');
 
+const updateAverages = async () => {
+  let start = Date.now();
+  const allPlayers = await Player.find({});
+  let players = await Promise.all(allPlayers.map(player => Player.getAverages(player._id)));
+  players = players.map(player => player[0]);
+  let updatedPlayers = await Promise.all(players.map(player => {
+    const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+    const update = {};
+    categories.forEach(cat => update[`averages.${cat}`] = player.averages[cat]);
+    return Player.findOneAndUpdate({ _id: player._id }, update, { new: true });
+  }));
+  console.log(`${moment().format()}: Updated player averages in ${Date.now() - start}ms`);
+};
+
 exports.update = async () => {
+  let shouldUpdateAverages = false;
   const [unscoredGames, leagues] = await Promise.all([
     Game.find({ final: false, date: { $lt: Date.now() } }),
     League.find({ started: true })
   ]);
   await Promise.all(unscoredGames.map(async game => {
-    const start = Date.now();
+    let start = Date.now();
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
     if (!boxes.length || boxes[0].period !== "f") return;
+    shouldUpdateAverages = true;
     const savedBoxes = await Promise.all(boxes.map(box => (new Box(box)).save()));
     await Promise.all(leagues.map(async league => {
       await Promise.all(league.members.map(async member => {
@@ -53,4 +70,5 @@ exports.update = async () => {
     console.log(`${moment().format()}: Updated scores for game ${game._id} in ${Date.now() - start}ms`);
     return;
   }));
+  if (shouldUpdateAverages) await updateAverages();
 };

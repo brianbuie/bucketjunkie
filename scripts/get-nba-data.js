@@ -23,7 +23,6 @@ const League = require('../server/models/League');
 
 const nbaService = require('../server/services/nbaService');
 const updateScores = require('../server/jobs/updateScores');
-const updateAverages = require('../server/jobs/updateAverages');
 
 
 async function deleteData() {
@@ -71,7 +70,6 @@ async function data() {
     console.log('\nData loaded!');
 
     await updateScores.update()
-    await updateAverages.update();
 
     process.exit();
   } catch(e) {
