@@ -1,18 +1,19 @@
 .activity__container {
   .nav {
-    border-bottom: 3px solid $light-gray;
+    border-bottom: 3px solid $white;
   }
   .nav-link {
     color: $body-color;
     background-color: lighten($medium-gray, 10);
 
     &.active, &:hover {
-      background-color: $light-gray;
+      background-color: $white;
     }
   }
-
+  background-color: $white;
   position: fixed;
   bottom: 0;
+  max-width: 500px;
   @include media-breakpoint-up(sm) {
     position: relative;
   }
