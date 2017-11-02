@@ -33,6 +33,12 @@ exports.validateLeague = [
     .withMessage('At least one stat must have a value').optional(),
 ];
 
+const timezoneInputFix = (reqDate, reqOffset) => {
+  const serverOffset = new Date().getTimezoneOffset() / 60;
+  const offset = reqOffset - serverOffset;
+  return moment.utc(reqDate).add(offset, 'hours').format('YYYY-MM-DDTHH:mm');
+};
+
 exports.createLeague = async (req, res) => {
   req.body.public = req.body.public || false;
   const errors = validationResult(req);
@@ -44,7 +50,7 @@ exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
   req.body.moderators = [req.user._id];
   req.body.creator = req.user._id;
-  req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
+  req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
   const league = await (new League(req.body)).save();
   if (!league) return req.oops('Something went wrong');
   req.league = league;
@@ -61,7 +67,7 @@ exports.updateLeague = async (req, res) => {
     errors.array().map(e => req.flash('error', e.msg));
     return res.redirect('back');
   }
-  req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
+  req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
   req.league.set(req.body);
   if (!req.league.isModified()) {
     return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
