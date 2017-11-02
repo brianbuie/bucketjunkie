@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./server/start.js --ignore client/src/",
-    "prod": "webpack && pm2 start ./server/start.js --name nfa",
-    "deploy": "git pull origin master && webpack && pm2 restart nfa",
+    "prod": "pm2 start ./server/start.js --name nfa && webpack && pm2 logs nfa",
+    "deploy": "git pull origin master && pm2 restart nfa && webpack && pm2 logs nfa",
     "test": "eslint .",
     "data": "node ./scripts/get-nba-data.js",
     "images": "node ./scripts/get-images.js --players"
