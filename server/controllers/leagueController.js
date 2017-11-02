@@ -44,7 +44,7 @@ exports.createLeague = async (req, res) => {
   req.body.members = [req.user._id];
   req.body.moderators = [req.user._id];
   req.body.creator = req.user._id;
-  // req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
+  req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
   const league = await (new League(req.body)).save();
   if (!league) return req.oops('Something went wrong');
   req.league = league;
@@ -61,7 +61,7 @@ exports.updateLeague = async (req, res) => {
     errors.array().map(e => req.flash('error', e.msg));
     return res.redirect('back');
   }
-  // req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
+  req.body.start = moment.utc(req.body.start).add(req.body['UTC-offset'], 'hours').format('YYYY-MM-DDTHH:mm');
   req.league.set(req.body);
   if (!req.league.isModified()) {
     return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
