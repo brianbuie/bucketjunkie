@@ -17,6 +17,15 @@ block dynamic
               h2.my-0= roster.score
         .collapse(id=`${roster.user.username}-roster`, class=(league.drafting ? "show" : ""))
           if league.drafting
+            .mb-5
+              h5.text-center.my-0.py-2.faded-2 Auto Draft
+              - const isoStart = helpers.moment(league.start).toISOString()
+              #countdown-timer.py-2.mb-0.text-center.d-flex.justify-content-center(data-start=isoStart)
+                - const timeSegments = ['days', 'hours', 'minutes', 'seconds']
+                each segment in timeSegments
+                  .d-flex.flex-column.text-center.mx-4(class=segment)
+                    h4.mb-0.value
+                    .faded-2.text-center.text-md.text-capitalize= segment
             h5.text-center.my-0.py-3.faded-2 MY DRAFT LIST
           each player in roster.players
             +playerListing(player, showArrows = league.drafting)

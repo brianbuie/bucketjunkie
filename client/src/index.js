@@ -6,3 +6,4 @@ import './sass/style.scss';
 import './modules/dynamicModal';
 import './modules/activityFeed';
 import './modules/utcHelper';
+import './modules/countdownTimer';
