@@ -47,8 +47,9 @@ block dynamic
           .form-group.row.my-3
             label.col-sm-3.col-form-label(for="start") Start
             .col-sm-9
-              - const dateInput = formLeague.start ? helpers.moment(formLeague.start) : helpers.moment().add(1, 'days')
-              input#start.form-control(type="datetime-local" name="start" value=dateInput.format('YYYY-MM-DDTHH:mm'))
+              - const dateInput = formLeague.start ? helpers.moment(formLeague.start).utc() : helpers.moment().add(10, 'minutes').utc()
+              input.utc-offset(type="hidden" name="UTC-offset" value="")
+              input#start.utc-to-local.form-control(type="datetime-local" name="start" value=dateInput.format('YYYY-MM-DDTHH:mm'))
           
           .form-group.row.my-3
             label.col-sm-3.col-form-label(for="rosterSize") Roster Size
