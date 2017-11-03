@@ -53,11 +53,7 @@ function handleOldActivity(activity) {
   if (!activity.length) return;
   console.log(activity);
   const feed = $('#activity__feed')[0];
-
-  // current scroll height
-  const scrollPosition = feed.scrollHeight - ($(feed).height() + feed.scrollTop);
-  console.log(scrollPosition);
-
+  const initialScrollHeight = feed.scrollHeight;
   activity.reverse().forEach(action => {
     const firstDay = moment(activityItems[0].date).format('YYYY-MM-DD')
     const actionDay = moment(action.date).format('YYYY-MM-DD');
@@ -67,7 +63,8 @@ function handleOldActivity(activity) {
     }
     activityItems.unshift(action);
   });
-  $(feed).scrollTop(feed.scrollHeight - scrollPosition);
+  const newScrollHeight = feed.scrollHeight;
+  $(feed).scrollTop(newScrollHeight - initialScrollHeight);
 }
 
 if ($('#activity__feed')[0]) {
