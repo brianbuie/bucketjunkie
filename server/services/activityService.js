@@ -61,5 +61,5 @@ exports.getActivity = async req => {
       return b.key - a.key;
     }
     return dateDiff;
-  });
+  }).splice(0, 50);
 };

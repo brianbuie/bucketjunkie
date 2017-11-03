@@ -1,5 +1,5 @@
 mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, showArrows = false)
-  .striped.d-flex.flex-row.align-items-center
+  .striped.d-flex.flex-row.align-items-center.px-3
 
     if league.drafting && showArrows
       .align-middle.text-center.py-0
@@ -7,17 +7,17 @@ mixin playerListing(player = { _id: 0, name: '(empty)', team: 0, score: 0 }, sho
           form(method="POST" action=`/roster/move`)
             input(type="hidden" name="player" value=player._id)
             input(type="hidden" name="delta" value=-1)
-            button.btn.btn-sm.btn-link.link-discreet(type="submit")
+            button.btn.btn-sm.btn-link.link-discreet.px-0(type="submit")
               i.fa.fa-arrow-up
           form(method="POST" action=`/roster/move`)
             input(type="hidden" name="player" value=player._id)
             input(type="hidden" name="delta" value=1)
-            button.btn.btn-sm.btn-link.link-discreet(type="submit")
+            button.btn.btn-sm.btn-link.link-discreet.px-0(type="submit")
               i.fa.fa-arrow-down
 
     .row.no-gutters.py-3.flex-grow(class=(!player._id ? "faded-3" : ""))
       
-      .col-2.px-1.d-flex.flex-column.justify-content-center
+      .col-2.px-2.d-flex.flex-column.justify-content-center
         .rounded-circle.player__picture(style=`background-image: url(${helpers.playerImage(player._id)});`)
       
       .col-8.px-2
