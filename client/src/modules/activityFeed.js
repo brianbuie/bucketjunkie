@@ -56,8 +56,9 @@ function handleOldActivity(activity) {
 
   // current scroll height
   const scrollPosition = feed.scrollHeight - ($(feed).height() + feed.scrollTop);
+  console.log(scrollPosition);
 
-  activity.forEach(action => {
+  activity.reverse().forEach(action => {
     const firstDay = moment(activityItems[0].date).format('YYYY-MM-DD')
     const actionDay = moment(action.date).format('YYYY-MM-DD');
     $(feed).prepend(render.action(action));
