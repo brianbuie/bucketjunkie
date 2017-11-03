@@ -45,9 +45,29 @@ html {
 
 .team__filter {
   max-width: 8%;
-
   &.active,
   &:hover {
     background-color: darken($light-gray, 10);
+  }
+}
+
+#flashes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  .alert {
+    width: 90%;
+    max-width: 500px;
+  }
+}
+
+.slide-in {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  transition: all 0.3s ease;
+  &.show{
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
