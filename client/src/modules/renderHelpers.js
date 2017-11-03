@@ -23,4 +23,12 @@ exports.dateSeparator = function(date) {
       </span>
     </div>
   `;
-}
+};
+
+exports.loading = function() {
+  return `
+    <div class="loading text-center my-3">
+      <img class="fa-spin" src="/images/icons/icon.svg" />
+    </div>
+  `;
+};

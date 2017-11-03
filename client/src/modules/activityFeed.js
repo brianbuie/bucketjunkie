@@ -48,6 +48,27 @@ function handleNewActivity(activity) {
   });
   if (autoScroll) $(feed).scrollTop(feed.scrollHeight);
 }
+
+function handleOldActivity(activity) {
+  if (!activity.length) return;
+  console.log(activity);
+  const feed = $('#activity__feed')[0];
+
+  // current scroll height
+  const scrollPosition = feed.scrollHeight - ($(feed).height() + feed.scrollTop);
+
+  activity.forEach(action => {
+    const firstDay = moment(activityItems[0].date).format('YYYY-MM-DD')
+    const actionDay = moment(action.date).format('YYYY-MM-DD');
+    $(feed).prepend(render.action(action));
+    if (moment(actionDay).isBefore(firstDay)) {
+      $(feed).prepend(render.dateSeparator(action.date));
+    }
+    activityItems.unshift(action);
+  });
+  $(feed).scrollTop(feed.scrollHeight - scrollPosition);
+}
+
 if ($('#activity__feed')[0]) {
   getNewActivity();
 }
@@ -75,3 +96,35 @@ $('#chat__form').submit((e) => {
     },
   });
 });
+
+$('#activity__feed').on('scroll', function(e) {
+  const feed = $(this)[0];
+  if (feed.scrollTop != 0) return;
+
+  $(feed).addClass('ovy-hidden');
+  $(feed).prepend(render.loading);
+
+  let query = queryString.parse(location.search);
+  query.olderThan = activityItems[0].date;
+  const string = queryString.stringify(query);
+  console.log(string);
+
+  $.ajax({
+    type: "GET",
+    url: `/activity?${string}`,
+    headers: {
+      Accept: 'application/json'
+    },
+    error: function(err) {
+      console.log(err.responseText);
+      $(feed).removeClass('ovy-hidden');
+      $(feed).find('.loading').remove();
+    },
+    success: (activity) => {
+      console.log(activity);
+      $(feed).removeClass('ovy-hidden');
+      $(feed).find('.loading').remove();
+      handleOldActivity(activity);
+    },
+  });
+})
