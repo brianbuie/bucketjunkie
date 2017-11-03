@@ -1,20 +1,18 @@
-extends ../layout
+extends base
 
-block content
-  .row
-    .col-sm-6.col-lg-3.mx-auto.p-3.bg-light
-      h2.text-center Login
-      form(action=`/account/login${ref}` method="POST")
-        .form-group
-          label(for="username") Username
-          input#username.form-control(type="text" name="username" value=body.username)
-        .form-group
-          label(for="password") Password
-          input#password.form-control(type="password" name="password")
-          small
-            a.link-discreet(href="/account/forgot-password") Forgot?
-        .py-3
-          button.btn.btn-block.btn-success(type="submit") Log In →
-        p.text-center
-          span.faded-2 Need an account?
-          a.link-discreet(href=`/account/register${ref}`)  Register
+block dynamic
+  h2.text-center Login
+  form(action=`/account/login${ref}` method="POST")
+    .form-group
+      label(for="username") Username
+      input#username.form-control(type="text" name="username" value=body.username)
+    .form-group
+      label(for="password") Password
+      input#password.form-control(type="password" name="password")
+      small
+        a.link-discreet(href="/account/forgot-password") Forgot?
+    .py-3
+      button.btn.btn-block.btn-success(type="submit") Log In →
+    p.text-center
+      span.faded-2 Need an account?
+      a.link-discreet(href=`/account/register${ref}`)  Register

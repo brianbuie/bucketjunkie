@@ -1,12 +1,10 @@
-extends ../layout
+extends base
 
-block content
-  .row
-    .col-sm-6.col-lg-3.mx-auto.p-3.bg-light
-      h2.text-center= user.username
-      .text-center.pt-3.pb-5
-        a.success(href="" data-toggle="modal" data-target="#editPhoto")
-          img.rounded-circle(src=helpers.userPhoto(user), alt="Profile Picture" style="width: 100px;")
+block dynamic
+  h2.text-center= user.username
+  .text-center.pt-3.pb-5
+    a.success(href="" data-toggle="modal" data-target="#editPhoto")
+      img.rounded-circle(src=helpers.userPhoto(user), alt="Profile Picture" style="width: 100px;")
 
   #editPhoto.modal.fade.playerModal(tabindex="-1", role="dialog", aria-hidden="true")
     .modal-dialog(role="document")
