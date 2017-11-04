@@ -18,26 +18,20 @@ block content
                 span.fa.fa-pencil-square
         block dynamic
 
-    - const activityQuery = Object.assign({}, query)
     .col.max-height-100.d-flex.flex-column.justify-content-end.activity__container
       a#activity--collapse__toggler(href="#activity--collapse" data-toggle="collapse")
         .bg-dark.py-2.text-center Activity
       #activity--collapse.collapse.hide.height-100
         .d-flex.flex-column.height-100
           ul.nav.nav-fill
-            li.nav-item
-              - activityQuery.activity = ''
-              a.nav-link.text-capitalize(class=(!feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery)) all
-            - const categories = ["chat", "rosters", "scores", "league"]
+            - const categories = ["all", "chat", "rosters", "scores", "league"]
             each category in categories
-              - activityQuery.activity = category
               li.nav-item
-                a.nav-link.text-capitalize(class=(category === feedFilter ? 'active' : ''), href=helpers.queryStringify(activityQuery))= category
+                a.activity__filter.nav-link.text-capitalize(class=(category === "all" ? 'active' : ''), href="" data-category=category)= category
           
-          #activity__feed.scroll-y.pl-2.flex-grow.height-100
-          
-          if !feedFilter || ['all', 'chat'].includes(feedFilter)
-            form#chat__form
-              .form-group.my-0
-                .pr-0
-                  input#chat__input.form-control(type="text" name="message" placeholder="Chat" autocomplete="off")
+          #activity__feed.scroll-y.pl-2.py-3.flex-grow.height-100
+
+          form#chat__form
+            .form-group.my-0
+              .pr-0
+                input#chat__input.form-control(type="text" name="message" placeholder="Chat" autocomplete="off")

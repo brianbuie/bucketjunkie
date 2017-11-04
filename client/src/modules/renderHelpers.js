@@ -32,3 +32,14 @@ exports.loading = function() {
     </div>
   `;
 };
+
+exports.error = function(message) {
+  return `
+    <div class="alert alert-dismissible mx-auto my-0 slide-in alert-error" role="alert">
+      <button class="close" aria-label="Close" type="button" data-dismiss="alert"> 
+        <span aria-hidden="true"> &times; <span>
+      </button>
+      ${message}
+    </div>
+  `;
+};
