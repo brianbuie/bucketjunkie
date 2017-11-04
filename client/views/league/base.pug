@@ -7,11 +7,11 @@ block content
         .d-flex.py-3
           h4.my-0.mr-3= league.name
           .flex-grow.d-flex.px-3.justify-content-between.align-items-center
-            a(href=`/lg/${league._id}${helpers.queryStringify(query)}`)
+            a.app__nav(href="/api/league/leaderboard")
               span.fa.fa-user-circle
-            a(href=`/lg/${league._id}/players${helpers.queryStringify(query)}`)
+            a.app__nav(href="/api/nba/players")
               span.fa.fa-user-plus
-            a(href=`/lg/${league._id}/info${helpers.queryStringify(query)}`)
+            a.app__nav(href="/api/league/info")
               span.fa.fa-info-circle
             if leagueAuth.isModerator
               a(href=`/lg/${league._id}/edit`)

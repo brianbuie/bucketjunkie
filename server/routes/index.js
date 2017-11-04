@@ -8,7 +8,6 @@ router.get('/', catchErrors(leagueController.myLeagues));
 router.use('/account', require('./account'));
 router.use('/leagues', require('./leagues'));
 router.use('/lg', require('./lg'));
-router.use('/nba', require('./nba'));
 router.use('/roster', require('./roster'));
 router.use('/api', require('./api'));
 

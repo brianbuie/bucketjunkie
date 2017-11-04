@@ -5,6 +5,7 @@ import './sass/style.scss';
 
 import './modules/dynamicModal';
 import './modules/activityFeed';
+import './modules/appContent';
 import './modules/utcHelper';
 import './modules/countdownTimer';
 import './modules/flashAlerts';

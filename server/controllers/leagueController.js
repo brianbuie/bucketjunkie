@@ -153,34 +153,12 @@ exports.leaderBoard = async (req, res) => {
     roster.score = score ? score.score : 0;
     return roster;
   }).sort(sortByScore);
-  const feedFilter = req.query.activity ? req.query.activity : '';
-  return res.render('league/leaderboard', { title: `${req.league.name}`, league: req.league, rosters, feedFilter, upcomingGames });
+  return res.render('league/leaderboard', { league: req.league, rosters, upcomingGames });
 };
 
-exports.info = (req, res) => {
-  const feedFilter = req.query.activity ? req.query.activity : '';
-  return res.render('league/info', { title: `${req.league.name}`, league: req.league, feedFilter });
-};
+exports.info = (req, res) => res.render('league/info', { league: req.league });
 
-exports.players = async (req, res) => {
-  const findQ = req.query.team ? { team: req.query.team } : {};
-  const [allPlayers, teams, upcomingGames] = await Promise.all([
-    nbaService.players(findQ),
-    nbaService.teams(),
-    nbaService.gamesForDays(7)
-  ]);
-  const rosters = req.league.drafting
-    ? await rosterService.getDraft(req.league, req.user)
-    : await rosterService.getRosters(req.league);
-  const players = nbaService.sortPlayers(allPlayers, req.league.pointValues).slice(0, 49);
-  const feedFilter = req.query.activity ? req.query.activity : '';
-  return res.render('nba/players', { title: 'Top Players', league: req.league, players, teams, rosters, upcomingGames, activeTeam: req.query.team, feedFilter });
-};
-
-exports.dashboard = (req, res) => {
-  const feedFilter = req.query.activity ? req.query.activity : '';
-  return res.render('league/dashboard', { title: `${req.league.name}`, league: req.league, feedFilter });
-};
+exports.dashboard = (req, res) => res.render('league/dashboard', { title: `${req.league.name}`, league: req.league });
 
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(

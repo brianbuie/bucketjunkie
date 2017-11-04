@@ -1,28 +1,22 @@
-extends ../league/base
-
 include mixins/playerListing
 
-block dynamic
-  - const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
-  - const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0] || { players: [] }
-  - const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
-  - const playerQuery = Object.assign({}, query)
-  .bg-light
-    h2.text-center.py-2 Top Players
-    .text-center.py-1
-      a(href="#filters", data-toggle="collapse") 
-        span.px-1.fa.fa-filter
-        span Filter
-    .collapse.p-2(id=`filters`)
-      .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
-        - delete playerQuery.team
-        a(href=helpers.queryStringify(playerQuery))
-          img(src='/images/teams/nba.svg')
-      each team in teams
-        .team__filter.d-inline-block(class=(team._id == activeTeam ? 'active' : ''))
-          - playerQuery.team = team._id
-          a(href=helpers.queryStringify(playerQuery))
-            img(src=helpers.teamImage(team._id))
+- const takenPlayers = rosters.reduce((taken, roster) => taken.concat(roster.players), start = [])
+- const userRoster = rosters.filter(roster => roster.user._id.equals(user._id))[0] || { players: [] }
+- const upcomingDays = upcomingGames.map((g, i) => { return helpers.moment().add(i, 'days')})
+.bg-light
+  h2.text-center.py-2 Top Players
+  .text-center.py-1
+    a(href="#filters", data-toggle="collapse") 
+      span.px-1.fa.fa-filter
+      span Filter
+  .collapse.p-2(id=`filters`)
+    .team__filter.d-inline-block(class=(!activeTeam ? 'active' : ''))
+      a.app__nav(href='/api/nba/players')
+        img(src='/images/teams/nba.svg')
+    each team in teams
+      .team__filter.d-inline-block(class=(team._id == activeTeam ? 'active' : ''))
+        a.app__nav(href=`/api/nba/players?team=${team._id}`)
+          img(src=helpers.teamImage(team._id))
 
-    each player in players
-      +playerListing(player)
+  each player in players
+    +playerListing(player)
