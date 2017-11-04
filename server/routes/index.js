@@ -10,6 +10,6 @@ router.use('/leagues', require('./leagues'));
 router.use('/lg', require('./lg'));
 router.use('/nba', require('./nba'));
 router.use('/roster', require('./roster'));
-router.use('/activity', require('./activity'));
+router.use('/api', require('./api'));
 
 module.exports = router;

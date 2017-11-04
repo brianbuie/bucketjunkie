@@ -15,14 +15,14 @@ function getNewActivity() {
   const string = generateQueryString();
   $.ajax({
     type: "GET",
-    url: `/activity?${string}`,
+    url: `/api/activity?${string}`,
     headers: {
       Accept: 'application/json'
     },
     success: (activity) => handleNewActivity(activity),
     error: function(err) {
       console.log(err.responseText);
-      activityTimeout = setTimeout(getNewActivity, 5000);
+      // activityTimeout = setTimeout(getNewActivity, 5000);
     },
   });
 }
@@ -78,7 +78,7 @@ $('#chat__form').submit((e) => {
   clearTimeout(activityTimeout);
   $.ajax({
     type: "POST",
-    url: `/activity/chat?${string}`,
+    url: `/api/activity/chat?${string}`,
     data: $('#chat__form').serialize(),
     headers: {
       Accept: 'application/json'
@@ -109,7 +109,7 @@ $('#activity__feed').on('scroll', function(e) {
 
   $.ajax({
     type: "GET",
-    url: `/activity?${string}`,
+    url: `/api/activity?${string}`,
     headers: {
       Accept: 'application/json'
     },

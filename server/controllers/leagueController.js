@@ -175,7 +175,12 @@ exports.players = async (req, res) => {
   const players = nbaService.sortPlayers(allPlayers, req.league.pointValues).slice(0, 49);
   const feedFilter = req.query.activity ? req.query.activity : '';
   return res.render('nba/players', { title: 'Top Players', league: req.league, players, teams, rosters, upcomingGames, activeTeam: req.query.team, feedFilter });
-}
+};
+
+exports.dashboard = (req, res) => {
+  const feedFilter = req.query.activity ? req.query.activity : '';
+  return res.render('league/dashboard', { title: `${req.league.name}`, league: req.league, feedFilter });
+};
 
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(

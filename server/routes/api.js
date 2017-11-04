@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.use(auth.isLoggedIn);
 router.use(catchErrors(auth.useSession));
-router.get('/', catchErrors(activity.get));
-router.post('/chat', activity.validateChat, catchErrors(activity.chat));
+
+router.get('/activity', catchErrors(activity.get));
+router.post('/activity/chat', activity.validateChat, catchErrors(activity.chat));
 
 module.exports = router;
