@@ -67,7 +67,9 @@ exports.updateLeague = async (req, res) => {
     errors.array().map(e => req.flash('error', e.msg));
     return res.redirect('back');
   }
-  req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
+  if (!req.league.started) {
+    req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
+  }
   req.league.set(req.body);
   if (!req.league.isModified()) {
     return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
