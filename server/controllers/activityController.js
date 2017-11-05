@@ -11,6 +11,7 @@ exports.validateChat = [
 ];
 
 exports.chat = async (req, res) => {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) throw new Error ('Error sending message, try again');
   const action = await activityService.addAction({

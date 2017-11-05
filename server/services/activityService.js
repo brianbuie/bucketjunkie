@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-
-const Team = mongoose.model('Team')
+const io = require('socket.io');
 const Activity = mongoose.model('Activity');
-const Score = mongoose.model('Score');
 
 exports.addActivity = async req => {
   const activityPromises = req.actions.map(action => {
@@ -14,4 +12,7 @@ exports.addActivity = async req => {
   return await Promise.all(activityPromises);
 };
 
-exports.addAction = async action => (new Activity(action)).save();
+exports.addAction = async action => {
+  let activity = await (new Activity(action)).save();
+  console.log(io);
+};

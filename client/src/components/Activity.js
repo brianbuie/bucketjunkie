@@ -1,49 +1,7 @@
 const io = require('socket.io-client');
 import React, { Component } from 'react';
 import { Collapse, Nav, NavItem, NavLink } from 'reactstrap';
-const moment = require('moment');
-
-const ActivityItem = function(props) {
-  return (
-    <div className={`py-1 px-2 activity__item--${props.category}`}>
-      <strong className="pr-1">{props.user.username}</strong>
-      <span title={moment(props.date).format('YYYY-MM-DD HH:mm')}>
-        {props.message}
-      </span>
-    </div>
-  );
-};
-
-class ActivityFeed extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      autoScroll: true
-    };
-  }
-
-  componentWillReceiveProps() {
-    let feed = this.feed;
-    let autoScroll = feed.scrollHeight - (feed.clientHeight + feed.scrollTop) < 100;
-    this.setState({ autoScroll });
-  }
-
-  componentDidUpdate() {
-    if (this.state.autoScroll) {
-      this.feed.scrollTop = this.feed.scrollHeight;
-    }
-  }
-
-  render() {
-    return (
-      <div id="activity__feed" className="scroll-y pl-2 py-3 flex-grow height-100" ref={el => this.feed = el}>
-        {this.props.activity.map(action => {
-          return <ActivityItem key={action._id} {...action} />
-        })}
-      </div>
-    );
-  }
-}
+import ActivityFeed from './ActivityFeed';
 
 class Activity extends Component {
   constructor(props) {
@@ -83,7 +41,19 @@ class Activity extends Component {
 
   handleChatSubmit(e) {
     e.preventDefault();
-    this.socket.emit('chat message', this.state.chatInput);
+    const message = this.state.chatInput;
+    const body = JSON.stringify({ message });
+    console.log(body);
+    fetch('/api/activity/chat', {
+      method: 'POST',
+      body,
+      headers: {
+        'Accept': 'application/json',
+      },
+      credentials: 'include'
+    })
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
     this.setState({ chatInput: '' });
   }
 
