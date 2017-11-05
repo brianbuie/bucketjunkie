@@ -22,6 +22,8 @@ require('./models/Score');
 require('./models/Box');
 
 const app = require('./app');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');
@@ -43,5 +45,13 @@ if (process.env.NODE_ENV === 'development') {
   devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
 }
 
-app.set('port', process.env.PORT);
-app.listen(app.get('port'), () => console.log(`Express running → PORT ${app.get('port')}`));
+io.on('connection', function(socket) {
+  console.log('user connected');
+  socket.on('chat message', function(msg) {
+    io.emit('chat message', msg);
+  });
+});
+
+http.listen(process.env.PORT, function() {
+  console.log(`Listening on PORT ${process.env.PORT}`);
+});

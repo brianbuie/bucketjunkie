@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Collapse, Nav, NavItem, NavLink } from 'reactstrap';
+const io = require('socket.io-client');
 
 class Activity extends Component {
   constructor(props) {
@@ -7,9 +8,30 @@ class Activity extends Component {
     this.state = { 
       collapseOpen: true,
       activeCategory: "all",
-      showChatInput: true
+      showChatInput: true,
+      chatInput: '',
     };
     this.categories = ["all", "chat", "rosters", "scores", "league"];
+    this.handleChatSubmit = this.handleChatSubmit.bind(this);
+    this.handleChatChange = this.handleChatChange.bind(this);
+    this.toggleCollapse = this.toggleCollapse.bind(this);
+  }
+
+  componentDidMount() {
+    this.socket = io();
+    this.socket.on('chat message', function(res) {
+      console.log(res);
+    });
+  }
+
+  handleChatSubmit(e) {
+    e.preventDefault();
+    this.socket.emit('chat message', this.state.chatInput);
+    this.setState({ chatInput: '' });
+  }
+
+  handleChatChange(e) {
+    this.setState({ chatInput: e.target.value });
   }
 
   toggleCollapse() {
@@ -47,15 +69,15 @@ class Activity extends Component {
               Activity
             </div>
 
-            <form className={this.state.showChatInput ? '' : 'hide'}>
+            <form className={this.state.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
               <div className="form-group my-0 pr-0">
-                <input className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
+                <input onChange={this.handleChatChange} value={this.state.chatInput} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
               </div>
             </form>
 
           </div>
         </Collapse>
-        <a href="" id="activity--collapse__toggler" onClick={() => this.toggleCollapse}>
+        <a href="" id="activity--collapse__toggler" onClick={this.toggleCollapse}>
           <div className="bg-dark py-2 text-center">
             Activity
           </div>
