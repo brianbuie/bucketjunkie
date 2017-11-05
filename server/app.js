@@ -26,7 +26,6 @@ const app = express();
 
 app.set('views', path.resolve(__dirname, '..', 'client/views'));
 app.set('view engine', 'pug');
-
 app.use(express.static(path.resolve(__dirname, '..', 'client/public')));
 
 if (app.get('env') === 'development') {
@@ -37,9 +36,7 @@ if (app.get('env') === 'development') {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(expressValidator());
-
 app.use(cookieParser());
 
 app.use(session({
@@ -49,7 +46,6 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -57,8 +53,6 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.helpers = helpers;
-  res.locals.req = req;
-  res.locals.query = req.query;
   res.locals.user = req.user;
   res.locals.ref = req.query.ref ? `?ref=${req.query.ref}` : '/'
   res.locals.flashes = req.flash();

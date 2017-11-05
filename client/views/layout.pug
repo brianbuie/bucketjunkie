@@ -39,7 +39,7 @@ html
                     a.nav-link.pr-4(href="/account/logout") Logout
                 li.nav-item.d-none.d-lg-block
                   a.nav-link(href="/account/")
-                    img.menu-photo(src!=helpers.userPhoto(req.user) alt="Profile Picture" style="width: 25px;")
+                    img.menu-photo(src!=helpers.userPhoto(user) alt="Profile Picture" style="width: 25px;")
               else
                 li.nav-item
                   a.nav-link(href=`/account/login${ref}`) Log In

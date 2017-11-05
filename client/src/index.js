@@ -1,11 +1,11 @@
-import '../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import '../../node_modules/font-awesome/scss/font-awesome.scss';
-
 import './sass/style.scss';
 
-import './modules/dynamicModal';
-import './modules/activityFeed';
-import './modules/appContent';
-import './modules/utcHelper';
-import './modules/countdownTimer';
-import './modules/flashAlerts';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('app')
+);
