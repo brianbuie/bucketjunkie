@@ -27,9 +27,6 @@ const io = require('socket.io')(http);
 
 io.on('connection', function(socket) {
   console.log('user connected');
-  // socket.on('chat message', function(msg) {
-  //   io.emit('chat message', msg);
-  // });
 });
 
 http.listen(process.env.PORT, function() {

@@ -4,7 +4,7 @@
   "description": "national fantasy association",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./server/start.js --ignore client/src/",
+    "dev": "pm2 start ecosystem.config.js -s && pm2 logs",
     "prod": "webpack && pm2 start ./server/start.js --name nfa",
     "deploy": "git pull origin master && webpack && pm2 restart nfa",
     "test": "eslint .",
