@@ -25,26 +25,6 @@ const app = require('./app');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-if (process.env.NODE_ENV === 'development') {
-  const webpack = require('webpack');
-  const WebpackDevServer = require('webpack-dev-server');
-  const webpackConfig = require('../webpack.config.js');
-  const ip = require('ip').address();
-
-  webpackConfig.entry.app.unshift(`webpack-dev-server/client?http://${ip}:8081`);
-  webpackConfig.output.publicPath = `http://${ip}:8081/dist/`;
-  const devServer = new WebpackDevServer(webpack(webpackConfig), {
-    contentBase: path.resolve(__dirname, '..', 'client/public/dist/'),
-    hot: false,
-    quiet: false,
-    noInfo: false,
-    publicPath: '/dist/',
-    stats: "minimal",
-    headers: { "Access-Control-Allow-Origin": "*" }
-  });
-  devServer.listen(8081, () => console.log(`Webpack running → PORT 8081`));
-}
-
 io.on('connection', function(socket) {
   console.log('user connected');
   // socket.on('chat message', function(msg) {

@@ -31,7 +31,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'client/public')));
 if (app.get('env') === 'development') {
   const proxy = require('proxy-middleware');
   const url = require('url');
-  app.use('/dist', proxy(url.parse('http://localhost:8081/dist')));
+  app.use('/dist', proxy(url.parse(`http://localhost:${process.env.WEBPACK_PORT}/dist`)));
 }
 
 app.use(bodyParser.json());
