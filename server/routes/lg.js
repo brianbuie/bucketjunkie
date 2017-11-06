@@ -1,11 +1,12 @@
 const express = require('express');
 const auth = require('../controllers/authController');
 const league = require('../controllers/leagueController');
+const app = require('../controllers/appController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', catchErrors(auth.useSession), league.dashboard);
+router.get('/', catchErrors(auth.useSession), app.dashboard);
 
 router.use('/:id', catchErrors(auth.useParam));
 router.get('/:id', auth.isMember, (req, res) => res.redirect('/lg/'));

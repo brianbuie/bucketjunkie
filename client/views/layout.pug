@@ -24,19 +24,8 @@ html
           #collapsible-menu.collapse.navbar-collapse.justify-content-end
             ul.navbar-nav
               if user
-                li.nav-item.dropdown.text-right
-                  a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false") Leagues
-                  .dropdown-menu.bg-dark.text-right
-                    if myLeagues && myLeagues.length
-                      each myLeague in myLeagues
-                        a.nav-link.pr-4(href=`/lg/${myLeague._id}`)= myLeague.name
-                    a.nav-link.pr-4(href="/leagues/public") Join
-                    a.nav-link.pr-4(href="/leagues/create") Create
-                li.nav-item.dropdown.text-right
-                  a.nav-link.dropdown-toggle(data-toggle="dropdown" href="" aria-haspopup="true" aria-expanded="false")= user.username
-                  .dropdown-menu.dropdown-menu-right.bg-dark.text-right
-                    a.nav-link.pr-4(href="/account/") Account
-                    a.nav-link.pr-4(href="/account/logout") Logout
+                li.nav-item
+                    a.nav-link(href=`/account/logout`) Log Out
                 li.nav-item.d-none.d-lg-block
                   a.nav-link(href="/account/")
                     img.menu-photo(src!=helpers.userPhoto(user) alt="Profile Picture" style="width: 25px;")

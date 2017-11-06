@@ -1,35 +1,19 @@
 const io = require('socket.io-client');
 import React, { Component } from 'react';
 import { Collapse, Nav, NavItem, NavLink } from 'reactstrap';
-import ActivityFeed from './ActivityFeed';
+import ActivityList from './ActivityList';
 
-class Activity extends Component {
+class ActivityFeed extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      collapseOpen: true,
+    this.state = {
       activityFilter: null,
+      collapseOpen: true,
       showChatInput: true,
-      chatInput: '',
-      activity: []
     };
     this.categories = ["all", "chat", "rosters", "scores", "league"];
     this.handleChatSubmit = this.handleChatSubmit.bind(this);
-    this.handleChatChange = this.handleChatChange.bind(this);
     this.toggleCollapse = this.toggleCollapse.bind(this);
-  }
-
-  componentWillMount() {
-    fetch('/api/activity', {
-      method: "GET",
-      headers: {
-        'Accept': 'application/json',
-      },
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(activity => this.setState({ activity }))
-      .catch(error => console.log(error));
   }
 
   componentDidMount() {
@@ -41,24 +25,18 @@ class Activity extends Component {
 
   handleChatSubmit(e) {
     e.preventDefault();
-    const message = this.state.chatInput;
+    const message = this.chatInput.value;
     const body = JSON.stringify({ message });
     console.log(body);
     fetch('/api/activity/chat', {
       method: 'POST',
       body,
-      headers: {
-        'Accept': 'application/json',
-      },
+      headers: { 'Accept': 'application/json', },
       credentials: 'include'
     })
       .then(response => console.log(response))
       .catch(error => console.log(error));
-    this.setState({ chatInput: '' });
-  }
-
-  handleChatChange(e) {
-    this.setState({ chatInput: e.target.value });
+    this.chatInput.value = '';
   }
 
   toggleCollapse() {
@@ -94,13 +72,13 @@ class Activity extends Component {
               })}
             </Nav>
 
-            <ActivityFeed activity={this.state.activity.filter(action => {
-              return this.state.activityFilter === null || action.category === this.state.activityFilter;
-            })} />
+            <ActivityList activity={this.props.activity.filter(action => (
+              !this.state.activityFilter || action.category === this.state.activityFilter
+            ))} />
 
             <form className={this.state.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
               <div className="form-group my-0 pr-0">
-                <input onChange={this.handleChatChange} value={this.state.chatInput} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
+                <input ref={el => this.chatInput = el} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
               </div>
             </form>
 
@@ -116,4 +94,4 @@ class Activity extends Component {
   }
 }
 
-export default Activity;
+export default ActivityFeed;

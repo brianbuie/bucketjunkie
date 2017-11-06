@@ -160,8 +160,6 @@ exports.leaderBoard = async (req, res) => {
 
 exports.info = (req, res) => res.render('league/info', { league: req.league });
 
-exports.dashboard = (req, res) => res.render('league/dashboard', { title: `${req.league.name}`, league: req.league });
-
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { 
