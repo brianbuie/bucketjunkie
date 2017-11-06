@@ -5,9 +5,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 
-const store = window.__INITIAL_STATE__;
+const initialState = window.__INITIAL_STATE__;
 
 ReactDOM.render(
-  <App store={store}/>,
+  <App {...initialState}/>,
   document.getElementById('app')
 );

@@ -17,7 +17,7 @@ class ActivityFeed extends Component {
   }
 
   componentDidMount() {
-    this.socket = io();
+    this.socket = io('/lg/something');
     this.socket.on('chat message', function(res) {
       console.log(res);
     });
@@ -25,13 +25,13 @@ class ActivityFeed extends Component {
 
   handleChatSubmit(e) {
     e.preventDefault();
-    const message = this.chatInput.value;
-    const body = JSON.stringify({ message });
-    console.log(body);
     fetch('/api/activity/chat', {
       method: 'POST',
-      body,
-      headers: { 'Accept': 'application/json', },
+      body: JSON.stringify({ message: this.chatInput.value }),
+      headers: { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       credentials: 'include'
     })
       .then(response => console.log(response))

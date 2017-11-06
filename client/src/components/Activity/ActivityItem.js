@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-const ActivityItem = ({ category, username, date, message }) => (
+const ActivityItem = ({ category, user, date, message }) => (
   <div className={`py-1 px-2 activity__item--${category}`}>
-    <strong className="pr-1">{username}</strong>
+    <strong className="pr-1">{user.username}</strong>
     <span title={moment(date).format('YYYY-MM-DD HH:mm')}>
       {message}
     </span>

@@ -12,7 +12,4 @@ exports.addActivity = async req => {
   return await Promise.all(activityPromises);
 };
 
-exports.addAction = async action => {
-  let activity = await (new Activity(action)).save();
-  console.log(io);
-};
+exports.addAction = async action => (new Activity(action)).save();

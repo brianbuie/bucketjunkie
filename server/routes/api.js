@@ -3,7 +3,6 @@ const activity = require('../controllers/activityController');
 const league = require('../controllers/leagueController');
 const nba = require('../controllers/nbaController');
 const auth = require('../controllers/authController');
-// const league = require('../controllers/leagueController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
