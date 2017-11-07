@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
+import LeagueOverview from './LeagueOverview/LeagueOverview';
 
-class ContentContainer extends Component {
+class ContentContainer extends React.Component {
   render() {
     return (
       <div className="mx-auto content__container">
@@ -24,7 +25,7 @@ class ContentContainer extends Component {
           </div>
         </div>
         <div className="bg-light">
-          Content
+          <LeagueOverview league={this.props.league} user={this.props.user} />
         </div>
       </div>
     );

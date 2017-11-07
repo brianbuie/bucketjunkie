@@ -10,7 +10,7 @@ webpackConfig.output.publicPath = `http://${ip}:${port}/dist/`;
 
 const devServer = new WebpackDevServer(webpack(webpackConfig), {
   contentBase: path.resolve(__dirname, '..', 'client/public/dist/'),
-  hot: true,
+  hot: false,
   quiet: false,
   noInfo: false,
   publicPath: '/dist/',

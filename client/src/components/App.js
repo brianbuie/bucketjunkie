@@ -29,7 +29,7 @@ class App extends Component {
         <Menu isLoggedIn={this.state.isLoggedIn}/>
         <div className="row no-gutters height-100">
           <div className="col px-3 scroll-y">
-
+            <ContentContainer league={this.props.league} user={this.props.user} />
           </div>
           <div className="col height-100 d-flex flex-column justify-content-end activity__container">
             <ActivityFeed activity={this.state.activity} />
