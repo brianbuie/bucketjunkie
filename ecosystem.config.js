@@ -9,7 +9,8 @@ module.exports = {
     {
       name: 'webpack',
       script: 'webpackServer.js',
-      env: { COMMON_VARIABLE: 'true' }
+      env: { COMMON_VARIABLE: 'true' },
+      watch: ["webpackServer.js", "webpack.config.js"]
     }
   ],
 };
