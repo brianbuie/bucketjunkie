@@ -23,7 +23,7 @@ exports.chat = async (req, res) => {
   return res.status(200).end();
 };
 
-exports.get = async (req, res) => {
+exports.getActivity = async (req, res) => {
   const member = ['league', 'rosters', 'chat', 'scores'];
   const moderator = ['moderation'];
   let categories = req.leagueAuth.isModerator ? member.concat(moderator) : member;
@@ -70,5 +70,10 @@ exports.get = async (req, res) => {
     })
     .splice(0, 50)
     .reverse()
+  return activity;
+};
+
+exports.get = async (req, res) => {
+  const activity = await this.getActivity(req, res);
   return res.json(activity);
 };

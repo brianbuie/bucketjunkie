@@ -1,3 +1,5 @@
+const activityController = require('./activityController');
+
 const render = (initialState) => {
   return `
     <!doctype html>
@@ -22,10 +24,12 @@ const render = (initialState) => {
   `;
 };
 
-exports.dashboard = (req, res) => {
+exports.dashboard = async (req, res) => {
+  const activity = await activityController.getActivity(req, res);
   const initialState = {
     league: req.league,
     user: req.user,
+    activity
   };
   res
     .set('Content-Type', 'text/html')

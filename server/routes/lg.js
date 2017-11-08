@@ -6,7 +6,7 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', catchErrors(auth.useSession), app.dashboard);
+router.get('/', catchErrors(auth.useSession), catchErrors(app.dashboard));
 
 router.use('/:id', catchErrors(auth.useParam));
 router.get('/:id', auth.isMember, (req, res) => res.redirect('/lg/'));

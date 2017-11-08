@@ -1,26 +1,18 @@
-const io = require('socket.io-client');
 import React, { Component } from 'react';
 import { Collapse, Nav, NavItem, NavLink } from 'reactstrap';
+import FilterLink from '../../containers/FilterLink';
 import ActivityList from './ActivityList';
 
 class ActivityFeed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activityFilter: null,
       collapseOpen: true,
       showChatInput: true,
     };
     this.categories = ["all", "chat", "rosters", "scores", "league"];
     this.handleChatSubmit = this.handleChatSubmit.bind(this);
     this.toggleCollapse = this.toggleCollapse.bind(this);
-  }
-
-  componentDidMount() {
-    this.socket = io('/lg/something');
-    this.socket.on('chat message', function(res) {
-      console.log(res);
-    });
   }
 
   handleChatSubmit(e) {
@@ -43,13 +35,6 @@ class ActivityFeed extends Component {
     this.setState({ collapseOpen: !this.state.collapseOpen });
   }
 
-  changeFilter(category) {
-    let filter = category != "all" ? category : null;
-    let newState = { activityFilter: filter };
-    newState.showChatInput = filter === "chat" || !filter;
-    this.setState(newState);
-  }
-
   render() {
     return (
       <div className="height-100 d-flex flex-column">
@@ -57,24 +42,24 @@ class ActivityFeed extends Component {
           <div className="d-flex flex-column height-100">
 
             <Nav className="nav-fill">
-              {this.categories.map(category => {
-                let className = this.state.activityFilter === category ? 'active' : '';
-                if (!this.state.activityFilter && category === "all") className = 'active';
-                return (
-                  <NavItem key={category}>
-                    <NavLink href="#" className={className} onClick={() => this.changeFilter(category)}>
-                      <span className="text-capitalize">
-                        {category}
-                      </span>
-                    </NavLink>
-                  </NavItem>
-                );
-              })}
+              <NavItem>
+                <FilterLink href="#" filter="SHOW_ALL"> All </FilterLink>
+              </NavItem>
+              <NavItem>
+                <FilterLink href="#" filter="SHOW_CHAT"> Chat </FilterLink>
+              </NavItem>
+              <NavItem>
+                <FilterLink href="#" filter="SHOW_ROSTERS"> Rosters </FilterLink>
+              </NavItem>
+              <NavItem>
+                <FilterLink href="#" filter="SHOW_SCORES"> Scores </FilterLink>
+              </NavItem>
+              <NavItem>
+                <FilterLink href="#" filter="SHOW_LEAGUE"> League </FilterLink>
+              </NavItem>
             </Nav>
 
-            <ActivityList activity={this.props.activity.filter(action => (
-              !this.state.activityFilter || action.category === this.state.activityFilter
-            ))} />
+            <ActivityList activity={this.props.activity} />
 
             <form className={this.state.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
               <div className="form-group my-0 pr-0">
