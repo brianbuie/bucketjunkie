@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Collapse, Nav, NavItem, NavLink } from 'reactstrap';
-import FilterLink from '../../containers/FilterLink';
+import FilterLink from './FilterLink';
 import ActivityList from './ActivityList';
+import ChatForm from './ChatForm';
 
 class ActivityFeed extends Component {
   constructor(props) {
@@ -60,11 +61,7 @@ class ActivityFeed extends Component {
 
             <ActivityList activity={this.props.activity} />
 
-            <form className={this.props.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
-              <div className="form-group my-0 pr-0">
-                <input ref={el => this.chatInput = el} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
-              </div>
-            </form>
+            {this.props.showChatInput ? <ChatForm /> : ''}
 
           </div>
         </Collapse>

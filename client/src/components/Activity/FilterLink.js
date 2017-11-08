@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setActivityFilter } from '../actions';
+import { setActivityFilter } from '../../actions';
 import { NavLink } from 'reactstrap';
 
 const mapStateToProps = (state, ownProps) => ({

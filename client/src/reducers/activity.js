@@ -1,9 +1,9 @@
 const activity = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_ACTION':
+    case 'ADD_ACTIVITY_ITEM':
       return [
         ...state,
-        action
+        action.item
       ]
     default:
       return state;

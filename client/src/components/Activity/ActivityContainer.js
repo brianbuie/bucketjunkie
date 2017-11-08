@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { setActivityFilter } from '../actions';
-import ActivityFeed from '../components/Activity/ActivityFeed';
+import { setActivityFilter } from '../../actions';
+import ActivityFeed from './ActivityFeed';
 
 const getVisibleActivity = (activity, filter) => {
   switch (filter) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import ActivityContainer from '../containers/ActivityContainer';
+import ActivityContainer from './Activity/ActivityContainer';
 
 const App = () => (
   <div className="full-height d-flex flex-column">
