@@ -19,8 +19,13 @@ const getVisibleActivity = (activity, filter) => {
   }
 };
 
+const showChatInput = (filter) => {
+  return ['SHOW_ALL', 'SHOW_CHAT'].includes(filter);
+}
+
 const mapStateToProps = (state) => ({
-  activity: getVisibleActivity(state.activity, state.activityFilter)
+  activity: getVisibleActivity(state.activity, state.activityFilter),
+  showChatInput: showChatInput(state.activityFilter)
 });
 
 const mapDispatchToProps = {

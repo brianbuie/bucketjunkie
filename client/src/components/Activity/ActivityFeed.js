@@ -8,7 +8,6 @@ class ActivityFeed extends Component {
     super(props);
     this.state = {
       collapseOpen: true,
-      showChatInput: true,
     };
     this.categories = ["all", "chat", "rosters", "scores", "league"];
     this.handleChatSubmit = this.handleChatSubmit.bind(this);
@@ -61,7 +60,7 @@ class ActivityFeed extends Component {
 
             <ActivityList activity={this.props.activity} />
 
-            <form className={this.state.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
+            <form className={this.props.showChatInput ? '' : 'hide'} onSubmit={this.handleChatSubmit}>
               <div className="form-group my-0 pr-0">
                 <input ref={el => this.chatInput = el} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
               </div>
