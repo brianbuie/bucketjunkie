@@ -1,5 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.user._id ? true : false
+});
 
 const MenuLink = ({ href, text }, key) => (
   <NavItem key={key}>
@@ -9,7 +14,7 @@ const MenuLink = ({ href, text }, key) => (
   </NavItem>
 );
 
-const Menu = ({ isLoggedIn }) => {
+const Menu = connect(mapStateToProps)(({ isLoggedIn }) => {
   let menuItems = isLoggedIn
   ? [
       { text: 'Account', href: "/account" },
@@ -28,6 +33,6 @@ const Menu = ({ isLoggedIn }) => {
       </Nav>
     </Navbar>
   );
-};
+});
 
 export default Menu;

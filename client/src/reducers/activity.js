@@ -1,10 +1,5 @@
 import { combineReducers } from 'redux';
 
-const defaultState = {
-  filter: 'SHOW_ALL',
-  items: []
-}
-
 const filter = (state = 'SHOW_ALL', action) => {
   switch (action.type) {
     case 'SET_ACTIVITY_FILTER':
