@@ -7,16 +7,16 @@ const ContentMenu = ({ leagueName }) => (
     {leagueName}
   </h4>
   <div className="flex-grow d-flex px-3 justify-content-between align-items-center">
-    <ContentLink page="ROSTERS">
+    <ContentLink page="ROSTERS" fetch="/api/activity">
       <span className="fa fa-user-circle" />
     </ContentLink>
-    <ContentLink page="PLAYERS">
+    <ContentLink page="PLAYERS" fetch="/api/activity">
       <span className="fa fa-user-plus" />
     </ContentLink>
-    <ContentLink page="LEAGUE_INFO">
+    <ContentLink page="LEAGUE_INFO" fetch="/api/activity">
       <span className="fa fa-info-circle" />
     </ContentLink>
-    <ContentLink page="LEAGUE_EDIT">
+    <ContentLink page="LEAGUE_EDIT" fetch="/api/activity">
       <span className="fa fa-pencil-square" />
     </ContentLink>
   </div>

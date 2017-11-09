@@ -20,7 +20,7 @@ exports.chat = async (req, res) => {
     message: req.body.message
   });
   if (!action) throw new Error ('Error sending message, try again');
-  return res.status(200).end();
+  return res.sendStatus(200);
 };
 
 exports.getActivity = async (req, res) => {

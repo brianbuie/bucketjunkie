@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setPage } from '../../actions';
+import * as actions from '../../actions';
 
 const ContentLinkComponent = (props) => (
   <a href="" {...props}>
@@ -15,7 +15,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick: e => {
     e.preventDefault();
-    dispatch(setPage(ownProps.page));
+    dispatch(actions.setPage(ownProps.page));
+    dispatch(actions.fetchPage(ownProps.fetch));
   }
 });
 

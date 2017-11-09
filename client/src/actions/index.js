@@ -15,5 +15,25 @@ export const setPage = page => ({
   page
 });
 
-export const fetchPage = url => dispatch => fetch(url)
-  .then(response => console.log(response.json()), error => console.log(error));
+export const fetchPage = url => dispatch => {
+  return fetch(url, { credentials: 'include' })
+    .then(response => response.json())
+    .then(response => console.log(response));
+};
+
+export const postActivityItem = (item, url) => dispatch => {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(item),
+    headers: { 
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(response => {
+    if (response.status != 200) {
+      throw Error(response);
+    }
+  })
+};
