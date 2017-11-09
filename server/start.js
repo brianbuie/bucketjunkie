@@ -25,8 +25,27 @@ const app = require('./app');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+const sessionStore = require('./handlers/sessionHandler');
+const passportSocketIo = require('passport.socketio');
+const cookieParser = require('cookie-parser');
+
+io.use(passportSocketIo.authorize({
+  cookieParser,
+  secret: process.env.SECRET,
+  key: process.env.KEY,
+  store: sessionStore,
+  success: (data, accept) => {
+    console.log('Authorized');
+    accept(null, true);
+  },
+  fail: (data, message, error, accept) => {
+    console.log('Failed to Authorize');
+    accept(null, false);
+  }
+}));
+
 io.sockets.on('connection', function(socket) {
-  console.log('user connected');
+  console.log(`User connected: ${socket.id}`);
   socket.emit('message', { message: 'connected' });
   socket.on('send', function(data) {
     io.sockets.emit('message', data);
