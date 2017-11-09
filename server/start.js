@@ -25,8 +25,12 @@ const app = require('./app');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-io.on('connection', function(socket) {
+io.sockets.on('connection', function(socket) {
   console.log('user connected');
+  socket.emit('message', { message: 'connected' });
+  socket.on('send', function(data) {
+    io.sockets.emit('message', data);
+  });
 });
 
 http.listen(process.env.PORT, function() {
