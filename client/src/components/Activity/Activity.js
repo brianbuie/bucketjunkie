@@ -4,13 +4,12 @@ import FilterLink from './FilterLink';
 import ActivityList from './ActivityList';
 import ChatForm from './ChatForm';
 
-class ActivityFeed extends Component {
+class Activity extends Component {
   constructor(props) {
     super(props);
     this.state = {
       collapseOpen: true,
     };
-    this.categories = ["all", "chat", "rosters", "scores", "league"];
     this.handleChatSubmit = this.handleChatSubmit.bind(this);
     this.toggleCollapse = this.toggleCollapse.bind(this);
   }
@@ -40,7 +39,6 @@ class ActivityFeed extends Component {
       <div className="height-100 d-flex flex-column">
         <Collapse isOpen={this.state.collapseOpen} className="flex-grow height-100">
           <div className="d-flex flex-column height-100">
-
             <Nav className="nav-fill">
               <NavItem>
                 <FilterLink href="#" filter="SHOW_ALL"> All </FilterLink>
@@ -58,11 +56,8 @@ class ActivityFeed extends Component {
                 <FilterLink href="#" filter="SHOW_LEAGUE"> League </FilterLink>
               </NavItem>
             </Nav>
-
-            <ActivityList activity={this.props.activity} />
-
+            <ActivityList items={this.props.items} />
             {this.props.showChatInput ? <ChatForm /> : ''}
-
           </div>
         </Collapse>
         <a href="" id="activity--collapse__toggler" onClick={this.toggleCollapse}>
@@ -75,4 +70,4 @@ class ActivityFeed extends Component {
   }
 }
 
-export default ActivityFeed;
+export default Activity;

@@ -29,7 +29,7 @@ exports.dashboard = async (req, res) => {
   const initialState = {
     league: req.league,
     user: req.user,
-    activity
+    activity: { items: activity }
   };
   res
     .set('Content-Type', 'text/html')

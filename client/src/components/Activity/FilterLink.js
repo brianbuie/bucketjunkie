@@ -3,7 +3,7 @@ import { setActivityFilter } from '../../actions';
 import { NavLink } from 'reactstrap';
 
 const mapStateToProps = (state, ownProps) => ({
-  active: ownProps.filter === state.activityFilter
+  active: ownProps.filter === state.activity.filter
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

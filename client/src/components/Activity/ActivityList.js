@@ -25,8 +25,8 @@ class ActivityList extends React.Component {
   render() {
     return(
       <div ref={el => this.feed = el} className="scroll-y pl-2 py-3 flex-grow height-100">
-        {this.props.activity.map(action => (
-          <ActivityItem key={action._id} {...action} />
+        {this.props.items.map(item => (
+          <ActivityItem key={item._id} {...item} />
         ))}
       </div>
     );
@@ -34,7 +34,7 @@ class ActivityList extends React.Component {
 }
 
 ActivityList.propTypes = {
-  activity: PropTypes.arrayOf(
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,

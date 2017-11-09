@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import { setActivityFilter } from '../../actions';
-import ActivityFeed from './ActivityFeed';
+import Activity from './Activity';
 
-const getVisibleActivity = (activity, filter) => {
+const getVisibleActivity = (items, filter) => {
   switch (filter) {
     case 'SHOW_ALL':
-      return activity;
+      return items;
     case 'SHOW_CHAT':
-      return activity.filter(a => a.category === 'chat');
+      return items.filter(a => a.category === 'chat');
     case 'SHOW_ROSTERS':
-      return activity.filter(a => a.category === 'rosters');
+      return items.filter(a => a.category === 'rosters');
     case 'SHOW_SCORES':
-      return activity.filter(a => a.category === 'scores');
+      return items.filter(a => a.category === 'scores');
     case 'SHOW_LEAGUE':
-      return activity.filter(a => a.category === 'league');
+      return items.filter(a => a.category === 'league');
     default:
       throw new Error(`Unknown filter: ${filter}`);
   }
@@ -24,8 +24,8 @@ const showChatInput = (filter) => {
 }
 
 const mapStateToProps = (state) => ({
-  activity: getVisibleActivity(state.activity, state.activityFilter),
-  showChatInput: showChatInput(state.activityFilter)
+  items: getVisibleActivity(state.activity.items, state.activity.filter),
+  showChatInput: showChatInput(state.activity.filter)
 });
 
 const mapDispatchToProps = {
@@ -35,6 +35,6 @@ const mapDispatchToProps = {
 const ActivityContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActivityFeed);
+)(Activity);
 
 export default ActivityContainer;
