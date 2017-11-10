@@ -27,17 +27,12 @@ const io = require('socket.io')(http);
 
 const sessionStore = require('./handlers/sessionHandler');
 const passportSocketIo = require('passport.socketio');
-const cookieParser = require('cookie-parser');
 
 io.use(passportSocketIo.authorize({
-  cookieParser,
   secret: process.env.SECRET,
   key: process.env.KEY,
   store: sessionStore,
-  success: (data, accept) => {
-    console.log('Authorized');
-    accept(null, true);
-  },
+  success: (data, accept) => accept(null, true),
   fail: (data, message, error, accept) => {
     console.log('Failed to Authorize');
     accept(null, false);
@@ -46,10 +41,18 @@ io.use(passportSocketIo.authorize({
 
 io.sockets.on('connection', function(socket) {
   console.log(`User connected: ${socket.id}`);
-  socket.emit('message', { message: 'connected' });
-  socket.on('send', function(data) {
-    io.sockets.emit('message', data);
-  });
+  mongoose.connection.db.collection('sessions')
+    .findOne({ _id: socket.request.sessionID })
+    .then(result => {
+      let session = JSON.parse(result.session);
+      if (session.league) {
+        socket.join(session.league._id);
+        console.log(`Joined League room: ${session.league._id}`);
+      } else {
+        console.log('No League specified');
+        socket.disconnect();
+      }
+    });
 });
 
 http.listen(process.env.PORT, function() {
