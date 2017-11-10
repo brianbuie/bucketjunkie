@@ -45,13 +45,10 @@ io.sockets.on('connection', function(socket) {
     .findOne({ _id: socket.request.sessionID })
     .then(result => {
       let session = JSON.parse(result.session);
-      if (session.league) {
-        socket.join(session.league._id);
-        console.log(`Joined League room: ${session.league._id}`);
-      } else {
-        console.log('No League specified');
-        socket.disconnect();
-      }
+      if (!session.league || !session.passport || !session.passport.user) return socket.disconnect();
+      socket.join(session.league._id, () => {
+        socket.nsp.to(session.league._id).emit('message', `${session.passport.user} Connected`);
+      });
     });
 });
 
