@@ -10,6 +10,11 @@ export const addActivityItem = item => ({
   item
 });
 
+export const replaceRoster = roster => ({
+  type: 'REPLACE_ROSTER',
+  roster
+});
+
 export const setPage = page => ({
   type: 'SET_PAGE',
   page

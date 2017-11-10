@@ -16,9 +16,12 @@ import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
 const socket = io.connect();
 
-import { addActivityItem } from './actions';
+import { addActivityItem, replaceRoster } from './actions';
 socket.on('activity:create', item => {
   store.dispatch(addActivityItem(item));
+});
+socket.on('roster:create', roster => {
+  store.dispatch(replaceRoster(roster));
 });
 socket.on('message', msg => console.log(msg));
 

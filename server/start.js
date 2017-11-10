@@ -20,7 +20,7 @@ require('./models/Activity')(io);
 require('./models/Player');
 require('./models/Team');
 require('./models/Game');
-require('./models/Roster');
+require('./models/Roster')(io);
 require('./models/Draft');
 require('./models/League');
 require('./models/Score');
@@ -54,7 +54,7 @@ if (app.get('env') === 'development') {
   app.use('/dist', proxy(url.parse(`http://localhost:${process.env.WEBPACK_PORT}/dist`)));
 }
 
-// Response handling
+// Request handling
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -75,7 +75,7 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// flash hanlding
+// flash handling
 app.use(require('connect-flash')());
 const flashHandlers = require('./handlers/flashHandlers');
 app.use(flashHandlers.oops);

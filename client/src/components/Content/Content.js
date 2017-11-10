@@ -1,12 +1,12 @@
 import React from 'react';
-// import LeagueOverview from './LeagueOverview/LeagueOverview';
+import LeagueOverview from '../LeagueOverview/LeagueOverview';
 import ContentMenu from './ContentMenu';
 
-const Content = ({ league, page }) => (
+const Content = ({ league, page, user }) => (
   <div className="mx-auto content__container">
     <ContentMenu leagueName={league.name} />
     <div className="bg-light">
-      {page}
+      <LeagueOverview league={league} user={user} />
     </div>
   </div>
 );

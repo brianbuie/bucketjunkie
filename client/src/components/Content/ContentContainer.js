@@ -4,6 +4,7 @@ import Content from './Content';
 
 const mapStateToProps = (state) => ({ 
   league: state.league,
+  user: state.user,
   page: state.page
 });
 

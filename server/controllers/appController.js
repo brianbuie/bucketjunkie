@@ -1,4 +1,5 @@
 const activityController = require('./activityController');
+const rosterService = require('../services/rosterService');
 
 const render = (initialState) => {
   return `
@@ -25,11 +26,15 @@ const render = (initialState) => {
 };
 
 exports.dashboard = async (req, res) => {
-  const activity = await activityController.getActivity(req, res);
+  const [activity, rosters] = await Promise.all([
+    activityController.getActivity(req, res),
+    rosterService.getRosters(req.league)
+  ]);
   const initialState = {
     league: req.league,
     user: req.user,
-    activity: { items: activity }
+    activity: { items: activity },
+    rosters
   };
   res
     .set('Content-Type', 'text/html')
