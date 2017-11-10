@@ -15,7 +15,12 @@ const store = createStore(reducer, initialState, applyMiddleware(thunkMiddleware
 import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
 const socket = io.connect();
-socket.on('message', data => console.log(data));
+
+import { addActivityItem } from './actions';
+socket.on('activity:create', item => {
+  store.dispatch(addActivityItem(item));
+});
+socket.on('message', msg => console.log(msg));
 
 ReactDOM.render(
   <Provider store={store}>

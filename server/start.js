@@ -16,7 +16,7 @@ mongoose.connection.on('error', (err) => {
   console.error(`🚫 → ${err.message}`);
 });
 require('./models/User');
-require('./models/Activity');
+require('./models/Activity')(io);
 require('./models/Player');
 require('./models/Team');
 require('./models/Game');
@@ -122,14 +122,14 @@ io.use(passportSocketIo.authorize({
   }
 }));
 io.sockets.on('connection', function(socket) {
-  console.log(`User connected: ${socket.id}`);
   mongoose.connection.db.collection('sessions')
     .findOne({ _id: socket.request.sessionID })
     .then(result => {
       let session = JSON.parse(result.session);
       if (!session.league || !session.passport || !session.passport.user) return socket.disconnect();
       socket.join(session.league._id, () => {
-        socket.nsp.to(session.league._id).emit('message', `${session.passport.user} Connected`);
+        console.log(`${session.passport.user} connected to ${session.league.name} socket`);
+        socket.nsp.to(session.league._id).emit('message', `${session.passport.user} connected`);
       });
     });
 });
