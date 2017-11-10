@@ -6,7 +6,7 @@ const LeagueOverview = ({ league, user }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
-    <div className="p-3">
+    <div className="p-3 bg-light">
       <small className="faded-2">
         {`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
       </small>

@@ -10,24 +10,7 @@ class Activity extends Component {
     this.state = {
       collapseOpen: true,
     };
-    this.handleChatSubmit = this.handleChatSubmit.bind(this);
     this.toggleCollapse = this.toggleCollapse.bind(this);
-  }
-
-  handleChatSubmit(e) {
-    e.preventDefault();
-    fetch('/api/activity/chat', {
-      method: 'POST',
-      body: JSON.stringify({ message: this.chatInput.value }),
-      headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
-    })
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
-    this.chatInput.value = '';
   }
 
   toggleCollapse() {
