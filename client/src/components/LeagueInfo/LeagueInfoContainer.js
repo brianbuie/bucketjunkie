@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Content from './Content';
+import LeagueInfo from './LeagueInfo';
 
 const mapStateToProps = (state) => ({ 
   league: state.league,
   user: state.user,
 });
 
-const ContentContainer = connect(
+const LeagueInfoContainer = connect(
   mapStateToProps,
-)(Content);
+)(LeagueInfo);
 
-export default ContentContainer;
+export default LeagueInfoContainer;

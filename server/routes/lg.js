@@ -6,10 +6,8 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', catchErrors(auth.useSession), catchErrors(app.dashboard));
-
 router.use('/:id', catchErrors(auth.useParam));
-router.get('/:id', auth.isMember, (req, res) => res.redirect('/lg/'));
+router.get('/:id', auth.isMember, (req, res) => res.redirect('/dash'));
 router.get('/:id/join', auth.isLoggedIn, catchErrors(league.joinLeague));
 router.post('/:id/leave', auth.isMember, auth.notCreator, catchErrors(league.leaveLeague));
 router.get('/:id/edit', auth.isModerator, league.editLeagueForm);

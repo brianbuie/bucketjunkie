@@ -15,11 +15,6 @@ export const replaceRoster = roster => ({
   roster
 });
 
-export const setPage = page => ({
-  type: 'SET_PAGE',
-  page
-});
-
 export const fetchPage = url => dispatch => {
   return fetch(url, { credentials: 'include' })
     .then(response => response.json())

@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Row, Col } from 'reactstrap';
 
-const LeagueOverview = ({ league, user }) => {
+const LeagueInfo= ({ league, user }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
@@ -44,4 +44,4 @@ const LeagueOverview = ({ league, user }) => {
   );
 };
 
-export default LeagueOverview;
+export default LeagueInfo;

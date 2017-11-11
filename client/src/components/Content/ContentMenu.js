@@ -1,5 +1,5 @@
 import React from 'react';
-import ContentLink from './ContentLink';
+import { Link } from 'react-router-dom';
 
 const ContentMenu = ({ leagueName }) => (
 <div className="d-flex py-3">
@@ -7,18 +7,18 @@ const ContentMenu = ({ leagueName }) => (
     {leagueName}
   </h4>
   <div className="flex-grow d-flex px-3 justify-content-between align-items-center">
-    <ContentLink page="ROSTERS" fetch="/api/activity">
+    <Link to='/dash/'>
       <span className="fa fa-user-circle" />
-    </ContentLink>
-    <ContentLink page="PLAYERS" fetch="/api/activity">
+    </Link>
+    <Link to='/dash/players'>
       <span className="fa fa-user-plus" />
-    </ContentLink>
-    <ContentLink page="LEAGUE_INFO" fetch="/api/activity">
+    </Link>
+    <Link to='/dash/info'>
       <span className="fa fa-info-circle" />
-    </ContentLink>
-    <ContentLink page="LEAGUE_EDIT" fetch="/api/activity">
+    </Link>
+    <Link to='/dash/edit'>
       <span className="fa fa-pencil-square" />
-    </ContentLink>
+    </Link>
   </div>
 </div>
 );
