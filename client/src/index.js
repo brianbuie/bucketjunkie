@@ -25,6 +25,8 @@ socket.on('roster:create', roster => {
 });
 socket.on('message', msg => console.log(msg));
 
+console.log(store.getState());
+
 ReactDOM.render(
   <Provider store={store}>
     <SocketProvider socket={socket}>

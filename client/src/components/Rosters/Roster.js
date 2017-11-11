@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapse } from 'reactstrap';
+import PlayerContainer from '../Player/PlayerContainer';
 
 class Roster extends React.Component {
   constructor(props) {
@@ -29,7 +30,9 @@ class Roster extends React.Component {
           </div>
         </a>
         <Collapse isOpen={this.state.collapseOpen}>
-          Other Stuff
+          {this.props.players.map(player => (
+            <PlayerContainer id={player._id} key={player._id} />
+          ))}
         </Collapse>
       </div>
     );

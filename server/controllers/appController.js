@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const activityController = require('./activityController');
 const rosterService = require('../services/rosterService');
 const nbaService = require('../services/nbaService');
+const fs = require('fs');
 
 const Score = mongoose.model('Score');
 
@@ -29,23 +30,54 @@ const render = (initialState) => {
   `;
 };
 
+const sortByScore = (a,b) => {
+  if (a.score < b.score) return 1;
+  if (a.score > b.score) return -1;
+  return 0;
+};
+
+const appendPlayerScore = (player, pointValues) => {
+  const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
+  player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * pointValues[stat]), 0);
+  return player;
+};
+
 exports.dashboard = async (req, res) => {
-  const [activity, rosters, scores, upcomingGames] = await Promise.all([
+  const [activity, scores, upcomingGames, playersRaw] = await Promise.all([
     activityController.getActivity(req, res),
-    rosterService.getRosters(req.league),
     Score.getTotalScores(req.league._id),
-    nbaService.gamesForDays(7)
+    nbaService.gamesForDays(7),
+    nbaService.players()
   ]);
+
+  const rosters = req.league.drafting
+    ? await rosterService.getDraft(req.league, req.user)
+    : await rosterService.getRosters(req.league);
+
+  const defaultImagePath = '/images/player-default.png';
+  let players = playersRaw.map(player => {
+    player = player.toObject ? player.toObject() : player;
+    player = appendPlayerScore(player, req.league.pointValues);
+    let onRoster = rosters.filter(roster => roster.players.some(p => p._id == player._id));
+    player.takenBy = onRoster[0] ? onRoster[0].user : null;
+    player.upcomingGames = upcomingGames.map(day => {
+      return day.filter(game => game.home === player.team || game.away === player.team);
+    });
+    const playerImagePath = `/images/players/${player._id}.png`;
+    player.image = fs.existsSync(__dirname + `/../../client/public${playerImagePath}`) ? playerImagePath : defaultImagePath;
+    return player;
+  });
+
+  if (!req.league.drafting) players.sort(sortByScore);
+
   const initialState = {
     league: req.league,
     user: req.user,
     activity: { items: activity },
     rosters,
-    upcomingGames,
-    scores
+    scores,
+    players
   };
-  res
-    .set('Content-Type', 'text/html')
-    .status(200)
-    .end(render(initialState));
+
+  res.set('Content-Type', 'text/html').status(200).end(render(initialState));
 };

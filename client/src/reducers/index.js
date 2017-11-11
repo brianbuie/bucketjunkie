@@ -4,7 +4,7 @@ import user from './user';
 import league from './league';
 import rosters from './rosters';
 import scores from './scores';
-import upcomingGames from './upcomingGames';
+import players from './players';
 
 const reducers = combineReducers({
   activity,
@@ -12,7 +12,7 @@ const reducers = combineReducers({
   league,
   rosters,
   scores,
-  upcomingGames
+  players
 });
 
 export default reducers;
