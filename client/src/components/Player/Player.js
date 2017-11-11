@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import TeamIcon from '../Team/TeamIcon';
 import PlayerImage from './PlayerImage';
+import PlayerButtons from './PlayerButtons';
 import moment from 'moment';
 
 const Player = ({ player }) => {
@@ -26,12 +27,12 @@ const Player = ({ player }) => {
                 ))}
               </tr>
               <tr>
-                {player.upcomingGames.map((day, key) => (
+                {player.upcomingGames.map((game, key) => (
                   <td className="one-seventh text-center text-sm" key={key}>
-                    {day[0] 
-                      ? day[0].home === player.team 
-                        ? <TeamIcon id={day[0].away} />
-                        : <TeamIcon id={day[0].home} />
+                    {game
+                      ? game.home === player.team 
+                        ? <TeamIcon id={game.away} />
+                        : <TeamIcon id={game.home} />
                       : ''
                     }
                   </td>
@@ -47,6 +48,7 @@ const Player = ({ player }) => {
           <p className="faded-2 m-0">AVG</p>
         </Col>
       </Row>
+      <PlayerButtons player={player} />
     </div>
   );
 }

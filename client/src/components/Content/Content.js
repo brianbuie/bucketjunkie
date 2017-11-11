@@ -2,6 +2,7 @@ import React from 'react';
 import ContentMenu from './ContentMenu';
 import RostersContainer from '../Rosters/RostersContainer';
 import LeagueInfoContainer from '../LeagueInfo/LeagueInfoContainer';
+import PlayerList from '../Player/PlayerList';
 
 import {
   BrowserRouter as Router,
@@ -13,7 +14,7 @@ const Content = ({ league, user }) => (
     <div className="mx-auto content__container">
       <ContentMenu leagueName={league.name} />
       <Route exact path="/dash/" component={RostersContainer} />
-      <Route path="/dash/players" component={RostersContainer} />
+      <Route path="/dash/players" component={PlayerList} />
       <Route path="/dash/info" component={LeagueInfoContainer} />
       <Route path="/dash/edit" component={RostersContainer} />
     </div>

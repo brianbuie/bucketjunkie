@@ -42,6 +42,26 @@ const appendPlayerScore = (player, pointValues) => {
   return player;
 };
 
+const appendTakenBy = (player, rosters) => {
+  let takenBy = rosters.filter(roster => roster.players.some(p => p._id == player._id))[0];
+  player.takenBy = takenBy ? takenBy.user : null;
+  return player;
+};
+
+const appendUpcomingGames = (player, upcomingGames) => {
+  player.upcomingGames = upcomingGames.map(day => {
+    return day.filter(game => game.home === player.team || game.away === player.team)[0];
+  });
+  return player;
+};
+
+const appendImage = player => {
+  const defaultImagePath = '/images/player-default.png';
+  const playerImagePath = `/images/players/${player._id}.png`;
+  player.image = fs.existsSync(__dirname + `/../../client/public${playerImagePath}`) ? playerImagePath : defaultImagePath;
+  return player;
+}
+
 exports.dashboard = async (req, res) => {
   const [activity, scores, upcomingGames, playersRaw] = await Promise.all([
     activityController.getActivity(req, res),
@@ -54,21 +74,16 @@ exports.dashboard = async (req, res) => {
     ? await rosterService.getDraft(req.league, req.user)
     : await rosterService.getRosters(req.league);
 
-  const defaultImagePath = '/images/player-default.png';
   let players = playersRaw.map(player => {
     player = player.toObject ? player.toObject() : player;
     player = appendPlayerScore(player, req.league.pointValues);
-    let onRoster = rosters.filter(roster => roster.players.some(p => p._id == player._id));
-    player.takenBy = onRoster[0] ? onRoster[0].user : null;
-    player.upcomingGames = upcomingGames.map(day => {
-      return day.filter(game => game.home === player.team || game.away === player.team);
-    });
-    const playerImagePath = `/images/players/${player._id}.png`;
-    player.image = fs.existsSync(__dirname + `/../../client/public${playerImagePath}`) ? playerImagePath : defaultImagePath;
+    player = appendTakenBy(player, rosters);
+    player = appendUpcomingGames(player, upcomingGames);
+    player = appendImage(player);
     return player;
   });
 
-  if (!req.league.drafting) players.sort(sortByScore);
+  players.sort(sortByScore);
 
   const initialState = {
     league: req.league,

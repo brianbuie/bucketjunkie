@@ -26,7 +26,7 @@ module.exports = function(io) {
     io,
     prefix: 'roster',
     namespace: '',
-    room: (doc) => [doc.league.id],
+    room: (doc) => [doc.league],
     events: {
       create: {
         populate: 'user players'
