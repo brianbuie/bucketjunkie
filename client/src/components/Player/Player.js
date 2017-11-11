@@ -1,9 +1,17 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import TeamIcon from '../Team/TeamIcon';
-import PlayerImage from './PlayerImage';
-import PlayerButtons from './PlayerButtons';
+import PlayerButton from './PlayerButton';
 import moment from 'moment';
+
+const PlayerImage = ({ path }) => {
+  return (
+    <div className="rounded-circle player__picture"
+      style={{backgroundImage: `url("${path}")`}}
+    >
+    </div>
+  );
+};
 
 const Player = ({ player }) => {
   const upcomingDays = player.upcomingGames.map((g, i) => moment().add(i, 'days'));
@@ -48,7 +56,7 @@ const Player = ({ player }) => {
           <p className="faded-2 m-0">AVG</p>
         </Col>
       </Row>
-      <PlayerButtons player={player} />
+      <PlayerButton player={player} />
     </div>
   );
 }

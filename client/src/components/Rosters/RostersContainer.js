@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Roster from './Roster';
+import { sortByScore } from '../../helpers';
 
 const RostersComponent = ({ rosters, scores }) => (
   <div>
-    {rosters.map((roster, key) => {
-      const score = scores.filter(score => score._id === roster.user._id);
+    {scores.sort(sortByScore).map(score => {
+      const roster = rosters.filter(roster => roster.user._id === score._id)[0];
       return (
-        <Roster {...roster} key={roster.user.username} score={score}/>
+        <Roster {...roster} key={score._id} score={score.score}/>
       );
     })}
   </div>

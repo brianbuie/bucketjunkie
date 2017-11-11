@@ -42,12 +42,6 @@ const appendPlayerScore = (player, pointValues) => {
   return player;
 };
 
-const appendTakenBy = (player, rosters) => {
-  let takenBy = rosters.filter(roster => roster.players.some(p => p._id == player._id))[0];
-  player.takenBy = takenBy ? takenBy.user : null;
-  return player;
-};
-
 const appendUpcomingGames = (player, upcomingGames) => {
   player.upcomingGames = upcomingGames.map(day => {
     return day.filter(game => game.home === player.team || game.away === player.team)[0];
@@ -63,7 +57,7 @@ const appendImage = player => {
 }
 
 exports.dashboard = async (req, res) => {
-  const [activity, scores, upcomingGames, playersRaw] = await Promise.all([
+  const [activity, rawScores, upcomingGames, playersRaw] = await Promise.all([
     activityController.getActivity(req, res),
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7),
@@ -74,10 +68,14 @@ exports.dashboard = async (req, res) => {
     ? await rosterService.getDraft(req.league, req.user)
     : await rosterService.getRosters(req.league);
 
+  const scores = req.league.members.map(user => {
+    let matchedScore = rawScores.filter(score => score._id == user.id)[0];
+    return matchedScore || { _id: user.id, score: 0 };
+  });
+
   let players = playersRaw.map(player => {
     player = player.toObject ? player.toObject() : player;
     player = appendPlayerScore(player, req.league.pointValues);
-    player = appendTakenBy(player, rosters);
     player = appendUpcomingGames(player, upcomingGames);
     player = appendImage(player);
     return player;

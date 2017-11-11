@@ -21,7 +21,6 @@ socket.on('activity:create', item => {
   store.dispatch(addActivityItem(item));
 });
 socket.on('roster:create', roster => {
-  console.log(roster);
   store.dispatch(replaceRoster(roster));
 });
 socket.on('message', msg => console.log(msg));
