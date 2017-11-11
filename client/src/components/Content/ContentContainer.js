@@ -5,8 +5,7 @@ import Content from './Content';
 const mapStateToProps = (state) => ({ 
   league: state.league,
   user: state.user,
-  page: state.page,
-  rosters: state.rosters
+  page: state.page
 });
 
 const ContentContainer = connect(

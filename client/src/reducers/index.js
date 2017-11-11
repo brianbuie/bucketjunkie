@@ -4,13 +4,17 @@ import user from './user';
 import league from './league';
 import page from './page';
 import rosters from './rosters';
+import scores from './scores';
+import upcomingGames from './upcomingGames';
 
-const app = combineReducers({
+const reducers = combineReducers({
   activity,
   user,
   league,
   page,
-  rosters
+  rosters,
+  scores,
+  upcomingGames
 });
 
-export default app;
+export default reducers;

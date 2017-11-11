@@ -1,5 +1,9 @@
+const mongoose = require('mongoose');
 const activityController = require('./activityController');
 const rosterService = require('../services/rosterService');
+const nbaService = require('../services/nbaService');
+
+const Score = mongoose.model('Score');
 
 const render = (initialState) => {
   return `
@@ -26,15 +30,19 @@ const render = (initialState) => {
 };
 
 exports.dashboard = async (req, res) => {
-  const [activity, rosters] = await Promise.all([
+  const [activity, rosters, scores, upcomingGames] = await Promise.all([
     activityController.getActivity(req, res),
-    rosterService.getRosters(req.league)
+    rosterService.getRosters(req.league),
+    Score.getTotalScores(req.league._id),
+    nbaService.gamesForDays(7)
   ]);
   const initialState = {
     league: req.league,
     user: req.user,
     activity: { items: activity },
-    rosters
+    rosters,
+    upcomingGames,
+    scores
   };
   res
     .set('Content-Type', 'text/html')
