@@ -19,6 +19,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/brianbuie/nfa#readme",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "body-parser": "^1.18.1",
     "bootstrap": "^4.0.0-beta",
     "connect-flash": "^0.1.1",

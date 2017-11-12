@@ -15,13 +15,30 @@ export const replaceRoster = roster => ({
   roster
 });
 
-export const fetchPage = url => dispatch => {
-  return fetch(url, { credentials: 'include' })
-    .then(response => response.json())
-    .then(response => console.log(response));
+export const receivedResponse = (response, errorOnly = false) => ({
+  type: 'RECEIVED_RESPONSE',
+  response,
+  errorOnly
+});
+
+export const addPlayer = id => dispatch => {
+  dispatch({ type: 'LOADING' });
+  return sendRequest({ player: id }, '/roster/add-player')
+    .then(response => dispatch(receivedResponse(response)));
 };
 
-export const postActivityItem = (item, url) => dispatch => {
+export const removePlayer = id => dispatch => {
+  dispatch({ type: 'LOADING' });
+  return sendRequest({ player: id }, '/roster/remove-player')
+    .then(response => dispatch(receivedResponse(response)));
+};
+
+export const sendChat = message => dispatch => {
+  return sendRequest({ message }, '/api/activity/chat')
+    .then(response => dispatch(receivedResponse(response, true)));
+};
+
+export const sendRequest = (item, url) => {
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify(item),
@@ -31,9 +48,8 @@ export const postActivityItem = (item, url) => dispatch => {
     },
     credentials: 'include'
   })
-  .then(response => {
-    if (response.status != 200) {
-      throw Error(response);
-    }
-  })
+  .then(response => response.json().then(text => ({
+    json: text,
+    meta: response
+  })));
 };

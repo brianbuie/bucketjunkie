@@ -20,7 +20,7 @@ exports.chat = async (req, res) => {
     message: req.body.message
   });
   if (!action) throw new Error ('Error sending message, try again');
-  return res.sendStatus(200);
+  return req.greatJob();
 };
 
 exports.getActivity = async (req, res) => {
@@ -68,7 +68,7 @@ exports.getActivity = async (req, res) => {
       if (dateDiff == 0) return b.key - a.key;
       return dateDiff;
     })
-    .splice(0, 50)
+    .splice(0, 200)
     .reverse()
   return activity;
 };

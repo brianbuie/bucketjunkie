@@ -1,25 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postActivityItem } from '../../actions';
+import { addPlayer, removePlayer } from '../../actions';
 
 const PlayerButton = ({ player, user, rosters, dispatch }) => {
 
-  const addPlayer = e => {
+  const clickAddPlayer = e => {
     e.preventDefault();
-    dispatch(postActivityItem({ player: player._id }, '/roster/add-player'));
+    dispatch(addPlayer(player._id));
   };
   const addButton = () => (
-    <a className="success" href="" onClick={addPlayer}>
+    <a className="success" href="" onClick={clickAddPlayer}>
       <i className="fa fa-plus-circle text-success"></i>
     </a>
   );
 
-  const removePlayer = e => {
+  const clickRemovePlayer = e => {
     e.preventDefault();
-    dispatch(postActivityItem({ player: player._id }, '/roster/remove-player'));
+    dispatch(removePlayer(player._id));
   };
   const removeButton = () => (
-    <a className="danger" href="" onClick={removePlayer}>
+    <a className="danger" href="" onClick={clickRemovePlayer}>
       <i className="fa fa-minus-circle text-danger"></i>
     </a>
   );

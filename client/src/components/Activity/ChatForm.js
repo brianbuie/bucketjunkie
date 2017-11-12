@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { postActivityItem } from '../../actions';
+import { sendChat } from '../../actions';
 
 const ChatForm = ({ dispatch }) => {
   let input;
@@ -8,7 +8,7 @@ const ChatForm = ({ dispatch }) => {
     <form onSubmit={e => {
       e.preventDefault();
       if (!input.value.trim()) return;
-      dispatch(postActivityItem({ message: input.value }, '/api/activity/chat'));
+      dispatch(sendChat(input.value));
       input.value = '';
     }}>
       <div className="form-group my-0 pr-0">

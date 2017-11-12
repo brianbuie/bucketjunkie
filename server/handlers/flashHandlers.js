@@ -4,7 +4,10 @@
   redirects to given location or back by default
 */
 exports.oops = (req, res, next) => {
-  req.oops = (msg = 'Something went wrong.', loc = 'back') => {
+  req.oops = (message = 'Something went wrong.', loc = 'back') => {
+    if (req.headers.accept === 'application/json') {
+      return res.status(500).json({ message });
+    }
     req.flash('error', msg);
     res.redirect(loc);
   }
@@ -17,8 +20,11 @@ exports.oops = (req, res, next) => {
   redirects to given location or back by default
 */
 exports.greatJob = (req, res, next) => {
-  req.greatJob = (msg = 'Success!', loc = 'back') => {
-    req.flash('success', msg);
+  req.greatJob = (message = 'Success!', loc = 'back') => {
+    if (req.headers.accept === 'application/json') {
+      return res.status(200).json({ message });
+    }
+    req.flash('success', message);
     res.redirect(loc);
   }
   next();
