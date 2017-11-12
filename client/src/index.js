@@ -8,9 +8,9 @@ import App from './components/App';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import reducer from './reducers';
+import reducers from './reducers.js';
 const initialState = window.__INITIAL_STATE__;
-const store = createStore(reducer, initialState, applyMiddleware(thunkMiddleware));
+const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
 
 import { SocketProvider } from 'socket.io-react';
 import io from 'socket.io-client';
