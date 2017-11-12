@@ -7,8 +7,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const ContentContainer = connect(
+export default connect(
   mapStateToProps,
 )(Content);
-
-export default ContentContainer;

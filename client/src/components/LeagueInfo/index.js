@@ -7,8 +7,6 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const LeagueInfoContainer = connect(
+export default connect(
   mapStateToProps,
 )(LeagueInfo);
-
-export default LeagueInfoContainer;

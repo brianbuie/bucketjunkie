@@ -1,13 +1,27 @@
 import { connect } from 'react-redux';
 import Player from './Player';
+import { addPlayer, removePlayer } from '../../actions';
 
-const mapStateToProps = (state, ownProps) => {
-  const player = state.players.filter(player => player._id === ownProps.id)[0];
-  return ({ player });
-}
+const getAvailableAction = (state, id) => {
+  let roster = state.rosters.filter(roster => roster.players.some(p => p._id === id))[0];
+  if (!roster) return 'ADD';
+  if (roster.user._id === state.user._id) return 'REMOVE';
+  return 'NONE';
+};
+
+const mapStateToProps = (state, ownProps) => ({
+  ...state.players.filter(player => player._id === ownProps.id)[0],
+  availableAction: getAvailableAction(state, ownProps.id)
+});
+
+const mapDispatchToProps = dispatch => ({
+  addPlayer: id => dispatch(addPlayer(id)),
+  removePlayer: id => dispatch(removePlayer(id))
+});
 
 const PlayerContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Player);
 
 export default PlayerContainer;

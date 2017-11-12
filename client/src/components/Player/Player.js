@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
-import TeamIcon from '../Team/TeamIcon';
-import PlayerButton from './PlayerButton';
 import moment from 'moment';
+import { Row, Col } from 'reactstrap';
+import { A } from '../Utilities';
+import TeamIcon from '../Team/TeamIcon';
 
 const PlayerImage = ({ path }) => {
   return (
@@ -13,17 +13,36 @@ const PlayerImage = ({ path }) => {
   );
 };
 
-const Player = ({ player }) => {
-  const upcomingDays = player.upcomingGames.map((g, i) => moment().add(i, 'days'));
+const PlayerButton = ({ id, availableAction, addPlayer, removePlayer }) => {
+  switch (availableAction) {
+    case 'ADD':
+      return (
+        <A click={() => addPlayer(id)}>
+          <i className="fa fa-plus-circle text-success"></i>
+        </A>
+      );
+    case 'REMOVE':
+      return (
+        <A click={() => removePlayer(id)}>
+          <i className="fa fa-minus-circle text-danger"></i>
+        </A>
+      );
+    default:
+      return <i className="fa fa-circle-o invisible"></i>
+  }
+};
+
+const Player = props => {
+  const upcomingDays = props.upcomingGames.map((g, i) => moment().add(i, 'days'));
   return (
     <div className="striped d-flex flex-row align-items-center px-3">
       <Row className="no-gutters py-3 flex-grow">
         <Col xs="2" className="d-flex flex-column justify-content-center">
-          <PlayerImage path={player.image} />
+          <PlayerImage path={props.image} />
         </Col>
         <Col xs="8" className="px-2">
           <h4 className="mb-2 font-weight-normal text-truncate">
-            {player.name}
+            {props.name}
           </h4>
           <table style={{width: '100%'}}>
             <tbody>
@@ -35,10 +54,10 @@ const Player = ({ player }) => {
                 ))}
               </tr>
               <tr>
-                {player.upcomingGames.map((game, key) => (
+                {props.upcomingGames.map((game, key) => (
                   <td className="one-seventh text-center text-sm" key={key}>
                     {game
-                      ? game.home === player.team 
+                      ? game.home === props.team 
                         ? <TeamIcon id={game.away} />
                         : <TeamIcon id={game.home} />
                       : ''
@@ -51,12 +70,12 @@ const Player = ({ player }) => {
         </Col>
         <Col xs="2" className="d-flex flex-column justify-content-center text-center">
           <h1 className="faded-1 m-0">
-            {Math.round(player.score)}
+            {Math.round(props.score)}
           </h1>
           <p className="faded-2 m-0">AVG</p>
         </Col>
       </Row>
-      <PlayerButton player={player} />
+      <PlayerButton {...props} />
     </div>
   );
 }

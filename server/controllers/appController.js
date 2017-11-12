@@ -57,11 +57,12 @@ const appendImage = player => {
 }
 
 exports.dashboard = async (req, res) => {
-  const [activity, rawScores, upcomingGames, playersRaw] = await Promise.all([
+  const [activity, rawScores, upcomingGames, playersRaw, teams] = await Promise.all([
     activityController.getActivity(req, res),
     Score.getTotalScores(req.league._id),
     nbaService.gamesForDays(7),
-    nbaService.players()
+    nbaService.players(),
+    nbaService.teams()
   ]);
 
   const rosters = req.league.drafting
@@ -89,7 +90,8 @@ exports.dashboard = async (req, res) => {
     activity: { items: activity },
     rosters,
     scores,
-    players
+    players,
+    teams
   };
 
   res.set('Content-Type', 'text/html').status(200).end(render(initialState));

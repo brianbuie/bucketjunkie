@@ -1,6 +1,5 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 
-@import "./partials/activityFeed";
 @import "./utilities";
 
 html {
@@ -41,18 +40,6 @@ html {
 
 .show-winning .member__card:nth-child(1) .member__overview {
   background-color: $brand-gold;
-}
-
-.team__filter {
-  max-width: 8%;
-  &.active,
-  &:hover {
-    background-color: darken($light-gray, 10);
-  }
-}
-
-.content__container {
-  max-width: 600px;
 }
 
 #flashes {
