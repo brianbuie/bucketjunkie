@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Content from './Content';
+import Dashboard from './Dashboard';
 
 const mapStateToProps = (state) => ({ 
   league: state.league,
-  user: state.user,
 });
 
 export default connect(
   mapStateToProps,
-)(Content);
+)(Dashboard);

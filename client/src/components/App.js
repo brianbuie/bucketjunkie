@@ -1,24 +1,28 @@
 import React from 'react';
-import Activity from './Activity';
-import Content from './Content';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Loading from './Loading';
 import Menu from './Menu';
 import Toast from './Toast/Toast';
+import Dashboard from './Dashboard';
+import RostersContainer from './Rosters/RostersContainer';
+import LeagueInfo from './LeagueInfo';
+import AllPlayers from './Player/AllPlayers';
+import routes from '../routes';
 
 const App = () => (
-  <div className="full-height d-flex flex-column">
-    <Loading />
-    <Menu />
-    <Toast />
-    <div className="row no-gutters height-100">
-      <div className="col px-3 scroll-y">
-        <Content />
-      </div>
-      <div className="col height-100 d-flex flex-column justify-content-end activity__container">
-        <Activity />
-      </div>
+  <Router>
+    <div className="full-height d-flex flex-column">
+      <Loading />
+      <Menu />
+      <Toast />
+      <Dashboard>
+        <Route exact path={routes.rosters} component={RostersContainer} />
+        <Route path={routes.players} component={AllPlayers} />
+        <Route path={routes.leagueInfo} component={LeagueInfo} />
+        <Route path={routes.leagueEdit} component={RostersContainer} />
+      </Dashboard>
     </div>
-  </div>
+  </Router>
 );
 
 export default App;
