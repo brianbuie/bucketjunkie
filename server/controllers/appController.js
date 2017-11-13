@@ -86,6 +86,7 @@ exports.dashboard = async (req, res) => {
 
   const initialState = {
     league: req.league,
+    leagueAuth: req.leagueAuth,
     user: req.user,
     activity: { items: activity },
     rosters,

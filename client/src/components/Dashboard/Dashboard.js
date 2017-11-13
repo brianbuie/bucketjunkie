@@ -33,9 +33,12 @@ class Dashboard extends React.Component {
                 <Link to={routes.leagueInfo}>
                   <i className="fa fa-info-circle" />
                 </Link>
-                <Link to={routes.leagueEdit}>
-                  <i className="fa fa-pencil-square" />
-                </Link>
+                {this.props.leagueAuth.isModerator
+                  ? <Link to={routes.leagueEdit}>
+                      <i className="fa fa-pencil-square" />
+                    </Link>
+                  : ''
+                }
               </div>
             </div>
             {this.props.children}

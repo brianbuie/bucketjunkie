@@ -6,6 +6,7 @@ import Dashboard from './Dashboard';
 
 const mapStateToProps = (state) => ({ 
   leagueName: state.league.name,
+  leagueAuth: state.leagueAuth,
 });
 
 const mapDispatchToProps = dispatch => ({
