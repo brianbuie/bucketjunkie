@@ -24,8 +24,6 @@ const activity = combineReducers({
 
 const league = (state = null, action) => state;
 
-const leagueAuth = (state = null, action) => state;
-
 const loading = (state = false, action) => {
   switch (action.type) {
     case 'LOADING':
@@ -73,7 +71,6 @@ const user = (state = null, action) => state;
 const reducers = combineReducers({
   activity,
   league,
-  leagueAuth,
   loading,
   players,
   rosters,
