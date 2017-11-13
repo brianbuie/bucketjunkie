@@ -3,6 +3,7 @@ const routes = {
   leagueEdit: '/dash/edit',
   players: '/dash/players',
   rosters: '/dash/',
+  account: '/account',
 };
 
 export default routes;

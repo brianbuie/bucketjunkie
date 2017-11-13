@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { addActivityItem, replaceRoster } from '../../actions';
 import Dashboard from './Dashboard';
 
@@ -12,7 +13,7 @@ const mapDispatchToProps = dispatch => ({
   replaceRoster: roster => dispatch(replaceRoster(roster)),
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dashboard);
+)(Dashboard));
