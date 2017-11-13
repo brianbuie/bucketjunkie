@@ -22,7 +22,7 @@ require('./models/Team');
 require('./models/Game');
 require('./models/Roster')(io);
 require('./models/Draft');
-require('./models/League');
+require('./models/League')(io);
 require('./models/Score');
 require('./models/Box');
 

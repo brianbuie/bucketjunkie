@@ -1,6 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
+import { isModerator } from '../../helpers';
 import Activity from '../Activity';
 import routes from '../../routes';
 import './Dashboard.scss';
@@ -11,6 +12,7 @@ class Dashboard extends React.Component {
     this.io = io.connect();
     this.io.on('roster:create', roster => this.props.replaceRoster(roster));
     this.io.on('activity:create', item => this.props.addActivityItem(item));
+    this.io.on('league:update', league => this.props.replaceLeague(league));
     this.io.on('message', message => console.log(message));
   }
 
@@ -21,7 +23,7 @@ class Dashboard extends React.Component {
           <div className="mx-auto Dashboard__Content">
             <div className="d-flex py-3">
               <h4 className="my-0 mr-3">
-                {this.props.leagueName}
+                {this.props.league.name}
               </h4>
               <div className="flex-grow d-flex px-3 justify-content-between align-items-center">
                 <Link to={routes.rosters}>
@@ -33,12 +35,11 @@ class Dashboard extends React.Component {
                 <Link to={routes.leagueInfo}>
                   <i className="fa fa-info-circle" />
                 </Link>
-                {this.props.leagueAuth.isModerator
-                  ? <Link to={routes.leagueEdit}>
-                      <i className="fa fa-pencil-square" />
-                    </Link>
-                  : ''
-                }
+                {isModerator(this.props.league, this.props.user) ? (
+                  <Link to={routes.leagueEdit}>
+                    <i className="fa fa-pencil-square" />
+                  </Link>
+                ) : ''}
               </div>
             </div>
             {this.props.children}

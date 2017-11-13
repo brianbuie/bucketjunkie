@@ -22,7 +22,14 @@ const activity = combineReducers({
   },
 });
 
-const league = (state = null, action) => state;
+const league = (state = null, action) => {
+  switch (action.type) {
+    case 'REPLACE_LEAGUE':
+      return action.league;
+    default:
+      return state;
+  }
+};
 
 const loading = (state = false, action) => {
   switch (action.type) {

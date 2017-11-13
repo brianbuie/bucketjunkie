@@ -18,7 +18,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  dismissToast: () => dispatch({ type: 'DISMISSED_TOAST' }),
+  dismissToast: () => {
+    console.log('dismiss called');
+    dispatch({ type: 'DISMISSED_TOAST' })
+  }
 });
 
 export default connect(

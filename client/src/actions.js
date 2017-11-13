@@ -15,6 +15,11 @@ export const replaceRoster = roster => ({
   roster
 });
 
+export const replaceLeague = league => ({
+  type: 'REPLACE_LEAGUE',
+  league
+});
+
 export const receivedResponse = (response, errorOnly = false) => ({
   type: 'RECEIVED_RESPONSE',
   response,
