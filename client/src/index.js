@@ -3,35 +3,19 @@ import './sass/style.scss';
 
 import React from 'react'; 
 import ReactDOM from 'react-dom';
-import App from './components/App';
-
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import App from './components/App';
 import reducers from './reducers.js';
+
 const initialState = window.__INITIAL_STATE__;
 const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
-
-import { SocketProvider } from 'socket.io-react';
-import io from 'socket.io-client';
-const socket = io.connect();
-
-import { addActivityItem, replaceRoster } from './actions';
-socket.on('activity:create', item => {
-  store.dispatch(addActivityItem(item));
-});
-socket.on('roster:create', roster => {
-  store.dispatch(replaceRoster(roster));
-});
-socket.on('message', msg => console.log(msg));
-
 console.log(store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
-    <SocketProvider socket={socket}>
-      <App />
-    </SocketProvider>
+    <App />
   </Provider>,
   document.getElementById('app')
 );
