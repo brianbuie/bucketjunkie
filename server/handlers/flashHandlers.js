@@ -8,7 +8,7 @@ exports.oops = (req, res, next) => {
     if (req.headers.accept === 'application/json') {
       return res.status(500).json({ message });
     }
-    req.flash('error', msg);
+    req.flash('error', message);
     res.redirect(loc);
   }
   next();

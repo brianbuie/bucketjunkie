@@ -3,7 +3,7 @@ import React from 'react';
 export const A = ({ click, className, children, active }) => (
   <a
     href=""
-    className={`${className ? className : ''} ${active ? 'active' : ''}`}
+    className={`${className || ''} ${active ? 'active' : ''}`}
     onClick={e => {
       e.preventDefault();
       click();
@@ -11,4 +11,10 @@ export const A = ({ click, className, children, active }) => (
   >
     {children}
   </a>
+);
+
+export const Container = ({ children }) => (
+  <div className="py-2">
+    {children}
+  </div>
 );
