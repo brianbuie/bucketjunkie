@@ -33,12 +33,13 @@ module.exports = function(io) {
     io,
     prefix: 'activity',
     namespace: '',
-    room: (doc) => [doc.league.id],
+    room: (doc) => doc.league.id || doc.league,
     events: {
       create: {
         populate: 'user'
       }
-    }
+    },
+    debug: true
   });
 
   return mongoose.model('Activity', activitySchema);

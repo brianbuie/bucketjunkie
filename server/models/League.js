@@ -84,12 +84,13 @@ module.exports = function(io) {
     io,
     prefix: 'league',
     namespace: '',
-    room: (doc) => [doc.id],
+    room: (doc) => doc.id,
     events: {
       update: {
         populate: 'creator members moderators blocked'
       }
-    }
+    },
+    debug: true
   });
 
   return mongoose.model('League', leagueSchema);

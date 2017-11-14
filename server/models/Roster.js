@@ -26,12 +26,13 @@ module.exports = function(io) {
     io,
     prefix: 'roster',
     namespace: '',
-    room: (doc) => [doc.league],
+    room: (doc) => doc.league.id,
     events: {
       create: {
         populate: 'user players'
       }
-    }
+    },
+    debug: true
   });
 
   return mongoose.model('Roster', rosterSchema);

@@ -5,8 +5,8 @@ const Activity = mongoose.model('Activity');
 exports.addActivity = async req => {
   const activityPromises = req.actions.map(action => {
     const actionToAdd = action;
-    actionToAdd.user = req.user._id;
-    actionToAdd.league =  req.league._id;
+    actionToAdd.user = req.user;
+    actionToAdd.league =  req.league;
     return (new Activity(actionToAdd)).save();
   });
   return await Promise.all(activityPromises);

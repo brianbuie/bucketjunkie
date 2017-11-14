@@ -14,15 +14,17 @@ exports.getRoster = async (league, user) => {
     .sort({ effective: -1 })
     .limit(1)
     .populate('user')
+    .populate('league')
     .populate('players');
-  return roster.length ? roster[0] : { league: league._id, user, players: [] };
+  return roster.length ? roster[0] : { league: league, user, players: [] };
 };
 
 exports.getDraft = async (league, user) => {
   const draft = await Draft.find({ league, user })
+    .populate('league')
     .populate('players')
     .populate('user');
-  return draft.length ? draft : [{ league: league._id, user, players: [] }];
+  return draft.length ? draft : [{ league: league, user, players: [] }];
 };
 
 exports.playerIsAvailable = (lists, player) => !lists.some(list => {
