@@ -30,7 +30,7 @@ class Roster extends React.Component {
           </div>
         </a>
         <Collapse isOpen={this.state.collapseOpen}>
-          <PlayerList filter={{ type: 'LIST', list: this.props.players }} />
+          <PlayerList filter={{ type: 'LIST', list: this.props.players.sort(sortByScore) }} />
         </Collapse>
       </div>
     );

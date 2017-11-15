@@ -8,9 +8,9 @@ const filterPlayers = (players, filter = { type: 'SHOW_ALL' }) => {
     case 'LIST':
       return players.filter(p => filter.list.map(lp => lp._id || lp).includes(p._id));
     case 'TEAM':
-      return players.filter(p => p.team === filter.team);
+      return players.filter(p => p.team === filter.team).sort(sortByScore);
     case 'SHOW_ALL':
-      return players.filter((p, k) => k <= 50);
+      return players.sort(sortByScore).filter((p, k) => k <= 30);
   }
 }
 
@@ -20,7 +20,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const PlayerList = ({ players }) => (
   <div className="bg-light">
-    {players.sort(sortByScore).map(player => (
+    {players.map(player => (
       <PlayerContainer id={player._id} key={player._id}/>
     ))}
   </div>
