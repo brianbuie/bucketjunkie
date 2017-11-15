@@ -20,27 +20,54 @@ export const replaceLeague = league => ({
   league
 });
 
-export const receivedResponse = (response, errorOnly = false) => ({
-  type: 'RECEIVED_RESPONSE',
-  response,
-  errorOnly
+export const loading = () => ({ type: 'LOADING' });
+
+export const doneLoading = () => ({ type: 'DONE_LOADING' });
+
+export const showToast = (text, toastType, id) => ({
+  type: 'SHOW_TOAST',
+  text,
+  toastType,
+  id
 });
 
+export const hideToast = id => ({
+  type: 'HIDE_TOAST',
+  id
+});
+
+let nextToastId = 0;
+export const newToast = (text, toastType) => dispatch => {
+  let id = nextToastId++;
+  dispatch(showToast(text, toastType, id));
+  setTimeout(() => dispatch(hideToast(id)), 5000);
+}
+
 export const addPlayer = id => dispatch => {
-  dispatch({ type: 'LOADING' });
+  dispatch(loading());
   return sendRequest({ player: id }, '/roster/add-player')
-    .then(response => dispatch(receivedResponse(response)));
+    .then(response => {
+      dispatch(doneLoading());
+      let toastType = response.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(response.json.message, toastType));
+    });
 };
 
 export const removePlayer = id => dispatch => {
-  dispatch({ type: 'LOADING' });
+  dispatch(loading());
   return sendRequest({ player: id }, '/roster/remove-player')
-    .then(response => dispatch(receivedResponse(response)));
+    .then(response => {
+      dispatch(doneLoading());
+      let toastType = response.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(response.json.message, toastType));
+    });
 };
 
 export const sendChat = message => dispatch => {
   return sendRequest({ message }, '/api/activity/chat')
-    .then(response => dispatch(receivedResponse(response, true)));
+    .then(response => {
+      if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
+    });
 };
 
 export const sendRequest = (item, url) => {

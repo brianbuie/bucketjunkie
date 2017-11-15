@@ -35,7 +35,7 @@ const loading = (state = false, action) => {
   switch (action.type) {
     case 'LOADING':
       return true;
-    case 'RECEIVED_RESPONSE':
+    case 'DONE_LOADING':
       return false;
     default:
       return state;
@@ -60,14 +60,22 @@ const scores = (state = [], action) => state;
 
 const teams = (state = [], action) => state;
 
-const toast = (state = null, action) => {
+const toasts = (state = [], action) => {
   switch (action.type) {
-    case 'RECEIVED_RESPONSE':
-      if (action.response.meta.status >= 400) return action.response;
-      if (!action.errorOnly) return action.response;
-      return state;
-    case 'DISMISSED_TOAST':
-      return null;
+    case 'SHOW_TOAST':
+      return state.concat([{
+        id: action.id,
+        text: action.text,
+        toastType: action.toastType,
+        hidden: false
+      }]);
+    case 'HIDE_TOAST':
+      return state.map(toast => {
+        if (toast.id === action.id) {
+          toast.hidden = true;
+        }
+        return toast;
+      });
     default:
       return state;
   }
@@ -83,7 +91,7 @@ const reducers = combineReducers({
   rosters,
   scores,
   teams,
-  toast,
+  toasts,
   user,
 });
 
