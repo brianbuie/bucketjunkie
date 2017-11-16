@@ -1,9 +1,11 @@
 import React from 'react';
-import PlayerList from '../Player/PlayerList';
+import PlayerContainer from '../Player/PlayerContainer';
 
 const Draft = ({ draft }) => (
   <div className="bg-light mb-3">
-    <PlayerList filter={{ type: 'LIST', list: draft.players }} />
+    {draft.players.map(player => (
+      <PlayerContainer id={player._id} key={player._id} />
+    ))}
   </div>
 );
 
