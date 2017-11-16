@@ -24,7 +24,7 @@ exports.getDraft = async (league, user) => {
     .populate('league')
     .populate('players')
     .populate('user');
-  return draft.length ? draft : [{ league: league, user, players: [] }];
+  return draft.length ? draft[0] : new Draft({ league, user, players: [] });
 };
 
 exports.playerIsAvailable = (lists, player) => !lists.some(list => {

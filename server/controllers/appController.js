@@ -66,7 +66,7 @@ exports.dashboard = async (req, res) => {
   ]);
 
   const rosters = req.league.drafting
-    ? await rosterService.getDraft(req.league, req.user)
+    ? [await rosterService.getDraft(req.league, req.user)]
     : await rosterService.getRosters(req.league);
 
   const scores = req.league.members.map(user => {

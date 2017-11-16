@@ -21,7 +21,7 @@ require('./models/Player');
 require('./models/Team');
 require('./models/Game');
 require('./models/Roster')(io);
-require('./models/Draft');
+require('./models/Draft')(io);
 require('./models/League')(io);
 require('./models/Score');
 require('./models/Box');

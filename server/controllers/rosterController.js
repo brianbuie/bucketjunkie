@@ -7,12 +7,17 @@ const Roster = mongoose.model('Roster');
 const Draft = mongoose.model('Draft');
 
 const addToDraft = async (req, res) => {
-  let draft = await Draft.update({ user: req.user, league: req.league }, 
-    { $addToSet: { players: req.body.player } },
-    { upsert: true }
-  );
-  if (!draft.ok) return req.oops('Error adding player');
+  let draft = await rosterService.getDraft(req.league, req.user);
+  draft.players.addToSet(req.body.player);
+  await draft.save();
   return req.greatJob('Added player');
+};
+
+const removeFromDraft = async (req, res) => {
+  let draft = await rosterService.getDraft(req.league, req.user);
+  draft.players.pull(req.body.player);
+  await draft.save();
+  return req.greatJob('Removed Player');
 };
 
 exports.addPlayer = async (req, res) => {
@@ -25,14 +30,6 @@ exports.addPlayer = async (req, res) => {
     return req.oops(err.message);
   }
   return req.greatJob('Added Player');
-};
-
-const removeFromDraft = async (req, res) => {
-  let draft = await Draft.update({ user: req.user, league: req.league }, 
-    { $pull: { players: req.body.player } }
-  );
-  if (!draft.ok) return req.oops('Error removing player');
-  return req.greatJob('Removed Player');
 };
 
 exports.removePlayer = async (req, res) => {
