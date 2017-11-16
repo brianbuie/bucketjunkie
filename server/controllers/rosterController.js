@@ -44,11 +44,8 @@ exports.removePlayer = async (req, res) => {
 };
 
 exports.moveDraft = async (req, res) => {
-  if (!req.league.drafting) return req.oops('League has already drafted.');
-  if (!req.body.player) return req.oops('No player specified to move');
-  if (!req.body.delta) return req.oops('No direction specified');
-  const draft = await Draft.findOne({ user: req.user, league: req.league });
-  const playerIndex = draft.players.indexOf(req.body.player);
+  const draft = await rosterService.getDraft(req.league, req.user);
+  const playerIndex = draft.players.map(player => player._id).indexOf(req.body.player);
   draft.players.splice(playerIndex, 1);
   draft.players.splice(playerIndex + parseInt(req.body.delta), 0, req.body.player);
   await draft.save();

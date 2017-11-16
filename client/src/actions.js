@@ -43,9 +43,9 @@ export const newToast = (text, toastType) => dispatch => {
   setTimeout(() => dispatch(hideToast(id)), 5000);
 }
 
-export const addPlayer = id => dispatch => {
+export const addPlayer = player => dispatch => {
   dispatch(loading());
-  return sendRequest({ player: id }, '/roster/add-player')
+  return sendRequest({ player }, '/roster/add-player')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -53,13 +53,20 @@ export const addPlayer = id => dispatch => {
     });
 };
 
-export const removePlayer = id => dispatch => {
+export const removePlayer = player => dispatch => {
   dispatch(loading());
-  return sendRequest({ player: id }, '/roster/remove-player')
+  return sendRequest({ player }, '/roster/remove-player')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
       dispatch(newToast(response.json.message, toastType));
+    });
+};
+
+export const movePlayer = (player, delta) => dispatch => {
+  return sendRequest({ player, delta }, '/roster/move')
+    .then(response => {
+      if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
     });
 };
 
