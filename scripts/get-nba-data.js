@@ -17,9 +17,8 @@ const Player = require('../server/models/Player');
 const Game = require('../server/models/Game');
 const Box = require('../server/models/Box');
 const Score = require('../server/models/Score');
-const Activity = require('../server/models/Activity');
-const Roster = require('../server/models/Roster');
-const League = require('../server/models/League');
+const Roster = require('../server/models/Roster')();
+const League = require('../server/models/League')();
 
 const nbaService = require('../server/services/nbaService');
 const updateScores = require('../server/jobs/updateScores');

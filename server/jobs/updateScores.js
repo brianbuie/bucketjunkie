@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const nbaService = require('../services/nbaService');
-const activityService = require('../services/activityService');
 
 const Game = mongoose.model('Game');
 const Roster = mongoose.model('Roster');
@@ -33,7 +32,7 @@ exports.update = async () => {
   await Promise.all(unscoredGames.map(async game => {
     let start = Date.now();
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
-    if (!boxes.length || boxes[0].period !== "f") return;
+    if (!boxes || !boxes.length || boxes[0].period !== "f") return;
     shouldUpdateAverages = true;
     const savedBoxes = await Promise.all(boxes.map(box => (new Box(box)).save()));
     await Promise.all(leagues.map(async league => {

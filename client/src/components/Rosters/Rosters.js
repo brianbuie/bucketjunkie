@@ -19,8 +19,6 @@ const mapStateToProps = (state) => ({
   scores: state.scores
 });
 
-const RostersContainer = connect(
+export default connect(
   mapStateToProps,
 )(Rosters);
-
-export default Rosters;

@@ -10,8 +10,8 @@ import routes from '../../routes';
 import './Dashboard.scss';
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
     this.io = io.connect();
     this.io.on('roster:create', roster => this.props.replaceRoster(roster));
     this.io.on('activity:create', item => this.props.addActivityItem(item));
