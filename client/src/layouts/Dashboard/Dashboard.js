@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { addActivityItem, replaceRoster, replaceLeague } from '../../actions';
 import { isModerator } from '../../helpers';
-import Activity from '../../components/Activity';
+import Activity from '../../components/Activity/Activity';
 import routes from '../../routes';
 import './Dashboard.scss';
 

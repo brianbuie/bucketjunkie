@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Roster from './Roster';
 import { sortByScore } from '../../helpers';
 
-const RostersComponent = ({ rosters, scores }) => (
+const Rosters = ({ rosters, scores }) => (
   <div>
     {scores.sort(sortByScore).map(score => {
       const roster = rosters.filter(roster => roster.user._id === score._id)[0];
@@ -21,6 +21,6 @@ const mapStateToProps = (state) => ({
 
 const RostersContainer = connect(
   mapStateToProps,
-)(RostersComponent);
+)(Rosters);
 
-export default RostersContainer;
+export default Rosters;

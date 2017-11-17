@@ -12,8 +12,8 @@ import LeagueInfo from './pages/LeagueInfo/LeagueInfo';
 import AllPlayers from './pages/Players/AllPlayers';
 
 // Components
-import Loading from './components/Loading';
-import Menu from './components/Menu';
+import Loading from './components/Loading/Loading';
+import Menu from './components/Menu/Menu';
 import Toast from './components/Toast/Toast';
 
 const App = () => (
