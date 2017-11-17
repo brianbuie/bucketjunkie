@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import { Row, Col } from 'reactstrap';
 
-const LeagueInfo= ({ league, user }) => {
+const LeagueInfo = ({ league, user }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
@@ -44,4 +45,11 @@ const LeagueInfo= ({ league, user }) => {
   );
 };
 
-export default LeagueInfo;
+const mapStateToProps = (state) => ({ 
+  league: state.league,
+  user: state.user,
+});
+
+export default connect(
+  mapStateToProps,
+)(LeagueInfo);

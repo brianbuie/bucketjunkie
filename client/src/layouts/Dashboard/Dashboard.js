@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import io from 'socket.io-client';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { addActivityItem, replaceRoster, replaceLeague } from '../../actions';
 import { isModerator } from '../../helpers';
-import Activity from '../Activity';
+import Activity from '../../components/Activity';
 import routes from '../../routes';
 import './Dashboard.scss';
 
@@ -59,4 +62,18 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({ 
+  league: state.league,
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  addActivityItem: item => dispatch(addActivityItem(item)),
+  replaceRoster: roster => dispatch(replaceRoster(roster)),
+  replaceLeague: league => dispatch(replaceLeague(league)),
+});
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard));

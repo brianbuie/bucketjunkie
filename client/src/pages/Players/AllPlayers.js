@@ -1,6 +1,6 @@
 import React from 'react';
-import PlayerList from './PlayerList';
-import TeamFilters from '../Team/TeamFilters';
+import PlayerList from '../../components/Player/PlayerList';
+import TeamFilters from '../../components/Team/TeamFilters';
 
 class AllPlayers extends React.Component {
   constructor(props) {

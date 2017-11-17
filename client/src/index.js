@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import App from './App';
 import reducers from './reducers.js';
 
 const initialState = window.__INITIAL_STATE__;

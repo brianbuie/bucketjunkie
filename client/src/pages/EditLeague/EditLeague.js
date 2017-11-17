@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { Container } from '../Utilities';
+import { Container } from '../../components/Utilities';
 
 class EditLeague extends React.Component {
   constructor(props) {
@@ -119,4 +120,10 @@ class EditLeague extends React.Component {
   }
 }
 
-export default EditLeague;
+const mapStateToProps = (state) => ({ 
+  ...state.league,
+});
+
+export default connect(
+  mapStateToProps,
+)(EditLeague);
