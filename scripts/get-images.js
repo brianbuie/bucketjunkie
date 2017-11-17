@@ -23,6 +23,7 @@ async function getPlayerImages() {
     const r = request(foreign);
     r.on('response', response => {
       if(response.statusCode === 200) {
+        console.log(`Updating image for ${player.name}`);
         return r.pipe(fs.createWriteStream(local));
       }
       return console.log(`No image for ${player.name}`);
