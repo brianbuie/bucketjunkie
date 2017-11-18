@@ -1,15 +1,15 @@
 import React from 'react';
-import moment from 'moment';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import routes from '../../routes';
 import { A } from '../Utilities';
 import TeamIcon from '../Team/TeamIcon';
+import UpcomingGames from './UpcomingGames';
 
-const PlayerImage = ({ path }) => {
+const PlayerImage = ({ image }) => {
   return (
     <div className="rounded-circle player__picture"
-      style={{backgroundImage: `url("${path}")`}}
+      style={{backgroundImage: `url("${image}")`}}
     >
     </div>
   );
@@ -34,54 +34,44 @@ const PlayerButton = ({ id, availableAction, addPlayer, removePlayer }) => {
   }
 };
 
-const Player = props => {
-  const upcomingDays = props.upcomingGames.map((g, i) => moment().add(i, 'days'));
-  return (
-    <div className="striped d-flex flex-row align-items-center px-3">
-      <Row className="no-gutters py-3 flex-grow">
-        <Col xs="2" className="d-flex flex-column justify-content-center">
-          <PlayerImage path={props.image} />
-        </Col>
-        <Col xs="8" className="px-2">
-          <Link to={`${routes.players}/${props.id}`} className="link-discreet">
-            <h4 className="mb-2 font-weight-normal text-truncate">
-              {props.name}
-            </h4>
-          </Link>
-          <table style={{width: '100%'}}>
-            <tbody>
-              <tr>
-                {upcomingDays.map((day, key) => (
-                  <td className="one-seventh faded-2 text-center text-sm" key={key}>
-                    {day.format('ddd').toUpperCase()}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                {props.upcomingGames.map((game, key) => (
-                  <td className="one-seventh text-center text-sm" key={key}>
-                    {game
-                      ? game.home === props.team 
-                        ? <TeamIcon id={game.away} />
-                        : <TeamIcon id={game.home} />
-                      : ''
-                    }
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </Col>
-        <Col xs="2" className="d-flex flex-column justify-content-center text-center">
-          <h1 className="faded-1 m-0">
-            {Math.round(props.score)}
-          </h1>
-          <p className="faded-2 m-0">AVG</p>
-        </Col>
-      </Row>
-      <PlayerButton {...props} />
-    </div>
-  );
-}
+const Player = ({ 
+  id, 
+  name,
+  image, 
+  upcomingGames, 
+  team, 
+  score, 
+  availableAction, 
+  addPlayer, 
+  removePlayer,
+}) => (
+  <div className="striped d-flex flex-row align-items-center px-3">
+    <Row className="no-gutters py-3 flex-grow">
+      <Col xs="2" className="d-flex flex-column justify-content-center">
+        <PlayerImage image={image} />
+      </Col>
+      <Col xs="8" className="px-2">
+        <Link to={`${routes.players}/${id}`} className="link-discreet">
+          <h4 className="mb-2 font-weight-normal text-truncate">
+            {name}
+          </h4>
+        </Link>
+        <UpcomingGames upcomingGames={upcomingGames} team={team} />
+      </Col>
+      <Col xs="2" className="d-flex flex-column justify-content-center text-center">
+        <h1 className="faded-1 m-0">
+          {Math.round(score)}
+        </h1>
+        <p className="faded-2 m-0">AVG</p>
+      </Col>
+    </Row>
+    <PlayerButton 
+      id={id}
+      availableAction={availableAction}
+      addPlayer={addPlayer}
+      removePlayer={removePlayer}
+    />
+  </div>
+);
 
 export default Player;
