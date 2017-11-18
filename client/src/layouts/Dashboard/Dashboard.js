@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
                 <Link to={routes.rosters}>
                   <i className="fa fa-user-circle" />
                 </Link>
-                <Link to={routes.players}>
+                <Link to="/dash/teams/">
                   <i className="fa fa-user-plus" />
                 </Link>
                 <Link to={routes.leagueInfo}>

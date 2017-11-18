@@ -24,7 +24,8 @@ const App = () => (
       <Toast />
       <Dashboard>
         <Route exact path={routes.rosters} component={DashHome} />
-        <Route path={routes.players} component={AllPlayers} />
+        <Route exact path="/dash/teams/" component={AllPlayers} />
+        <Route path="/dash/teams/:team" component={AllPlayers} />
         <Route path={routes.leagueInfo} component={LeagueInfo} />
         <Route path={routes.leagueEdit} component={EditLeague} />
       </Dashboard>
