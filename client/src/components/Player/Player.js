@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import { Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import routes from '../../routes';
 import { A } from '../Utilities';
 import TeamIcon from '../Team/TeamIcon';
 
@@ -41,9 +43,11 @@ const Player = props => {
           <PlayerImage path={props.image} />
         </Col>
         <Col xs="8" className="px-2">
-          <h4 className="mb-2 font-weight-normal text-truncate">
-            {props.name}
-          </h4>
+          <Link to={`${routes.players}/${props.id}`} className="link-discreet">
+            <h4 className="mb-2 font-weight-normal text-truncate">
+              {props.name}
+            </h4>
+          </Link>
           <table style={{width: '100%'}}>
             <tbody>
               <tr>

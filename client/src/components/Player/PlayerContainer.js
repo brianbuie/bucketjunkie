@@ -10,7 +10,7 @@ const getAvailableAction = (state, id) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  ...state.players.filter(player => player._id === ownProps.id)[0],
+  ...state.players.filter(player => player._id == ownProps.id)[0],
   availableAction: getAvailableAction(state, ownProps.id)
 });
 
