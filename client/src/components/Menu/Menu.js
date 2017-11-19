@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { Navbar, NavbarBrand, Nav, NavItem, } from 'reactstrap';
+import routes from '../../routes';
 
 const Menu = ({ items }) => (
   <Navbar color="dark" className="justify-content-between">
@@ -10,9 +12,9 @@ const Menu = ({ items }) => (
     <Nav className="navbar-expand">
       {items.map((item, key) => (
         <NavItem key={key}>
-          <NavLink href={item.href}>
+          <Link to={item.to} className="nav-link">
             {item.text}
-          </NavLink>
+          </Link>
         </NavItem>
       ))}
     </Nav>
@@ -22,11 +24,12 @@ const Menu = ({ items }) => (
 const getMenuItems = user => (
   user
   ? [
-      { text: 'Account', href: "/account" },
-      { text: 'Logout', href: "/account/logout" }
+      { text: 'Dash', to: routes.rosters },
+      { text: 'Account', to: routes.account },
+      { text: 'Logout', to: routes.logout }
     ]
   : [
-      { text: 'Login', href: '/account/login' }
+      { text: 'Login', to: routes.login }
     ]
 );
 

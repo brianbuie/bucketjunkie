@@ -5,6 +5,11 @@ export const setActivityFilter = filter => ({
   filter
 });
 
+export const minimizeActivity = () => ({ type: 'MINIMIZE_ACTIVITY' });
+export const maximizeActivity = () => ({ type: 'MAXIMIZE_ACTIVITY' });
+export const dockActivity = () => ({ type: 'DOCK_ACTIVITY' });
+export const undockActivity = () => ({ type: 'UNDOCK_ACTIVITY'});
+
 export const addActivityItem = item => ({
   type: 'ADD_ACTIVITY_ITEM',
   item

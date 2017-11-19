@@ -20,6 +20,28 @@ const activity = combineReducers({
         return state;
     }
   },
+  docked: (state = true, action) => {
+    switch (action.type) {
+      case 'DOCK_ACTIVITY':
+        return true;
+      case 'UNDOCK_ACTIVITY':
+        return false;
+      default:
+        return state;
+    }
+  },
+  minimized: (state = false, action) => {
+    switch (action.type) {
+      case 'MINIMIZE_ACTIVITY':
+        return true;
+      case 'MAXIMIZE_ACTIVITY':
+        return false;
+      case 'DOCK_ACTIVITY':
+        return false;
+      default:
+        return state;
+    }
+  },
 });
 
 const league = (state = null, action) => {

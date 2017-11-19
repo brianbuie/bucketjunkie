@@ -5,6 +5,7 @@ import routes from '../../routes';
 import { A } from '../Utilities';
 import TeamIcon from '../Team/TeamIcon';
 import UpcomingGames from './UpcomingGames';
+import PlayerAverages from './PlayerAverages';
 
 const PlayerImage = ({ image }) => {
   return (
@@ -37,6 +38,7 @@ const PlayerButton = ({ id, availableAction, addPlayer, removePlayer }) => {
 const Player = ({ 
   id, 
   name,
+  averages,
   image, 
   upcomingGames, 
   team, 
@@ -44,6 +46,7 @@ const Player = ({
   availableAction, 
   addPlayer, 
   removePlayer,
+  showAverages,
 }) => (
   <div className="striped d-flex flex-row align-items-center px-3">
     <Row className="no-gutters py-3 flex-grow">
@@ -56,7 +59,10 @@ const Player = ({
             {name}
           </h4>
         </Link>
-        <UpcomingGames upcomingGames={upcomingGames} team={team} />
+        {showAverages
+          ? <PlayerAverages averages={averages} />
+          : <UpcomingGames upcomingGames={upcomingGames} team={team} />
+        }
       </Col>
       <Col xs="2" className="d-flex flex-column justify-content-center text-center">
         <h1 className="faded-1 m-0">

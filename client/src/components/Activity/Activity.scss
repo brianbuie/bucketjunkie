@@ -10,8 +10,18 @@
       background-color: $white;
     }
   }
+  &.docked {
+    height: 100%;
+    width: 500px;
+  }
+  &.undocked {
+    position: fixed;
+    bottom: 0;
+    right: $spacer-xl;
+    width: 400px;
+    height: 60vh;
+  }
   background-color: $white;
-  max-width: 500px;
 }
 
 .activity__item--rosters,

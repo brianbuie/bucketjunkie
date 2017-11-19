@@ -2,10 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { addActivityItem, replaceRoster, replaceLeague } from '../../actions';
 import { isModerator } from '../../helpers';
 import Activity from '../../components/Activity/Activity';
+// Pages
+import DashHome from '../../pages/DashHome/DashHome';
+import EditLeague from '../../pages/EditLeague/EditLeague';
+import LeagueInfo from '../../pages/LeagueInfo/LeagueInfo';
+import AllPlayers from '../../pages/Players/AllPlayers';
+import PlayerPage from '../../pages/Players/PlayerPage';
 import routes from '../../routes';
 import './Dashboard.scss';
 
@@ -51,12 +57,15 @@ class Dashboard extends React.Component {
                 ) : ''}
               </div>
             </div>
-            {this.props.children}
+            <Route exact path={routes.rosters} component={DashHome} />
+            <Route exact path={routes.teams} component={AllPlayers} />
+            <Route path={`${routes.teams}/:team`} component={AllPlayers} />
+            <Route path={`${routes.players}/:id`} component={PlayerPage} />
+            <Route path={routes.leagueInfo} component={LeagueInfo} />
+            <Route path={routes.leagueEdit} component={EditLeague} />
           </div>
         </div>
-        <div className="col height-100 d-flex flex-column justify-content-end activity__container">
-          <Activity />
-        </div>
+        <Activity />
       </div>
     );
   }

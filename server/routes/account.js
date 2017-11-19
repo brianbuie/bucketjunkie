@@ -1,11 +1,12 @@
 const express = require('express');
 const user = require('../controllers/userController');
+const app = require('../controllers/appController');
 const auth = require('../controllers/authController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', auth.isLoggedIn, user.account);
+router.get('/', auth.isLoggedIn, app.dashboard);
 router.post('/', user.uploadPhoto, catchErrors(user.resizePhoto), catchErrors(user.updateAccount));
 router.get('/forgot-password', user.forgotPasswordForm);
 router.post('/forgot-password', catchErrors(user.createResetToken));
