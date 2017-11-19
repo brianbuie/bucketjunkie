@@ -4,7 +4,7 @@ import routes from './routes';
 
 // Layouts
 import Dashboard from './layouts/Dashboard/Dashboard';
-
+import Account from './layouts/Account/Account';
 
 
 // Components
@@ -18,7 +18,8 @@ const App = () => (
       <Loading />
       <Menu />
       <Toast />
-      <Route path="/dash" component={Dashboard} />
+      <Route path={routes.rosters} component={Dashboard} />
+      <Route path={routes.account} component={Account} />
     </div>
   </Router>
 );

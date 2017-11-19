@@ -25,6 +25,22 @@ export const replaceLeague = league => ({
   league
 });
 
+export const replaceUser = user => ({
+  type: 'REPLACE_USER',
+  user
+});
+
+export const submitNewPhoto = formData => dispatch => {
+  dispatch(loading());
+  return sendRequest(formData, '/account')
+    .then(response => {
+      dispatch(doneLoading());
+      let toastType = response.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(response.json.message, toastType));
+      if (response.meta.ok) dispatch(replaceUser(response.json.user));
+    });
+}
+
 export const loading = () => ({ type: 'LOADING' });
 
 export const doneLoading = () => ({ type: 'DONE_LOADING' });

@@ -103,7 +103,14 @@ const toasts = (state = [], action) => {
   }
 };
 
-const user = (state = null, action) => state;
+const user = (state = null, action) => {
+  switch (action.type) {
+    case 'REPLACE_USER':
+      return action.user;
+    default:
+      return state;
+  }
+};
 
 const reducers = combineReducers({
   activity,

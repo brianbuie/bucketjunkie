@@ -17,8 +17,6 @@ const multerOptions = {
 
 const User = mongoose.model('User');
 
-exports.account = (req, res) => res.render('account/account', { title: 'Account', user: req.user });
-
 exports.createResetToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) return req.oops('No user found with that e-mail address');
@@ -98,16 +96,16 @@ exports.resizePhoto = async (req, res, next) => {
 };
 
 exports.updateAccount = async (req, res) => {
+  console.log(req.body);
   const updates = {
     photo: req.body.photo,
   };
-  await User.findOneAndUpdate(
+  let user = await User.findOneAndUpdate(
     { _id: req.user._id },
     { $set: updates },
     { new: true, runValidators: true, context: 'query' },
   );
-  req.flash('success', 'Updated profile');
-  return res.redirect('back');
+  return res.status(200).json({ message: 'Updated profile', user });
 };
 
 exports.updatePassword = async (req, res) => {
