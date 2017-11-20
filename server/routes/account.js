@@ -10,7 +10,7 @@ router.get('/', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(app.d
 router.post('/', user.uploadPhoto, catchErrors(user.resizePhoto), catchErrors(user.updateAccount));
 router.get('/forgot-password', user.forgotPasswordForm);
 router.post('/forgot-password', catchErrors(user.createResetToken));
-router.get('/login', user.loginForm);
+router.get('/login', catchErrors(app.dashboard));
 router.post('/login', user.login);
 router.get('/logout', user.logout);
 router.get('/register', user.registerForm);

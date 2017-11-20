@@ -39,7 +39,7 @@ export const submitNewPhoto = formData => dispatch => {
       dispatch(newToast(response.json.message, toastType));
       if (response.meta.ok) dispatch(replaceUser(response.json.user));
     });
-}
+};
 
 export const submitLeagueEdit = (data, id) => dispatch => {
   dispatch(loading());
@@ -50,7 +50,18 @@ export const submitLeagueEdit = (data, id) => dispatch => {
       let toastType = response.meta.ok ? 'success' : 'danger';
       dispatch(newToast(response.json.message, toastType));
     });
-}
+};
+
+export const submitLogin = data => dispatch => {
+  dispatch(loading());
+  return sendRequest(data, '/account/login')
+    .then(response => {
+      dispatch(doneLoading());
+      let toastType = response.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(response.json.message, toastType));
+      if (response.meta.ok) dispatch(replaceUser(response.json.user));
+    });
+};
 
 export const loading = () => ({ type: 'LOADING' });
 

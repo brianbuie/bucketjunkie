@@ -57,6 +57,9 @@ const appendImage = player => {
 }
 
 exports.dashboard = async (req, res) => {
+
+  if (!req.user) return res.set('Content-Type', 'text/html').status(200).end(render({}));
+
   const [activity, rawScores, upcomingGames, playersRaw, teams] = await Promise.all([
     activityController.getActivity(req, res),
     Score.getTotalScores(req.league._id),

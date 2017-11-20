@@ -30,16 +30,11 @@ exports.forgotPasswordForm = (req, res) => res.render('account/forgot-password',
 
 exports.login = function(req, res, next) {
   passport.authenticate('local', function(err, user, info){
-    const ref = req.query.ref ? `?ref=${req.query.ref}` : '/';
     if (err) return next(err);
-    if (!user) {
-      req.flash('error', 'Try again');
-      return res.redirect('/account/login' + ref);
-    }
+    if (!user) return req.oops('Try again');
     req.logIn(user, function(err) {
       if (err) return next(err);
-      req.flash('Logged In');
-      return res.redirect(req.query.ref || '/');
+      return res.status(200).json({ message: 'Logged In', user });
     });
   })(req, res, next);
 };
