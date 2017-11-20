@@ -7,14 +7,6 @@ const multer = require('multer');
 const jimp = require('jimp');
 const uuid = require('uuid');
 
-const multerOptions = {
-  storage: multer.memoryStorage(),
-  fileFilter(req, file, next) {
-    if (file.mimetype.startsWith('image/')) return next(null, true);
-    return next({ message: 'That filetype is not allowed' }, false);
-  },
-};
-
 const User = mongoose.model('User');
 
 exports.createResetToken = async (req, res) => {
@@ -85,6 +77,14 @@ exports.resetPasswordForm = async (req, res) => {
   return res.render('account/reset-password', { title: 'Reset your password' });
 };
 
+exports.uploadPhoto = multer({
+    storage: multer.memoryStorage(),
+    fileFilter(req, file, next) {
+      if (file.mimetype.startsWith('image/')) return next(null, true);
+      return next({ message: 'That filetype is not allowed' }, false);
+    },
+  }).single('photo');
+
 exports.resizePhoto = async (req, res, next) => {
   if (!req.file) return next();
   const extension = req.file.mimetype.split('/')[1];
@@ -96,7 +96,6 @@ exports.resizePhoto = async (req, res, next) => {
 };
 
 exports.updateAccount = async (req, res) => {
-  console.log(req.body);
   const updates = {
     photo: req.body.photo,
   };
@@ -126,8 +125,6 @@ exports.updatePassword = async (req, res) => {
   req.flash('success', 'Your password has been reset');
   return res.redirect('/');
 };
-
-exports.uploadPhoto = multer(multerOptions).single('photo');
 
 exports.validatePasswordReset = (req, res, next) => {
   if (req.body.password === req.body['confirm-password']) return next();

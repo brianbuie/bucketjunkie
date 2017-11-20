@@ -32,7 +32,7 @@ export const replaceUser = user => ({
 
 export const submitNewPhoto = formData => dispatch => {
   dispatch(loading());
-  return sendRequest(formData, '/account')
+  return sendFormData(formData, '/account')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -113,3 +113,18 @@ export const sendRequest = (item, url) => {
     meta: response
   })));
 };
+
+export const sendFormData = (formData, url) => {
+  return fetch(url, {
+    method: 'POST',
+    body: formData,
+    headers: { 
+      'Accept': 'application/json',
+    },
+    credentials: 'include'
+  })
+  .then(response => response.json().then(text => ({
+    json: text,
+    meta: response
+  })));
+}
