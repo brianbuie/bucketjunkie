@@ -64,15 +64,14 @@ exports.updateLeague = async (req, res) => {
   req.body.open = req.body.open || false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    errors.array().map(e => req.flash('error', e.msg));
-    return res.redirect('back');
+    return res.status(500).json({ message: 'Error!', errors: errors.array() });
   }
   if (!req.league.started) {
     req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
   }
   req.league.set(req.body);
   if (!req.league.isModified()) {
-    return req.greatJob('Nothing changed', `/lg/${req.league._id}`);
+    return req.greatJob('Nothing changed');
   }
   const rules = ['pointValues', 'rosterSize', 'uniqueRosters'];
   if (req.league.started && req.league.modifiedPaths().some(path => rules.includes(path))) {
@@ -90,10 +89,9 @@ exports.updateLeague = async (req, res) => {
       }
       return action; 
     });
-  await req.league.save(err => err ? req.oops('Error updating league', `/lg/${league._id}/edit`) : null);
+  await req.league.save(err => err ? req.oops('Error updating league') : null);
   await activityService.addActivity(req);
-  req.flash('success', 'Updated League');
-  return res.redirect(`/lg/${req.league._id}`);
+  return req.greatJob('Updated League');
 };
 
 exports.editLeagueForm = (req, res) => res.render('leagues/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });

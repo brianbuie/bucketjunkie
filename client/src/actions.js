@@ -41,6 +41,17 @@ export const submitNewPhoto = formData => dispatch => {
     });
 }
 
+export const submitLeagueEdit = (data, id) => dispatch => {
+  dispatch(loading());
+  return sendRequest(data, `/lg/${id}/edit`)
+    .then(response => {
+      console.log(response);
+      dispatch(doneLoading());
+      let toastType = response.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(response.json.message, toastType));
+    });
+}
+
 export const loading = () => ({ type: 'LOADING' });
 
 export const doneLoading = () => ({ type: 'DONE_LOADING' });
@@ -98,10 +109,10 @@ export const sendChat = message => dispatch => {
     });
 };
 
-export const sendRequest = (item, url) => {
+export const sendRequest = (data, url) => {
   return fetch(url, {
     method: 'POST',
-    body: JSON.stringify(item),
+    body: JSON.stringify(data),
     headers: { 
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -115,6 +126,9 @@ export const sendRequest = (item, url) => {
 };
 
 export const sendFormData = (formData, url) => {
+  for (var [key, value] of formData.entries()) { 
+    console.log(key, value);
+  }
   return fetch(url, {
     method: 'POST',
     body: formData,
