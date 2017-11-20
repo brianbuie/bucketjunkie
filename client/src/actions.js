@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import routes from './routes';
 
 export const setActivityFilter = filter => ({
   type: 'SET_ACTIVITY_FILTER',
@@ -23,11 +24,6 @@ export const replaceRoster = roster => ({
 export const replaceLeague = league => ({
   type: 'REPLACE_LEAGUE',
   league
-});
-
-export const replaceUser = user => ({
-  type: 'REPLACE_USER',
-  user
 });
 
 export const submitNewPhoto = formData => dispatch => {
@@ -59,9 +55,38 @@ export const submitLogin = data => dispatch => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
       dispatch(newToast(response.json.message, toastType));
-      if (response.meta.ok) dispatch(replaceUser(response.json.user));
+      if (response.meta.ok) dispatch(loginSuccess(response.json.user));
     });
 };
+
+export const loginSuccess = user => ({
+  type: 'LOGIN_SUCCESS',
+  user
+});
+
+export const submitLogout = () => dispatch => {
+  dispatch(loading());
+  return fetch(routes.logout, {
+    method: 'GET',
+    headers: { 
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+  .then(response => response.json().then(text => ({
+    json: text,
+    meta: response
+  })))
+  .then(response => {
+    dispatch(doneLoading());
+    let toastType = response.meta.ok ? 'success' : 'danger';
+    dispatch(newToast(response.json.message, toastType));
+    if (response.meta.ok) dispatch(logoutSuccess());
+  });
+}
+
+export const logoutSuccess = () => ({ type: 'LOGOUT_SUCCESS' });
 
 export const loading = () => ({ type: 'LOADING' });
 
