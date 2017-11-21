@@ -6,11 +6,11 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(app.dashboard));
+router.get('/', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(app.account));
 router.post('/', user.uploadPhoto, catchErrors(user.resizePhoto), catchErrors(user.updateAccount));
 router.get('/forgot-password', user.forgotPasswordForm);
 router.post('/forgot-password', catchErrors(user.createResetToken));
-router.get('/login', catchErrors(app.dashboard));
+router.get('/login', app.account);
 router.post('/login', user.login);
 router.get('/logout', user.logout);
 router.get('/register', user.registerForm);
