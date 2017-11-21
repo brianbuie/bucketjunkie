@@ -26,6 +26,29 @@ export const replaceLeague = league => ({
   league
 });
 
+export const loginSuccess = user => ({
+  type: 'LOGIN_SUCCESS',
+  user
+});
+
+export const logoutSuccess = () => ({ type: 'LOGOUT_SUCCESS' });
+
+export const loading = () => ({ type: 'LOADING' });
+
+export const doneLoading = () => ({ type: 'DONE_LOADING' });
+
+export const showToast = (text, toastType, id) => ({
+  type: 'SHOW_TOAST',
+  text,
+  toastType,
+  id
+});
+
+export const hideToast = id => ({
+  type: 'HIDE_TOAST',
+  id
+});
+
 export const submitNewPhoto = formData => dispatch => {
   dispatch(loading());
   return sendFormData(formData, '/account')
@@ -59,11 +82,6 @@ export const submitLogin = data => dispatch => {
     });
 };
 
-export const loginSuccess = user => ({
-  type: 'LOGIN_SUCCESS',
-  user
-});
-
 export const submitLogout = () => dispatch => {
   dispatch(loading());
   return fetch(routes.logout, {
@@ -85,24 +103,6 @@ export const submitLogout = () => dispatch => {
     if (response.meta.ok) dispatch(logoutSuccess());
   });
 }
-
-export const logoutSuccess = () => ({ type: 'LOGOUT_SUCCESS' });
-
-export const loading = () => ({ type: 'LOADING' });
-
-export const doneLoading = () => ({ type: 'DONE_LOADING' });
-
-export const showToast = (text, toastType, id) => ({
-  type: 'SHOW_TOAST',
-  text,
-  toastType,
-  id
-});
-
-export const hideToast = id => ({
-  type: 'HIDE_TOAST',
-  id
-});
 
 let nextToastId = 0;
 export const newToast = (text, toastType) => dispatch => {
