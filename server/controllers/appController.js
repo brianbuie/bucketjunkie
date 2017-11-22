@@ -5,8 +5,9 @@ const nbaService = require('../services/nbaService');
 const fs = require('fs');
 
 const Score = mongoose.model('Score');
+const League = mongoose.model('League');
 
-const render = (initialState) => {
+const render = (state) => {
   return `
     <!doctype html>
     <html>
@@ -22,7 +23,7 @@ const render = (initialState) => {
       <body>
         <div id="app"></div>
         <script>
-            window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+            window.__INITIAL_STATE__ = ${JSON.stringify(state)}
         </script>
         <script src="/dist/app.bundle.js" type="text/javascript"></script>
       </body>
@@ -58,44 +59,58 @@ const appendImage = player => {
 
 exports.dashboard = async (req, res) => {
 
-  const [activity, rawScores, upcomingGames, playersRaw, teams] = await Promise.all([
-    activityController.getActivity(req, res),
-    Score.getTotalScores(req.league._id),
-    nbaService.gamesForDays(7),
-    nbaService.players(),
-    nbaService.teams()
-  ]);
+  let state = {};
+  let openLeaguesQ = { public: true, open: true };
 
-  const rosters = req.league.drafting
-    ? [await rosterService.getDraft(req.league, req.user)]
-    : await rosterService.getRosters(req.league);
+  if (req.user) {
+    state.myLeagues = await League.find({ members: req.user });
+    state.user = req.user;
+    openLeaguesQ.members = { $ne: req.user._id };
+    openLeaguesQ.blocked = { $ne: req.user._id };
+  }
 
-  const scores = req.league.members.map(user => {
-    let matchedScore = rawScores.filter(score => score._id == user.id)[0];
-    return matchedScore || { _id: user.id, score: 0 };
-  });
+  state.openLeagues = await League.find(openLeaguesQ).limit(10);
 
-  let players = playersRaw.map(player => {
-    player = player.toObject ? player.toObject() : player;
-    player = appendPlayerScore(player, req.league.pointValues);
-    player = appendUpcomingGames(player, upcomingGames);
-    player = appendImage(player);
-    return player;
-  });
+  if (req.league) {
+    state.league = req.league;
 
-  players.sort(sortByScore);
+    const [activity, rawScores, upcomingGames, playersRaw, teams] = await Promise.all([
+      activityController.getActivity(req, res),
+      Score.getTotalScores(req.league._id),
+      nbaService.gamesForDays(7),
+      nbaService.players(),
+      nbaService.teams()
+    ]);
 
-  const initialState = {
-    league: req.league,
-    user: req.user,
-    activity: { items: activity },
-    rosters,
-    scores,
-    players,
-    teams
-  };
+    const rosters = req.league.drafting
+      ? [await rosterService.getDraft(req.league, req.user)]
+      : await rosterService.getRosters(req.league);
 
-  res.set('Content-Type', 'text/html').status(200).end(render(initialState));
+    const scores = req.league.members.map(user => {
+      let matchedScore = rawScores.filter(score => score._id == user.id)[0];
+      return matchedScore || { _id: user.id, score: 0 };
+    });
+
+    let players = playersRaw.map(player => {
+      player = player.toObject ? player.toObject() : player;
+      player = appendPlayerScore(player, req.league.pointValues);
+      player = appendUpcomingGames(player, upcomingGames);
+      player = appendImage(player);
+      return player;
+    });
+
+    players.sort(sortByScore);
+
+    state.activity = { items: activity };
+    state.rosters = rosters;
+    state.scores = scores;
+    state.players = players;
+    state.teams = teams;
+  }
+
+  if (req.headers.accept === 'application/json') {
+    return res.status(200).json({ state });
+  }
+
+  return res.set('Content-Type', 'text/html').status(200).end(render(state));
 };
-
-exports.account = (req, res) => res.set('Content-Type', 'text/html').status(200).end(render({ user: req.user }));

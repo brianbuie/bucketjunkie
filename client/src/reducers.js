@@ -57,6 +57,10 @@ const league = (state = null, action) => {
   }
 };
 
+const myLeagues = (state = [], action) => state;
+
+const openLeagues = (state = [], action) => state;
+
 const loading = (state = false, action) => {
   switch (action.type) {
     case 'LOADING':
@@ -123,6 +127,8 @@ const user = (state = null, action) => {
 const reducers = combineReducers({
   activity,
   league,
+  myLeagues,
+  openLeagues,
   loading,
   players,
   rosters,
