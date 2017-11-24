@@ -5,7 +5,6 @@ const routes = {
   teams: '/dash/teams',
   rosters: '/dash/',
   account: '/account',
-  logout: '/account/logout',
   login: '/account/login',
   register: '/account/register'
 };

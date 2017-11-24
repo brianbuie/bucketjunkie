@@ -119,6 +119,8 @@ const user = (state = null, action) => {
       return action.user;
     case 'LOGOUT_SUCCESS':
       return null;
+    case 'REPLACE_USER':
+      return action.user;
     default:
       return state;
   }

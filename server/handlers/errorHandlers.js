@@ -10,6 +10,7 @@ exports.catchErrors = fn => function (req, res, next) { // eslint-disable-line
   return fn(req, res, next).catch(next);
 };
 
+
 /*
   Not Found Error Handler
   If we hit a route that is not found, we mark it as 404 and pass it along
@@ -21,11 +22,11 @@ exports.notFound = (req, res, next) => {
   next(err);
 };
 
+
 /*
   MongoDB Validation Error Handler
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
-
 exports.flashValidationErrors = (err, req, res, next) => {
   if (!err.errors) return next(err);
   // validation errors look like
@@ -48,13 +49,7 @@ exports.developmentErrors = (err, req, res, next) => {
     stackHighlighted: stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>'),
   };
   res.status(err.status || 500);
-  res.format({
-    // Based on the `Accept` http header
-    'text/html': () => {
-      res.render('error', errorDetails);
-    }, // Form Submit, Reload the page
-    'application/json': () => res.json(errorDetails), // Ajax call, send JSON back
-  });
+  res.json(errorDetails);
   return next();
 };
 
@@ -65,9 +60,6 @@ exports.developmentErrors = (err, req, res, next) => {
 */
 exports.productionErrors = (err, req, res, next) => {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {},
-  });
+  res.json({ message: err.message });
   return next();
 };

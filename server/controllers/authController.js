@@ -26,7 +26,7 @@ const setPermissions = (league, user = null) => {
 };
 
 exports.useParam = async (req, res, next) => {
-  if (!req.params.id) return req.oops('Please specify a league');
+  if (!req.params.id) return res.oops('Please specify a league');
   req.league = await getLeague(req.params.id);
   req.leagueAuth = setPermissions(req.league, req.user);
   res.locals.leagueAuth = req.leagueAuth;
@@ -35,7 +35,7 @@ exports.useParam = async (req, res, next) => {
 };
 
 exports.useSession = async (req, res, next) => {
-  if (!req.session.league) return req.oops('Please specify a league');
+  if (!req.session.league) return res.oops('Please specify a league');
   req.league = await getLeague(req.session.league._id);
   req.leagueAuth = setPermissions(req.league, req.user);
   res.locals.leagueAuth = req.leagueAuth;
@@ -54,25 +54,25 @@ exports.optionalSession = async(req, res, next) => {
 
 exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) return next();
-  req.oops('You must be logged in to do that.', `/account/login?ref=${req.originalUrl}`);
+  res.oops('You must be logged in to do that.');
 };
 
 exports.isMember = (req, res, next) => {
   if (req.leagueAuth.isMember) return next();
-  req.oops('You must be a member to do that.');
+  res.oops('You must be a member to do that.');
 };
 
 exports.isModerator = (req, res, next) => {
   if (req.leagueAuth.isModerator) return next();
-  req.oops('You must be a moderator to do that');
+  res.oops('You must be a moderator to do that');
 };
 
 exports.isCreator = (req, res, next) => {
   if (req.leagueAuth.isCreator) return next();
-  req.oops('You must be the league creator to do that');
+  res.oops('You must be the league creator to do that');
 };
 
 exports.notCreator = (req, res, next) => {
   if (!req.leagueAuth.isCreator) return next();
-  req.oops('League creators can\'t do that!');
+  res.oops('League creators can\'t do that!');
 };

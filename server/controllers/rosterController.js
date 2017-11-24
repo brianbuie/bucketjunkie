@@ -10,37 +10,37 @@ const addToDraft = async (req, res) => {
   let draft = await rosterService.getDraft(req.league, req.user);
   draft.players.addToSet(req.body.player);
   await draft.save();
-  return req.greatJob('Added player');
+  return res.greatJob('Added player');
 };
 
 const removeFromDraft = async (req, res) => {
   let draft = await rosterService.getDraft(req.league, req.user);
   draft.players.pull(req.body.player);
   await draft.save();
-  return req.greatJob('Removed Player');
+  return res.greatJob('Removed Player');
 };
 
 exports.addPlayer = async (req, res) => {
-  if (!req.body.player) return req.oops('No player specified');
+  if (!req.body.player) return res.oops('No player specified');
   if (req.league.drafting) return addToDraft(req, res);
   try {
     await rosterService.addToRoster(req.league, req.user, req.body.player);
   } catch(err) {
-    if (err.message === "Roster full") return req.oops('Roster full, drop a player and try again');
-    return req.oops(err.message);
+    if (err.message === "Roster full") return res.oops('Roster full, drop a player and try again');
+    return res.oops(err.message);
   }
-  return req.greatJob('Added Player');
+  return res.greatJob('Added Player');
 };
 
 exports.removePlayer = async (req, res) => {
-  if (!req.body.player) return req.oops('No player specified');
+  if (!req.body.player) return res.oops('No player specified');
   if (req.league.drafting) return removeFromDraft(req, res);
   try {
     await rosterService.removeFromRoster(req.league, req.user, req.body.player);
   } catch(err) {
-    return req.oops(err.message);
+    return res.oops(err.message);
   }
-  return req.greatJob('Removed player');
+  return res.greatJob('Removed player');
 };
 
 exports.moveDraft = async (req, res) => {
@@ -49,6 +49,6 @@ exports.moveDraft = async (req, res) => {
   draft.players.splice(playerIndex, 1);
   draft.players.splice(playerIndex + parseInt(req.body.delta), 0, req.body.player);
   await draft.save();
-  return req.greatJob('Player moved');
+  return res.greatJob('Player moved');
 };
 

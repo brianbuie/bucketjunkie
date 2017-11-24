@@ -56,7 +56,7 @@ exports.createLeague = async (req, res) => {
   req.league = league;
   req.actions = [{ category: 'league', message: `created league "${req.league.name}"` }];
   await activityService.addActivity(req);
-  return req.greatJob('League created', `/lg/${league._id}`);
+  return res.greatJob('League created');
 };
 
 exports.updateLeague = async (req, res) => {
@@ -71,7 +71,7 @@ exports.updateLeague = async (req, res) => {
   }
   req.league.set(req.body);
   if (!req.league.isModified()) {
-    return req.greatJob('Nothing changed');
+    return res.greatJob('Nothing changed');
   }
   const rules = ['pointValues', 'rosterSize', 'uniqueRosters'];
   if (req.league.started && req.league.modifiedPaths().some(path => rules.includes(path))) {
@@ -91,7 +91,7 @@ exports.updateLeague = async (req, res) => {
     });
   await req.league.save(err => err ? req.oops('Error updating league') : null);
   await activityService.addActivity(req);
-  return req.greatJob('Updated League');
+  return res.greatJob('Updated League');
 };
 
 exports.editLeagueForm = (req, res) => res.render('leagues/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });
@@ -222,7 +222,7 @@ exports.removeMember = async (req, res) => {
     activityService.addAction({ league: req.league, user: req.user, category: 'moderation', message: `banned ${await userService.getUsername(req.body.member)}` }),
     activityService.addAction({ league: req.league, user: req.body.member, category: 'league', message: `left` })
   ]);
-  return req.greatJob('Removed Member');
+  return res.greatJob('Removed Member');
 };
 
 exports.addModerator = async (req, res) => {

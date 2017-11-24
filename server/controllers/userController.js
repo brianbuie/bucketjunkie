@@ -11,7 +11,7 @@ const User = mongoose.model('User');
 
 exports.createResetToken = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return req.oops('No user found with that e-mail address');
+  if (!user) return res.oops('No user found with that e-mail address');
   user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
   user.resetPasswordExpires = Date.now() + 3600000;
   await user.save();
@@ -31,7 +31,7 @@ exports.forgotPasswordForm = (req, res) => res.render('account/forgot-password',
 exports.login = function(req, res, next) {
   passport.authenticate('local', function(err, user, info){
     if (err) return next(err);
-    if (!user) return req.oops('Try again');
+    if (!user) return res.oops('Try again');
     req.logIn(user, function(err) {
       if (err) return next(err);
       return res.status(200).json({ message: 'Logged In', user });
@@ -44,7 +44,7 @@ exports.loginForm = (req, res) => res.render('account/login', { title: 'Login', 
 exports.logout = (req, res) => {
   req.logout();
   req.session.league = undefined;
-  return req.greatJob('logged out');
+  return res.greatJob('Logged Out');
 };
 
 exports.register = async (req, res, next) => {

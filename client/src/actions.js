@@ -21,6 +21,11 @@ export const replaceRoster = roster => ({
   roster
 });
 
+export const replaceUser = user => ({
+  type: 'REPLACE_USER',
+  user
+});
+
 export const replaceLeague = league => ({
   type: 'REPLACE_LEAGUE',
   league
@@ -51,7 +56,7 @@ export const hideToast = id => ({
 
 export const submitNewPhoto = formData => dispatch => {
   dispatch(loading());
-  return sendFormData(formData, '/account')
+  return sendFormData(formData, '/api/account')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -62,7 +67,7 @@ export const submitNewPhoto = formData => dispatch => {
 
 export const submitLeagueEdit = (data, id) => dispatch => {
   dispatch(loading());
-  return sendRequest(data, `/lg/${id}/edit`)
+  return sendRequest(data, `/api/lg/${id}/edit`)
     .then(response => {
       console.log(response);
       dispatch(doneLoading());
@@ -73,7 +78,7 @@ export const submitLeagueEdit = (data, id) => dispatch => {
 
 export const submitLogin = data => dispatch => {
   dispatch(loading());
-  return sendRequest(data, '/account/login')
+  return sendRequest(data, '/api/account/login')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -84,7 +89,7 @@ export const submitLogin = data => dispatch => {
 
 export const submitLogout = () => dispatch => {
   dispatch(loading());
-  return fetch(routes.logout, {
+  return fetch('/api/account/logout', {
     method: 'GET',
     headers: { 
       'Accept': 'application/json',
@@ -113,7 +118,7 @@ export const newToast = (text, toastType) => dispatch => {
 
 export const addPlayer = player => dispatch => {
   dispatch(loading());
-  return sendRequest({ player }, '/roster/add-player')
+  return sendRequest({ player }, '/api/roster/add-player')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -123,7 +128,7 @@ export const addPlayer = player => dispatch => {
 
 export const removePlayer = player => dispatch => {
   dispatch(loading());
-  return sendRequest({ player }, '/roster/remove-player')
+  return sendRequest({ player }, '/api/roster/remove-player')
     .then(response => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
@@ -132,14 +137,14 @@ export const removePlayer = player => dispatch => {
 };
 
 export const movePlayer = (player, delta) => dispatch => {
-  return sendRequest({ player, delta }, '/roster/move')
+  return sendRequest({ player, delta }, '/api/roster/move')
     .then(response => {
       if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
     });
 };
 
 export const sendChat = message => dispatch => {
-  return sendRequest({ message }, '/api/activity/chat')
+  return sendRequest({ message }, '/api/chat')
     .then(response => {
       if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
     });

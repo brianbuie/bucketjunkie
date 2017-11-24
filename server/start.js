@@ -8,13 +8,11 @@ const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
-mongoose.connect(process.env.DATABASE, {
-  useMongoClient: true
-});
+mongoose.connect(process.env.DATABASE, { useMongoClient: true });
 mongoose.Promise = global.Promise;
-mongoose.connection.on('error', (err) => {
-  console.error(`🚫 → ${err.message}`);
-});
+mongoose.connection.on('error', err => console.error(`🚫 → ${err.message}`));
+
+// Models
 require('./models/User');
 require('./models/Activity')(io);
 require('./models/Player');
@@ -43,8 +41,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // Static files
-app.set('views', path.resolve(__dirname, '..', 'client/views'));
-app.set('view engine', 'pug');
 app.use(express.static(path.resolve(__dirname, '..', 'client/public')));
 
 // Webpack DevServer proxy
@@ -64,8 +60,10 @@ app.use(expressValidator());
 app.use(cookieParser());
 
 // Session handling
-const sessionStore = require('./handlers/sessionHandler');
-app.use(require('express-session')({
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const sessionStore = new MongoStore({ mongooseConnection: mongoose.connection });
+app.use(session({
   secret: process.env.SECRET,
   key: process.env.KEY,
   resave: false,
@@ -75,39 +73,43 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// flash handling
-app.use(require('connect-flash')());
-const flashHandlers = require('./handlers/flashHandlers');
-app.use(flashHandlers.oops);
-app.use(flashHandlers.greatJob);
-
-// locals for pug
-const helpers = require('./helpers');
-app.use((req, res, next) => {
-  res.locals.helpers = helpers;
-  res.locals.user = req.user;
-  res.locals.ref = req.query.ref ? `?ref=${req.query.ref}` : '/'
-  res.locals.flashes = req.flash();
-  res.locals.currentPath = req.path;
-  next();
-});
-
+// promisify Login
 const promisify = require('es6-promisify');
 app.use((req, res, next) => {
   req.login = promisify(req.login, req);
   next();
 });
 
-const routes = require('./routes/index');
-app.use('/', routes);
+const responseHandlers = require('./handlers/responseHandlers');
+app.use(responseHandlers.greatJob);
+app.use(responseHandlers.oops);
 
-const errorHandlers = require('./handlers/errorHandlers');
-app.use(errorHandlers.notFound);
-// app.use(errorHandlers.flashValidationErrors);
-if (app.get('env') === 'development') {
-  app.use(errorHandlers.developmentErrors);
-}
-app.use(errorHandlers.productionErrors);
+app.use('/api', require('./api'));
+app.use((req, res) => res.set('Content-Type', 'text/html').status(200).end(`
+  <!doctype html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie-edge">
+      <title>BucketJunkie</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700">
+      ${ process.env.NODE_ENV === 'production' ? '<link rel="stylesheet" href="/dist/app.css">' : ''}
+      <link rel="shortcut icon" type="image/png" href="/images/icons/favicon.ico">
+    </head>
+    <body>
+      <div id="app"></div>
+      <script>
+          window.__INITIAL_STATE__ = ${JSON.stringify({
+            user: req.user,
+            league: req.session.league
+          })}
+      </script>
+      <script src="/dist/app.bundle.js" type="text/javascript"></script>
+    </body>
+  </html>
+`));
+
 
 // io
 const passportSocketIo = require('passport.socketio');

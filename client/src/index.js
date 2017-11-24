@@ -13,13 +13,9 @@ const initialState = window.__INITIAL_STATE__;
 const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
 console.log(store.getState());
 
-const mount = document.getElementById('app');
-
-if (mount) {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    mount
-  );
-}
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+);
