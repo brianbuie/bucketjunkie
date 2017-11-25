@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { push } from 'react-router-redux';
 import routes from './routes';
 
 export const setActivityFilter = filter => ({
@@ -83,7 +84,10 @@ export const submitLogin = data => dispatch => {
       dispatch(doneLoading());
       let toastType = response.meta.ok ? 'success' : 'danger';
       dispatch(newToast(response.json.message, toastType));
-      if (response.meta.ok) dispatch(loginSuccess(response.json.user));
+      if (response.meta.ok) {
+        dispatch(loginSuccess(response.json.user));
+        dispatch(push(routes.account));
+      }
     });
 };
 
@@ -105,7 +109,10 @@ export const submitLogout = () => dispatch => {
     dispatch(doneLoading());
     let toastType = response.meta.ok ? 'success' : 'danger';
     dispatch(newToast(response.json.message, toastType));
-    if (response.meta.ok) dispatch(logoutSuccess());
+    if (response.meta.ok) {
+      dispatch(push(routes.login));
+      dispatch(logoutSuccess());
+    }
   });
 }
 
@@ -167,9 +174,9 @@ export const sendRequest = (data, url) => {
 };
 
 export const sendFormData = (formData, url) => {
-  for (var [key, value] of formData.entries()) { 
-    console.log(key, value);
-  }
+  // for (var [key, value] of formData.entries()) { 
+  //   console.log(key, value);
+  // }
   return fetch(url, {
     method: 'POST',
     body: formData,

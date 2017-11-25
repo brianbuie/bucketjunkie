@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer as router } from 'react-router-redux';
 
 const activity = combineReducers({
   filter: (state = 'SHOW_ALL', action) => {
@@ -134,6 +135,7 @@ const reducers = combineReducers({
   loading,
   players,
   rosters,
+  router,
   scores,
   teams,
   toasts,
