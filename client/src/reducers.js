@@ -58,7 +58,16 @@ const league = (state = null, action) => {
   }
 };
 
-const myLeagues = (state = [], action) => state;
+const myLeagues = (state = [], action) => {
+  switch (action.type) {
+    case 'REPLACE_MY_LEAGUES':
+      return action.leagues;
+    case 'LOGOUT_SUCCESS':
+      return [];
+    default:
+      return state;
+  }
+};
 
 const openLeagues = (state = [], action) => state;
 

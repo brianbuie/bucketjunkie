@@ -43,6 +43,11 @@ export const replaceLeague = league => ({
   league
 });
 
+export const replaceMyLeagues = leagues => ({
+  type: 'REPLACE_MY_LEAGUES',
+  leagues
+});
+
 export const loginSuccess = user => ({
   type: 'LOGIN_SUCCESS',
   user
@@ -108,6 +113,7 @@ export const submitLogin = data => dispatch => {
       dispatch(newToast(response.json.message, toastType));
       if (response.meta.ok) {
         dispatch(loginSuccess(response.json.user));
+        dispatch(push(routes.myLeagues));
       }
     });
 };
@@ -163,6 +169,17 @@ export const sendChat = message => dispatch => {
   return post({ message }, '/api/chat')
     .then(response => {
       if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
+    });
+};
+
+export const getMyLeagues = () => dispatch => {
+  return get('/api/leagues/mine')
+    .then(response => {
+      if (response.meta.ok) {
+        dispatch(replaceMyLeagues(response.json.leagues));
+      } else {
+        dispatch(newToast(response.json.message, 'danger'));
+      }
     });
 };
 

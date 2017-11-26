@@ -114,14 +114,9 @@ exports.publicLeagues = async (req, res) => {
   return res.render('leagues/public', { title: 'Join A League', leagues });
 };
 
-exports.setMyLeagues = async (req, res, next) => {
-  res.locals.myLeagues = req.user ? await League.find({ members: req.user._id }) : [];
-  return next();
-}
-
 exports.myLeagues = async (req, res) => {
-  if (!req.user || !res.locals.myLeagues.length) return this.publicLeagues(req, res);
-  return res.render('leagues/myLeagues', { title: 'My Leagues' });
+  const leagues = await League.find({ members: req.user._id });
+  return res.greatJob({ leagues });
 };
 
 const sortByScore = (a,b) => {
