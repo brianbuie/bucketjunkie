@@ -108,7 +108,6 @@ export const submitLogin = data => dispatch => {
       dispatch(newToast(response.json.message, toastType));
       if (response.meta.ok) {
         dispatch(loginSuccess(response.json.user));
-        dispatch(push(routes.account));
       }
     });
 };
@@ -121,7 +120,6 @@ export const submitLogout = () => dispatch => {
     let toastType = response.meta.ok ? 'success' : 'danger';
     dispatch(newToast(response.json.message, toastType));
     if (response.meta.ok) {
-      dispatch(push(routes.login));
       dispatch(logoutSuccess());
     }
   });
