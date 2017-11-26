@@ -94,13 +94,6 @@ exports.updateLeague = async (req, res) => {
   return res.greatJob('Updated League');
 };
 
-exports.editLeagueForm = (req, res) => res.render('leagues/edit', { title: 'Edit League', league: req.league, leagueAuth: req.leagueAuth });
-
-exports.createLeagueForm = (req, res) => {
-  req.session.league = undefined;
-  res.render('leagues/edit', { title: 'Create League', body: req.body });
-};
-
 exports.publicLeagues = async (req, res) => {
   const query = {
     public: true,
@@ -117,6 +110,13 @@ exports.publicLeagues = async (req, res) => {
 exports.myLeagues = async (req, res) => {
   const leagues = await League.find({ members: req.user._id });
   return res.greatJob({ leagues });
+};
+
+// sort of a misnomer, session league is set in league Auth
+// this just verifies there is a session league and returns it
+exports.setLeague = (req, res) => {
+  if (req.session.league) return res.greatJob({ league: req.session.league });
+  return res.oops('League not set!');
 };
 
 const sortByScore = (a,b) => {

@@ -183,6 +183,18 @@ export const getMyLeagues = () => dispatch => {
     });
 };
 
+export const setLeague = id => dispatch => {
+  return get(`/api/lg/${id}`)
+    .then(response => {
+      if (response.meta.ok) {
+        dispatch(replaceLeague(response.json.league));
+        dispatch(push(routes.rosters));
+      } else {
+        dispatch(newToast(response.json.message, 'danger'));
+      }
+    });
+};
+
 export const get = url => (
   fetch(url, {
     method: 'GET',
