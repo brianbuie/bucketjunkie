@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
-import { addActivityItem, replaceRoster, replaceLeague } from '../../actions';
 import { isModerator } from '../../helpers';
 import Activity from '../../components/Activity/Activity';
 // Pages
@@ -15,9 +14,25 @@ import PlayerPage from '../../pages/Players/PlayerPage';
 import routes from '../../routes';
 import './Dashboard.scss';
 
+import { 
+  addActivityItem, 
+  replaceRoster, 
+  replaceLeague,
+  getActivity,
+  getRosters,
+  getScores,
+  getTeams,
+  getPlayers
+} from '../../actions';
+
 class Dashboard extends React.Component {
 
   componentDidMount() {
+    this.props.getActivity();
+    this.props.getRosters();
+    this.props.getScores();
+    this.props.getTeams();
+    this.props.getPlayers();
     this.io = io.connect();
     this.io.on('roster:create', roster => this.props.replaceRoster(roster));
     this.io.on('activity:create', item => this.props.addActivityItem(item));
@@ -81,6 +96,11 @@ const mapDispatchToProps = dispatch => ({
   addActivityItem: item => dispatch(addActivityItem(item)),
   replaceRoster: roster => dispatch(replaceRoster(roster)),
   replaceLeague: league => dispatch(replaceLeague(league)),
+  getActivity: () => dispatch(getActivity()),
+  getRosters: () => dispatch(getRosters()),
+  getScores: () => dispatch(getScores()),
+  getTeams: () => dispatch(getTeams()),
+  getPlayers: () => dispatch(getPlayers())
 });
 
 export default withRouter(connect(

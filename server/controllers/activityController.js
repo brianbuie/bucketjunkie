@@ -75,5 +75,10 @@ exports.getActivity = async (req, res) => {
 
 exports.get = async (req, res) => {
   const activity = await this.getActivity(req, res);
-  return res.json(activity);
+  return res.greatJob({ activity });
+};
+
+exports.leagueTotalScores = async (req, res) => {
+  const scores = await Score.getTotalScores(req.league._id);
+  return res.greatJob({ scores });
 };

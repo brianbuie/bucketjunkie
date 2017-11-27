@@ -52,3 +52,11 @@ exports.moveDraft = async (req, res) => {
   return res.greatJob('Player moved');
 };
 
+// draft returns singular roster, so put it in array before returning
+exports.leagueRosters = async (req, res) => {
+  const rosters = req.league.drafting
+    ? [await rosterService.getDraft(req.league, req.user)] 
+    : await rosterService.getRosters(req.league);
+  return res.greatJob({ rosters });
+}
+

@@ -40,9 +40,23 @@ router.get('/activity', activity.get);
 router.post('/activity/chat', activity.validateChat, catchErrors(activity.chat));
 
 // Rosters
-router.post('/roster/add-player', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(roster.addPlayer));
-router.post('/roster/remove-player', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(roster.removePlayer));
-router.post('/roster/move', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(roster.moveDraft));
+router.use('/rosters', auth.isLoggedIn);
+router.use('/rosters', catchErrors(auth.useSession));
+router.get('/rosters', catchErrors(roster.leagueRosters));
+router.post('/rosters/add-player', catchErrors(roster.addPlayer));
+router.post('/rosters/remove-player', catchErrors(roster.removePlayer));
+router.post('/rosters/move', catchErrors(roster.moveDraft));
+
+// Scores
+router.use('/scores', auth.isLoggedIn);
+router.use('/scores', catchErrors(auth.useSession));
+router.get('/scores/league', catchErrors(activity.leagueTotalScores));
+
+// Players
+router.use('/nba', auth.isLoggedIn);
+router.use('/nba', catchErrors(auth.useSession));
+router.get('/nba/players', catchErrors(nba.players));
+router.get('/nba/teams', catchErrors(nba.teams));
 
 // Errors
 router.use(errorHandlers.notFound);

@@ -17,6 +17,8 @@ const activity = combineReducers({
           ...state,
           action.item
         ];
+      case 'REPLACE_ACTIVITY':
+        return action.activity;
       case 'LOGOUT_SUCCESS':
         return [];
       default:
@@ -82,7 +84,14 @@ const loading = (state = false, action) => {
   }
 };
 
-const players = (state = [], action) => state;
+const players = (state = [], action) => {
+  switch (action.type) {
+    case 'REPLACE_PLAYERS':
+      return action.players;
+    default:
+      return state;
+  }
+};
 
 const rosters = (state = [], action) => {
   switch (action.type) {
@@ -91,6 +100,8 @@ const rosters = (state = [], action) => {
         ...state.filter(roster => roster.user._id != action.roster.user._id),
         action.roster
       ];
+    case 'REPLACE_ROSTERS':
+      return action.rosters;
     case 'LOGOUT_SUCCESS':
       return [];
     default:
@@ -98,9 +109,25 @@ const rosters = (state = [], action) => {
   }
 };
 
-const scores = (state = [], action) => state;
+const scores = (state = [], action) => {
+  switch (action.type) {
+    case 'REPLACE_SCORES':
+      return action.scores;
+    case 'LOGOUT_SUCCESS':
+      return [];
+    default:
+      return state;
+  }
+};
 
-const teams = (state = [], action) => state;
+const teams = (state = [], action) => {
+  switch (action.type) {
+    case 'REPLACE_TEAMS':
+      return action.teams;
+    default:
+      return state;
+  }
+};
 
 const toasts = (state = [], action) => {
   switch (action.type) {

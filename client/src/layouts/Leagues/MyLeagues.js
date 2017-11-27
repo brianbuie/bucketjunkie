@@ -12,8 +12,8 @@ class MyLeagues extends React.Component {
 
   render() {
     return (
-      <div className="row no-gutters height-100">
-        <div className="scroll-y">
+      <div className="height-100">
+        <div className="row no-gutters">
           <div className="bg-light col-sm-10 col-md-8 mx-auto p-3">
             <h2 className="text-center mb-3">My Leagues</h2>
             {this.props.myLeagues.map(league => (
