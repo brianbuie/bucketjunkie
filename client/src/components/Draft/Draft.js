@@ -6,7 +6,7 @@ import PlayerContainer from '../Player/PlayerContainer';
 
 const Draft = ({ draft, movePlayer }) => (
   <div className="bg-light mb-3">
-    {draft.players.map(player => (
+    {draft.players ? draft.players.map(player => (
       <div className="d-flex flex-row align-items-center justify-content-between striped" key={player._id}>
         <div className="d-flex flex-column px-1">
           <A className="link-discreet" click={() => movePlayer(player._id, -1)}>
@@ -18,12 +18,12 @@ const Draft = ({ draft, movePlayer }) => (
         </div>
         <PlayerContainer id={player._id} />
       </div>
-    ))}
+    )) : ''}
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  draft: state.rosters[0],
+const mapStateToProps = ({ rosters }) => ({
+  draft: rosters.length ? rosters[0] : [],
 });
 
 const mapDispatchToProps = dispatch => ({

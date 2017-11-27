@@ -129,9 +129,7 @@ const EditLeague = ({ league, submitLeagueEdit }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ 
-  league: state.league,
-});
+const mapStateToProps = ({ league }) => ({ league });
 
 const mapDispatchToProps = dispatch => ({
   submitLeagueEdit: (formData, id) => dispatch(submitLeagueEdit(formData, id))

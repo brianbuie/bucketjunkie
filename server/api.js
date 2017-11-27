@@ -33,10 +33,11 @@ router.post('/lg/:id/members/remove', auth.isModerator, catchErrors(league.remov
 router.post('/lg/:id/moderators/add', auth.isCreator, catchErrors(league.addModerator));
 router.post('/lg/:id/moderators/remove', auth.isCreator, catchErrors(league.removeModerator));
 
-// Chat
-router.use('/chat', auth.isLoggedIn);
-router.use('/chat', catchErrors(auth.useSession));
-router.post('/chat', activity.validateChat, catchErrors(activity.chat));
+// Activity
+router.use('/activity', auth.isLoggedIn);
+router.use('/activity', catchErrors(auth.useSession));
+router.get('/activity', activity.get);
+router.post('/activity/chat', activity.validateChat, catchErrors(activity.chat));
 
 // Rosters
 router.post('/roster/add-player', auth.isLoggedIn, catchErrors(auth.useSession), catchErrors(roster.addPlayer));

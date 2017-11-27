@@ -77,10 +77,19 @@ export const hideToast = id => ({
   id
 });
 
+
+
 /*
   Dispatchers
   responsible for chained actions
 */
+
+let nextToastId = 0;
+export const newToast = (text, toastType) => dispatch => {
+  let id = nextToastId++;
+  dispatch(showToast(text, toastType, id));
+  setTimeout(() => dispatch(hideToast(id)), 5000);
+}
 
 export const submitNewPhoto = formData => dispatch => {
   dispatch(loading());
@@ -131,13 +140,6 @@ export const submitLogout = () => dispatch => {
   });
 };
 
-let nextToastId = 0;
-export const newToast = (text, toastType) => dispatch => {
-  let id = nextToastId++;
-  dispatch(showToast(text, toastType, id));
-  setTimeout(() => dispatch(hideToast(id)), 5000);
-}
-
 export const addPlayer = player => dispatch => {
   dispatch(loading());
   return post({ player }, '/api/roster/add-player')
@@ -166,7 +168,7 @@ export const movePlayer = (player, delta) => dispatch => {
 };
 
 export const sendChat = message => dispatch => {
-  return post({ message }, '/api/chat')
+  return post({ message }, '/api/activity/chat')
     .then(response => {
       if (!response.meta.ok) dispatch(newToast(response.json.message, 'danger'));
     });
@@ -183,17 +185,22 @@ export const getMyLeagues = () => dispatch => {
     });
 };
 
-export const setLeague = id => dispatch => {
-  return get(`/api/lg/${id}`)
-    .then(response => {
-      if (response.meta.ok) {
-        dispatch(replaceLeague(response.json.league));
-        dispatch(push(routes.rosters));
-      } else {
-        dispatch(newToast(response.json.message, 'danger'));
-      }
-    });
-};
+export const setLeague = id => dispatch => get(`/api/lg/${id}`)
+  .then(response => {
+    if (response.meta.ok) {
+      dispatch(replaceLeague(response.json.league));
+      dispatch(push(routes.rosters));
+    } else {
+      dispatch(newToast(response.json.message, 'danger'));
+    }
+  });
+
+
+
+/*
+  Fetchers
+  network request handlers
+*/
 
 export const get = url => (
   fetch(url, {
@@ -227,9 +234,8 @@ export const post = (data, url) => (
 );
 
 export const postFormData = (formData, url) => {
-  // for (var [key, value] of formData.entries()) { 
-  //   console.log(key, value);
-  // }
+  // debug FormData
+  // for (var [key, value] of formData.entries()) { console.log(key, value); }
   return fetch(url, {
     method: 'POST',
     body: formData,

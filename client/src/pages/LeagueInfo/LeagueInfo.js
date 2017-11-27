@@ -45,10 +45,7 @@ const LeagueInfo = ({ league, user }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ 
-  league: state.league,
-  user: state.user,
-});
+const mapStateToProps = ({ league, user }) => ({ league, user });
 
 export default connect(
   mapStateToProps,

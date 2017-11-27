@@ -6,14 +6,14 @@ import routes from '../../routes';
 class RouteUserRequired extends React.Component {
   render() {
     const {
-      isAuthenticated,
+      user,
       component: Component,
       ...props 
     } = this.props;
     
     return (
       <Route {...props} render={props => (
-        isAuthenticated
+        user
           ? <Component {...props} />
           : <Redirect to={{ pathname: routes.login, state: { from: props.location } }} />
       )} />
@@ -21,9 +21,7 @@ class RouteUserRequired extends React.Component {
   }
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.user ? true : false
-});
+const mapStateToProps = ({ user }) => ({ user });
 
 export default withRouter(connect(
   mapStateToProps

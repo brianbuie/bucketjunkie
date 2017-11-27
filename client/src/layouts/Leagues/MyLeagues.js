@@ -28,9 +28,7 @@ class MyLeagues extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  myLeagues: state.myLeagues
-});
+const mapStateToProps = ({ myLeagues }) => ({ myLeagues });
 
 const mapDispatchToProps = dispatch => ({
   getMyLeagues: () => dispatch(getMyLeagues()),

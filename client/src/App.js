@@ -18,7 +18,7 @@ const App = () => (
     <Loading />
     <Menu />
     <Toast />
-    <Route path={routes.rosters} component={Dashboard} />
+    <RouteUserRequired path={routes.rosters} component={Dashboard} />
     <Route path={routes.account} component={Account} />
     <RouteUserRequired path={routes.myLeagues} component={MyLeagues} />
   </div>

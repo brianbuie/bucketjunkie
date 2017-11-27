@@ -34,9 +34,7 @@ const AccountPage = ({ user, submitNewPhoto }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = dispatch => ({
   submitNewPhoto: photo => dispatch(submitNewPhoto(photo))

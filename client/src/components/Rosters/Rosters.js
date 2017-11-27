@@ -14,10 +14,7 @@ const Rosters = ({ rosters, scores }) => (
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  rosters: state.rosters,
-  scores: state.scores
-});
+const mapStateToProps = ({ rosters, scores }) => ({ rosters, scores });
 
 export default connect(
   mapStateToProps,

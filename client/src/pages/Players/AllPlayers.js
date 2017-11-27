@@ -31,9 +31,7 @@ const AllPlayers = ({ teams, players, match }) => (
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  teams: state.teams,
-});
+const mapStateToProps = ({ teams }) => ({ teams });
 
 export default withRouter(connect(
   mapStateToProps

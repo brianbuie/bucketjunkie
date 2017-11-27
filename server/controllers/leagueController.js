@@ -119,40 +119,6 @@ exports.setLeague = (req, res) => {
   return res.oops('League not set!');
 };
 
-const sortByScore = (a,b) => {
-  if (a.score < b.score) return 1;
-  if (a.score > b.score) return -1;
-  return 0;
-};
-
-const appendPlayerScore = (player, pointValues) => {
-  // player = player.toObject();
-  const categories = ['ftm', 'fg2m', 'fg3m', 'reb', 'ast', 'blk', 'stl', 'to'];
-  player.score = categories.reduce((sum, stat) => sum + (player.averages[stat] * pointValues[stat]), 0);
-  return player;
-};
-
-exports.leaderBoard = async (req, res) => {
-  const [scores, upcomingGames] = await Promise.all([
-    Score.getTotalScores(req.league._id),
-    nbaService.gamesForDays(7)
-  ]);
-  const rostersRaw = req.league.drafting
-    ? await rosterService.getDraft(req.league, req.user)
-    : await rosterService.getRosters(req.league);
-  let rosters = rostersRaw.map(roster => {
-    roster = roster._id ? roster.toObject() : roster;
-    const score = scores.find(score => score._id.equals(roster.user._id));
-    roster.players = roster.players.map(player => appendPlayerScore(player, req.league.pointValues))
-    roster.players = !req.league.drafting ? roster.players.sort(sortByScore) : roster.players;
-    roster.score = score ? score.score : 0;
-    return roster;
-  }).sort(sortByScore);
-  return res.render('league/leaderboard', { league: req.league, rosters, upcomingGames });
-};
-
-exports.info = (req, res) => res.render('league/info', { league: req.league });
-
 exports.joinLeague = async (req, res) => {
   const league = await League.findOneAndUpdate(
     { 

@@ -28,6 +28,7 @@ exports.notFound = (req, res, next) => {
   Detect if there are mongodb validation errors that we can nicely show via flash messages
 */
 exports.flashValidationErrors = (err, req, res, next) => {
+  console.log('flashValidationErrors was called');
   if (!err.errors) return next(err);
   // validation errors look like
   const errorKeys = Object.keys(err.errors);
@@ -49,8 +50,7 @@ exports.developmentErrors = (err, req, res, next) => {
     stackHighlighted: stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>'),
   };
   res.status(err.status || 500);
-  res.json(errorDetails);
-  return next();
+  return res.json(errorDetails);
 };
 
 
@@ -60,6 +60,5 @@ exports.developmentErrors = (err, req, res, next) => {
 */
 exports.productionErrors = (err, req, res, next) => {
   res.status(err.status || 500);
-  res.json({ message: err.message });
-  return next();
+  return res.json({ message: err.message });
 };

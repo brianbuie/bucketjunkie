@@ -6,9 +6,7 @@ const Loading = ({ loading }) => (
   loading ? <div className="Loading__Container"></div> : ''
 );
 
-const mapStateToProps = state => ({
-  loading: state.loading
-});
+const mapStateToProps = ({ loading }) => ({ loading });
 
 export default connect(
   mapStateToProps

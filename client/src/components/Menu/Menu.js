@@ -32,9 +32,7 @@ const Menu = ({ user, logout }) => (
   </Navbar>
 );
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
+const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(submitLogout())

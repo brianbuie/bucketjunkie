@@ -50,9 +50,7 @@ const Toast = ({ toasts, hideToast }) => (
   </div>
 );
 
-const mapStateToProps = state => ({
-  toasts: state.toasts
-});
+const mapStateToProps = ({ toasts }) => ({ toasts });
 
 const mapDispatchToProps = dispatch => ({
   hideToast: id => dispatch(hideToast(id))

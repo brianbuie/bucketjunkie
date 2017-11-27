@@ -31,6 +31,10 @@ class Dashboard extends React.Component {
     this.io.on('message', message => console.log(message));
   }
 
+  componentWillUnmount() {
+    this.io.close();
+  }
+
   render() {
     return (
       <div className="row no-gutters height-100">
@@ -71,10 +75,7 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ 
-  league: state.league,
-  user: state.user
-});
+const mapStateToProps = ({ league, user }) => ({ league, user });
 
 const mapDispatchToProps = dispatch => ({
   addActivityItem: item => dispatch(addActivityItem(item)),

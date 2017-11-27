@@ -8,9 +8,7 @@ const DashHome = ({ league }) => {
   return (<Rosters />);
 }
 
-const mapStateToProps = (state) => ({
-  league: state.league,
-});
+const mapStateToProps = ({ league }) => ({ league });
 
 export default connect(
   mapStateToProps,
