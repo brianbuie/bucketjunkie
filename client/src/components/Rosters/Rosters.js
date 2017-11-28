@@ -7,9 +7,7 @@ const Rosters = ({ rosters, scores }) => (
   <div>
     {scores.sort(sortByScore).map(score => {
       const roster = rosters.filter(roster => roster.user._id === score._id)[0];
-      return (
-        <Roster {...roster} key={score._id} score={score.score}/>
-      );
+      return roster ? <Roster {...roster} key={score._id} score={score.score}/> : '';
     })}
   </div>
 );

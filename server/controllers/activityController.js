@@ -79,6 +79,9 @@ exports.get = async (req, res) => {
 };
 
 exports.leagueTotalScores = async (req, res) => {
-  const scores = await Score.getTotalScores(req.league._id);
+  const rawScores = await Score.getTotalScores(req.league._id);
+  const scores = req.league.members.map(user => (
+    rawScores.find(score => score._id == user.id) || { _id: user._id, score: 0 }
+  ));
   return res.greatJob({ scores });
 };
