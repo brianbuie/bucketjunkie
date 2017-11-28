@@ -16,10 +16,12 @@ class ActivityList extends React.Component {
     this.setState({ autoScroll });
   }
 
+  componentDidMount() {
+    if (this.state.autoScroll) this.feed.scrollTop = this.feed.scrollHeight;
+  }
+
   componentDidUpdate() {
-    if (this.state.autoScroll) {
-      this.feed.scrollTop = this.feed.scrollHeight;
-    }
+    if (this.state.autoScroll) this.feed.scrollTop = this.feed.scrollHeight;
   }
 
   render() {
@@ -32,19 +34,5 @@ class ActivityList extends React.Component {
     );
   }
 }
-
-ActivityList.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        username: PropTypes.string.isRequired
-      }).isRequired,
-      date: PropTypes.string.isRequired,
-      message: PropTypes.string.isRequired,
-    }).isRequired,
-  ).isRequired,
-};
 
 export default ActivityList;

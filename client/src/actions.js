@@ -228,7 +228,6 @@ export const getActivity = () => dispatch => get('/api/activity')
 
 export const getScores = () => dispatch => get('/api/scores/league')
   .then(res => {
-    console.log(res);
     if (res.meta.ok) dispatch(replaceScores(res.json.scores));
     if (!res.meta.ok) dispatch(newToast(`Scores Error: ${res.json.message}`, 'danger'));
   });
