@@ -26,7 +26,7 @@ require('./models/Box');
 
 // Server listen
 server.listen(process.env.PORT, function() {
-  console.log(`Listening on PORT ${process.env.PORT}`);
+  console.log(`Express listening on port ${process.env.PORT}`);
 });
 
 // Automatic jobs
@@ -80,35 +80,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// API response
 const responseHandlers = require('./handlers/responseHandlers');
 app.use(responseHandlers.greatJob);
 app.use(responseHandlers.oops);
-
 app.use('/api', require('./api'));
-app.use((req, res) => res.set('Content-Type', 'text/html').status(200).end(`
-  <!doctype html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie-edge">
-      <title>BucketJunkie</title>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700">
-      ${ process.env.NODE_ENV === 'production' ? '<link rel="stylesheet" href="/dist/app.css">' : ''}
-      <link rel="shortcut icon" type="image/png" href="/images/icons/favicon.ico">
-    </head>
-    <body>
-      <div id="app"></div>
-      <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify({
-            user: req.user,
-            league: req.session.league
-          })}
-      </script>
-      <script src="/dist/app.bundle.js" type="text/javascript"></script>
-    </body>
-  </html>
-`));
+
+// React view for everything else
+const { catchErrors } = require('./handlers/errorHandlers');
+const render = require('./controllers/renderController');
+app.use(catchErrors(render.initialState));
 
 
 // io
