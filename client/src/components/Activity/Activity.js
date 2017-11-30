@@ -11,6 +11,7 @@ import {
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { A } from 'components/Utilities';
 import ActivityList from 'components/Activity/ActivityList';
+import AccountLauncher from 'components/Account/AccountLauncher';
 import ChatForm from 'components/Activity/ChatForm';
 import './Activity.scss';
 
@@ -31,6 +32,7 @@ const Activity = ({
   <div className={`${docked ? 'docked' : 'undocked'} ${minimized ? 'minimized' : 'maximized'} justify-content-end activity__container`}>
     <div className="height-100 d-flex flex-column">
       <div className="bg-dark d-flex flex-row justify-content-end p-1">
+        <AccountLauncher />
         {docked
           ? <A click={() => undockActivity()}><i className="fa fa-toggle-left m-1"></i></A>
           : <A click={() => dockActivity()}><i className="fa fa-toggle-right m-1"></i></A>
