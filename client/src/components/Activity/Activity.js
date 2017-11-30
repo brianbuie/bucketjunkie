@@ -12,6 +12,7 @@ import { Nav, NavItem, NavLink } from 'reactstrap';
 import { A } from 'components/Utilities';
 import ActivityList from 'components/Activity/ActivityList';
 import AccountLauncher from 'components/Account/AccountLauncher';
+import ActivityMenuBar from 'components/Activity/ActivityMenuBar';
 import ChatForm from 'components/Activity/ChatForm';
 import './Activity.scss';
 
@@ -24,26 +25,10 @@ const Activity = ({
   chatSubmit,
   docked,
   minimized,
-  minimizeActivity,
-  maximizeActivity,
-  dockActivity,
-  undockActivity
 }) => (
   <div className={`${docked ? 'docked' : 'undocked'} ${minimized ? 'minimized' : 'maximized'} justify-content-end activity__container`}>
     <div className="height-100 d-flex flex-column">
-      <div className="bg-dark d-flex flex-row justify-content-end p-1">
-        <AccountLauncher />
-        {docked
-          ? <A click={() => undockActivity()}><i className="fa fa-toggle-left m-1"></i></A>
-          : <A click={() => dockActivity()}><i className="fa fa-toggle-right m-1"></i></A>
-        }
-        {!docked
-          ? minimized
-            ? <A click={() => maximizeActivity()}><i className="fa fa-plus m-1"></i></A>
-            : <A click={() => minimizeActivity()}><i className="fa fa-minus m-1"></i></A>
-          : ''
-        }
-      </div>
+      <ActivityMenuBar />
       <Nav className="nav-fill">
         {filters.map(filter => (
           <NavItem key={filter.filter}>
@@ -104,10 +89,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = dispatch => ({
   filterClick: filter => dispatch(setActivityFilter(filter)),
   chatSubmit: input => dispatch(sendChat(input)),
-  minimizeActivity: () => dispatch(minimizeActivity()),
-  maximizeActivity: () => dispatch(maximizeActivity()),
-  dockActivity: () => dispatch(dockActivity()),
-  undockActivity: () => dispatch(undockActivity())
 });
 
 export default connect(
