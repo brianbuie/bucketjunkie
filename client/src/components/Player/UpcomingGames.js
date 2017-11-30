@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import TeamIcon from '../Team/TeamIcon';
-import routes from '../../routes';
+import TeamIcon from 'components/Team/TeamIcon';
+import routes from 'routes';
 
 const UpcomingGames = ({ upcomingGames, team }) => {
   const upcomingDays = upcomingGames.map((g, i) => moment().add(i, 'days'));

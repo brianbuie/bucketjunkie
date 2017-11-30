@@ -11,8 +11,8 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
-import App from './App';
-import reducers from './reducers.js';
+import App from 'App';
+import reducers from 'reducers';
 
 const history = createHistory();
 const initialState = window.__INITIAL_STATE__;

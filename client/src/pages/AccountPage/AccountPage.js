@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { submitNewPhoto } from '../../actions';
-import UserPhoto from '../../components/User/UserPhoto';
+import { submitNewPhoto } from 'actions';
+import UserPhoto from 'components/User/UserPhoto';
 
 const AccountPage = ({ user, submitNewPhoto }) => {
   let form;

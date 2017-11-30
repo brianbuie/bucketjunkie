@@ -7,11 +7,11 @@ import {
   maximizeActivity,
   dockActivity,
   undockActivity
-} from '../../actions';
+} from 'actions';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import { A } from '../Utilities';
-import ActivityList from './ActivityList';
-import ChatForm from './ChatForm';
+import { A } from 'components/Utilities';
+import ActivityList from 'components/Activity/ActivityList';
+import ChatForm from 'components/Activity/ChatForm';
 import './Activity.scss';
 
 const Activity = ({ 

@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Navbar, NavbarBrand, Nav, NavItem, } from 'reactstrap';
-import { A } from '../Utilities';
-import { submitLogout } from '../../actions';
-import routes from '../../routes';
+import { A } from 'components/Utilities';
+import { submitLogout } from 'actions';
+import routes from 'routes';
 
 const Menu = ({ user, logout }) => (
   <Navbar color="dark" className="justify-content-between">

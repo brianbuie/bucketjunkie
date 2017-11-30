@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import { submitLogin } from '../../actions';
+import { submitLogin } from 'actions';
 
 class LoginPage extends React.Component {
   constructor(props) {

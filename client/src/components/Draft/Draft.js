@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { movePlayer } from '../../actions';
-import { A } from '../Utilities';
-import PlayerContainer from '../Player/PlayerContainer';
+import { movePlayer } from 'actions';
+import { A } from 'components/Utilities';
+import PlayerContainer from 'components/Player/PlayerContainer';
 
 const Draft = ({ draft, movePlayer }) => (
   <div className="bg-light mb-3">

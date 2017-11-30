@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { hideToast } from '../../actions';
+import { hideToast } from 'actions';
 import Transition from 'react-transition-group/Transition';
 import './Toast.scss';
 

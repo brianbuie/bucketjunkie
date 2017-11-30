@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { submitLeagueEdit } from '../../actions';
-import { Container } from '../../components/Utilities';
+import { submitLeagueEdit } from 'actions';
+import { Container } from 'components/Utilities';
 
 const EditLeague = ({ league, submitLeagueEdit }) => {
   let form;

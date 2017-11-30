@@ -1,11 +1,11 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import routes from '../../routes';
-import { A } from '../Utilities';
-import TeamIcon from '../Team/TeamIcon';
-import UpcomingGames from './UpcomingGames';
-import PlayerAverages from './PlayerAverages';
+import routes from 'routes';
+import { A } from 'components/Utilities';
+import TeamIcon from 'components/Team/TeamIcon';
+import UpcomingGames from 'components/Player/UpcomingGames';
+import PlayerAverages from 'components/Player/PlayerAverages';
 
 const PlayerImage = ({ image }) => {
   return (

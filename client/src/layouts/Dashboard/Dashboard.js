@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import { withRouter } from 'react-router';
 import { Link, Route } from 'react-router-dom';
-import { isModerator } from '../../helpers';
-import Activity from '../../components/Activity/Activity';
-// Pages
-import DashHome from '../../pages/DashHome/DashHome';
-import EditLeague from '../../pages/EditLeague/EditLeague';
-import LeagueInfo from '../../pages/LeagueInfo/LeagueInfo';
-import AllPlayers from '../../pages/Players/AllPlayers';
-import PlayerPage from '../../pages/Players/PlayerPage';
-import routes from '../../routes';
+
+import { isModerator } from 'helpers';
+import Activity from 'components/Activity/Activity';
+import DashHome from 'pages/DashHome/DashHome';
+import EditLeague from 'pages/EditLeague/EditLeague';
+import LeagueInfo from 'pages/LeagueInfo/LeagueInfo';
+import AllPlayers from 'pages/Players/AllPlayers';
+import PlayerPage from 'pages/Players/PlayerPage';
+import routes from 'routes';
 import './Dashboard.scss';
 
 import { 
@@ -23,7 +23,7 @@ import {
   getScores,
   getTeams,
   getPlayers
-} from '../../actions';
+} from 'actions';
 
 class Dashboard extends React.Component {
 

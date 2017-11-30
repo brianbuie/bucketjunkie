@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import League from '../../components/League/League';
-import { A } from '../../components/Utilities';
-import { getMyLeagues, setLeague } from '../../actions';
+import League from 'components/League/League';
+import { A } from 'components/Utilities';
+import { getMyLeagues, setLeague } from 'actions';
 
 class MyLeagues extends React.Component {
 

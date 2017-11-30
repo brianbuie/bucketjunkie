@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import TeamIcon from '../../components/Team/TeamIcon';
-import PlayerList from '../../components/Player/PlayerList';
-import routes from '../../routes';
+import TeamIcon from 'components/Team/TeamIcon';
+import PlayerList from 'components/Player/PlayerList';
+import routes from 'routes';
 import './AllPlayers.scss';
 
 const AllPlayers = ({ teams, players, match }) => (

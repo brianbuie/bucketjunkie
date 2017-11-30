@@ -63,4 +63,7 @@ module.exports = {
     }),
     new WebpackBundleSizeAnalyzerPlugin('./bundle-size-report.txt')
   ],
+  resolve: {
+    modules: [path.resolve('./client/src'), "node_modules"]
+  }
 };

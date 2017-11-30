@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Roster from './Roster';
-import { sortByScore } from '../../helpers';
+import Roster from 'components/Rosters/Roster';
+import { sortByScore } from 'helpers';
 
 const Rosters = ({ rosters, scores }) => (
   <div>

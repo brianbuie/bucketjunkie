@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import PlayerContainer from './PlayerContainer';
-import { sortByScore } from '../../helpers';
+import PlayerContainer from 'components/Player/PlayerContainer';
+import { sortByScore } from 'helpers';
 
 const filterPlayers = (players, filter = { type: 'SHOW_ALL' }) => {
   switch (filter.type) {

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Player from './Player';
-import { addPlayer, removePlayer } from '../../actions';
+import Player from 'components/Player/Player';
+import { addPlayer, removePlayer } from 'actions';
 
 const getAvailableAction = (state, id) => {
   let roster = state.rosters.filter(roster => roster.players.some(p => p._id == id))[0];

@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
-import routes from './routes';
+import routes from 'routes';
 
 export const setActivityFilter = filter => ({
   type: 'SET_ACTIVITY_FILTER',

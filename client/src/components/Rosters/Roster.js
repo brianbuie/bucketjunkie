@@ -1,8 +1,8 @@
 import React from 'react';
 import { Collapse } from 'reactstrap';
-import PlayerList from '../Player/PlayerList';
-import UserPhoto from '../User/UserPhoto';
-import { sortByScore } from '../../helpers';
+import PlayerList from 'components/Player/PlayerList';
+import UserPhoto from 'components/User/UserPhoto';
+import { sortByScore } from 'helpers';
 
 class Roster extends React.Component {
   constructor(props) {

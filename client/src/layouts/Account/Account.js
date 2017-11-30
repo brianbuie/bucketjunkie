@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { Route } from 'react-router-dom';
-import RouteUserRequired from '../../components/Auth/RouteUserRequired';
-import routes from '../../routes';
+import RouteUserRequired from 'components/Auth/RouteUserRequired';
+import routes from 'routes';
 
-import AccountPage from '../../pages/AccountPage/AccountPage';
-import LoginPage from '../../pages/LoginPage/LoginPage';
+import AccountPage from 'pages/AccountPage/AccountPage';
+import LoginPage from 'pages/LoginPage/LoginPage';
 
 const Account = ({ }) => (
   <Container className="my-5">
