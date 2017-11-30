@@ -21,8 +21,6 @@ import {
   getActivity,
   getRosters,
   getScores,
-  getTeams,
-  getPlayers
 } from 'actions';
 
 class Dashboard extends React.Component {
@@ -31,8 +29,6 @@ class Dashboard extends React.Component {
     this.props.getActivity();
     this.props.getRosters();
     this.props.getScores();
-    this.props.getTeams();
-    this.props.getPlayers();
     this.io = io.connect();
     this.io.on('roster:create', roster => this.props.replaceRoster(roster));
     this.io.on('activity:create', item => this.props.addActivityItem(item));

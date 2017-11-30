@@ -42,7 +42,7 @@ const Player = ({
   image, 
   upcomingGames, 
   team, 
-  score, 
+  score = 0, 
   availableAction, 
   addPlayer, 
   removePlayer,

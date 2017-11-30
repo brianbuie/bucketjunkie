@@ -36,7 +36,7 @@ exports.players = async (req, res) => {
   ]);
   let players = rawPlayers.map(player => {
     player = player.toObject ? player.toObject() : player; 
-    player = appendPlayerScore(player, req.league.pointValues); 
+    // player = appendPlayerScore(player, req.league.pointValues);
     player = appendUpcomingGames(player, upcomingGames); 
     player = appendImage(player); 
     return player;

@@ -84,14 +84,7 @@ const loading = (state = false, action) => {
   }
 };
 
-const players = (state = [], action) => {
-  switch (action.type) {
-    case 'REPLACE_PLAYERS':
-      return action.players;
-    default:
-      return state;
-  }
-};
+const players = (state = [], action) => state;
 
 const rosters = (state = [], action) => {
   switch (action.type) {
@@ -120,14 +113,7 @@ const scores = (state = [], action) => {
   }
 };
 
-const teams = (state = [], action) => {
-  switch (action.type) {
-    case 'REPLACE_TEAMS':
-      return action.teams;
-    default:
-      return state;
-  }
-};
+const teams = (state = [], action) => state;
 
 const toasts = (state = [], action) => {
   switch (action.type) {

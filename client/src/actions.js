@@ -63,16 +63,6 @@ export const replaceScores = scores => ({
   scores
 });
 
-export const replacePlayers = players => ({
-  type: 'REPLACE_PLAYERS',
-  players
-});
-
-export const replaceTeams = teams => ({
-  type: 'REPLACE_TEAMS',
-  teams
-});
-
 export const loginSuccess = user => ({
   type: 'LOGIN_SUCCESS',
   user
@@ -231,19 +221,6 @@ export const getScores = () => dispatch => get('/api/scores/league')
     if (res.meta.ok) dispatch(replaceScores(res.json.scores));
     if (!res.meta.ok) dispatch(newToast(`Scores Error: ${res.json.message}`, 'danger'));
   });
-
-export const getTeams = () => dispatch => get('/api/nba/teams')
-  .then(res => {
-    if (res.meta.ok) dispatch(replaceTeams(res.json.teams));
-    if (!res.meta.ok) dispatch(newToast(`Teams Error: ${res.json.message}`, 'danger'));
-  });
-
-export const getPlayers = () => dispatch => get('/api/nba/players')
-  .then(res => {
-    if (res.meta.ok) dispatch(replacePlayers(res.json.players));
-    if (!res.meta.ok) dispatch(newToast(`Players Error: ${res.json.message}`, 'danger'));
-  });
-
 
 /*
   Fetchers

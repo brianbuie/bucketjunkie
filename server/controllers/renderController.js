@@ -1,13 +1,39 @@
 const nbaService = require('../services/nbaService');
+const fs = require('fs');
+
+const appendUpcomingGames = (player, upcomingGames) => { 
+  player.upcomingGames = upcomingGames.map(day => { 
+    return day.filter(game => game.home === player.team || game.away === player.team)[0]; 
+  }); 
+  return player; 
+};
+
+const appendImage = player => { 
+  const defaultImagePath = '/images/player-default.png'; 
+  const playerImagePath = `/images/players/${player._id}.png`; 
+  player.image = fs.existsSync(__dirname + `/../../client/public${playerImagePath}`) ? playerImagePath : defaultImagePath; 
+  return player; 
+};
 
 exports.initialState = async (req, res) => {
+  const [teams, rawPlayers, upcomingGames] = await Promise.all([
+    nbaService.teams(),
+    nbaService.players(),
+    nbaService.gamesForDays(7)
+  ]);
 
-  const teams = await nbaService.teams();
+  let players = rawPlayers.map(player => {
+    player = player.toObject ? player.toObject() : player; 
+    player = appendUpcomingGames(player, upcomingGames); 
+    player = appendImage(player); 
+    return player;
+  });
 
   const state = {
     user: req.user,
     league: req.session.league,
-    teams
+    teams,
+    players
   };
 
   return res.set('Content-Type', 'text/html').status(200).end(`
