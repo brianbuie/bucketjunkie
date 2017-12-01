@@ -1,0 +1,6 @@
+.IconMenu__Item {
+  &:active,
+  &:hover {
+    background-color: darken($light-gray, 10);
+  }
+}

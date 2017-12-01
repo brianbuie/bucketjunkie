@@ -26,7 +26,7 @@ const activity = combineReducers({
         return state;
     }
   },
-  docked: (state = true, action) => {
+  docked: (state = false, action) => {
     switch (action.type) {
       case 'DOCK_ACTIVITY':
         return true;
