@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
+import { defaultPointValues, appendPlayerScore } from 'helpers';
 
 const activity = combineReducers({
   filter: (state = 'SHOW_ALL', action) => {
@@ -84,7 +85,22 @@ const loading = (state = false, action) => {
   }
 };
 
-const players = (state = [], action) => state;
+const players = (state = [], action) => {
+  switch (action.type) {
+    // I don't like this
+    case 'APP_INIT':
+      let pointValues = action.initialState.league 
+        ? action.initialState.league.pointValues 
+        : defaultPointValues;
+      return state.map(player => appendPlayerScore(player, pointValues));
+    case 'REPLACE_LEAGUE':
+      return state.map(player => appendPlayerScore(player, action.league.pointValues));
+    case 'LOGOUT_SUCCESS':
+      return state.map(player => appendPlayerScore(player, defaultPointValues));
+    default:
+      return state;
+  }
+};
 
 const rosters = (state = [], action) => {
   switch (action.type) {

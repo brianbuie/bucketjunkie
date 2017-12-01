@@ -15,7 +15,7 @@ const filterPlayers = (players, filter = { type: 'SHOW_ALL' }) => {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  players: filterPlayers(state.players, ownProps.filter)
+  players: filterPlayers(state.players.map(p => p), ownProps.filter)
 });
 
 const PlayerList = ({ players }) => (

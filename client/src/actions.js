@@ -2,6 +2,11 @@ import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 import routes from 'routes';
 
+export const appInit = initialState => ({
+  type: 'APP_INIT',
+  initialState
+});
+
 export const setActivityFilter = filter => ({
   type: 'SET_ACTIVITY_FILTER',
   filter

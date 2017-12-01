@@ -13,6 +13,7 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 
 import App from 'App';
 import reducers from 'reducers';
+import { appInit } from 'actions';
 
 const history = createHistory();
 const initialState = window.__INITIAL_STATE__;
@@ -22,6 +23,8 @@ const store = createStore(reducers, initialState,
     applyMiddleware(thunkMiddleware, routerMiddleware(history))
   )
 );
+
+store.dispatch(appInit(initialState));
 
 ReactDOM.render(
   <Provider store={store}>
