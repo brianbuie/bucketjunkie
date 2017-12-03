@@ -1,5 +1,6 @@
 .IconMenu__Item {
-  &:active,
+  color: $dark-gray;
+  &.active,
   &:hover {
     background-color: darken($light-gray, 10);
   }

@@ -7,15 +7,18 @@ import { withRouter } from 'react-router';
 import TeamIcon from 'components/Team/TeamIcon';
 import routes from 'routes';
 
-const IconMenu = ({ teams, match }) => (
-  <div className="d-flex flex-column max-height-100 bg-light">
-    <Link to={routes.teams} className={`IconMenu__Item ${!match.params.team ? 'active' : ''}`}>
+const IconMenu = ({ teams, loc }) => (
+  <div className="d-flex flex-column bg-light">
+    <Link to={routes.rosters} className={`IconMenu__Item ${loc.pathname === routes.rosters ? 'active' : ''}`}>
+      <i className="fa fa-user-circle" />
+    </Link>
+    <Link to={routes.teams} className={`IconMenu__Item ${loc.pathname === routes.teams ? 'active' : ''}`}>
       <TeamIcon id='nba' />
     </Link>
     {teams.map(team => (
       <Link 
         to={`${routes.teams}/${team._id}`}
-        className={`IconMenu__Item ${match.params.team == team._id ? 'active' : ''}`} 
+        className={`IconMenu__Item ${loc.pathname === routes.teams + '/' + team._id ? 'active' : ''}`}
         key={team._id}
       >
         <TeamIcon id={team._id} />
@@ -24,7 +27,7 @@ const IconMenu = ({ teams, match }) => (
   </div>
 );
 
-const mapStateToProps = ({ teams }) => ({ teams });
+const mapStateToProps = ({ teams, router }) => ({ teams, loc: router.location });
 
 export default withRouter(connect(
   mapStateToProps
