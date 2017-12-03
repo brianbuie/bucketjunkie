@@ -21,7 +21,7 @@ const AccountModal = ({
           {user.username}
         </h2>
         <p className="text-center">
-          <A className="text-danger" click={logout}>
+          <A className="text-danger" click={() => { logout(); toggle(); }}>
             Logout
           </A>
         </p>
