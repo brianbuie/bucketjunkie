@@ -1,7 +1,7 @@
 import React from 'react';
 // import { formatDistance } from 'date-fns';
 
-const League = ({ name, members, start, uniqueRosters, rosterSize, description }) => (
+const LeagueInfo = ({ name, members, start, uniqueRosters, rosterSize, description }) => (
   <div className="py-3">
     <div className="d-flex flex-row">
       <h4 className="my-0 mr-auto text-truncate">
@@ -20,4 +20,4 @@ const League = ({ name, members, start, uniqueRosters, rosterSize, description }
   </div>
 );
 
-export default League;
+export default LeagueInfo;

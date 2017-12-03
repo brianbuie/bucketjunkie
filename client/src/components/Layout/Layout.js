@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { Route } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
-
+import { NoScrollbars } from 'components/Utilities';
 import Feed from 'components/Feed/Feed';
 import IconMenu from 'components/IconMenu/IconMenu';
 import AllPlayers from 'components/Player/AllPlayers';
@@ -12,9 +12,9 @@ import LeagueStandings from 'components/League/LeagueStandings';
 const Layout = ({ }) => (
   <div className="full-height d-flex flex-row">
     <div className="height-100 text-center" style={{ width: "35px" }}>
-      <Scrollbars renderThumbVertical={() => <i/>}>
+      <NoScrollbars>
         <IconMenu />
-      </Scrollbars>
+      </NoScrollbars>
     </div>
     <Row noGutters className="flex-grow height-100">
       <Col xs="6" className="height-100">

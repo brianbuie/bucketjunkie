@@ -1,4 +1,5 @@
 import React from 'react';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 export const A = ({ click, className, children, active }) => (
   <a
@@ -17,4 +18,10 @@ export const Container = ({ children }) => (
   <div className="py-2">
     {children}
   </div>
+);
+
+export const NoScrollbars = ({ children }) => (
+  <Scrollbars renderThumbVertical={() => <i/>}>
+    {children}
+  </Scrollbars>
 );

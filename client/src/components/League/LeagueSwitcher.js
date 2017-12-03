@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { UncontrolledDropdown as Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { setLeague } from 'actions';
 
-const LeagueSwitcher = ({ league, myLeagues }) => {
+const LeagueSwitcher = ({ league, myLeagues, setLeague }) => {
   if (!league) return '';
   if (myLeagues.length < 2) return league.name;
   return (
@@ -12,7 +13,7 @@ const LeagueSwitcher = ({ league, myLeagues }) => {
       </DropdownToggle>
       <DropdownMenu>
         {myLeagues.map(league => (
-          <DropdownItem key={league.id}>
+          <DropdownItem onClick={() => setLeague(league.id)} key={league.id}>
             {league.name}
           </DropdownItem>
         ))}
@@ -23,4 +24,11 @@ const LeagueSwitcher = ({ league, myLeagues }) => {
 
 const mapStateToProps = ({ league, myLeagues }) => ({ league, myLeagues });
 
-export default connect(mapStateToProps)(LeagueSwitcher);
+const mapDispatchToProps = dispatch => ({
+  setLeague: id => dispatch(setLeague(id))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LeagueSwitcher);

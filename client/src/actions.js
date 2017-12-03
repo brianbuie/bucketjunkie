@@ -209,7 +209,6 @@ export const setLeague = id => dispatch => get(`/api/lg/${id}`)
     if (res.meta.ok) {
       dispatch({ type: 'RECEIVED_NEW_LEAGUE' });
       dispatch(replaceLeague(res.json.league));
-      dispatch(push(routes.rosters));
     } 
     if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
   });
