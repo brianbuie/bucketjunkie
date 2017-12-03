@@ -17,6 +17,11 @@ export const changeFeedPosition = position => ({
   position
 });
 
+export const changeFeedView = view => ({
+  type: 'CHANGE_FEED_VIEW',
+  view
+});
+
 export const addActivityItem = item => ({
   type: 'ADD_ACTIVITY_ITEM',
   item
@@ -139,17 +144,73 @@ export const submitLogin = data => dispatch => {
     });
 };
 
+export const submitRegister = data => dispatch => {
+  dispatch(loading());
+  return post(data, '/api/account/register')
+    .then(res => {
+      dispatch(doneLoading());
+      let toastType = res.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(res.json.message, toastType));
+      if (res.meta.ok) {
+        dispatch(loginSuccess(res.json.user));
+      }
+    });
+};
+
 export const submitLogout = () => dispatch => {
   dispatch(loading());
   return get('/api/account/logout')
-  .then(res => {
-    dispatch(doneLoading());
-    let toastType = res.meta.ok ? 'success' : 'danger';
-    dispatch(newToast(res.json.message, toastType));
-    if (res.meta.ok) {
-      dispatch(logoutSuccess());
-    }
-  });
+    .then(res => {
+      dispatch(doneLoading());
+      let toastType = res.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(res.json.message, toastType));
+      if (res.meta.ok) {
+        dispatch(logoutSuccess());
+      }
+    });
+};
+
+export const submitForgotPassword = data => dispatch => {
+  dispatch(loading());
+  return post(data, '/api/account/forgot-password')
+    .then(res => {
+      dispatch(doneLoading());
+      let toastType = res.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(res.json.message, toastType));
+      if (res.meta.ok) {
+        dispatch({ type: 'PASSWORD_RESET_TOKEN_CREATED' });
+      }
+    });
+};
+
+export const validatePasswordResetToken = token => dispatch => {
+  dispatch(loading());
+  return post({ token }, '/api/account/validate-token')
+    .then(res => {
+      dispatch(doneLoading());
+      if (res.meta.ok) {
+        dispatch({ type: 'PASSWORD_RESET_TOKEN_VALID' });
+      } else {
+        dispatch(push('/'));
+        dispatch(newToast(res.json.message, 'danger'));
+        dispatch({ type: 'PASSWORD_RESET_TOKEN_INVALID' });
+      }
+      return res;
+    });
+};
+
+export const submitPasswordReset = data => dispatch => {
+  dispatch(loading());
+  return post(data, '/api/account/reset-password')
+    .then(res => {
+      dispatch(doneLoading());
+      let toastType = res.meta.ok ? 'success' : 'danger';
+      dispatch(newToast(res.json.message, toastType));
+      if (res.meta.ok) {
+        dispatch(push('/'));
+        dispatch(loginSuccess(res.json.user));
+      }
+    });
 };
 
 export const getRosters = () => dispatch => {

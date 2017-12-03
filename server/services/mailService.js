@@ -13,13 +13,24 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const generateHTML = (filename, options = {}) => juice(pug.renderFile(`${__dirname}/../../views/email/${filename}.pug`, options));
+const generateHTML = (options = {}) => juice(pug.render(`
+doctype html
+html
+  head
+  body
+    h2 Password Reset
+    p Hello. You have requested a password reset. Please click 
+      a(href="${options.resetURL}") here
+      span  to continue on with resetting your password or visit ${options.resetURL} in your browser.
+    p Please note this link is only valid for the next hour.
+    p If you didn't request this email, please ignore it.
+`));
 
 exports.send = async (options) => {
-  const html = generateHTML(options.filename, options);
+  const html = generateHTML(options);
   const text = htmlToText.fromString(html);
   const mailOptions = {
-    from: 'Fantastic <noreply@brianbuie.com>',
+    from: 'BucketJunkie <noreply@bucketjunkie.com>',
     to: options.user.email,
     subject: options.subject,
     html,

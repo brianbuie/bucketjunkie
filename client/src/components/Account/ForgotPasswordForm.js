@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { A } from 'components/Utilities';
-import { submitLogin } from 'actions';
+import { submitForgotPassword } from 'actions';
 
-class LoginForm extends React.Component {
+class ForgotPasswordForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      email: '',
     }
     this.fieldChange = this.fieldChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -23,32 +22,26 @@ class LoginForm extends React.Component {
 
   submitForm(e) {
     e.preventDefault();
-    this.props.submitLogin({...this.state});
+    this.props.submitForgotPassword({...this.state});
   }
 
   render() {
     return (
       <div className="bg-light height-100 p-3">
         <h2 className="text-center">
-          Login
+          Forgot Password
         </h2>
         <form onSubmit={e => this.submitForm(e)}>
           <FormGroup>
-            <Label for="username">Username</Label>
-            <Input type="text" name="username" value={this.state.username} onChange={this.fieldChange} />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">Password</Label>
-            <Input type="password" name="password" value={this.state.password} onChange={this.fieldChange} />
-            <small><A className="link-discreet" click={() => this.props.goToForgotPassword()}>Forgot?</A></small>
+            <Label for="email">Email</Label>
+            <Input type="email" name="email" value={this.state.email} onChange={this.fieldChange} />
           </FormGroup>
           <Button type="submit" color="success" className="my-3" block>
-             Log In →
+             Send Reset →
           </Button>
         </form>
         <p className="text-center">
-          <span className="faded-2">Need an account?</span>
-          <A className="link-discreet" click={() => this.props.goToRegister()}> Register</A>
+          <A className="link-discreet" click={() => this.props.goToLogin()}>← Login</A>
         </p>
       </div>
     );
@@ -56,10 +49,10 @@ class LoginForm extends React.Component {
 };
 
 const mapDispatchToProps = dispatch => ({
-  submitLogin: data => dispatch(submitLogin(data))
+  submitForgotPassword: data => dispatch(submitForgotPassword(data))
 });
 
 export default connect(
   null,
   mapDispatchToProps
-)(LoginForm);
+)(ForgotPasswordForm);

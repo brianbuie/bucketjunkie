@@ -15,8 +15,9 @@ router.post('/account', auth.isLoggedIn, user.uploadPhoto, catchErrors(user.resi
 router.post('/account/login', user.login);
 router.get('/account/logout', user.logout);
 router.post('/account/register', catchErrors(user.validateRegister), catchErrors(user.register), user.login);
-// router.post('/account/forgot-password', catchErrors(user.createResetToken));
-// router.post('/account/reset-password/:token', user.validatePasswordReset, catchErrors(user.updatePassword));
+router.post('/account/forgot-password', catchErrors(user.createResetToken));
+router.post('/account/validate-token', catchErrors(user.validatePasswordToken));
+router.post('/account/reset-password', user.validatePasswordReset, catchErrors(user.updatePassword));
 
 // Leagues
 router.post('/leagues/create', auth.isLoggedIn, league.validateLeague, catchErrors(league.createLeague));

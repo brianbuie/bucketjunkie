@@ -50,6 +50,7 @@
     "pm2": "^2.7.2",
     "prop-types": "^15.6.0",
     "pug": "^2.0.0-rc.4",
+    "query-string": "^5.0.1",
     "react": "^16.0.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.0.0",

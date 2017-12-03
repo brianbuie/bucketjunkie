@@ -37,6 +37,31 @@ const feed = combineReducers({
         return state;
     }
   },
+  view: (state = 'ACTIVITY', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.league) return 'ACTIVITY';
+        if (!action.initialState.user) return 'LOGIN';
+        if (!action.initialState.league) return 'MY_LEAGUES';
+        return state;
+      case 'CHANGE_FEED_VIEW':
+        return action.view;
+      case 'PASSWORD_RESET_TOKEN_CREATED':
+        return 'LOGIN';
+      case 'PASSWORD_RESET_TOKEN_INVALID':
+        return 'FORGOT_PASSWORD';
+      case 'PASSWORD_RESET_TOKEN_VALID':
+        return 'RESET_PASSWORD';
+      case 'LOGIN_SUCCESS':
+        return 'MY_LEAGUES';
+      case 'LOGOUT_SUCCESS':
+        return 'LOGIN';
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'ACTIVITY';
+      default:
+        return state;
+    }
+  }
 });
 
 const dataNeeds = combineReducers({
