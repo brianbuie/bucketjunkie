@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { calendarFormat } from 'helpers';
 import { ActivityItem, ActivityItemDate } from 'components/Activity/ActivityItems';
 
@@ -13,17 +14,19 @@ class ActivityList extends React.Component {
   }
 
   componentWillReceiveProps() {
-    let feed = this.feed;
-    let autoScroll = feed.scrollHeight - (feed.clientHeight + feed.scrollTop) < 100;
+    let scrollHeight = this.list.getScrollHeight();
+    let clientHeight = this.list.getClientHeight();
+    let scrollTop = this.list.getScrollTop();
+    let autoScroll = scrollHeight - (clientHeight + scrollTop) < 100;
     this.setState({ autoScroll });
   }
 
   componentDidMount() {
-    if (this.state.autoScroll) this.feed.scrollTop = this.feed.scrollHeight;
+    if (this.state.autoScroll) this.list.scrollToBottom();
   }
 
   componentDidUpdate() {
-    if (this.state.autoScroll) this.feed.scrollTop = this.feed.scrollHeight;
+    if (this.state.autoScroll) this.list.scrollToBottom();
   }
 
   shouldIncludeDate(key) {
@@ -36,17 +39,19 @@ class ActivityList extends React.Component {
 
   render() {
     return(
-      <div ref={el => this.feed = el} className="scroll-y pl-2 py-3 flex-grow">
-        {this.props.items.map((item, k) => {
-          if (this.shouldIncludeDate(k)) return (
-            <div key={item._id}>
-              <ActivityItemDate date={item.date} />
-              <ActivityItem {...item} />
-            </div>
-          );
-          return <ActivityItem key={item._id} {...item} />
-        })}
-      </div>
+      <Scrollbars autoHide ref={el => this.list = el}>
+        <div className="pl-2 py-3">
+          {this.props.items.map((item, k) => {
+            if (this.shouldIncludeDate(k)) return (
+              <div key={item._id}>
+                <ActivityItemDate date={item.date} />
+                <ActivityItem {...item} />
+              </div>
+            );
+            return <ActivityItem key={item._id} {...item} />
+          })}
+        </div>
+      </Scrollbars>
     );
   }
 }
