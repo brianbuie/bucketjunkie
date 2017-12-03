@@ -86,6 +86,10 @@ export const hideToast = id => ({
   id
 });
 
+export const socketConnected = () => ({
+  type: 'SOCKET_CONNECTED'
+});
+
 
 
 /*
@@ -149,11 +153,14 @@ export const submitLogout = () => dispatch => {
   });
 };
 
-export const getRosters = () => dispatch => get('/api/rosters')
-  .then(res => {
-    if (res.meta.ok) dispatch(replaceRosters(res.json.rosters));
-    if (!res.meta.ok) dispatch(newToast(`Rosters Error: ${res.json.message}`, 'danger'));
-  });
+export const getRosters = () => dispatch => {
+  dispatch({ type: 'GETTING_ROSTERS' });
+  return get('/api/rosters')
+    .then(res => {
+      if (res.meta.ok) dispatch(replaceRosters(res.json.rosters));
+      if (!res.meta.ok) dispatch(newToast(`Rosters Error: ${res.json.message}`, 'danger'));
+    });
+};
 
 export const addPlayer = player => dispatch => {
   dispatch(loading());
@@ -189,32 +196,42 @@ export const sendChat = message => dispatch => {
     });
 };
 
-export const getMyLeagues = () => dispatch => get('/api/leagues/mine')
-  .then(res => {
-    if (res.meta.ok) dispatch(replaceMyLeagues(res.json.leagues));
-    if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
-  });
+export const getMyLeagues = () => dispatch => {
+  dispatch({ type: 'GETTING_MY_LEAGUES' });
+  return get('/api/leagues/mine')
+    .then(res => {
+      if (res.meta.ok) dispatch(replaceMyLeagues(res.json.leagues));
+      if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
+    });
+};
 
 export const setLeague = id => dispatch => get(`/api/lg/${id}`)
   .then(res => {
     if (res.meta.ok) {
+      dispatch({ type: 'RECEIVED_NEW_LEAGUE' });
       dispatch(replaceLeague(res.json.league));
       dispatch(push(routes.rosters));
     } 
     if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
   });
 
-export const getActivity = () => dispatch => get('/api/activity')
-  .then(res => {
-    if (res.meta.ok) dispatch(replaceActivity(res.json.activity));
-    if (!res.meta.ok) dispatch(newToast(`Activity Error: ${res.json.message}`, 'danger'));
-  });
+export const getActivity = () => dispatch => {
+  dispatch({ type: 'GETTING_ACTIVITY' });
+  return get('/api/activity')
+    .then(res => {
+      if (res.meta.ok) dispatch(replaceActivity(res.json.activity));
+      if (!res.meta.ok) dispatch(newToast(`Activity Error: ${res.json.message}`, 'danger'));
+    });
+};
 
-export const getScores = () => dispatch => get('/api/scores/league')
-  .then(res => {
-    if (res.meta.ok) dispatch(replaceScores(res.json.scores));
-    if (!res.meta.ok) dispatch(newToast(`Scores Error: ${res.json.message}`, 'danger'));
-  });
+export const getScores = () => dispatch => {
+  dispatch({ type: 'GETTING_SCORES' });
+  return get('/api/scores/league')
+    .then(res => {
+      if (res.meta.ok) dispatch(replaceScores(res.json.scores));
+      if (!res.meta.ok) dispatch(newToast(`Scores Error: ${res.json.message}`, 'danger'));
+    });
+};
 
 /*
   Fetchers

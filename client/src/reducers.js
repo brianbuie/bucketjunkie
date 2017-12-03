@@ -25,7 +25,7 @@ const activity = combineReducers({
       default:
         return state;
     }
-  }
+  },
 });
 
 const feed = combineReducers({
@@ -33,6 +33,80 @@ const feed = combineReducers({
     switch (action.type) {
       case 'FEED_POSITION':
         return action.position;
+      default:
+        return state;
+    }
+  },
+});
+
+const dataNeeds = combineReducers({
+  myLeagues: (state = 'ok', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.user) return 'need';
+        return state;
+      case 'LOGIN_SUCCESS':
+        return 'need';
+      case 'GETTING_MY_LEAGUES':
+        return 'fetching';
+      default:
+        return state;
+    }
+  },
+  activity: (state = 'ok', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.league) return 'need';
+        return state;
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'need';
+      case 'GETTING_ACTIVITY':
+        return 'fetching';
+      case 'REPLACE_ACTIVITY':
+        return 'ok';
+      default:
+        return state;
+    }
+  },
+  rosters: (state = 'ok', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.league) return 'need';
+        return state;
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'need'; 
+      case 'GETTING_ROSTERS':
+        return 'fetching';
+      case 'REPLACE_ROSTERS':
+        return 'ok';
+      default:
+        return state;
+    }
+  },
+  scores: (state = 'ok', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.league) return 'need';
+        return state;
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'need';
+      case 'GETTING_SCORES':
+        return 'fetching';
+      case 'REPLACE_SCORES':
+        return 'ok';
+      default:
+        return state;
+    }
+  },
+  socket: (state = 'ok', action) => {
+    switch (action.type) {
+      case 'APP_INIT':
+        if (action.initialState.league) return 'need';
+        return state;
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'need';
+      case 'SOCKET_CONNECTED':
+        return 'ok';
       default:
         return state;
     }
@@ -156,6 +230,7 @@ const user = (state = null, action) => {
 
 const reducers = combineReducers({
   activity,
+  dataNeeds,
   feed,
   league,
   myLeagues,

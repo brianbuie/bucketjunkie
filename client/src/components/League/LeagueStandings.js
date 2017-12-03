@@ -4,6 +4,7 @@ import Draft from 'components/Draft/Draft';
 import Rosters from 'components/Rosters/Rosters';
 
 const LeagueStandings = ({ league }) => {
+  if (!league) return '';
   if (league.drafting) return(<Draft />);
   return (<Rosters />);
 }

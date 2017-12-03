@@ -4,6 +4,7 @@ import { addPlayer, removePlayer } from 'actions';
 
 const getAvailableAction = (state, id) => {
   let roster = state.rosters.filter(roster => roster.players.some(p => p._id == id))[0];
+  if (!state.league) return 'NONE';
   if (!roster) return 'ADD';
   if (roster.user._id == state.user._id) return 'REMOVE';
   return 'NONE';

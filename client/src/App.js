@@ -4,15 +4,16 @@ import routes from 'routes';
 
 // Layouts
 import Layout from 'components/Layout/Layout';
+import FetchManager from 'components/FetchManager/FetchManager';
 
 // Components
-import RouteUserRequired from 'components/Auth/RouteUserRequired';
 import Loading from 'components/Loading/Loading';
 import Menu from 'components/Menu/Menu';
 import Toast from 'components/Toast/Toast';
 
 const App = () => (
   <div className="full-height">
+    <FetchManager />
     <Loading />
     <Toast />
     <Layout />
