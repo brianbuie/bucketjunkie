@@ -26,7 +26,7 @@ class ActivityList extends React.Component {
 
   render() {
     return(
-      <div ref={el => this.feed = el} className="scroll-y pl-2 py-3 flex-grow height-100">
+      <div ref={el => this.feed = el} className="scroll-y pl-2 py-3 flex-grow">
         {this.props.items.map(item => (
           <ActivityItem key={item._id} {...item} />
         ))}

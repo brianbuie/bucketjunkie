@@ -12,20 +12,9 @@ export const setActivityFilter = filter => ({
   filter
 });
 
-export const minimizeActivity = () => ({ 
-  type: 'MINIMIZE_ACTIVITY' 
-});
-
-export const maximizeActivity = () => ({ 
-  type: 'MAXIMIZE_ACTIVITY' 
-});
-
-export const dockActivity = () => ({ 
-  type: 'DOCK_ACTIVITY' 
-});
-
-export const undockActivity = () => ({ 
-  type: 'UNDOCK_ACTIVITY'
+export const changeFeedPosition = position => ({
+  type: 'FEED_POSITION',
+  position
 });
 
 export const addActivityItem = item => ({

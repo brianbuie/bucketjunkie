@@ -22,6 +22,7 @@ class AccountLauncher extends React.Component {
 
   render() {
     const user = this.props.user;
+    if (!user) return '';
     return (
       <div>
         <div style={{ width: '30px' }}>

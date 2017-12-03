@@ -1,0 +1,27 @@
+.Feed__Container {
+  background-color: $white;
+  display: flex;
+  flex-direction: column;
+
+  &.docked {
+    height: 100%;
+  }
+  &.floating,
+  &.minimized {
+    position: fixed;
+    bottom: 0;
+    right: $spacer-xl;
+    width: 400px;
+  }
+  &.floating {
+    height: 60vh;
+  }
+}
+
+.Feed__Menu {
+  background: $dark-gray;
+  color: $light-gray;
+  display: flex;
+  flex-direction: row;
+  padding: $spacer-sm;
+}

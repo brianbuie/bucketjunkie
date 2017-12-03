@@ -25,25 +25,15 @@ const activity = combineReducers({
       default:
         return state;
     }
-  },
-  docked: (state = false, action) => {
+  }
+});
+
+const feed = combineReducers({
+  // FLOATING DOCKED MINIMIZED
+  position: (state = 'FLOATING', action) => {
     switch (action.type) {
-      case 'DOCK_ACTIVITY':
-        return true;
-      case 'UNDOCK_ACTIVITY':
-        return false;
-      default:
-        return state;
-    }
-  },
-  minimized: (state = false, action) => {
-    switch (action.type) {
-      case 'MINIMIZE_ACTIVITY':
-        return true;
-      case 'MAXIMIZE_ACTIVITY':
-        return false;
-      case 'DOCK_ACTIVITY':
-        return false;
+      case 'FEED_POSITION':
+        return action.position;
       default:
         return state;
     }
@@ -167,6 +157,7 @@ const user = (state = null, action) => {
 
 const reducers = combineReducers({
   activity,
+  feed,
   league,
   myLeagues,
   openLeagues,

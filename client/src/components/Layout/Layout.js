@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { Route } from 'react-router-dom';
 
-import Activity from 'components/Activity/Activity';
+import Feed from 'components/Feed/Feed';
 import IconMenu from 'components/IconMenu/IconMenu';
 import AllPlayers from 'components/Player/AllPlayers';
 import PlayerDetail from 'components/Player/PlayerDetail';
@@ -22,7 +22,7 @@ const Layout = ({ }) => (
         <Route path="/players/:id" component={PlayerDetail} />
       </Col>
     </Row>
-    <Activity />
+    <Feed />
   </div>
 );
 

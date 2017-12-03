@@ -1,4 +1,5 @@
-.activity__container {
+.Activity__Container {
+  height: 100%;
   .nav {
     border-bottom: 3px solid $white;
   }
@@ -10,18 +11,6 @@
       background-color: $white;
     }
   }
-  &.docked {
-    height: 100%;
-    width: 500px;
-  }
-  &.undocked {
-    position: fixed;
-    bottom: 0;
-    right: $spacer-xl;
-    width: 400px;
-    height: 60vh;
-  }
-  background-color: $white;
 }
 
 .activity__item--rosters,

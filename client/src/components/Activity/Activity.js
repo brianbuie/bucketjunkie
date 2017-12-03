@@ -1,50 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { 
-  setActivityFilter, 
-  sendChat,
-  minimizeActivity,
-  maximizeActivity,
-  dockActivity,
-  undockActivity
-} from 'actions';
+import { setActivityFilter, sendChat } from 'actions';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { A } from 'components/Utilities';
 import ActivityList from 'components/Activity/ActivityList';
-import AccountLauncher from 'components/Account/AccountLauncher';
-import ActivityMenuBar from 'components/Activity/ActivityMenuBar';
 import ChatForm from 'components/Activity/ChatForm';
 import './Activity.scss';
 
-const Activity = ({ 
-  items, 
-  showChatInput, 
-  filterClick, 
-  activeFilter, 
-  filters, 
-  chatSubmit,
-  docked,
-  minimized,
-}) => (
-  <div className={`${docked ? 'docked' : 'undocked'} ${minimized ? 'minimized' : 'maximized'} justify-content-end activity__container`}>
-    <div className="height-100 d-flex flex-column">
-      <ActivityMenuBar />
-      <Nav className="nav-fill">
-        {filters.map(filter => (
-          <NavItem key={filter.filter}>
-            <A 
-              className="nav-link text-small" 
-              click={() => filterClick(filter.filter)} 
-              active={activeFilter === filter.filter}
-            >
-              {filter.text}
-            </A>
-          </NavItem>
-        ))}
-      </Nav>
-      <ActivityList items={items} />
-      {showChatInput ? <ChatForm chatSubmit={chatSubmit} /> : ''}
-    </div>
+const Activity = ({ items, showChatInput, filterClick, activeFilter, filters, chatSubmit }) => (
+  <div className="Activity__Container d-flex flex-column">
+    <Nav className="nav-fill">
+      {filters.map(filter => (
+        <NavItem key={filter.filter}>
+          <A 
+            className="nav-link text-small" 
+            click={() => filterClick(filter.filter)} 
+            active={activeFilter === filter.filter}
+          >
+            {filter.text}
+          </A>
+        </NavItem>
+      ))}
+    </Nav>
+    <ActivityList items={items} />
+    {showChatInput ? <ChatForm chatSubmit={chatSubmit} /> : ''}
   </div>
 );
 
@@ -82,8 +61,6 @@ const mapStateToProps = (state) => ({
   activeFilter: state.activity.filter,
   items: getVisibleActivity(state.activity.items, state.activity.filter),
   showChatInput: showChatInput(state.activity.filter),
-  docked: state.activity.docked,
-  minimized: state.activity.minimized,
 });
 
 const mapDispatchToProps = dispatch => ({
