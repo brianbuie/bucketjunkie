@@ -29,8 +29,7 @@ const activity = combineReducers({
 });
 
 const feed = combineReducers({
-  // FLOATING DOCKED MINIMIZED
-  position: (state = 'FLOATING', action) => {
+  position: (state = 'floating', action) => {
     switch (action.type) {
       case 'FEED_POSITION':
         return action.position;

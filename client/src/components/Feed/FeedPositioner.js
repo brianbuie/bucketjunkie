@@ -5,27 +5,27 @@ import { changeFeedPosition } from 'actions';
 
 const FeedPositioner = ({ position, changeFeedPosition }) => {
   const minimize = (
-    <A click={() => changeFeedPosition('MINIMIZED')} key="minimize">
+    <A click={() => changeFeedPosition('minimized')} key="minimize">
       <i className="fa fa-minus m-1"></i>
     </A>
   );
   const float = (
-    <A click={() => changeFeedPosition('FLOATING')} key="float">
+    <A click={() => changeFeedPosition('floating')} key="float">
       <i className="fa fa-toggle-left m-1"></i>
     </A>
   );
   const dock = (
-    <A click={() => changeFeedPosition('DOCKED')} key="dock">
+    <A click={() => changeFeedPosition('docked')} key="dock">
       <i className="fa fa-toggle-right m-1"></i>
     </A>
   );
 
   switch (position) {
-    case 'MINIMIZED':
+    case 'minimized':
       return float;
-    case 'FLOATING':
+    case 'floating':
       return [minimize, dock];
-    case 'DOCKED':
+    case 'docked':
       return float;
   }
 };

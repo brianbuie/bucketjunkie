@@ -8,10 +8,7 @@ import FeedPositioner from 'components/Feed/FeedPositioner';
 import Activity from 'components/Activity/Activity';
 
 const Feed = ({ position }) => {
-  const classNames = ["Feed__Container"];
-  if (position === 'FLOATING') classNames.push('floating');
-  if (position === 'MINIMIZED') classNames.push('minimized');
-  if (position === 'DOCKED') classNames.push('docked');
+  const classNames = ["Feed__Container", position];
   return (
     <div className={classNames.join(' ')}>
       <div className="Feed__Menu">
@@ -21,7 +18,7 @@ const Feed = ({ position }) => {
         <AccountLauncher />
         <FeedPositioner />
       </div>
-      {position != 'MINIMIZED'
+      {position != 'minimized'
         ? <Activity />
         : ''
       }
