@@ -1,27 +1,15 @@
+import './Activity.scss';
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { setActivityFilter, sendChat } from 'actions';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import { A } from 'components/Utilities';
+import ActivityMenu from 'components/Activity/ActivityMenu';
 import ActivityList from 'components/Activity/ActivityList';
 import ChatForm from 'components/Activity/ChatForm';
-import './Activity.scss';
 
-const Activity = ({ items, showChatInput, filterClick, activeFilter, filters, chatSubmit }) => (
+const Activity = ({ items, showChatInput, setActivityFilter, activeFilter, filters, chatSubmit }) => (
   <div className="Activity__Container d-flex flex-column">
-    <Nav className="nav-fill">
-      {filters.map(filter => (
-        <NavItem key={filter.filter}>
-          <A 
-            className="nav-link text-small" 
-            click={() => filterClick(filter.filter)} 
-            active={activeFilter === filter.filter}
-          >
-            {filter.text}
-          </A>
-        </NavItem>
-      ))}
-    </Nav>
+    <ActivityMenu setActivityFilter={setActivityFilter} activeFilter={activeFilter} />
     <ActivityList items={items} />
     {showChatInput ? <ChatForm chatSubmit={chatSubmit} /> : ''}
   </div>
@@ -44,27 +32,18 @@ const getVisibleActivity = (items, filter) => {
   }
 };
 
-const filters = [
-  { filter: 'SHOW_ALL', text: 'All' },
-  { filter: 'SHOW_CHAT', text: 'Chat' },
-  { filter: 'SHOW_ROSTERS', text: 'Rosters' },
-  { filter: 'SHOW_SCORES', text: 'Scores' },
-  { filter: 'SHOW_LEAGUE', text: 'League' },
-];
-
 const showChatInput = (filter) => {
   return ['SHOW_ALL', 'SHOW_CHAT'].includes(filter);
 }
 
 const mapStateToProps = (state) => ({
-  filters,
   activeFilter: state.activity.filter,
   items: getVisibleActivity(state.activity.items, state.activity.filter),
   showChatInput: showChatInput(state.activity.filter),
 });
 
 const mapDispatchToProps = dispatch => ({
-  filterClick: filter => dispatch(setActivityFilter(filter)),
+  setActivityFilter: filter => dispatch(setActivityFilter(filter)),
   chatSubmit: input => dispatch(sendChat(input)),
 });
 

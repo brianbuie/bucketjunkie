@@ -48,6 +48,7 @@ $theme-colors: (
 // Spacers
 //
 $spacer: 1rem !default;
+$spacer-xs: $spacer/4;
 $spacer-sm: $spacer/2;
 $spacer-lg: $spacer * 2;
 $spacer-xl: $spacer * 3;

@@ -1,29 +1,42 @@
 .Activity__Container {
   height: 100%;
-  .nav {
-    border-bottom: 3px solid $white;
-  }
-  .nav-link {
-    color: $body-color;
-    background-color: lighten($medium-gray, 10);
+}
 
-    &.active, &:hover {
-      background-color: $white;
-    }
+.Activity__Menu {
+  display: flex;
+  flex-direction: row;
+  background-color: lighten($medium-gray, 10);
+  flex-grow: 1;
+}
+
+.Activity__Menu__Item {
+  color: $body-color;
+  padding: $spacer-xs;
+  flex-grow: 1;
+  text-align: center;
+  display: block;
+  
+  &.active,
+  &:hover {
+    background-color: $white;
   }
 }
 
-.activity__item--rosters,
-.activity__item--scores,
-.activity__item--league,
-.activity__item--moderation {
+.Activity__Item {
+  padding: $spacer-xs $spacer;
+}
+
+.Activity__Item--rosters,
+.Activity__Item--scores,
+.Activity__Item--league,
+.Activity__Item--moderation {
   font-size: 75%;
   margin-left: $spacer;
   opacity: 0.8;
 }
 
-.activity__item--date {
-  max-width: 25%;
+.Activity__Item--date {
+  text-align: center;
   opacity: 0.8;
   font-size: 75%;
 }

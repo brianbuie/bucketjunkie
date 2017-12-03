@@ -21,6 +21,16 @@ export const sortByScore = (a,b) => {
   return 0;
 };
 
+// Moment relative dates
+export const calendarFormat = {
+  lastDay : '[Yesterday]',
+  sameDay : '[Today]',
+  nextDay : '[Tomorrow]',
+  lastWeek : 'dddd',
+  nextWeek : 'dddd',
+  sameElse : 'L'
+};
+
 export const isMember = (league, user) => league.members.some(member => member._id === user._id);
 
 export const isModerator = (league, user) => league.moderators.some(mod => mod._id === user._id);
