@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AccountLauncher from 'components/Account/AccountLauncher';
 import LeagueSwitcher from 'components/League/LeagueSwitcher';
 import FeedPositioner from 'components/Feed/FeedPositioner';
-import Activity from 'components/Activity/Activity';
+import FeedBody from 'components/Feed/FeedBody';
 
 const Feed = ({ position }) => {
   const classNames = ["Feed__Container", position];
@@ -19,7 +19,7 @@ const Feed = ({ position }) => {
         <FeedPositioner />
       </div>
       {position != 'minimized'
-        ? <Activity />
+        ? <FeedBody />
         : ''
       }
     </div>

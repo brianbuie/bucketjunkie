@@ -135,7 +135,6 @@ export const submitLogin = data => dispatch => {
       dispatch(newToast(res.json.message, toastType));
       if (res.meta.ok) {
         dispatch(loginSuccess(res.json.user));
-        dispatch(push(routes.myLeagues));
       }
     });
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { submitLogin } from 'actions';
 
-class LoginPage extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="bg-light height-100 p-3">
         <h2 className="text-center">
           Login
         </h2>
@@ -61,4 +61,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(LoginPage);
+)(LoginForm);
