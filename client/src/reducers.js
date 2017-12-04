@@ -44,8 +44,6 @@ const feed = combineReducers({
         if (!action.initialState.user) return 'LOGIN';
         if (!action.initialState.league) return 'MY_LEAGUES';
         return state;
-      case 'CHANGE_FEED_VIEW':
-        return action.view;
       case 'PASSWORD_RESET_TOKEN_CREATED':
         return 'LOGIN';
       case 'PASSWORD_RESET_TOKEN_INVALID':
@@ -58,6 +56,8 @@ const feed = combineReducers({
         return 'LOGIN';
       case 'RECEIVED_NEW_LEAGUE':
         return 'ACTIVITY';
+      case 'CHANGE_FEED_VIEW':
+        return action.view;
       default:
         return state;
     }

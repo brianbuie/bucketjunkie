@@ -7,6 +7,8 @@ const filterPlayers = (players, filter = { type: 'SHOW_ALL' }) => {
   switch (filter.type) {
     case 'LIST':
       return players.filter(p => filter.list.map(lp => lp._id || lp).includes(p._id));
+    case 'SORTED_LIST':
+      return players.filter(p => filter.list.map(lp => lp._id || lp).includes(p._id)).sort(sortByScore);
     case 'TEAM':
       return players.filter(p => p.team == filter.team).sort(sortByScore);
     case 'SHOW_ALL':

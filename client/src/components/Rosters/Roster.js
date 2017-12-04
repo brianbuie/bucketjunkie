@@ -2,7 +2,6 @@ import React from 'react';
 import { Collapse } from 'reactstrap';
 import PlayerList from 'components/Player/PlayerList';
 import UserPhoto from 'components/User/UserPhoto';
-import { sortByScore } from 'helpers';
 
 class Roster extends React.Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class Roster extends React.Component {
           </div>
         </a>
         <Collapse isOpen={this.state.collapseOpen}>
-          <PlayerList filter={{ type: 'LIST', list: this.props.players.sort(sortByScore) }} />
+          <PlayerList filter={{ type: 'SORTED_LIST', list: this.props.players }} />
         </Collapse>
       </div>
     );

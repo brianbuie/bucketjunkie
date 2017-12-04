@@ -20,12 +20,8 @@ class FetchManager extends React.Component {
     this.io.on('roster:create', roster => this.props.replaceRoster(roster));
     this.io.on('activity:create', item => this.props.addActivityItem(item));
     this.io.on('league:update', league => this.props.replaceLeague(league));
-    this.io.on('draft:update', draft => {
-      if (draft.user._id === this.props.user._id) this.props.replaceRoster(draft);
-    });
-    this.io.on('draft:create', draft => {
-      if (draft.user._id === this.props.user._id) this.props.replaceRoster(draft);
-    });
+    this.io.on('draft:update', draft => this.props.replaceRoster(draft));
+    this.io.on('draft:create', draft => this.props.replaceRoster(draft));
     this.io.on('message', message => console.log(message));
     this.evaluateNeeds(this.props.dataNeeds);
   }

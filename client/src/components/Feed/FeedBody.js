@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { changeFeedView } from 'actions';
-import Activity from 'components/Activity/Activity';
 import LoginForm from 'components/Account/LoginForm';
 import RegisterForm from 'components/Account/RegisterForm';
 import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
 import ResetPasswordForm from 'components/Account/ResetPasswordForm';
+import Activity from 'components/Activity/Activity';
 import MyLeagues from 'components/League/MyLeagues';
+import LeagueInfo from 'components/League/LeagueInfo';
 
 const FeedBody = ({ view, changeView, loc }) => {
   let token = queryString.parse(loc.search)['password-reset'];
@@ -23,6 +24,8 @@ const FeedBody = ({ view, changeView, loc }) => {
       return <ForgotPasswordForm goToLogin={() => changeView('LOGIN')} />
     case 'MY_LEAGUES':
       return <MyLeagues />
+    case 'LEAGUE_INFO':
+      return <LeagueInfo />
     default:
       return '';
   }

@@ -22,8 +22,8 @@ const Draft = ({ draft, movePlayer }) => (
   </div>
 );
 
-const mapStateToProps = ({ rosters }) => ({
-  draft: rosters.length ? rosters[0] : [],
+const mapStateToProps = ({ rosters, user }) => ({
+  draft: rosters.filter(roster => roster.user._id === user._id)[0] || []
 });
 
 const mapDispatchToProps = dispatch => ({

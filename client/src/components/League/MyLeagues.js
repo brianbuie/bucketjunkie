@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
-import LeagueInfo from 'components/League/LeagueInfo';
+import LeagueCard from 'components/League/LeagueCard';
 import { A } from 'components/Utilities';
 import { setLeague } from 'actions';
 
@@ -11,7 +11,7 @@ const MyLeagues = ({ myLeagues, setLeague }) => (
       <h2 className="text-center mb-3">My Leagues</h2>
       {myLeagues.map(league => (
         <A click={() => setLeague(league.id)} key={league.id} className="link-discreet">
-          <LeagueInfo {...league} />
+          <LeagueCard {...league} />
         </A>
       ))}
     </div>
