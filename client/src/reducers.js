@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
+import queryString from 'query-string';
 import { defaultPointValues, appendPlayerScore } from 'helpers';
 
 const activity = combineReducers({
@@ -46,9 +47,9 @@ const feed = combineReducers({
         return state;
       case 'PASSWORD_RESET_TOKEN_CREATED':
         return 'LOGIN';
-      case 'PASSWORD_RESET_TOKEN_INVALID':
+      case 'INVALID_PASSWORD_RESET_TOKEN':
         return 'FORGOT_PASSWORD';
-      case 'PASSWORD_RESET_TOKEN_VALID':
+      case 'VALID_PASSWORD_RESET_TOKEN':
         return 'RESET_PASSWORD';
       case 'LOGIN_SUCCESS':
         return 'MY_LEAGUES';
@@ -136,6 +137,21 @@ const dataNeeds = combineReducers({
         return state;
     }
   },
+  passwordReset: (state = 'ok', action) => {
+    switch (action.type) {
+      case '@@router/LOCATION_CHANGE':
+        if (queryString.parse(action.payload.search)['password-reset']) return 'need';
+        return state;
+      case 'VALIDATING_PASSWORD_RESET_TOKEN':
+        return 'fetching';
+      case 'VALID_PASSWORD_RESET_TOKEN':
+        return 'ok';
+      case 'INVALID_PASSWORD_RESET_TOKEN':
+        return 'ok';
+      default:
+        return state;
+    }
+  }
 });
 
 const league = (state = null, action) => {

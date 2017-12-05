@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import io from 'socket.io-client';
 
 import { 
@@ -11,6 +12,7 @@ import {
   getScores,
   getMyLeagues,
   socketConnected,
+  validatePasswordResetToken
 } from 'actions';
 
 class FetchManager extends React.Component {
@@ -31,6 +33,7 @@ class FetchManager extends React.Component {
   }
 
   evaluateNeeds(dataNeeds) {
+    if (dataNeeds.passwordReset === 'need') this.props.validatePasswordResetToken(this.props.token);
     if (dataNeeds.myLeagues === 'need') this.props.getMyLeagues();
     if (dataNeeds.activity === 'need') this.props.getActivity();
     if (dataNeeds.rosters === 'need') this.props.getRosters();
@@ -47,7 +50,11 @@ class FetchManager extends React.Component {
   }
 }
 
-const mapStateToProps = ({ dataNeeds, user }) => ({ dataNeeds, user });
+const mapStateToProps = ({ dataNeeds, user, router }) => ({ 
+  dataNeeds, 
+  user,
+  token: queryString.parse(router.location.search)['password-reset']
+});
 
 const mapDispatchToProps = dispatch => ({
   addActivityItem: item => dispatch(addActivityItem(item)),
@@ -57,7 +64,8 @@ const mapDispatchToProps = dispatch => ({
   getRosters: () => dispatch(getRosters()),
   getScores: () => dispatch(getScores()),
   getMyLeagues: () => dispatch(getMyLeagues()),
-  socketConnected: () => dispatch(socketConnected())
+  socketConnected: () => dispatch(socketConnected()),
+  validatePasswordResetToken: token => dispatch(validatePasswordResetToken(token))
 });
 
 export default connect(

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { submitPasswordReset, validatePasswordResetToken } from 'actions';
@@ -11,18 +12,10 @@ class ResetPasswordForm extends React.Component {
     this.state = {
       password: '',
       'confirm-password': '',
-      token: this.props.token,
-      valid: false
+      token: props.token
     }
     this.fieldChange = this.fieldChange.bind(this);
     this.submitForm = this.submitForm.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.validatePasswordResetToken(this.props.token)
-      .then(res => {
-        if (res.meta.ok) this.setState({ valid: true });
-      });
   }
 
   fieldChange(e) {
@@ -37,7 +30,7 @@ class ResetPasswordForm extends React.Component {
   }
 
   render() {
-    return this.state.valid ? (
+    return (
       <Scrollbars autoHide>
         <div className="bg-light p-3 height-100">
           <h2 className="text-center">
@@ -58,15 +51,17 @@ class ResetPasswordForm extends React.Component {
           </form>
         </div>
       </Scrollbars>
-    ) : '';
+    );
   }
 };
 
-const mapStateToProps = ({ router }) => ({ loc: router.location });
+const mapStateToProps = ({ router }) => ({
+  token: queryString.parse(router.location.search)['password-reset']
+})
 
 const mapDispatchToProps = dispatch => ({
   submitPasswordReset: data => dispatch(submitPasswordReset(data)),
-  validatePasswordResetToken: data => dispatch(validatePasswordResetToken(data))
+  validatePasswordResetToken: token => dispatch(validatePasswordResetToken(token)),
 });
 
 export default connect(

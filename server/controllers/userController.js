@@ -98,7 +98,7 @@ exports.updatePassword = async (req, res) => {
     resetPasswordExpires: { $gt: Date.now() },
   });
   if (!user) {
-    res.oops('Password reset is invalid or has expired');
+    return res.oops('Password reset is invalid or has expired');
   }
   const setPassword = promisify(user.setPassword, user);
   await setPassword(req.body.password);

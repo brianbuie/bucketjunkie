@@ -185,15 +185,16 @@ export const submitForgotPassword = data => dispatch => {
 
 export const validatePasswordResetToken = token => dispatch => {
   dispatch(loading());
+  dispatch({ type: 'VALIDATING_PASSWORD_RESET_TOKEN' });
   return post({ token }, '/api/account/validate-token')
     .then(res => {
       dispatch(doneLoading());
       if (res.meta.ok) {
-        dispatch({ type: 'PASSWORD_RESET_TOKEN_VALID' });
+        dispatch({ type: 'VALID_PASSWORD_RESET_TOKEN' });
       } else {
         dispatch(push('/'));
         dispatch(newToast(res.json.message, 'danger'));
-        dispatch({ type: 'PASSWORD_RESET_TOKEN_INVALID' });
+        dispatch({ type: 'INVALID_PASSWORD_RESET_TOKEN' });
       }
       return res;
     });

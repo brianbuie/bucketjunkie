@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 import { changeFeedView } from 'actions';
 import LoginForm from 'components/Account/LoginForm';
 import RegisterForm from 'components/Account/RegisterForm';
@@ -10,9 +9,7 @@ import Activity from 'components/Activity/Activity';
 import MyLeagues from 'components/League/MyLeagues';
 import LeagueInfo from 'components/League/LeagueInfo';
 
-const FeedBody = ({ view, changeView, loc }) => {
-  let token = queryString.parse(loc.search)['password-reset'];
-  if (token) return <ResetPasswordForm token={token} />
+const FeedBody = ({ view, changeView }) => {
   switch (view) {
     case 'ACTIVITY':
       return <Activity />
@@ -22,6 +19,8 @@ const FeedBody = ({ view, changeView, loc }) => {
       return <RegisterForm goToLogin={() => changeView('LOGIN')} />
     case 'FORGOT_PASSWORD':
       return <ForgotPasswordForm goToLogin={() => changeView('LOGIN')} />
+    case 'RESET_PASSWORD':
+      return <ResetPasswordForm />
     case 'MY_LEAGUES':
       return <MyLeagues />
     case 'LEAGUE_INFO':
@@ -31,7 +30,7 @@ const FeedBody = ({ view, changeView, loc }) => {
   }
 };
 
-const mapStateToProps = ({ feed, router }) => ({ view: feed.view, loc: router.location });
+const mapStateToProps = ({ feed }) => ({ view: feed.view });
 
 const mapDispatchToProps = dispatch => ({
   changeView: view => dispatch(changeFeedView(view))
