@@ -10,6 +10,7 @@ const LeagueInfo = ({ league, user }) => {
   return (
     <Scrollbars autoHide>
       <div className="p-3 bg-light">
+        <h3> {league.name} </h3>
         <small className="faded-2">
           {`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
         </small>
