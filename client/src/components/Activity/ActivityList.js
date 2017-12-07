@@ -1,4 +1,7 @@
+import './Activity.scss';
+
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { calendarFormat } from 'helpers';
@@ -39,21 +42,31 @@ class ActivityList extends React.Component {
 
   render() {
     return(
-      <Scrollbars autoHide ref={el => this.list = el}>
-        <div className="pl-2 py-3">
-          {this.props.items.map((item, k) => {
-            if (this.shouldIncludeDate(k)) return (
-              <div key={item._id}>
-                <ActivityItemDate date={item.date} />
-                <ActivityItem {...item} />
-              </div>
-            );
-            return <ActivityItem key={item._id} {...item} />
-          })}
-        </div>
-      </Scrollbars>
+      <div className="Activity__Container">
+        <Scrollbars autoHide ref={el => this.list = el}>
+          <div className="Activity__List">
+            {this.props.items.map((item, k) => (
+              this.shouldIncludeDate(k)) 
+              ? (
+                <div key={item._id}>
+                  <ActivityItemDate date={item.date} />
+                  <ActivityItem {...item} />
+                </div>
+              ) : (
+                <ActivityItem key={item._id} {...item} />
+              )
+            )}
+          </div>
+        </Scrollbars>
+      </div>
     );
   }
 }
 
-export default ActivityList;
+const mapStateToProps = (state, ownProps) => ({
+  items: !!ownProps.filter ? state.activity.items.filter(a => a.category === ownProps.filter) : state.activity.items
+});
+
+export default connect(
+  mapStateToProps
+)(ActivityList);

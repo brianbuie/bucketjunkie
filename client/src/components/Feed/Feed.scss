@@ -25,3 +25,29 @@
   flex-direction: row;
   padding: $spacer-sm;
 }
+
+.LeagueFeed {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.LeagueFeed__Menu {
+  display: flex;
+  flex-direction: row;
+  background-color: lighten($medium-gray, 10);
+  flex-grow: 1;
+}
+
+.LeagueFeed__Menu__Item {
+  color: $body-color;
+  padding: $spacer-xs;
+  flex-grow: 1;
+  text-align: center;
+  display: block;
+  
+  &.active,
+  &:hover {
+    background-color: $white;
+  }
+}

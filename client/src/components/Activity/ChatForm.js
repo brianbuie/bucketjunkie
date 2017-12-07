@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { sendChat } from 'actions';
 
-const ChatForm = ({ chatSubmit }) => {
+const ChatForm = ({ submit }) => {
   let input;
   return (
     <form onSubmit={e => {
       e.preventDefault();
       if (!input.value.trim()) return;
-      chatSubmit(input.value);
+      submit(input.value);
       input.value = '';
     }}>
       <div className="form-group my-0 pr-0">
@@ -16,4 +18,11 @@ const ChatForm = ({ chatSubmit }) => {
   );
 };
 
-export default ChatForm;
+const mapDispatchToProps = dispatch => ({
+  submit: input => dispatch(sendChat(input)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ChatForm);

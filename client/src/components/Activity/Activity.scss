@@ -1,26 +1,13 @@
 .Activity__Container {
   height: 100%;
   background-color: $white;
-}
-
-.Activity__Menu {
   display: flex;
-  flex-direction: row;
-  background-color: lighten($medium-gray, 10);
-  flex-grow: 1;
+  flex-direction: column;
 }
 
-.Activity__Menu__Item {
-  color: $body-color;
-  padding: $spacer-xs;
-  flex-grow: 1;
-  text-align: center;
-  display: block;
-  
-  &.active,
-  &:hover {
-    background-color: $white;
-  }
+.Activity__List {
+  height: 100%;
+  padding: $spacer-lg $spacer-sm;
 }
 
 .Activity__Item {

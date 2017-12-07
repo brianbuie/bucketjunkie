@@ -7,11 +7,6 @@ export const appInit = initialState => ({
   initialState
 });
 
-export const setActivityFilter = filter => ({
-  type: 'SET_ACTIVITY_FILTER',
-  filter
-});
-
 export const changeFeedPosition = position => ({
   type: 'FEED_POSITION',
   position

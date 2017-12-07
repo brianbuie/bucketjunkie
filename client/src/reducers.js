@@ -4,14 +4,6 @@ import queryString from 'query-string';
 import { defaultPointValues, appendPlayerScore } from 'helpers';
 
 const activity = combineReducers({
-  filter: (state = 'SHOW_ALL', action) => {
-    switch (action.type) {
-      case 'SET_ACTIVITY_FILTER':
-        return action.filter
-      default:
-        return state
-    }
-  },
   items: (state = [], action) => {
     switch (action.type) {
       case 'ADD_ACTIVITY_ITEM':
@@ -41,7 +33,7 @@ const feed = combineReducers({
   view: (state = 'ACTIVITY', action) => {
     switch (action.type) {
       case 'APP_INIT':
-        if (action.initialState.league) return 'ACTIVITY';
+        if (action.initialState.league) return 'ACTIVITY_ALL';
         if (!action.initialState.user) return 'LOGIN';
         if (!action.initialState.league) return 'MY_LEAGUES';
         return state;
@@ -56,7 +48,7 @@ const feed = combineReducers({
       case 'LOGOUT_SUCCESS':
         return 'LOGIN';
       case 'RECEIVED_NEW_LEAGUE':
-        return 'ACTIVITY';
+        return 'ACTIVITY_ALL';
       case 'CHANGE_FEED_VIEW':
         return action.view;
       default:
