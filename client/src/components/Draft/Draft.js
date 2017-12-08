@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { movePlayer } from 'actions';
 import { A } from 'components/Utilities';
 import PlayerContainer from 'components/Player/PlayerContainer';
+import PlayerListItem from 'components/Player/PlayerListItem';
 
 const Draft = ({ draft, movePlayer }) => (
   <div className="bg-light mb-3">
@@ -16,7 +17,7 @@ const Draft = ({ draft, movePlayer }) => (
             <i className="fa fa-arrow-down" />
           </A>
         </div>
-        <PlayerContainer id={player._id} />
+        <PlayerContainer id={player._id} component={PlayerListItem} />
       </div>
     )) : ''}
   </div>

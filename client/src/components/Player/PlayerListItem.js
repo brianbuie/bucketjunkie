@@ -1,13 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import routes from 'routes';
 import { A } from 'components/Utilities';
 import { ImageRound } from 'components/Utilities/ui';
 import TeamIcon from 'components/Team/TeamIcon';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerListItem = (props) => (
-  <div className="striped d-flex flex-row align-items-center px-3">
+  <div className="striped d-flex flex-row align-items-center px-3 width-100">
     <Row className="no-gutters py-1 flex-grow">
       <Col xs="2" className="d-flex flex-column justify-content-center py-1">
         <ImageRound path={props.image} />
@@ -21,7 +20,7 @@ const PlayerListItem = (props) => (
       </Col>
       <Col xs="2" className="d-flex flex-column justify-content-center text-center">
         <h2 className="faded-1 m-0">
-          {Math.round(props.score)}
+          {Math.round(props.score) || 0}
         </h2>
         <small className="faded-2 m-0">AVG</small>
       </Col>
