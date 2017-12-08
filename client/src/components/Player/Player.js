@@ -2,37 +2,11 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import routes from 'routes';
 import { A } from 'components/Utilities';
+import { ImageRound } from 'components/Utilities/ui';
 import TeamIcon from 'components/Team/TeamIcon';
 import UpcomingGames from 'components/Player/UpcomingGames';
 import PlayerAverages from 'components/Player/PlayerAverages';
-
-const PlayerImage = ({ image }) => {
-  return (
-    <div className="rounded-circle player__picture"
-      style={{backgroundImage: `url("${image}")`}}
-    >
-    </div>
-  );
-};
-
-const PlayerButton = ({ id, availableAction, addPlayer, removePlayer }) => {
-  switch (availableAction) {
-    case 'ADD':
-      return (
-        <A click={() => addPlayer(id)}>
-          <i className="fa fa-plus-circle text-success"></i>
-        </A>
-      );
-    case 'REMOVE':
-      return (
-        <A click={() => removePlayer(id)}>
-          <i className="fa fa-minus-circle text-danger"></i>
-        </A>
-      );
-    default:
-      return <i className="fa fa-circle-o invisible"></i>
-  }
-};
+import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const Player = ({ 
   id, 
@@ -51,7 +25,7 @@ const Player = ({
   <div className="striped d-flex flex-row align-items-center px-3">
     <Row className="no-gutters py-3 flex-grow">
       <Col xs="2" className="d-flex flex-column justify-content-center">
-        <PlayerImage image={image} />
+        <ImageRound path={image} />
       </Col>
       <Col xs="8" className="px-2">
         <A className="link-discreet" click={() => viewPlayer(id)}>
@@ -71,7 +45,7 @@ const Player = ({
         <p className="faded-2 m-0">AVG</p>
       </Col>
     </Row>
-    <PlayerButton 
+    <PlayerRosterButton 
       id={id}
       availableAction={availableAction}
       addPlayer={addPlayer}
