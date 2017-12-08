@@ -62,6 +62,8 @@ const detailView = combineReducers({
     switch (action.type) {
       case 'VIEW_PLAYER':
         return 'PLAYER';
+      case 'CLEAR_DETAIL_VIEW':
+        return '';
       default:
         return state;
     }
@@ -70,6 +72,8 @@ const detailView = combineReducers({
     switch (action.type) {
       case 'VIEW_PLAYER':
         return { id: action.id };
+      case 'CLEAR_DETAIL_VIEW':
+        return {};
       default:
         return state;
     }

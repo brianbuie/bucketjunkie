@@ -95,6 +95,10 @@ export const viewPlayer = id => ({
   id
 });
 
+export const clearDetailView = () => ({
+  type: 'CLEAR_DETAIL_VIEW'
+});
+
 
 
 /*
