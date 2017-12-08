@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import PlayerContainer from 'components/Player/PlayerContainer';
+import Player from 'components/Player/Player';
 import { sortByScore } from 'helpers';
 
 const filterPlayers = (players, filter = { type: 'SHOW_ALL' }) => {
@@ -23,7 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
 const PlayerList = ({ players }) => (
   <div className="bg-light">
     {players.map(player => (
-      <PlayerContainer id={player._id} key={player._id}/>
+      <PlayerContainer id={player._id} key={player._id} component={Player} />
     ))}
   </div>
 );

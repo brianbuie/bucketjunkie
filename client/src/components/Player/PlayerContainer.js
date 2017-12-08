@@ -1,6 +1,11 @@
+import React from 'react';
 import { connect } from 'react-redux';
-import Player from 'components/Player/Player';
 import { addPlayer, removePlayer, viewPlayer } from 'actions';
+
+const PlayerContainer = props => {
+  let Component = props.component;
+  return <Component {...props} />
+}
 
 const getAvailableAction = (state, id) => {
   let roster = state.rosters.filter(roster => roster.players.some(p => p._id == id))[0];
@@ -24,4 +29,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Player);
+)(PlayerContainer);

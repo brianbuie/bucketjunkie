@@ -17,14 +17,14 @@ const Layout = ({ }) => (
       </NoScrollbars>
     </div>
     <Row noGutters className="flex-grow height-100">
-      <Col xs="6" className="height-100">
+      <Col xs="6" className="height-100 px-2">
         <Scrollbars autoHide>
           <Route exact path="/teams" component={AllPlayers} />
           <Route path="/teams/:team" component={AllPlayers} />
           <Route path="/rosters" component={LeagueStandings} />
         </Scrollbars>
       </Col>
-      <Col xs="6">
+      <Col xs="6" className="px-2">
         <DetailView />
       </Col>
     </Row>
