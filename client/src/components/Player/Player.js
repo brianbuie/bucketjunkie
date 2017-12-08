@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import routes from 'routes';
 import { A } from 'components/Utilities';
 import TeamIcon from 'components/Team/TeamIcon';
@@ -46,6 +45,7 @@ const Player = ({
   availableAction, 
   addPlayer, 
   removePlayer,
+  viewPlayer,
   showAverages,
 }) => (
   <div className="striped d-flex flex-row align-items-center px-3">
@@ -54,11 +54,11 @@ const Player = ({
         <PlayerImage image={image} />
       </Col>
       <Col xs="8" className="px-2">
-        <Link to={`${routes.players}/${id}`} className="link-discreet">
+        <A className="link-discreet" click={() => viewPlayer(id)}>
           <h4 className="mb-2 font-weight-normal text-truncate">
             {name}
           </h4>
-        </Link>
+        </A>
         {showAverages
           ? <PlayerAverages averages={averages} />
           : <UpcomingGames upcomingGames={upcomingGames} team={team} />

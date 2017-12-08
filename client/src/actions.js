@@ -90,6 +90,11 @@ export const socketConnected = () => ({
   type: 'SOCKET_CONNECTED'
 });
 
+export const viewPlayer = id => ({
+  type: 'VIEW_PLAYER',
+  id
+});
+
 
 
 /*

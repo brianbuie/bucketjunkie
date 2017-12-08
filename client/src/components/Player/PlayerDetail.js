@@ -1,9 +1,9 @@
 import React from 'react';
 import PlayerContainer from 'components/Player/PlayerContainer';
 
-const PlayerDetail = ({ match }) => (
+const PlayerDetail = ({ id }) => (
   <div className="bg-light">
-    <PlayerContainer id={match.params.id} showAverages />
+    <PlayerContainer id={id} showAverages />
   </div>
 );
 

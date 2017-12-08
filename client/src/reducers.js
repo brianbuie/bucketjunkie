@@ -57,6 +57,25 @@ const feed = combineReducers({
   }
 });
 
+const detailView = combineReducers({
+  type: (state = '', action) => {
+    switch (action.type) {
+      case 'VIEW_PLAYER':
+        return 'PLAYER';
+      default:
+        return state;
+    }
+  },
+  details: (state = {}, action) => {
+    switch (action.type) {
+      case 'VIEW_PLAYER':
+        return { id: action.id };
+      default:
+        return state;
+    }
+  }
+});
+
 const dataNeeds = combineReducers({
   myLeagues: (state = 'ok', action) => {
     switch (action.type) {
@@ -264,6 +283,7 @@ const user = (state = null, action) => {
 const reducers = combineReducers({
   activity,
   dataNeeds,
+  detailView,
   feed,
   league,
   myLeagues,

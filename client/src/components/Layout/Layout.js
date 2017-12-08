@@ -6,7 +6,7 @@ import { NoScrollbars } from 'components/Utilities';
 import Feed from 'components/Feed/Feed';
 import IconMenu from 'components/IconMenu/IconMenu';
 import AllPlayers from 'components/Player/AllPlayers';
-import PlayerDetail from 'components/Player/PlayerDetail';
+import DetailView from 'components/Layout/DetailView';
 import LeagueStandings from 'components/League/LeagueStandings';
 
 const Layout = ({ }) => (
@@ -25,7 +25,7 @@ const Layout = ({ }) => (
         </Scrollbars>
       </Col>
       <Col xs="6">
-        <Route path="/players/:id" component={PlayerDetail} />
+        <DetailView />
       </Col>
     </Row>
     <Feed />
