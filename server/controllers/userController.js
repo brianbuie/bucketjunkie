@@ -6,6 +6,7 @@ const mail = require('../services/mailService');
 const multer = require('multer');
 const jimp = require('jimp');
 const uuid = require('uuid');
+const cloudinary = require('cloudinary');
 
 const User = mongoose.model('User');
 
@@ -53,6 +54,20 @@ exports.resizePhoto = async (req, res, next) => {
   await photo.write(`./client/public/images/uploads/${req.body.photo}`);
   return next();
 };
+
+// exports.sendToCloudinary = (req, res, next) => {
+//   cloudinary.config({
+//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//     api_key: process.env.CLOUDINARY_KEY,
+//     api_secret: process.env.CLOUDINARY_SCRET
+//   });
+//   cloudinary.v2.uploader.upload_stream({ resource_type: 'raw' },
+//     function(result) {
+//       console.log(result);
+//       return res.oops({ message: 'cloudinary callback', error, result });
+//     }
+//   ).end(req.file.buffer);
+// };
 
 exports.updateAccount = async (req, res) => {
   const updates = {
