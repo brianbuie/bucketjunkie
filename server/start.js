@@ -64,8 +64,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const sessionStore = new MongoStore({ mongooseConnection: mongoose.connection });
 app.use(session({
-  secret: process.env.SECRET,
-  key: process.env.KEY,
+  secret: process.env.SESSION_SECRET,
+  key: process.env.SESSION_KEY,
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
@@ -95,8 +95,8 @@ app.use(catchErrors(render.initialState));
 // io
 const passportSocketIo = require('passport.socketio');
 io.use(passportSocketIo.authorize({
-  secret: process.env.SECRET,
-  key: process.env.KEY,
+  secret: process.env.SESSION_SECRET,
+  key: process.env.SESSION_KEY,
   store: sessionStore,
   success: (data, accept) => accept(null, true),
   fail: (data, message, error, accept) => {

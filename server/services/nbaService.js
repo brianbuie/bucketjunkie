@@ -40,7 +40,7 @@ const fetch = async (path, query) => {
       qs: query,
       headers: { 'cache-control': 'no-cache' },
     };
-    options.qs.api_key = process.env.API_KEY;
+    options.qs.api_key = process.env.NBA_API_KEY;
     request(options, function (error, response, body) {
       if (error) return reject(error);
       if (response.statusCode != 200) return reject(response.statusCode);
