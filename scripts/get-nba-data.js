@@ -59,12 +59,7 @@ async function data() {
     }));
 
     console.log('\ninserting players');
-    await Player.insertMany(players.map(player => {
-      player._id = player.id;
-      player.team = player.team_id;
-      player.name = player.player_name;
-      return player;
-    }).filter(player => player.team));
+    await Player.insertMany(players.filter(player => !!player.team));
 
     console.log('\nData loaded!');
 

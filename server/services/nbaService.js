@@ -32,6 +32,13 @@ const mutateGame = game => {
   return game;
 };
 
+const mutatePlayer = player => {
+  player._id = player.id;
+  player.team = player.team_id;
+  player.name = player.player_name;
+  return player;
+};
+
 const fetch = async (path, query) => {
   return new Promise((resolve, reject) => {
     const options = {
@@ -49,7 +56,8 @@ const fetch = async (path, query) => {
   });
 };
 
-exports.fetchAllPlayers = () => fetch('/player', {});
+exports.fetchAllPlayers = () => fetch('/player', {})
+  .then(players => players.map(player => mutatePlayer(player)));
 
 exports.fetchAllTeams = () => fetch('/team', {});
 
