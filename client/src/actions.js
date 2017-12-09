@@ -125,6 +125,7 @@ export const submitNewPhoto = formData => dispatch => {
 };
 
 export const submitLeagueEdit = (data, id) => dispatch => {
+  return console.log(data);
   dispatch(loading());
   return post(data, `/api/lg/${id}/edit`)
     .then(res => {

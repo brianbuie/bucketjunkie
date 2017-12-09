@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment';
 import { Row, Col } from 'reactstrap';
+import { isModerator } from 'helpers';
+import { A } from 'components/Utilities';
 
-const LeagueInfo = ({ league, user }) => {
+const LeagueInfo = ({ league, user, goToLeagueEdit }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
     <Scrollbars autoHide>
       <div className="p-3">
         <h3> {league.name} </h3>
+        {isModerator(league, user) ? <p><A click={goToLeagueEdit}>Edit</A></p> : ''}
         <small className="faded-2">
           {`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
         </small>

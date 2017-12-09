@@ -25,3 +25,15 @@ export const NoScrollbars = ({ children }) => (
     {children}
   </Scrollbars>
 );
+
+export const FlexRow = ({ children }) => (
+  <div className="d-flex flex-row">
+    {children}
+  </div>
+);
+
+export const FlexColumn = ({ children }) => (
+  <div className="d-flex flex-column">
+    {children}
+  </div>
+);
