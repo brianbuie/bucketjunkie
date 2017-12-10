@@ -54,13 +54,16 @@ class LeagueForm extends React.Component {
 
   submitForm = e => {
     e.preventDefault();
-    this.props.submit({...this.state});
+    this.props.submit({
+      ...this.state,
+      start: moment(this.state.start).toISOString()
+    });
   }
 
   render = () => {
     return this.state ? (
       <FullHeight>
-        <div className="bg-light p-3">
+        <div className="bg-light p-3 height-100">
           <h2 className="text-center">
             {this.state._id ? 'Edit League' : 'Create League'}
           </h2>
@@ -96,49 +99,53 @@ class LeagueForm extends React.Component {
               </Row>
             </Container>
 
-            <Container>
-              <Row>
-                <Col sm="3"> Start </Col>
-                <Col sm="9">
-                  <FormGroup>
-                    <Input type="datetime-local" name="start" value={this.state.start} onChange={this.fieldChange} />
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Container>
+            {!this.state.started ? (<div>
 
-            <Container>
-              <Row>
-                <Col sm="3"> Roster Size </Col>
-                <Col sm="9">
-                  <FormGroup>
-                    <Input type="number" name="rosterSize" value={this.state.rosterSize} onChange={this.fieldChange}/>
-                  </FormGroup>
-                </Col>
-              </Row>
-            </Container>
-
-            <Container>
-              <h4 className="text-muted text-center mb-3"> Point Values </h4>
-              <Row>
-                {Object.keys(this.state.pointValues).map(stat => (
-                  <Col xs="6" key={stat}>
+              <Container>
+                <Row>
+                  <Col sm="3"> Start </Col>
+                  <Col sm="9">
                     <FormGroup>
-                      <Row noGutters>
-                        <Col xs="6">
-                          <div className="text-right pr-2">
-                            {stat.toUpperCase()}
-                          </div>
-                        </Col>
-                        <Col xs="6">
-                          <Input type="number" id={stat} name={stat} value={this.state.pointValues[stat]} onChange={this.pointValueChange} />
-                        </Col>
-                      </Row>
+                      <Input type="datetime-local" name="start" value={this.state.start} onChange={this.fieldChange} />
                     </FormGroup>
                   </Col>
-                ))}
-              </Row>
-            </Container>
+                </Row>
+              </Container>
+
+              <Container>
+                <Row>
+                  <Col sm="3"> Roster Size </Col>
+                  <Col sm="9">
+                    <FormGroup>
+                      <Input type="number" name="rosterSize" value={this.state.rosterSize} onChange={this.fieldChange}/>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </Container>
+
+              <Container>
+                <h4 className="text-muted text-center mb-3"> Point Values </h4>
+                <Row>
+                  {Object.keys(this.state.pointValues).map(stat => (
+                    <Col xs="6" key={stat}>
+                      <FormGroup>
+                        <Row noGutters>
+                          <Col xs="6">
+                            <div className="text-right pr-2">
+                              {stat.toUpperCase()}
+                            </div>
+                          </Col>
+                          <Col xs="6">
+                            <Input type="number" id={stat} name={stat} value={this.state.pointValues[stat]} onChange={this.pointValueChange} />
+                          </Col>
+                        </Row>
+                      </FormGroup>
+                    </Col>
+                  ))}
+                </Row>
+              </Container>
+
+            </div>) : ''}
 
             <Button type="submit" color="success" className="my-3" block>
                Save →

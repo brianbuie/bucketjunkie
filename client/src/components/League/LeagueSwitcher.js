@@ -13,7 +13,7 @@ const LeagueSwitcher = ({ league, myLeagues, setLeague }) => {
       </DropdownToggle>
       <DropdownMenu>
         {myLeagues.map(league => (
-          <DropdownItem onClick={() => setLeague(league.id)} key={league.id}>
+          <DropdownItem onClick={() => setLeague(league._id)} key={league._id}>
             {league.name}
           </DropdownItem>
         ))}

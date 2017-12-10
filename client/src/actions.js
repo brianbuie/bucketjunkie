@@ -129,12 +129,10 @@ export const submitNewPhoto = formData => dispatch => {
     });
 };
 
-export const submitLeagueEdit = (data, id) => dispatch => {
-  return console.log(data);
+export const submitLeagueEdit = data => dispatch => {
   dispatch(loading());
-  return post(data, `/api/lg/${id}/edit`)
+  return post(data, `/api/lg/${data._id}/edit`)
     .then(res => {
-      console.log(res);
       dispatch(doneLoading());
       let toastType = res.meta.ok ? 'success' : 'danger';
       dispatch(newToast(res.json.message, toastType));

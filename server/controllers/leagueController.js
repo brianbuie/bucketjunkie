@@ -12,32 +12,52 @@ const Roster = mongoose.model('Roster');
 const Draft = mongoose.model('Draft');
 const Score = mongoose.model('Score');
 
-exports.validateLeague = [
-  sanitizeBody('name').trim().blacklist('<>'),
-  body('name').isLength({ min: 3 })
-    .withMessage('Your league must have a name'),
-  sanitizeBody('description').blacklist('<>'),
-  body('leagueType').isIn(['fantasy', 'contest']).optional(),
-  body('start').custom((val, { req }) => {
-    const converted = moment.utc(val).add(req.body['UTC-offset'], 'hours');
-    const utcMin = moment().utc().add(5, 'minutes');
-    return converted.isAfter(utcMin); 
-  })
-    .withMessage('Start time must be at least 5 minutes in the future').optional(),
-  body('rosterSize').custom(val => val >= 1 && val <= 20)
-    .withMessage('Roster Size must be between 1 and 20').optional(),
-  sanitizeBody('pointValues.*').toInt(),
-  body('pointValues.*').custom(val => val <= 10 && val >= -10)
-    .withMessage('Point values must be between -10 and 10').optional(),
-  body('pointValues').custom(val => Object.keys(val).some(k => val[k] != 0))
-    .withMessage('At least one stat must have a value').optional(),
-];
-
-const timezoneInputFix = (reqDate, reqOffset) => {
-  const serverOffset = new Date().getTimezoneOffset() / 60;
-  const offset = reqOffset - serverOffset;
-  return moment.utc(reqDate).add(offset, 'hours').format('YYYY-MM-DDTHH:mm');
+exports.stripFields = (req, res, next) => {
+  const alwaysAccepted = ['name', 'description', 'public', 'open'];
+  const onlyIfUnstarted = ['uniqueRosters', 'start', 'rosterSize', 'pointValues'];
+  const acceptedFields = (req.league && req.league.started)
+    ? alwaysAccepted
+    : alwaysAccepted.concat(onlyIfUnstarted)
+  const newBody = {};
+  acceptedFields.map(field => newBody[field] = req.body[field]);
+  req.body = newBody;
+  return next();
 };
+
+exports.validateLeague = [
+  sanitizeBody('name')
+    .trim()
+    .blacklist('<>'),
+  body('name')
+    .isLength({ min: 3 })
+    .withMessage('Your league must have a name'),
+  sanitizeBody('description')
+    .blacklist('<>'),
+  body('public')
+    .isBoolean(),
+  body('open')
+    .isBoolean(),
+  body('uniqueRosters')
+    .isBoolean()
+    .optional(),
+  body('start')
+    .custom(val => moment(val).isAfter(moment().add(5, 'minutes')))
+    .withMessage('Start time must be at least 5 minutes in the future')
+    .optional(),
+  body('rosterSize').custom(val => val >= 1 && val <= 20)
+    .withMessage('Roster Size must be between 1 and 20')
+    .optional(),
+  sanitizeBody('pointValues.*')
+    .toInt(),
+  body('pointValues.*')
+    .custom(val => val <= 10 && val >= -10)
+    .withMessage('Point values must be between -10 and 10')
+    .optional(),
+  body('pointValues')
+    .custom(val => Object.keys(val).some(k => val[k] != 0))
+    .withMessage('At least one stat must have a value')
+    .optional(),
+];
 
 exports.createLeague = async (req, res) => {
   req.body.public = req.body.public || false;
@@ -60,37 +80,29 @@ exports.createLeague = async (req, res) => {
 };
 
 exports.updateLeague = async (req, res) => {
-  req.body.public = req.body.public || false;
-  req.body.open = req.body.open || false;
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(500).json({ message: 'Error!', errors: errors.array() });
-  }
-  if (!req.league.started) {
-    req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
+    return res.oops({ message: `Error! ${errors.array().map(e => e.msg).join(', ')}` });
   }
   req.league.set(req.body);
   if (!req.league.isModified()) {
     return res.greatJob('Nothing changed');
   }
-  const rules = ['pointValues', 'rosterSize', 'uniqueRosters'];
-  if (req.league.started && req.league.modifiedPaths().some(path => rules.includes(path))) {
-    return req.oops('The league has already started');
-  }
-  req.actions = req.league.modifiedPaths()
+  const actions = req.league.modifiedPaths()
     .filter(path => !/^pointValues$/.test(path))
     .map(path => {
-      let action = { category: 'league' };
+      let action = { user: req.user, league: req.league, category: 'league' };
       if (path.includes('pointValues')) {
         let newPath = path.replace('pointValues.', '');
         action.message = `updated the point value for ${newPath.toUpperCase()} to ${req.league.pointValues[newPath]} points`;
       } else {
         action.message = `updated the league ${path} to "${req.league[path]}"`;
       }
-      return action; 
+      return action;
     });
-  await req.league.save(err => err ? req.oops('Error updating league') : null);
-  await activityService.addActivity(req);
+  await req.league.save(err => err ? res.oops('Error updating league') : null);
+  await Promise.all(actions.map(action => activityService.addAction(action)));
   return res.greatJob('Updated League');
 };
 

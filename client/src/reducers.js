@@ -198,6 +198,8 @@ const myLeagues = (state = [], action) => {
   switch (action.type) {
     case 'REPLACE_MY_LEAGUES':
       return action.leagues;
+    case 'REPLACE_LEAGUE':
+      return state.map(myLeague => myLeague._id === action.league._id ? action.league : myLeague);
     case 'LOGOUT_SUCCESS':
       return [];
     default:

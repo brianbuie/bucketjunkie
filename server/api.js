@@ -29,7 +29,7 @@ router.use('/lg/:id', catchErrors(auth.useParam));
 router.get('/lg/:id', league.setLeague);
 router.get('/lg/:id/join', auth.isLoggedIn, catchErrors(league.joinLeague));
 router.post('/lg/:id/leave', auth.isMember, auth.notCreator, catchErrors(league.leaveLeague));
-router.post('/lg/:id/edit', auth.isModerator, league.validateLeague, catchErrors(league.updateLeague));
+router.post('/lg/:id/edit', auth.isModerator, league.stripFields, league.validateLeague, catchErrors(league.updateLeague));
 router.post('/lg/:id/members/remove', auth.isModerator, catchErrors(league.removeMember));
 router.post('/lg/:id/moderators/add', auth.isCreator, catchErrors(league.addModerator));
 router.post('/lg/:id/moderators/remove', auth.isCreator, catchErrors(league.removeModerator));
