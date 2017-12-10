@@ -1,35 +1,49 @@
 import React from 'react';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { submitLeagueEdit } from 'actions';
-import { A, Container, FlexRow } from 'components/Utilities';
+import { A, Container, FlexRow, FullHeight } from 'components/Utilities';
 
-class LeagueEdit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { ...props.league };
-    this.state.start = moment(props.league.start).format('YYYY-MM-DDTHH:mm');
-    this.fieldChange = this.fieldChange.bind(this);
-    this.toggleCheckbox = this.toggleCheckbox.bind(this);
-    this.pointValueChange = this.pointValueChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+const blankLeague = {
+  name: '',
+  description: '',
+  public: true,
+  open: true,
+  start: moment().add(30, 'minutes'),
+  rosterSize: 5,
+  pointValues: {
+    ftm: 0,
+    fg2m: 1,
+    fg3m: 2,
+    reb: 1,
+    ast: 1,
+    blk: 2,
+    stl: 2,
+    to: -1
+  }
+};
+
+class LeagueForm extends React.Component {
+  componentDidMount = () => {
+    const league = this.props.league || blankLeague;
+    this.setState({
+      ...league,
+      start: moment(league.start).format('YYYY-MM-DDTHH:mm')
+    });
   }
 
-  fieldChange(e) {
+  fieldChange = e => {
     this.setState({
       [e.target.name] : e.target.value
     });
   }
 
-  toggleCheckbox(e) {
+  toggleCheckbox = e => {
     this.setState({
       [e.target.name] : !this.state[e.target.name]
     });
   }
 
-  pointValueChange(e) {
+  pointValueChange = e => {
     this.setState({
       pointValues: { 
         ...this.state.pointValues,
@@ -38,19 +52,19 @@ class LeagueEdit extends React.Component {
     });
   }
 
-  submitForm(e) {
+  submitForm = e => {
     e.preventDefault();
-    this.props.submitLeagueEdit({...this.state});
+    this.props.submit({...this.state});
   }
 
-  render() {
-    return (
-      <Scrollbars autoHide>
+  render = () => {
+    return this.state ? (
+      <FullHeight>
         <div className="bg-light p-3">
           <h2 className="text-center">
-            Edit League
+            {this.state._id ? 'Edit League' : 'Create League'}
           </h2>
-          <form onSubmit={e => this.submitForm(e)}>
+          <form onSubmit={this.submitForm}>
 
             <FormGroup>
               <Label for="name"> League Name </Label>
@@ -131,18 +145,9 @@ class LeagueEdit extends React.Component {
             </Button>
           </form>
         </div>
-      </Scrollbars>
-    );
+      </FullHeight>
+    ) : '';
   }
 };
 
-const mapStateToProps = ({ league }) => ({ league });
-
-const mapDispatchToProps = dispatch => ({
-  submitLeagueEdit: data => dispatch(submitLeagueEdit(data))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LeagueEdit);
+export default LeagueForm;

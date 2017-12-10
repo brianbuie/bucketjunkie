@@ -7,7 +7,7 @@ import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
 import ResetPasswordForm from 'components/Account/ResetPasswordForm';
 import MyLeagues from 'components/League/MyLeagues';
 import LeagueInfo from 'components/League/LeagueInfo';
-import LeagueEdit from 'components/League/LeagueEdit';
+import EditLeague from 'components/League/EditLeague';
 import LeagueFeedMenu from 'components/Feed/LeagueFeedMenu';
 import ActivityList from 'components/Activity/ActivityList';
 import ChatForm from 'components/Activity/Chatform';
@@ -49,7 +49,7 @@ const FeedBody = ({ view, changeView }) => {
       return (
         <div className="LeagueFeed">
           <LeagueFeedMenu view='LEAGUE_INFO' changeView={changeView} menuItems={menuItems} />
-          <LeagueEdit />
+          <EditLeague />
         </div>
       );
   }
