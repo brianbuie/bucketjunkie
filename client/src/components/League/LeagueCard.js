@@ -2,7 +2,7 @@ import React from 'react';
 // import { formatDistance } from 'date-fns';
 
 const LeagueCard = ({ name, members, start, uniqueRosters, rosterSize, description }) => (
-  <div className="py-3">
+  <div className="py-3 flex-grow">
     <div className="d-flex flex-row">
       <h4 className="my-0 mr-auto text-truncate">
         {name}

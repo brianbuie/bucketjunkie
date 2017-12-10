@@ -8,6 +8,7 @@ import IconMenu from 'components/IconMenu/IconMenu';
 import AllPlayers from 'components/Player/AllPlayers';
 import DetailView from 'components/Layout/DetailView';
 import LeagueStandings from 'components/League/LeagueStandings';
+import OpenLeagues from 'components/League/OpenLeagues';
 
 const Layout = ({ }) => (
   <div className="full-height d-flex flex-row">
@@ -22,6 +23,7 @@ const Layout = ({ }) => (
           <Route exact path="/teams" component={AllPlayers} />
           <Route path="/teams/:team" component={AllPlayers} />
           <Route path="/rosters" component={LeagueStandings} />
+          <Route path="/leagues/public" component={OpenLeagues} />
         </Scrollbars>
       </Col>
       <Col xs="7" className="px-2">

@@ -26,6 +26,16 @@ export const NoScrollbars = ({ children }) => (
   </Scrollbars>
 );
 
+export const FullHeight = ({ children }) => (
+  <div className="height-100 d-flex flex-column">
+    <Scrollbars autoHide>
+      <div className="height-100 d-flex flex-column">
+        {children}
+      </div>
+    </Scrollbars>
+  </div>
+);
+
 export const FlexRow = ({ children }) => (
   <div className="d-flex flex-row">
     {children}

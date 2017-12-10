@@ -52,6 +52,11 @@ export const replaceMyLeagues = leagues => ({
   leagues
 });
 
+export const replaceOpenLeagues = leagues => ({
+  type: 'REPLACE_OPEN_LEAGUES',
+  leagues
+});
+
 export const replaceScores = scores => ({
   type: 'REPLACE_SCORES',
   scores
@@ -297,6 +302,16 @@ export const getScores = () => dispatch => {
       if (!res.meta.ok) dispatch(newToast(`Scores Error: ${res.json.message}`, 'danger'));
     });
 };
+
+export const joinLeague = id => dispatch => get(`/api/lg/${id}/join`)
+  .then(res => {
+    if (res.meta.ok) {
+      dispatch({ type: 'RECEIVED_NEW_LEAGUE' });
+      dispatch(replaceLeague(res.json.league));
+    } 
+    if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
+  });
+  
 
 /*
   Fetchers

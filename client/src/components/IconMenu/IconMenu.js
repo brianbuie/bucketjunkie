@@ -12,6 +12,9 @@ const IconMenu = ({ teams, loc }) => (
     <Link to={routes.rosters} className={`IconMenu__Item ${loc.pathname === routes.rosters ? 'active' : ''}`}>
       <i className="fa fa-user-circle" />
     </Link>
+    <Link to={routes.publicLeagues} className={`IconMenu__Item ${loc.pathname === routes.publicLeagues ? 'active' : ''}`}>
+      <i className="fa fa-server" />
+    </Link>
     <Link to={routes.teams} className={`IconMenu__Item ${loc.pathname === routes.teams ? 'active' : ''}`}>
       <TeamIcon id='nba' />
     </Link>

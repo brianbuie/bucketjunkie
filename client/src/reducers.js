@@ -191,8 +191,6 @@ const myLeagues = (state = [], action) => {
   }
 };
 
-const openLeagues = (state = [], action) => state;
-
 const loading = (state = false, action) => {
   switch (action.type) {
     case 'LOADING':
@@ -291,7 +289,6 @@ const reducers = combineReducers({
   feed,
   league,
   myLeagues,
-  openLeagues,
   loading,
   players,
   rosters,

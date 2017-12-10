@@ -6,6 +6,7 @@ import AccountLauncher from 'components/Account/AccountLauncher';
 import LeagueSwitcher from 'components/League/LeagueSwitcher';
 import FeedPositioner from 'components/Feed/FeedPositioner';
 import FeedBody from 'components/Feed/FeedBody';
+import { FullHeight } from 'components/Utilities';
 
 const Feed = ({ position }) => {
   const classNames = ["Feed__Container", position];

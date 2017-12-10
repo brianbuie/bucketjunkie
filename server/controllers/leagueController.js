@@ -104,7 +104,7 @@ exports.publicLeagues = async (req, res) => {
     query.blocked = { $ne: req.user._id };
   }
   const leagues = await League.find(query);
-  return res.render('leagues/public', { title: 'Join A League', leagues });
+  return res.greatJob({ leagues });
 };
 
 exports.myLeagues = async (req, res) => {
@@ -120,20 +120,23 @@ exports.setLeague = (req, res) => {
 };
 
 exports.joinLeague = async (req, res) => {
-  const league = await League.findOneAndUpdate(
-    { 
-      _id: req.league._id, 
-      open: true,
-      blocked: { $ne: req.user._id },
-      members: { $ne: req.user._id }
-    },
-    { $addToSet: { members: req.user._id } },
-  );
-  if (!league) return req.oops('Unable to join league', `/lg/${req.league._id}`);
-  req.league = league;
-  req.actions = [{ category: 'league', message: `joined` }];
-  await activityService.addActivity(req);
-  return res.redirect(`/lg/${req.league._id}`);
+  const league = await League.findOne({ 
+    _id: req.league._id, 
+    open: true,
+    blocked: { $ne: req.user._id },
+    members: { $ne: req.user._id }
+  });
+  if (!league) return res.oops('Unable to join league');
+  league.members.addToSet(req.user._id);
+  await league.save();
+  req.session.league = league;
+  await activityService.addAction({
+    user: req.user,
+    league,
+    category: 'league',
+    message: 'joined',
+  });
+  return res.greatJob({ league });
 };
 
 exports.leaveLeague = async (req, res) => {
