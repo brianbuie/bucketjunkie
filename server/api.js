@@ -20,7 +20,7 @@ router.post('/account/validate-token', catchErrors(user.validatePasswordToken));
 router.post('/account/reset-password', user.validatePasswordReset, catchErrors(user.updatePassword));
 
 // Leagues
-router.post('/leagues/create', auth.isLoggedIn, league.validateLeague, catchErrors(league.createLeague));
+router.post('/leagues/create', auth.isLoggedIn, league.stripFields, league.validateLeague, catchErrors(league.createLeague));
 router.get('/leagues/mine', catchErrors(league.myLeagues));
 router.get('/leagues/public', catchErrors(league.publicLeagues));
 

@@ -96,8 +96,16 @@ export const socketConnected = () => ({
 });
 
 export const viewPlayer = id => ({
-  type: 'VIEW_PLAYER',
-  id
+  type: 'CHANGE_DETAIL_VIEW',
+  payload: {
+    view: 'PLAYER',
+    details: { id }
+  }
+});
+
+export const changeDetailView = payload => ({
+  type: 'CHANGE_DETAIL_VIEW',
+  payload
 });
 
 export const clearDetailView = () => ({
@@ -138,6 +146,23 @@ export const submitLeagueEdit = data => dispatch => {
       dispatch(newToast(res.json.message, toastType));
     });
 };
+
+export const submitCreateLeague = data => dispatch => {
+  dispatch(loading());
+  return post(data, `/api/leagues/create`)
+    .then(res => {
+      dispatch(doneLoading());
+      if (res.meta.ok) {
+        dispatch(newToast(res.json.message, 'success'));
+        dispatch({ type: 'RECEIVED_NEW_LEAGUE' });
+        dispatch({ type: 'CREATED_NEW_LEAGUE' });
+        dispatch(replaceLeague(res.json.league));
+        dispatch(push('/rosters'));
+      } else {
+        dispatch(newToast(res.json.message, 'danger'))
+      }
+    });
+}
 
 export const submitLogin = data => dispatch => {
   dispatch(loading());

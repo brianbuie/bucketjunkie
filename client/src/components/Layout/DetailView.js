@@ -4,11 +4,12 @@ import { Button } from 'reactstrap';
 import { clearDetailView } from 'actions';
 import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerDetail from 'components/Player/PlayerDetail';
+import CreateLeague from 'components/League/CreateLeague';
 
 const DetailView = ({ type, details, clearDetailView }) => {
   if (type === '') return '';
   return (
-    <div>
+    <div className="height-100">
       <Button className="close" onClick={clearDetailView}>
         &times;
       </Button>
@@ -21,6 +22,8 @@ const DetailBody = ({ type, details }) => {
   switch (type) {
     case 'PLAYER':
       return <PlayerContainer id={details.id} component={PlayerDetail}/>
+    case 'CREATE_LEAGUE':
+      return <CreateLeague />
     default:
       return '';
   }

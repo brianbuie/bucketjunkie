@@ -3,31 +3,11 @@ import moment from 'moment';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { A, Container, FlexRow, FullHeight } from 'components/Utilities';
 
-const blankLeague = {
-  name: '',
-  description: '',
-  public: true,
-  open: true,
-  start: moment().add(30, 'minutes'),
-  rosterSize: 5,
-  pointValues: {
-    ftm: 0,
-    fg2m: 1,
-    fg3m: 2,
-    reb: 1,
-    ast: 1,
-    blk: 2,
-    stl: 2,
-    to: -1
-  }
-};
-
 class LeagueForm extends React.Component {
   componentDidMount = () => {
-    const league = this.props.league || blankLeague;
     this.setState({
-      ...league,
-      start: moment(league.start).format('YYYY-MM-DDTHH:mm')
+      ...this.props.league,
+      start: moment(this.props.league.start).format('YYYY-MM-DDTHH:mm')
     });
   }
 

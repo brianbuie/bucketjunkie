@@ -60,23 +60,19 @@ exports.validateLeague = [
 ];
 
 exports.createLeague = async (req, res) => {
-  req.body.public = req.body.public || false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    req.flash('error', errors.array().map(e => e.msg));
-    return this.createLeagueForm(req, res);
+    return res.oops({ message: `Error! ${errors.array().map(e => e.msg).join(', ')}` });
   }
-  req.body.uniqueRosters = req.body.leagueType === "fantasy";
-  req.body.members = [req.user._id];
-  req.body.moderators = [req.user._id];
-  req.body.creator = req.user._id;
-  req.body.start = timezoneInputFix(req.body.start, req.body['UTC-offset']);
+  req.body.members = [req.user];
+  req.body.moderators = [req.user];
+  req.body.creator = req.user;
   const league = await (new League(req.body)).save();
-  if (!league) return req.oops('Something went wrong');
-  req.league = league;
-  req.actions = [{ category: 'league', message: `created league "${req.league.name}"` }];
-  await activityService.addActivity(req);
-  return res.greatJob('League created');
+  if (!league) return res.oops('Something went wrong');
+  req.session.league = league;
+  const action = { user: req.user, league, category: 'league', message: `created league "${league.name}"`}
+  await activityService.addAction(action);
+  return res.greatJob({ message: 'League created', league });
 };
 
 exports.updateLeague = async (req, res) => {

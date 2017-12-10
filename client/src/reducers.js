@@ -28,6 +28,8 @@ const feed = combineReducers({
     switch (action.type) {
       case 'FEED_POSITION':
         return action.position;
+      case 'CREATED_NEW_LEAGUE':
+        return state === 'minimized' ? 'floating' : state;
       default:
         return state;
     }
@@ -64,8 +66,10 @@ const feed = combineReducers({
 const detailView = combineReducers({
   type: (state = '', action) => {
     switch (action.type) {
-      case 'VIEW_PLAYER':
-        return 'PLAYER';
+      case 'CHANGE_DETAIL_VIEW':
+        return action.payload.view;
+      case 'CREATED_NEW_LEAGUE':
+        return '';
       case 'CLEAR_DETAIL_VIEW':
         return '';
       default:
@@ -74,8 +78,8 @@ const detailView = combineReducers({
   },
   details: (state = {}, action) => {
     switch (action.type) {
-      case 'VIEW_PLAYER':
-        return { id: action.id };
+      case 'CHANGE_DETAIL_VIEW':
+        return action.payload.details || {};
       case 'CLEAR_DETAIL_VIEW':
         return {};
       default:
