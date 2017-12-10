@@ -17,8 +17,8 @@ const Layout = ({ }) => (
         <IconMenu />
       </NoScrollbars>
     </div>
-    <Row noGutters className="flex-grow height-100">
-      <Col xs="5" className="height-100 px-2">
+    <Row noGutters className="width-100 height-100">
+      <Col xs="5" className="height-100">
         <Scrollbars autoHide>
           <Route exact path="/teams" component={AllPlayers} />
           <Route path="/teams/:team" component={AllPlayers} />
@@ -26,7 +26,7 @@ const Layout = ({ }) => (
           <Route path="/leagues/public" component={OpenLeagues} />
         </Scrollbars>
       </Col>
-      <Col xs="7" className="px-2">
+      <Col xs="7">
         <DetailView />
       </Col>
     </Row>

@@ -1,5 +1,4 @@
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
-
 @import "./utilities";
 
 html {
@@ -15,33 +14,8 @@ html {
   }
 }
 
-// body {
-//   background-image: url('/images/background.png');
-//   background-size: cover;
-//   background-position: center;
-//   background-attachment: fixed;
-// }
-
-.member__picture {
-  width: $spacer-xl;
-}
-
-.logo-xs {
-  max-width: $spacer-lg;
-}
-
-.show-winning .member__card:nth-child(1) .member__overview {
-  background-color: $brand-gold;
-}
-
-#flashes {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  .alert {
-    width: 90%;
-    max-width: 500px;
-  }
+a, 
+a:hover {
+  color: $body-color;
+  text-decoration: none;
 }
