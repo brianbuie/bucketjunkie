@@ -7,13 +7,13 @@ import PlayerAverages from 'components/Player/PlayerAverages';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerDetail = (props) => (
-  <div className="bg-light d-flex flex-row align-items-center px-3">
+  <div className="d-flex flex-row align-items-center px-3">
     <Row className="no-gutters py-3 flex-grow">
       <Col xs="2" className="d-flex flex-column justify-content-center">
         <ImageRound path={props.image} />
       </Col>
       <Col xs="8" className="px-2">
-        <h4 className="mb-2 font-weight-normal text-truncate">
+        <h4 className="font-weight-normal text-truncate">
           {props.name}
         </h4>
         {props.showAverages

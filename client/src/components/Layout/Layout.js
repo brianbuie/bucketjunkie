@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { NoScrollbars } from 'components/Utilities';
 import Feed from 'components/Feed/Feed';
-import IconMenu from 'components/IconMenu/IconMenu';
+import Nav from 'components/Nav/Nav';
 import AllPlayers from 'components/Player/AllPlayers';
 import DetailView from 'components/Layout/DetailView';
 import LeagueStandings from 'components/League/LeagueStandings';
@@ -12,9 +12,9 @@ import OpenLeagues from 'components/League/OpenLeagues';
 
 const Layout = ({ }) => (
   <div className="full-height d-flex flex-row">
-    <div className="height-100 text-center" style={{ width: "35px" }}>
+    <div className="height-100 text-center" style={{ width: "200px" }}>
       <NoScrollbars>
-        <IconMenu />
+        <Nav />
       </NoScrollbars>
     </div>
     <Row noGutters className="width-100 height-100">

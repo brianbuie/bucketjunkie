@@ -1,0 +1,33 @@
+.nav {
+  background: $nav-bg;
+  text-align: left;
+  .brand {
+    padding: 20px;
+  }
+}
+
+.nav-item {
+  color: $body-color;
+  border-left: 5px solid $nav-bg;
+  &.active,
+  &:hover {
+    border-left: 5px solid $brand-gold;
+    background-color: lighten($nav-bg, 5%);
+    a {
+      color: $brand-gold;
+    }
+  }
+}
+
+.nav-item a {
+  padding: 8px 15px;
+  width: 100%;
+  display: inline-block;
+}
+
+.nav-item .TeamIcon,
+.nav-item i {
+  width: 20px;
+  max-height: 20px;
+  margin-right: 8px;
+}

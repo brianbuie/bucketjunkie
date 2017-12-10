@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const PlayerList = ({ players }) => (
-  <div className="bg-light">
+  <div>
     {players.map(player => (
       <PlayerContainer id={player._id} key={player._id} component={PlayerListItem} />
     ))}
