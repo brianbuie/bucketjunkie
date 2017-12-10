@@ -125,9 +125,11 @@ exports.joinLeague = async (req, res) => {
     open: true,
     blocked: { $ne: req.user._id },
     members: { $ne: req.user._id }
-  });
+  })
+    .populate('members')
+    .populate('moderators');
   if (!league) return res.oops('Unable to join league');
-  league.members.addToSet(req.user._id);
+  league.members.addToSet(req.user);
   await league.save();
   req.session.league = league;
   await activityService.addAction({
@@ -140,25 +142,30 @@ exports.joinLeague = async (req, res) => {
 };
 
 exports.leaveLeague = async (req, res) => {
-  const league = await League.findOneAndUpdate(
-    { 
-      _id: req.league._id,
-      creator: { $ne: req.user._id }, 
-      members: req.user._id,
-    }, 
-    { $pull: { members: req.user._id, moderators: req.user._id, }, }, 
-    { new: true },
-  );
-  if (!league) return req.oops('Error Leaving league', `/lg/${req.league._id}`);
+  const league = await League.findOne({
+    _id: req.league._id,
+    creator: { $ne: req.user._id }, 
+    members: req.user._id,
+  });
+  if (!league) return res.oops('Error Leaving league');
+  league.members.pull({ _id: req.user._id });
+  league.moderators.pull({ _id: req.user._id });
   const removeQ = { league: req.league._id, user: req.user._id };
-  await Promise.all([ Roster.remove(removeQ), Draft.remove(removeQ), Score.remove(removeQ) ]);
-  req.league = league;
+  const action = {
+    user: req.user,
+    league,
+    category: 'league',
+    message: 'left',
+  };
+  await Promise.all([ 
+    Roster.remove(removeQ), 
+    Draft.remove(removeQ), 
+    Score.remove(removeQ), 
+    league.save(),
+    activityService.addAction(action)
+  ]);
   req.session.league = undefined;
-  req.actions = [{ category: 'league', message: `left` }];
-  await activityService.addActivity(req);
-  req.actions = undefined;
-  req.flash('success', `Left '${req.league.name}'`);
-  res.redirect('/leagues');
+  return res.greatJob('Left League');
 };
 
 exports.removeMember = async (req, res) => {

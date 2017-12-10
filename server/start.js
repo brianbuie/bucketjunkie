@@ -108,6 +108,7 @@ io.sockets.on('connection', function(socket) {
   mongoose.connection.db.collection('sessions')
     .findOne({ _id: socket.request.sessionID })
     .then(result => {
+      if (!result) return;
       let session = JSON.parse(result.session);
       if (!session.league || !session.passport || !session.passport.user) return socket.disconnect();
       socket.join(session.league._id, () => {

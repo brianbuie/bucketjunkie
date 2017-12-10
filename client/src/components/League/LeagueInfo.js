@@ -4,9 +4,10 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment';
 import { Row, Col } from 'reactstrap';
 import { isModerator } from 'helpers';
+import { leaveLeague } from 'actions';
 import { A } from 'components/Utilities';
 
-const LeagueInfo = ({ league, user, goToLeagueEdit }) => {
+const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
@@ -41,7 +42,10 @@ const LeagueInfo = ({ league, user, goToLeagueEdit }) => {
               return (
                 <div key={key} className="d-flex flex-row justify-content-between striped py-1 px-3">
                   <p className="my-0">{member.username}</p>
-                  <p className="my-0">{canLeave ? 'Leave' : ''}</p>
+                  <p className="my-0">{canLeave 
+                    ? <A click={() => leaveLeague(league.id)}>Leave</A>
+                    : ''}
+                  </p>
                 </div>
               );
             })}
@@ -54,6 +58,11 @@ const LeagueInfo = ({ league, user, goToLeagueEdit }) => {
 
 const mapStateToProps = ({ league, user }) => ({ league, user });
 
+const mapDispatchToProps = dispatch => ({
+  leaveLeague: id => dispatch(leaveLeague(id))
+});
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps
 )(LeagueInfo);

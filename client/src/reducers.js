@@ -15,6 +15,8 @@ const activity = combineReducers({
         return action.activity;
       case 'LOGOUT_SUCCESS':
         return [];
+      case 'REMOVE_LEAGUE':
+        return [];
       default:
         return state;
     }
@@ -49,6 +51,8 @@ const feed = combineReducers({
         return 'LOGIN';
       case 'RECEIVED_NEW_LEAGUE':
         return 'ACTIVITY_ALL';
+      case 'REMOVE_LEAGUE':
+        return 'MY_LEAGUES';
       case 'CHANGE_FEED_VIEW':
         return action.view;
       default:
@@ -88,6 +92,8 @@ const dataNeeds = combineReducers({
         return state;
       case 'LOGIN_SUCCESS':
         return 'need';
+      case 'REMOVE_LEAGUE':
+        return 'need';
       case 'GETTING_MY_LEAGUES':
         return 'fetching';
       default:
@@ -115,7 +121,9 @@ const dataNeeds = combineReducers({
         if (action.initialState.league) return 'need';
         return state;
       case 'RECEIVED_NEW_LEAGUE':
-        return 'need'; 
+        return 'need';
+      case 'REPLACE_LEAGUE':
+        return 'need';
       case 'GETTING_ROSTERS':
         return 'fetching';
       case 'REPLACE_ROSTERS':
@@ -131,6 +139,8 @@ const dataNeeds = combineReducers({
         return state;
       case 'RECEIVED_NEW_LEAGUE':
         return 'need';
+      case 'REPLACE_LEAGUE':
+        return 'need';
       case 'GETTING_SCORES':
         return 'fetching';
       case 'REPLACE_SCORES':
@@ -145,6 +155,8 @@ const dataNeeds = combineReducers({
         if (action.initialState.league) return 'need';
         return state;
       case 'RECEIVED_NEW_LEAGUE':
+        return 'need';
+      case 'REMOVE_LEAGUE':
         return 'need';
       case 'SOCKET_CONNECTED':
         return 'ok';
@@ -173,6 +185,8 @@ const league = (state = null, action) => {
   switch (action.type) {
     case 'REPLACE_LEAGUE':
       return action.league;
+    case 'REMOVE_LEAGUE':
+      return null;
     case 'LOGOUT_SUCCESS':
       return null;
     default:
@@ -214,6 +228,8 @@ const players = (state = [], action) => {
       return state.map(player => appendPlayerScore(player, action.league.pointValues));
     case 'LOGOUT_SUCCESS':
       return state.map(player => appendPlayerScore(player, defaultPointValues));
+    case 'REMOVE_LEAGUE':
+      return state.map(player => appendPlayerScore(player, defaultPointValues));
     default:
       return state;
   }
@@ -230,6 +246,8 @@ const rosters = (state = [], action) => {
       return action.rosters;
     case 'LOGOUT_SUCCESS':
       return [];
+    case 'REMOVE_LEAGUE':
+      return [];
     default:
       return state;
   }
@@ -240,6 +258,8 @@ const scores = (state = [], action) => {
     case 'REPLACE_SCORES':
       return action.scores;
     case 'LOGOUT_SUCCESS':
+      return [];
+    case 'REMOVE_LEAGUE':
       return [];
     default:
       return state;

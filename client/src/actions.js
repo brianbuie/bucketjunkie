@@ -308,10 +308,17 @@ export const joinLeague = id => dispatch => get(`/api/lg/${id}/join`)
     if (res.meta.ok) {
       dispatch({ type: 'RECEIVED_NEW_LEAGUE' });
       dispatch(replaceLeague(res.json.league));
+      dispatch(push('/rosters'));
     } 
     if (!res.meta.ok) dispatch(newToast(res.json.message, 'danger'));
   });
-  
+
+export const leaveLeague = id => dispatch => post({}, `/api/lg/${id}/leave`)
+  .then(res => {
+    let toastType = res.meta.ok ? 'success' : 'danger';
+    dispatch(newToast(res.json.message, toastType));
+    if (res.meta.ok) dispatch({ type: 'REMOVE_LEAGUE' });
+  });
 
 /*
   Fetchers
