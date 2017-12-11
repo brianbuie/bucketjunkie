@@ -9,9 +9,6 @@ html {
   @include media-breakpoint-up(md) {
     font-size: 15px;
   }
-  @include media-breakpoint-up(lg) {
-    font-size: 16px;
-  }
 }
 
 h1, h2, h3, h4, h5 {

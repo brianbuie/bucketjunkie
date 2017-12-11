@@ -8,3 +8,15 @@ export const ImageRound = ({ path }) => (
   >
   </div>
 );
+
+export const Container = ({ children, className, size }) => (
+  <div className={`p-${size || 2} ${className || ''}`}>
+    {children}
+  </div>
+);
+
+export const Panel = ({ children, className }) => (
+  <div className={"Panel " + (className || '')}>
+    {children}
+  </div>
+);
