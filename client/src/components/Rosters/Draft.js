@@ -9,8 +9,8 @@ import PlayerListItem from 'components/Player/PlayerListItem';
 const Draft = ({ draft, movePlayer }) => (
   <Panel>
     {draft.players ? draft.players.map(player => (
-      <div className="d-flex flex-row align-items-center pl-2" key={player._id}>
-        <div className="d-flex flex-column px-1">
+      <div className="flex-row align-items-center pl-2" key={player._id}>
+        <div className="flex-column px-1">
           <A click={() => movePlayer(player._id, -1)}>
             <i className="fa fa-arrow-up" />
           </A>

@@ -6,13 +6,13 @@ import TeamIcon from 'components/Team/TeamIcon';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerListItem = props => (
-  <div className="d-flex flex-row align-items-center py-2 px-3">
+  <div className="flex-row align-items-center py-2 px-3">
     <A className="flex-grow" click={() => props.viewPlayer(props.id)}>
       <Row noGutters>
-        <Col xs="2" className="d-flex flex-column justify-content-center pr-2">
+        <Col xs="2" className="flex-column justify-content-center pr-2">
           <ImageRound path={props.image} />
         </Col>
-        <Col xs="8" className="d-flex flex-column justify-content-center pr-2">
+        <Col xs="8" className="flex-column justify-content-center pr-2">
           <h5 className="font-weight-normal text-truncate">
             {props.name}
           </h5>
@@ -20,7 +20,7 @@ const PlayerListItem = props => (
             {props.position}
           </span>
         </Col>
-        <Col xs="2" className="d-flex flex-column justify-content-center text-center">
+        <Col xs="2" className="flex-column justify-content-center text-center">
           <h3>
             {Math.round(props.score) || 0}
           </h3>

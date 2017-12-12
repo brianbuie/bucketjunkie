@@ -7,9 +7,9 @@ import PlayerAverages from 'components/Player/PlayerAverages';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerDetail = (props) => (
-  <div className="d-flex flex-row align-items-center px-3">
+  <div className="flex-row align-items-center px-3">
     <Row className="no-gutters py-3 flex-grow">
-      <Col xs="2" className="d-flex flex-column justify-content-center">
+      <Col xs="2" className="flex-column justify-content-center">
         <ImageRound path={props.image} />
       </Col>
       <Col xs="8" className="px-2">
@@ -21,7 +21,7 @@ const PlayerDetail = (props) => (
           : <UpcomingGames upcomingGames={props.upcomingGames} team={props.team} />
         }
       </Col>
-      <Col xs="2" className="d-flex flex-column justify-content-center text-center">
+      <Col xs="2" className="flex-column justify-content-center text-center">
         <h1 className="faded-1 m-0">
           {Math.round(props.score) || 0}
         </h1>

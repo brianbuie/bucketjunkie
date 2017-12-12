@@ -3,7 +3,7 @@ import React from 'react';
 
 const LeagueCard = ({ name, members, start, uniqueRosters, rosterSize, description }) => (
   <div className="py-3 flex-grow">
-    <div className="d-flex flex-row">
+    <div className="flex-row">
       <h4 className="my-0 mr-auto text-truncate">
         {name}
       </h4>

@@ -12,7 +12,7 @@ import LeagueStandings from 'components/League/LeagueStandings';
 import OpenLeagues from 'components/League/OpenLeagues';
 
 const Layout = ({ }) => (
-  <div className="full-height d-flex flex-row">
+  <div className="full-height flex-row">
     <div className="height-100 text-center" style={{ width: "200px" }}>
       <NoScrollbars>
         <Nav />

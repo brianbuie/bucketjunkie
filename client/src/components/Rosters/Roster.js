@@ -5,7 +5,7 @@ import { Panel } from 'components/UI';
 
 const Roster = ({ user, score, players }) => (
   <Panel>
-    <div className="d-flex flex-row align-items-center px-3 py-2">
+    <div className="flex-row align-items-center px-3 py-2">
       <div style={{ width: "20%" }}>
         <UserPhoto photo={user.photo} />
       </div>

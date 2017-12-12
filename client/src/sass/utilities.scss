@@ -59,6 +59,11 @@ img {
   display: none;
 }
 
+.flex-row,
+.flex-column {
+  display: flex;
+}
+
 .flex-grow {
   flex-grow: 1;
 }

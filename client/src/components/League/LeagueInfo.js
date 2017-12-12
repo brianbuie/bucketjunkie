@@ -25,7 +25,7 @@ const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
           <Col xs="6">
             <h5>Point Values</h5>
             {Object.keys(league.pointValues).map((pointValueName, key) => (
-              <div key={key} className="d-flex flex-row justify-content-between striped py-1 px-3">
+              <div key={key} className="flex-row justify-content-between striped py-1 px-3">
                 <div className="faded-1">
                   {pointValueName.toUpperCase()}
                 </div>
@@ -40,7 +40,7 @@ const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
             {league.members.map((member, key) => {
               let canLeave = (league.creator.id != member.id && member.id === user.id);
               return (
-                <div key={key} className="d-flex flex-row justify-content-between striped py-1 px-3">
+                <div key={key} className="flex-row justify-content-between striped py-1 px-3">
                   <p className="my-0">{member.username}</p>
                   <p className="my-0">{canLeave 
                     ? <A click={() => leaveLeague(league.id)}>Leave</A>

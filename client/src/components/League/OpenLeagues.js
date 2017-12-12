@@ -13,7 +13,7 @@ const OpenLeagues = ({ leagues, joinLeague, createLeague }) => (
       {leagues.length ? leagues.map(league => (
         <FlexRow key={league.id}>
           <LeagueCard {...league} />
-          <A click={() => joinLeague(league.id)} className="d-flex flex-column p-2 justify-content-center">
+          <A click={() => joinLeague(league.id)} className="flex-column p-2 justify-content-center">
             <i className="fa fa-plus-circle text-success"></i>
           </A>
         </FlexRow>
