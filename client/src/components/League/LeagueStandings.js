@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Draft from 'components/Draft/Draft';
+import Draft from 'components/Rosters/Draft';
 import Rosters from 'components/Rosters/Rosters';
 
 const LeagueStandings = ({ league }) => {

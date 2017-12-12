@@ -1,5 +1,4 @@
-import './ui.scss';
-
+import './UI.scss';
 import React from 'react';
 
 export const ImageRound = ({ path }) => (

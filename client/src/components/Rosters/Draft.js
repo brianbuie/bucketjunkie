@@ -2,25 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { movePlayer } from 'actions';
 import { A } from 'components/Utilities';
+import { Panel } from 'components/UI';
 import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerListItem from 'components/Player/PlayerListItem';
 
 const Draft = ({ draft, movePlayer }) => (
-  <div className="bg-light mb-3">
+  <Panel>
     {draft.players ? draft.players.map(player => (
-      <div className="d-flex flex-row align-items-center justify-content-between striped" key={player._id}>
+      <div className="d-flex flex-row align-items-center pl-2" key={player._id}>
         <div className="d-flex flex-column px-1">
-          <A className="link-discreet" click={() => movePlayer(player._id, -1)}>
+          <A click={() => movePlayer(player._id, -1)}>
             <i className="fa fa-arrow-up" />
           </A>
-          <A className="link-discreet" click={() => movePlayer(player._id, 1)}>
+          <A click={() => movePlayer(player._id, 1)}>
             <i className="fa fa-arrow-down" />
           </A>
         </div>
-        <PlayerContainer id={player._id} component={PlayerListItem} />
+        <div className="flex-grow">
+          <PlayerContainer id={player._id} component={PlayerListItem} />
+        </div>
       </div>
     )) : ''}
-  </div>
+  </Panel>
 );
 
 const mapStateToProps = ({ rosters, user }) => ({

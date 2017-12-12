@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { A } from 'components/Utilities';
-import { ImageRound } from 'components/Utilities/ui';
+import { ImageRound } from 'components/UI';
 import UpcomingGames from 'components/Player/UpcomingGames';
 import PlayerAverages from 'components/Player/PlayerAverages';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';

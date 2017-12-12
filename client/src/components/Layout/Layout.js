@@ -3,7 +3,7 @@ import { Col, Row } from 'reactstrap';
 import { Route } from 'react-router-dom';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { NoScrollbars } from 'components/Utilities';
-import { Panel, Container } from 'components/Utilities/ui';
+import { Panel, Container } from 'components/UI';
 import Feed from 'components/Feed/Feed';
 import Nav from 'components/Nav/Nav';
 import AllPlayers from 'components/Player/AllPlayers';
@@ -22,12 +22,10 @@ const Layout = ({ }) => (
       <Col xs="5" className="height-100">
         <Scrollbars autoHide>
           <Container size="4" className="width-100 height-100">
-            <Panel>
-              <Route exact path="/teams" component={AllPlayers} />
-              <Route path="/teams/:team" component={AllPlayers} />
-              <Route path="/rosters" component={LeagueStandings} />
-              <Route path="/leagues/public" component={OpenLeagues} />
-            </Panel>
+            <Route exact path="/teams" component={AllPlayers} />
+            <Route path="/teams/:team" component={AllPlayers} />
+            <Route path="/rosters" component={LeagueStandings} />
+            <Route path="/leagues/public" component={OpenLeagues} />
           </Container>
         </Scrollbars>
       </Col>

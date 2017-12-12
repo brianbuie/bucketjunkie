@@ -10,4 +10,8 @@
   border-radius: 3px;
   margin-bottom: 20px;
   background-color: lighten($body-bg, 5%);
+
+  hr {
+    border-top: 3px solid lighten($body-bg, 10%);
+  }
 }

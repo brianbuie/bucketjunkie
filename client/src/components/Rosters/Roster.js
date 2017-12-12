@@ -1,10 +1,11 @@
 import React from 'react';
 import PlayerList from 'components/Player/PlayerList';
 import UserPhoto from 'components/User/UserPhoto';
+import { Panel } from 'components/UI';
 
 const Roster = ({ user, score, players }) => (
-  <div className="mb-3">
-    <div className="d-flex flex-row align-items-center py-2 px-3">
+  <Panel>
+    <div className="d-flex flex-row align-items-center px-3 py-2">
       <div style={{ width: "20%" }}>
         <UserPhoto photo={user.photo} />
       </div>
@@ -12,7 +13,7 @@ const Roster = ({ user, score, players }) => (
       <h2> {score} </h2>
     </div>
     <PlayerList filter={{ type: 'SORTED_LIST', list: players }} />
-  </div>
+  </Panel>
 );
 
 export default Roster;
