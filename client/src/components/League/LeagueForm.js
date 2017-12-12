@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { A, Container, FlexRow, FullHeight } from 'components/Utilities';
+import { A, FullHeight } from 'components/Utilities';
 
 class LeagueForm extends React.Component {
   componentDidMount = () => {
@@ -59,51 +59,43 @@ class LeagueForm extends React.Component {
               <Input type="textarea" name="description" value={this.state.description} onChange={this.fieldChange} />
             </FormGroup>
 
-            <Container>
-              <Row>
-                <Col sm="3"> Membership </Col>
-                <Col sm="9">
-                  <FlexRow>
-                    <FormGroup check>
-                      <Label check>
-                        <Input type="checkbox" name="public" checked={this.state.public} onChange={this.toggleCheckbox} />{' Public'}
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check className="ml-3">
-                      <Label check>
-                        <Input type="checkbox" name="open" checked={this.state.open} onChange={this.toggleCheckbox} />{' Allow users to join'}
-                      </Label>
-                    </FormGroup>
-                  </FlexRow>
-                </Col>
-              </Row>
-            </Container>
+            <Row className="py-2">
+              <Col sm="3"> Membership </Col>
+              <Col sm="9" className="flex-row">
+                <FormGroup check>
+                  <Label check>
+                    <Input type="checkbox" name="public" checked={this.state.public} onChange={this.toggleCheckbox} />{' Public'}
+                  </Label>
+                </FormGroup>
+                <FormGroup check className="ml-3">
+                  <Label check>
+                    <Input type="checkbox" name="open" checked={this.state.open} onChange={this.toggleCheckbox} />{' Allow users to join'}
+                  </Label>
+                </FormGroup>
+              </Col>
+            </Row>
 
             {!this.state.started ? (<div>
 
-              <Container>
-                <Row>
-                  <Col sm="3"> Start </Col>
-                  <Col sm="9">
-                    <FormGroup>
-                      <Input type="datetime-local" name="start" value={this.state.start} onChange={this.fieldChange} />
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Container>
+              <Row className="py-2">
+                <Col sm="3"> Start </Col>
+                <Col sm="9">
+                  <FormGroup>
+                    <Input type="datetime-local" name="start" value={this.state.start} onChange={this.fieldChange} />
+                  </FormGroup>
+                </Col>
+              </Row>
 
-              <Container>
-                <Row>
-                  <Col sm="3"> Roster Size </Col>
-                  <Col sm="9">
-                    <FormGroup>
-                      <Input type="number" name="rosterSize" value={this.state.rosterSize} onChange={this.fieldChange}/>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </Container>
+              <Row className="py-2">
+                <Col sm="3"> Roster Size </Col>
+                <Col sm="9">
+                  <FormGroup>
+                    <Input type="number" name="rosterSize" value={this.state.rosterSize} onChange={this.fieldChange}/>
+                  </FormGroup>
+                </Col>
+              </Row> 
 
-              <Container>
+              <div className="py-2">
                 <h4 className="text-muted text-center mb-3"> Point Values </h4>
                 <Row>
                   {Object.keys(this.state.pointValues).map(stat => (
@@ -123,7 +115,7 @@ class LeagueForm extends React.Component {
                     </Col>
                   ))}
                 </Row>
-              </Container>
+              </div>
 
             </div>) : ''}
 

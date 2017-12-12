@@ -9,6 +9,8 @@
     "deploy": "git pull origin master && webpack && pm2 restart nfa",
     "test": "eslint .",
     "data": "node ./scripts/get-nba-data.js",
+    "blast-scores": "node ./scripts/blast-scores.js",
+    "update-scores": "node ./scripts/update-scores.js",
     "images": "node ./scripts/get-images.js --players"
   },
   "repository": {
