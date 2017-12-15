@@ -21,6 +21,7 @@ const Roster = require('../server/models/Roster')();
 const League = require('../server/models/League')();
 
 const nbaService = require('../server/services/nbaService');
+const updateScores = require('../server/jobs/updateScores');
 
 async function go() {
   try {
@@ -34,7 +35,8 @@ async function go() {
     console.log('\ninserting teams');
     await Team.insertMany(teams);
     console.log('\ninserting players');
-    await Player.insertMany(players.filter(player => !!player.team));
+    await Player.insertMany(players.filter(player => !!player.team && !!player.name));
+    await updateScores.updateAverages();
     console.log('\nData loaded!');
   } catch(e) {
     console.log(e);

@@ -9,7 +9,7 @@ const Player = mongoose.model('Player');
 const Score = mongoose.model('Score');
 const Box = mongoose.model('Box');
 
-const updateAverages = async () => {
+exports.updateAverages = async () => {
   let start = Date.now();
   const allPlayers = await Player.find({});
   let players = await Promise.all(allPlayers.map(player => Player.getAverages(player._id)));
@@ -82,5 +82,5 @@ exports.update = async () => {
     console.log('Errors detected, retrying...');
     status = await updateScores();
   }
-  if (status.shouldUpdateAverages) await updateAverages();
+  if (status.shouldUpdateAverages) await this.updateAverages();
 }
