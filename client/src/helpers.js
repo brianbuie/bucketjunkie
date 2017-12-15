@@ -21,6 +21,8 @@ export const sortByScore = (a,b) => {
   return 0;
 };
 
+export const truncateText = ({ text, length = 50 }) => text.length > length ? text.substring(0, length) + '...' : text;
+
 // Moment relative dates
 export const calendarFormat = {
   lastDay : '[Yesterday]',

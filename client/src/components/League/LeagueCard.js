@@ -1,5 +1,5 @@
 import React from 'react';
-// import { formatDistance } from 'date-fns';
+import { truncateText } from 'helpers';
 
 const LeagueCard = ({ name, members, start, uniqueRosters, rosterSize, description }) => (
   <div className="py-3 flex-grow">
@@ -15,7 +15,7 @@ const LeagueCard = ({ name, members, start, uniqueRosters, rosterSize, descripti
       {`${uniqueRosters ? 'Fantasy' : 'Contest'} | ${rosterSize} Players`}
     </small>
     <p className="m-0">
-      {description}
+      {truncateText({ text: description, length: 100 })}
     </p>
   </div>
 );

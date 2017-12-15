@@ -4,7 +4,6 @@ import { Panel } from 'components/UI';
 import PlayerList from 'components/Player/PlayerList';
 import TeamHeading from 'components/Team/TeamHeading';
 
-
 const AllPlayers = ({ match }) => (
   <div>
     <TeamHeading id={match.params.team} />
