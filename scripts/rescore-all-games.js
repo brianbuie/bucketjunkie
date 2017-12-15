@@ -21,35 +21,26 @@ const Roster = require('../server/models/Roster')();
 const League = require('../server/models/League')();
 
 const nbaService = require('../server/services/nbaService');
+const updateScores = require('../server/jobs/updateScores');
 
-async function deleteData() {
-  await Game.remove();
-  await Box.remove();
-  await Score.remove();
-  console.log('\nData deleted!');
-}
-
-async function data() {
+async function go() {
   try {
-    await deleteData();
-    const games = await nbaService.fetchAllGames();
-
-    console.log('\ninserting games');
-    await Game.insertMany(games.map(game => {
-      game._id = game.id;
-      game.home = game.home_id;
-      game.away = game.away_id;
-      game.final = false;
-      return game;
-    }));
-
-    console.log('\nData loaded!');
-
-    process.exit();
+    await Promise.all([
+      Game.remove(),
+      Box.remove(),
+      Score.remove()
+    ]);
+    console.log('\nData deleted!');
+    const games = await nbaService.fetchAllGamesNotFinal();
+    console.log('\nInserting games');
+    await Game.insertMany(games);
+    console.log('\nGames loaded');
+    console.log('\nUpdating Scores');
+    await updateScores.update();
   } catch(e) {
     console.log(e);
-    process.exit();
   }
+  process.exit();
 }
 
-data();
+go();

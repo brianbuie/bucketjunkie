@@ -23,15 +23,19 @@ const updateAverages = async () => {
   console.log(`${moment().format()}: Updated player averages in ${Date.now() - start}ms`);
 };
 
-exports.update = async () => {
+const updateScores = async () => {
   let shouldUpdateAverages = false;
+  let shouldRetry = false;
   const [unscoredGames, leagues] = await Promise.all([
     Game.find({ final: false, date: { $lt: Date.now() } }),
     League.find({ started: true })
   ]);
   await Promise.all(unscoredGames.map(async game => {
     let start = Date.now();
-    const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => console.log(err));
+    const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => {
+      console.log(`error fetching boxscore ${game._id}: ${err}`);
+      shouldRetry = true;
+    });
     if (!boxes || !boxes.length || boxes[0].period !== "f") return;
     shouldUpdateAverages = true;
     const savedBoxes = await Promise.all(boxes.map(box => (new Box(box)).save()));
@@ -69,5 +73,14 @@ exports.update = async () => {
     console.log(`${moment().format()}: Updated scores for game ${game._id} in ${Date.now() - start}ms`);
     return;
   }));
-  if (shouldUpdateAverages) await updateAverages();
+  return { shouldUpdateAverages, shouldRetry };
 };
+
+exports.update = async () => {
+  let status = await updateScores();
+  while (status.shouldRetry) {
+    console.log('Errors detected, retrying...');
+    status = await updateScores();
+  }
+  if (status.shouldUpdateAverages) await updateAverages();
+}

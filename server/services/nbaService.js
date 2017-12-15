@@ -6,13 +6,32 @@ const Player = mongoose.model('Player');
 const Team = mongoose.model('Team');
 const Game = mongoose.model('Game');
 
+// Database methods
+
 exports.player = async id => await Player.findOne({ _id: id }).populate('team');
-
 exports.players = async (query = null) => await Player.find(query);
-
 exports.team = async id => await Team.findOne({ _id: id });
-
 exports.teams = async () => await Team.find({});
+
+
+// API methods
+
+const fetch = async (path, query) => {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'POST',
+      url: 'http://api.probasketballapi.com' + path,
+      qs: query,
+      headers: { 'cache-control': 'no-cache' },
+    };
+    options.qs.api_key = process.env.NBA_API_KEY;
+    request(options, function (error, response, body) {
+      if (error) return reject(error);
+      if (response.statusCode != 200) return reject(response.statusCode);
+      resolve(JSON.parse(body));
+    });
+  });
+};
 
 const mutateBoxscore = box => {
   box.game = box.game_id;
@@ -32,6 +51,11 @@ const mutateGame = game => {
   return game;
 };
 
+const mutateGameFinal = game => {
+  game.final = false;
+  return game;
+}
+
 const mutatePlayer = player => {
   player._id = player.id;
   player.team = player.team_id;
@@ -39,42 +63,34 @@ const mutatePlayer = player => {
   return player;
 };
 
-const fetch = async (path, query) => {
-  return new Promise((resolve, reject) => {
-    const options = {
-      method: 'POST',
-      url: 'http://api.probasketballapi.com' + path,
-      qs: query,
-      headers: { 'cache-control': 'no-cache' },
-    };
-    options.qs.api_key = process.env.NBA_API_KEY;
-    request(options, function (error, response, body) {
-      if (error) return reject(error);
-      if (response.statusCode != 200) return reject(response.statusCode);
-      resolve(JSON.parse(body));
-    });
-  });
+const mutateTeam = team => {
+  team._id = team.id;
+  team.name = team.team_name;
+  team.full_name = `${team.city} ${team.team_name}`;
+  return team; 
 };
 
 exports.fetchAllPlayers = () => fetch('/player', {})
-  .then(players => players.map(player => mutatePlayer(player)));
+  .then(players => players.map(mutatePlayer))
+  .catch(err => console.log(`Error fetching players: ${err}`));
 
-exports.fetchAllTeams = () => fetch('/team', {});
+exports.fetchAllTeams = () => fetch('/team', {})
+  .then(teams => teams.map(mutateTeam))
+  .catch(err => console.log(`Error fetching teams: ${err}`));
 
-exports.fetchAllGames = () => fetch('/game', { season: 2017 }); // Todo: predict season
+// Fetch all games and mark as not final
+exports.fetchAllGamesNotFinal = () => fetch('/game', { season: 2017 }) // Todo: predict season
+  .then(games => games.map(mutateGame).map(mutateGameFinal))
+  .catch(err => console.log(`Error fetching games: ${err}`));
 
-exports.fetchGame = async id => {
-  const game = await fetch('/game', { game_id: id }).catch(err => console.log(`error for game ${id}: ${err}`));
-  return game ? mutateGame(game[0]) : null;
-};
-
-// exports.fetchGamesByDate = (date) => fetch('/game', { date }); // MM/DD/YYYY
-
-// exports.fetchBoxscoresByPlayer = (id) => fetch('/boxscore/player', { player_id: id, season: 2016 });
+exports.fetchGame = id => fetch('/game', { game_id: id })
+  .then(game => game ? mutateGame(game[0]) : null)
+  .catch(err => console.log(`Error fetching game ${id}: ${err}`));
 
 exports.fetchBoxscoresByGame = async id => {
-  const boxscores = await fetch('/boxscore/player', { game_id: id }).catch(err => console.log(`error for boxscores ${id}: ${err}`));
-  return boxscores ? boxscores.map(boxscore => mutateBoxscore(boxscore)) : null;
+  const boxscores = await fetch('/boxscore/player', { game_id: id })
+  // errors needs to be caught by job manager to trigger a retry
+  return boxscores ? boxscores.map(mutateBoxscore) : null;
 };
 
 exports.gamesForDays = async days => {
@@ -83,7 +99,7 @@ exports.gamesForDays = async days => {
     dates.push(moment().add(i, 'days').format('MM/DD/YYYY'));
   }
   const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
-  return gamesByDay.map(day => day.map(game => mutateGame(game)));
+  return gamesByDay.map(day => day.map(mutateGame));
 };
 
 exports.sortPlayers = (playersToSort, pointValues) => {

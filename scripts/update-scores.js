@@ -22,16 +22,13 @@ const League = require('../server/models/League')();
 
 const updateScores = require('../server/jobs/updateScores');
 
-async function data() {
+async function go() {
   try {
-
     await updateScores.update();
-
-    process.exit();
   } catch(e) {
     console.log(e);
-    process.exit();
   }
+  process.exit();
 }
 
-data();
+go();
