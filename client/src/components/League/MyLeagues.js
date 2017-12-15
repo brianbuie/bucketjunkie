@@ -8,7 +8,7 @@ import LocalFetch from 'components/FetchManager/LocalFetch';
 const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
   <FullHeight>
     <LocalFetch fetch={getMyLeagues}>
-      <div className="bg-light p-3">
+      <div className="p-3">
         <h2 className="text-center mb-3">My Leagues</h2>
         {myLeagues.map(league => (
           <A click={() => setLeague(league.id)} key={league.id} className="link-discreet">

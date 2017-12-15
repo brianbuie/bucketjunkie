@@ -13,7 +13,7 @@ const fields = [
 
 const RegisterForm = ({ submitRegister, goToLogin }) => (
   <FullHeight>
-    <div className="bg-light p-3">
+    <div className="height-100 p-3">
       <h2 className="text-center">
         Register
       </h2>

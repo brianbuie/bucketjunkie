@@ -43,7 +43,7 @@ class LeagueForm extends React.Component {
   render = () => {
     return this.state ? (
       <FullHeight>
-        <div className="bg-light p-3 height-100">
+        <div className="p-3 height-100">
           <h2 className="text-center">
             {this.state._id ? 'Edit League' : 'Create League'}
           </h2>

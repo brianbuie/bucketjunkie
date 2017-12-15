@@ -6,7 +6,7 @@ import { A } from 'components/Utilities';
 import Form from 'components/Utilities/Form';
 
 const ResetPasswordForm = ({ fields, submitPasswordReset }) => (
-  <div className="bg-light p-3 height-100">
+  <div className="p-3 height-100">
     <h2 className="text-center">
       Reset Password
     </h2>

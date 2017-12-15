@@ -10,7 +10,7 @@ const fields = [
 ];
 
 const LoginForm = ({ submitLogin, goToForgotPassword, goToRegister }) => (
-  <div className="bg-light height-100 p-3">
+  <div className="height-100 p-3">
     <h2 className="text-center">
       Login
     </h2>

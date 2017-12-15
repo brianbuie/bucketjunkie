@@ -1,5 +1,5 @@
 .Feed__Container {
-  background-color: $white;
+  background-color: lighten($body-bg, 10%);
   display: flex;
   flex-direction: column;
 
@@ -19,8 +19,7 @@
 }
 
 .Feed__Menu {
-  background: $gray-800;
-  color: $light-gray;
+  background: $nav-bg;
   display: flex;
   flex-direction: row;
   padding: $spacer-sm;
@@ -35,19 +34,20 @@
 .LeagueFeed__Menu {
   display: flex;
   flex-direction: row;
-  background-color: lighten($medium-gray, 10);
-  flex-grow: 1;
+  background-color: $nav-bg;
+  height: 45px;
 }
 
 .LeagueFeed__Menu__Item {
   color: $body-color;
-  padding: $spacer-xs;
+  border-bottom: 5px solid $nav-bg;
   flex-grow: 1;
   text-align: center;
   display: block;
   
   &.active,
   &:hover {
-    background-color: $white;
+    color: $brand-gold;
+    border-bottom: 5px solid $brand-gold;
   }
 }
