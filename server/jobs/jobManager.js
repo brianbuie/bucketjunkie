@@ -5,16 +5,16 @@ const playerInfo = require('./playerInfo');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 const jobs = {};
+const MINUTE = 60 * 1000;
+const HOUR = 60 * MINUTE;
 
 exports.startup = () => {
   // manages its own schedule
   autoDraft.startup();
 
-  // update player scores on the :00 and :30 of every hour
-  schedule.scheduleJob('0 0 * * * *', catchErrors(updateScores.update));
-  schedule.scheduleJob('0 30 * * * *', catchErrors(updateScores.update));
+  // update player scores every 30 minutes
+  setInterval(updateScores.update, 30 * MINUTE);
 
-  // update player info at 4:15 am every day
-  schedule.scheduleJob('15 4 * * *', catchErrors(playerInfo.update));
-
+  // update player info every 12.25 hours
+  setInterval(playerInfo.update, 12.25 * HOUR);
 };
