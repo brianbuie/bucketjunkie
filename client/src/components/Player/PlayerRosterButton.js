@@ -16,7 +16,7 @@ const PlayerRosterButton = ({ id, availableAction, addPlayer, removePlayer }) =>
         </A>
       );
     default:
-      return <i className="fa fa-circle-o invisible"></i>
+      return <i className="fa fa-plus-circle faded-3"></i>
   }
 };
 

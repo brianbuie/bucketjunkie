@@ -1,17 +1,22 @@
 import React from 'react';
 import PlayerList from 'components/Player/PlayerList';
 import UserPhoto from 'components/User/UserPhoto';
+import { Row, Col } from 'reactstrap';
 import { Panel } from 'components/UI';
 
-const Roster = ({ user, score, players }) => (
+const Roster = ({ user, score, players, leader }) => (
   <Panel>
-    <div className="flex-row align-items-center px-3 py-2">
-      <div style={{ width: "20%" }}>
+    <Row className="px-3 py-3 bg-dark" noGutters>
+      <Col xs="2" className="flex-column justify-content-center pr-2">
         <UserPhoto photo={user.photo} />
-      </div>
-      <h3 className="px-3 flex-grow font-weight-normal"> {user.username} </h3>
-      <h2> {score} </h2>
-    </div>
+      </Col>
+      <Col xs="6" className="flex-column justify-content-center pr-2">
+        <h3 className={`font-weight-normal ${leader ? 'text-primary' : ''}`}> {user.username} </h3>
+      </Col>
+      <Col xs="4" className="flex-column justify-content-center text-right">
+        <h2 className={leader ? 'text-primary' : ''}> {score} </h2>
+      </Col>
+    </Row>
     <PlayerList filter={{ type: 'SORTED_LIST', list: players }} />
   </Panel>
 );
