@@ -37,7 +37,7 @@ exports.getActivity = async (req, res) => {
       category: { $in: categories },
       date: { $gt: newerThan, $lt: olderThan }
     })
-      .populate('user', 'username');
+      .populate('user', 'username photo');
     activity = activity.map(action => action.toObject());
   }
   if (categories.includes('scores')) {
@@ -45,7 +45,7 @@ exports.getActivity = async (req, res) => {
       league: req.league._id, 
       date: { $gt: newerThan, $lt: olderThan }
     })
-      .populate('user', 'username')
+      .populate('user', 'username photo')
       .populate('player')
       .populate({ path: 'box', populate: [{ path: 'opponent' }, { path: 'game' }] })
     activity = activity.concat(scores.map(score => {

@@ -144,6 +144,7 @@ export const submitLeagueEdit = data => dispatch => {
       dispatch(doneLoading());
       let toastType = res.meta.ok ? 'success' : 'danger';
       dispatch(newToast(res.json.message, toastType));
+      if (res.meta.ok) dispatch(changeFeedView('LEAGUE_INFO'));
     });
 };
 

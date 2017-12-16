@@ -12,7 +12,7 @@ const ChatForm = ({ submit }) => {
       input.value = '';
     }}>
       <div className="form-group my-0 pr-0">
-        <input ref={el => input = el} className="form-control" type="text" name="message" placeholder="Chat" autoComplete="off" />
+        <input ref={el => input = el} className="form-control Chat__Form" type="text" name="message" placeholder="Chat" autoComplete="off" />
       </div>
     </form>
   );

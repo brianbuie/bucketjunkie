@@ -1,18 +1,24 @@
 .Activity__Container {
   height: 100%;
-  background-color: $gray-100;
+  background-color: $nav-bg;
   display: flex;
   flex-direction: column;
 }
 
 .Activity__List {
-  height: 100%;
-  padding: $spacer-lg $spacer-sm;
+  min-height: 100%;
+  padding: $spacer $spacer-sm;
 }
 
 .Activity__Item {
   padding: $spacer-xs $spacer;
-  color: $body-bg;
+}
+
+.Activity__Item--date {
+  text-align: center;
+  opacity: 0.8;
+  font-size: 75%;
+  margin: 1rem 0;
 }
 
 .Activity__Item--rosters,
@@ -24,8 +30,54 @@
   opacity: 0.8;
 }
 
-.Activity__Item--date {
-  text-align: center;
-  opacity: 0.8;
-  font-size: 75%;
+.Chat {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.Chat__Form,
+.Chat__Form:focus {
+  background-color: lighten($nav-bg, 10%);
+  color: $body-color;
+}
+
+.Chat__photo {
+  width: 30px;
+  margin-right: $spacer-sm;
+}
+
+.Chat__content {
+  max-width: 55%;
+}
+
+.Chat__username {
+  opacity: 0.6;
+  padding: 3px 12px;
+}
+
+.Chat__message {
+  padding: 6px 12px;
+  margin: 0;
+  border-radius: 20px;
+  background-color: $gray-400;
+  color: $nav-bg;
+}
+
+.self {
+  .Chat {
+    justify-content: flex-end;
+  }
+  .Chat__photo {
+    display: none;
+  }
+  .Chat__content {
+
+  }
+  .Chat__username {
+    display: none;
+  }
+  .Chat__message {
+    background-color: $brand-gold;
+  }
 }

@@ -51,8 +51,6 @@ const feed = combineReducers({
         return 'MY_LEAGUES';
       case 'LOGOUT_SUCCESS':
         return 'LOGIN';
-      case 'RECEIVED_NEW_LEAGUE':
-        return 'ACTIVITY_ALL';
       case 'REMOVE_LEAGUE':
         return 'MY_LEAGUES';
       case 'CHANGE_FEED_VIEW':

@@ -5,17 +5,17 @@ import { changeFeedPosition } from 'actions';
 
 const FeedPositioner = ({ position, changeFeedPosition }) => {
   const minimize = (
-    <A click={() => changeFeedPosition('minimized')} key="minimize">
+    <A click={() => changeFeedPosition('minimized')} key="minimize" className="flex-column justify-content-center">
       <i className="fa fa-minus m-1"></i>
     </A>
   );
   const float = (
-    <A click={() => changeFeedPosition('floating')} key="float">
+    <A click={() => changeFeedPosition('floating')} key="float" className="flex-column justify-content-center">
       <i className="fa fa-toggle-left m-1"></i>
     </A>
   );
   const dock = (
-    <A click={() => changeFeedPosition('docked')} key="dock">
+    <A click={() => changeFeedPosition('docked')} key="dock" className="flex-column justify-content-center">
       <i className="fa fa-toggle-right m-1"></i>
     </A>
   );
