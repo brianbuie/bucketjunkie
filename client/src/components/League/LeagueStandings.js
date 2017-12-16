@@ -5,7 +5,7 @@ import Rosters from 'components/Rosters/Rosters';
 
 const LeagueStandings = ({ league }) => {
   if (!league) return '';
-  if (league.drafting) return(<Draft />);
+  if (!league.started && league.uniqueRosters) return(<Draft />);
   return (<Rosters />);
 }
 

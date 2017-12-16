@@ -3,31 +3,36 @@ import { connect } from 'react-redux';
 import { movePlayer } from 'actions';
 import { A } from 'components/Utilities';
 import { Panel } from 'components/UI';
+import PageHeading from 'components/UI/PageHeading';
 import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerListItem from 'components/Player/PlayerListItem';
 
-const Draft = ({ draft, movePlayer }) => (
-  <Panel>
-    {draft.players ? draft.players.map(player => (
-      <div className="flex-row align-items-center pl-2" key={player._id}>
-        <div className="flex-column px-1">
-          <A click={() => movePlayer(player._id, -1)}>
-            <i className="fa fa-arrow-up" />
-          </A>
-          <A click={() => movePlayer(player._id, 1)}>
-            <i className="fa fa-arrow-down" />
-          </A>
+const Draft = ({ draft, movePlayer, league }) => (
+  <div>
+    <PageHeading eyebrow={league.name} headline="Draft List" />
+    <Panel>
+      {draft.players ? draft.players.map(player => (
+        <div className="flex-row align-items-center pl-2" key={player._id}>
+          <div className="flex-column px-1">
+            <A click={() => movePlayer(player._id, -1)}>
+              <i className="fa fa-arrow-up" />
+            </A>
+            <A click={() => movePlayer(player._id, 1)}>
+              <i className="fa fa-arrow-down" />
+            </A>
+          </div>
+          <div className="flex-grow">
+            <PlayerContainer id={player._id} component={PlayerListItem} />
+          </div>
         </div>
-        <div className="flex-grow">
-          <PlayerContainer id={player._id} component={PlayerListItem} />
-        </div>
-      </div>
-    )) : ''}
-  </Panel>
+      )) : ''}
+    </Panel>
+  </div>
 );
 
-const mapStateToProps = ({ rosters, user }) => ({
-  draft: rosters.filter(roster => roster.user._id === user._id)[0] || []
+const mapStateToProps = ({ rosters, user, league }) => ({
+  draft: rosters.filter(roster => roster.user._id === user._id)[0] || [],
+  league
 });
 
 const mapDispatchToProps = dispatch => ({

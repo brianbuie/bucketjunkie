@@ -18,7 +18,7 @@ const Layout = ({ }) => (
         <Nav />
       </NoScrollbars>
     </div>
-    <Row noGutters className="width-100 height-100">
+    <Row noGutters className="flex-grow height-100">
       <Col xs="5" className="height-100">
         <Scrollbars autoHide>
           <Container size="4" className="width-100 height-100">

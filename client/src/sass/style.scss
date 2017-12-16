@@ -21,3 +21,19 @@ a:hover {
   color: $body-color;
   text-decoration: none;
 }
+
+input, 
+.form-control {
+  border: none;
+}
+
+.close,
+.close:hover {
+  color: $body-color;
+  text-shadow: none;
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0.6;
+  font-size: 2rem;
+  margin-right: .75rem;
+}

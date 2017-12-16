@@ -1,3 +1,5 @@
+import './AccountModal.scss';
+
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, FormGroup, Button, Label } from 'reactstrap';
 import { A } from 'components/Utilities';

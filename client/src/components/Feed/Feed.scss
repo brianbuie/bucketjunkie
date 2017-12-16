@@ -2,6 +2,7 @@
   background-color: lighten($body-bg, 10%);
   display: flex;
   flex-direction: column;
+  width: 400px;
 
   &.docked {
     height: 100%;
@@ -11,7 +12,6 @@
     position: fixed;
     bottom: 0;
     right: $spacer-xl;
-    width: 400px;
   }
   &.floating {
     height: 60vh;
