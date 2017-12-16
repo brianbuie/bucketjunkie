@@ -10,7 +10,8 @@ const Rosters = ({ rosters, scores, league }) => (
     {scores.sort(sortByScore).map((score, key) => {
       const leader = key === 0 && score.score != 0;
       const roster = rosters.filter(roster => roster.user._id === score._id)[0];
-      return roster ? <Roster {...roster} key={score._id} score={score.score} leader={leader}/> : '';
+      const emptySpots = roster && roster.players ? league.rosterSize - roster.players.length : league.rosterSize;
+      return roster ? <Roster {...roster} key={score._id} score={score.score} leader={leader} emptySpots={emptySpots} /> : '';
     })}
   </div>
 );

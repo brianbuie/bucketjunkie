@@ -5,8 +5,8 @@ export const A = ({ click, className, children, active }) => (
   <a
     href=""
     className={`${className || ''} ${active ? 'active' : ''}`}
-    onClick={e => {
-      e.preventDefault();
+    onClick={e => { 
+      e.preventDefault(); 
       click();
     }}
   >
