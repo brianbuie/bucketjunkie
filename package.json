@@ -11,7 +11,7 @@
     "get-nba-data": "node ./scripts/get-nba-data.js",
     "rescore-all-games": "node ./scripts/rescore-all-games.js",
     "update-scores": "node ./scripts/update-scores.js",
-    "images": "node ./scripts/get-images.js --players"
+    "player-images": "node ./scripts/get-images.js --players"
   },
   "repository": {
     "type": "git",
