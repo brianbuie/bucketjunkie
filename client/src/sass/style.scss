@@ -17,9 +17,14 @@ h1, h2, h3, h4, h5 {
 }
 
 a, 
-a:hover {
+a:hover,
+button,
+button:hover,
+.btn-link,
+.btn-link:hover {
   color: $body-color;
   text-decoration: none;
+  cursor: pointer;
 }
 
 input, 

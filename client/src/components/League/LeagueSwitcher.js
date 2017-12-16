@@ -8,7 +8,7 @@ const LeagueSwitcher = ({ league, myLeagues, setLeague }) => {
   if (myLeagues.length < 2) return league.name;
   return (
     <Dropdown>
-      <DropdownToggle caret>
+      <DropdownToggle color="link" caret>
         {league.name}
       </DropdownToggle>
       <DropdownMenu>
