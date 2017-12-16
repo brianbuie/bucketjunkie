@@ -7,12 +7,11 @@ import { withRouter } from 'react-router';
 import { Nav as BootstrapNav, NavItem } from 'reactstrap';
 import TeamIcon from 'components/Team/TeamIcon';
 import routes from 'routes';
-import Logo from 'components/Nav/Logo';
 
 const Nav = ({ teams, loc }) => (
   <BootstrapNav vertical>
     <li className="brand">
-      <Logo />
+      <img src="/images/logo-beta.svg" alt="BucketJunkie" />
     </li>
     <NavItem active={loc.pathname === routes.rosters}>
       <Link to={routes.rosters}>
