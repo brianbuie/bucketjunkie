@@ -44,7 +44,9 @@ const autoDraft = async id => {
     league.members.reverse();
   }
   const update = await Promise.all(rosters.map(roster => (new Roster(roster)).save()));
-  const addActions = await Activity.insertMany(actions, { ordered: true });
+  for (let action of actions) {
+    await (new Activity(action)).save();
+  }
   const setStarted = await league.set({ started: true }).save();
   // TODO HANDLE ERRORS HERE
 };
