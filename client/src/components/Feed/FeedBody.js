@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeFeedView } from 'actions';
+import Scrollbars from 'react-custom-scrollbars';
 import LoginForm from 'components/Account/LoginForm';
 import RegisterForm from 'components/Account/RegisterForm';
 import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
@@ -49,7 +50,9 @@ const FeedBody = ({ view, changeView }) => {
       return (
         <div className="LeagueFeed">
           <LeagueFeedMenu view='LEAGUE_INFO' changeView={changeView} menuItems={menuItems} />
-          <EditLeague />
+          <Scrollbars>
+            <EditLeague />
+          </Scrollbars>
         </div>
       );
   }
