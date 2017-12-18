@@ -60,7 +60,7 @@ const scheduleDrafts = async () => {
       autoDrafts[league._id].job.cancel();
     }
     if (moment(league.start).isBefore(moment())) {
-      autoDraft(league._id);
+      return autoDraft(league._id);
     }
     console.log(`Scheduling autodraft for ${league.name} \t${league.start}`);
     autoDrafts[league._id] = {
