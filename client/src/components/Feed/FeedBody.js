@@ -11,7 +11,7 @@ import LeagueInfo from 'components/League/LeagueInfo';
 import EditLeague from 'components/League/EditLeague';
 import LeagueFeedMenu from 'components/Feed/LeagueFeedMenu';
 import ActivityList from 'components/Activity/ActivityList';
-import ChatForm from 'components/Activity/Chatform';
+import ChatForm from 'components/Activity/ChatForm';
 
 const activityViews = [
   { name: 'ACTIVITY_ALL', text: 'All', showChat: true },
