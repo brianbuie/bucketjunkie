@@ -8,17 +8,17 @@ import { Nav as BootstrapNav, NavItem } from 'reactstrap';
 import TeamIcon from 'components/Team/TeamIcon';
 import routes from 'routes';
 
-const Nav = ({ teams, loc }) => (
+const Nav = ({ teams, loc, league }) => (
   <BootstrapNav vertical>
     <li className="brand">
       <img src="/images/logo-beta.svg" alt="BucketJunkie" />
     </li>
-    <NavItem active={loc.pathname === routes.rosters}>
+    {league && <NavItem active={loc.pathname === routes.rosters}>
       <Link to={routes.rosters}>
         <i className="fa fa-user-circle" />
         Rosters
       </Link>
-    </NavItem>
+    </NavItem>}
     <NavItem active={loc.pathname === routes.publicLeagues}>
       <Link to={routes.publicLeagues}>
         <i className="fa fa-server" />
@@ -42,7 +42,7 @@ const Nav = ({ teams, loc }) => (
   </BootstrapNav>
 );
 
-const mapStateToProps = ({ teams, router }) => ({ teams, loc: router.location });
+const mapStateToProps = ({ teams, router, league }) => ({ teams, league, loc: router.location });
 
 export default withRouter(connect(
   mapStateToProps
