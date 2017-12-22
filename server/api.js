@@ -23,10 +23,11 @@ router.post('/account/reset-password', user.validatePasswordReset, catchErrors(u
 router.post('/leagues/create', auth.isLoggedIn, league.stripFields, league.validateLeague, catchErrors(league.createLeague));
 router.get('/leagues/mine', catchErrors(league.myLeagues));
 router.get('/leagues/public', catchErrors(league.publicLeagues));
+router.get('/leagues/public/:id', catchErrors(league.getLeague));
 
 // League
 router.use('/lg/:id', catchErrors(auth.useParam));
-router.get('/lg/:id', league.setLeague);
+router.get('/lg/:id', league.verifyLeague);
 router.get('/lg/:id/join', auth.isLoggedIn, catchErrors(league.joinLeague));
 router.post('/lg/:id/leave', auth.isMember, auth.notCreator, catchErrors(league.leaveLeague));
 router.post('/lg/:id/edit', auth.isModerator, league.stripFields, league.validateLeague, catchErrors(league.updateLeague));

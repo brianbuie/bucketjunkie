@@ -7,7 +7,7 @@ import RegisterForm from 'components/Account/RegisterForm';
 import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
 import ResetPasswordForm from 'components/Account/ResetPasswordForm';
 import MyLeagues from 'components/League/MyLeagues';
-import LeagueInfo from 'components/League/LeagueInfo';
+import LeagueOverviewConnected from 'components/League/LeagueOverviewConnected';
 import EditLeague from 'components/League/EditLeague';
 import LeagueFeedMenu from 'components/Feed/LeagueFeedMenu';
 import ActivityList from 'components/Activity/ActivityList';
@@ -43,7 +43,7 @@ const FeedBody = ({ view, changeView }) => {
       return (
         <div className="LeagueFeed">
           <LeagueFeedMenu view={view} changeView={changeView} menuItems={menuItems} />
-          <LeagueInfo goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
+          <LeagueOverviewConnected goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
         </div>
       );
     case 'LEAGUE_EDIT':

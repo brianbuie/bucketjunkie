@@ -10,6 +10,7 @@ import AllPlayers from 'components/Player/AllPlayers';
 import DetailView from 'components/Layout/DetailView';
 import LeagueStandings from 'components/League/LeagueStandings';
 import OpenLeagues from 'components/League/OpenLeagues';
+import LeagueOverviewFetch from 'components/League/LeagueOverviewFetch';
 
 const Layout = ({ }) => (
   <div className="full-height flex-row">
@@ -26,6 +27,7 @@ const Layout = ({ }) => (
             <Route path="/teams/:team" component={AllPlayers} />
             <Route path="/rosters" component={LeagueStandings} />
             <Route path="/leagues/public" component={OpenLeagues} />
+            <Route path="/league/:id" component={LeagueOverviewFetch} />
           </Container>
         </Scrollbars>
       </Col>

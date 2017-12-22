@@ -98,6 +98,8 @@ const dataNeeds = combineReducers({
         return 'need';
       case 'REMOVE_LEAGUE':
         return 'need';
+      case 'RECEIVED_NEW_LEAGUE':
+        return 'need';
       case 'GETTING_MY_LEAGUES':
         return 'fetching';
       default:

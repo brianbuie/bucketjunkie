@@ -120,11 +120,18 @@ exports.myLeagues = async (req, res) => {
   return res.greatJob({ leagues });
 };
 
-// sort of a misnomer, session league is set in league Auth
-// this just verifies there is a session league and returns it
-exports.setLeague = (req, res) => {
+exports.verifyLeague = (req, res) => {
   if (req.session.league) return res.greatJob({ league: req.session.league });
   return res.oops('League not set!');
+};
+
+exports.getLeague = async (req, res) => {
+  const league = await League.findOne({ _id: req.params.id })
+    .populate('members')
+    .populate('moderators')
+    .populate('creator');
+  if (!league) return res.oops('Can\'t find league');
+  return res.greatJob({ league });
 };
 
 exports.joinLeague = async (req, res) => {

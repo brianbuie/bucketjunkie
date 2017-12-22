@@ -1,24 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment';
-import { Row, Col } from 'reactstrap';
-import { isModerator } from 'helpers';
-import { leaveLeague } from 'actions';
+import { Row, Col, Button } from 'reactstrap';
 import { A } from 'components/Utilities';
+import PageHeading from 'components/UI/PageHeading';
 
-const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
+const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
   return (
     <Scrollbars autoHide>
-      <div className="p-3">
-        <h3> {league.name} </h3>
-        {isModerator(league, user) ? <p><A click={goToLeagueEdit}>Edit</A></p> : ''}
-        <small className="faded-2">
-          {`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
-        </small>
-        <p className="p-0">
+      <PageHeading
+        eyebrow="League"
+        headline={league.name}
+        subhead={`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
+      >
+        {goToLeagueEdit ? <p><A click={goToLeagueEdit}>Edit</A></p> : ''}
+        {joinLeague ? <Button color="success" onClick={joinLeague}>Join</Button> : ''}
+      </PageHeading>
+      <div className="px-2">
+        <p className="py-2">
           {league.description}
         </p>
         <Row>
@@ -38,14 +39,11 @@ const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
           <Col xs="6">
             <h5>Members</h5>
             {league.members.map((member, key) => {
-              let canLeave = (league.creator.id != member.id && member.id === user.id);
+              let canLeave = (leaveLeague && user && user.id === member.id);
               return (
                 <div key={key} className="flex-row justify-content-between py-1 pr-3">
                   <p className="my-0">{member.username}</p>
-                  <p className="my-0">{canLeave 
-                    ? <A click={() => leaveLeague(league.id)}>Leave</A>
-                    : ''}
-                  </p>
+                  <p className="my-0">{canLeave ? <A click={() => leaveLeague(league.id)}>Leave</A> : ''}</p>
                 </div>
               );
             })}
@@ -56,13 +54,4 @@ const LeagueInfo = ({ league, user, goToLeagueEdit, leaveLeague }) => {
   );
 };
 
-const mapStateToProps = ({ league, user }) => ({ league, user });
-
-const mapDispatchToProps = dispatch => ({
-  leaveLeague: id => dispatch(leaveLeague(id))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LeagueInfo);
+export default LeagueOverview;

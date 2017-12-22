@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { joinLeague, changeDetailView } from 'actions';
 import LeagueCard from 'components/League/LeagueCard';
 import { A } from 'components/Utilities';
@@ -12,14 +13,13 @@ const OpenLeagues = ({ leagues, joinLeague, createLeague }) => (
   <div>
     <PageHeading eyebrow="Public" headline="Leagues" />
     {leagues.length ? leagues.map(league => (
-      <Panel key={league.id}>
-        <div className="flex-row px-3 py-2">
-          <LeagueCard {...league} />
-          <A click={() => joinLeague(league.id)} className="flex-column p-2 justify-content-center">
-            <i className="fa fa-plus-circle text-success"></i>
-          </A>
-        </div>
-      </Panel>
+      <Link key={league.id} to={`/league/${league.id}`}>
+        <Panel key={league.id}>
+          <div className="px-3 py-2">
+            <LeagueCard {...league} />
+          </div>
+        </Panel>
+      </Link>
     )) : <p className="faded-2 text-center py-4">No open leagues. You should create one...</p> }
     <div className="text-center">
       <Button color="success" onClick={createLeague}>
