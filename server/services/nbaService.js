@@ -48,7 +48,6 @@ const mutateGame = game => {
   game._id = game.id;
   game.home = game.home_id;
   game.away = game.away_id;
-  game.date = moment(game.date).utcOffset('-05:00');
   return game;
 };
 
