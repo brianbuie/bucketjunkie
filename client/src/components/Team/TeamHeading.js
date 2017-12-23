@@ -9,10 +9,4 @@ const TeamHeading = ({ id, name, city }) => (
   </PageHeading>
 );
 
-const mapStateToProps = (state, ownProps) => ({
-  ...state.teams.filter(team => team._id == ownProps.id)[0],
-});
-
-export default connect(
-  mapStateToProps
-)(TeamHeading);
+export default TeamHeading;

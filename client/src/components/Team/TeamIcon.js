@@ -1,7 +1,7 @@
 import React from 'react';
 
-const TeamIcon = ({ id }) => (
-  <img className="TeamIcon" src={`/images/teams/${id}.svg`} />
+const TeamIcon = ({ id, className, style }) => (
+  <img className={`TeamIcon ${className || ''}`} style={style} src={`/images/teams/${id}.svg`} />
 );
 
 export default TeamIcon;
