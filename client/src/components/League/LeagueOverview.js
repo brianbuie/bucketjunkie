@@ -8,6 +8,7 @@ import PageHeading from 'components/UI/PageHeading';
 const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';
   const type = league.uniqueRosters ? 'Fantasy' : 'Contest';
+  const canJoin = joinLeague && user && league.open;
   return (
     <Scrollbars autoHide>
       <PageHeading
@@ -16,7 +17,7 @@ const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague 
         subhead={`${type} | ${league.rosterSize} players | ${startVerb} ${moment(league.start).fromNow()}`}
       >
         {goToLeagueEdit ? <p><A click={goToLeagueEdit}>Edit</A></p> : ''}
-        {joinLeague ? <Button color="success" onClick={joinLeague}>Join</Button> : ''}
+        {canJoin ? <Button color="success" onClick={joinLeague}>Join</Button> : ''}
       </PageHeading>
       <div className="px-2">
         <p className="py-2">
