@@ -1,10 +1,27 @@
 .Toast__Container {
   position: absolute;
-  top: 0;
+  top: $spacer-lg;
   left: 0;
   right: 0;
-  max-width: 500px;
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 400px;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: $spacer-xl;
   z-index: 5;
+
+  .alert {
+    border: none;
+    .close {
+      color: $white;
+    }
+  }
+  .alert-success {
+    background-color: darken($green, 10%);
+    color: $white;
+  }
+  .alert-danger {
+    background-color: darken($red, 10%);
+    color: $white;
+  }
 }

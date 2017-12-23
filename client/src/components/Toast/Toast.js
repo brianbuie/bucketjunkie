@@ -8,45 +8,45 @@ const duration = 300;
 
 const defaultStyle = {
   transition: `all ${duration}ms ease`,
-  transform: 'translate3d(0, -100%, 0)',
-  opacity: 0,
-  maxHeight: '100px'
 }
 
 const transitionStyles = {
   entering: {
     transform: 'translate3d(0, -100%, 0)',
-    opacity: 0
+    maxHeight: '0px',
+    opacity: 0,
   },
   entered: {
     transform: 'translate3d(0, 0, 0)',
-    opacity: 1
+    maxHeight: '100px',
+    opacity: 1,
+  },
+  exiting: {
+    opacity: 0
   },
   exited: {
-    display: 'none'
+    display: 'none',
   }
 }
 
 const Toast = ({ toasts, hideToast }) => (
   <div className="Toast__Container">
-    {toasts.map((toast, key) => {
-      return (
-        <Transition in={!toast.hidden} timeout={duration} key={key} appear>
-          {state => (
-            <div
-              style={{ ...defaultStyle, ...transitionStyles[state] }}
-              className={`alert alert-${toast.toastType}`} 
-              role="alert"
-            >
-              <button className="close" type="button" onClick={() => hideToast(toast.id)}> 
-                <span> &times; </span>
-              </button>
-              {toast.text}
-            </div>
-          )}
-        </Transition>
-      );
-    })}
+    {toasts.map((toast, key) => (
+      <Transition in={!toast.hidden} timeout={duration} key={key} appear>
+        {state => (
+          <div
+            style={{ ...defaultStyle, ...transitionStyles[state] }}
+            className={`alert alert-${toast.toastType}`} 
+            role="alert"
+          >
+            <button className="close" type="button" onClick={() => hideToast(toast.id)}> 
+              <span> &times; </span>
+            </button>
+            {toast.text}
+          </div>
+        )}
+      </Transition>
+    ))}
   </div>
 );
 

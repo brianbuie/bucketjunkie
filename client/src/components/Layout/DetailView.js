@@ -9,7 +9,7 @@ import CreateLeague from 'components/League/CreateLeague';
 const DetailView = ({ type, details, clearDetailView }) => {
   if (type === '') return '';
   return (
-    <div className="height-100">
+    <div className="height-100 position-relative">
       <Button className="close" onClick={clearDetailView}>
         &times;
       </Button>
