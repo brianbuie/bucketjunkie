@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { joinLeague, changeDetailView } from 'actions';
 import LeagueCard from 'components/League/LeagueCard';
 import { A } from 'components/Utilities';
-import { Panel } from 'components/UI';
-import PageHeading from 'components/UI/PageHeading';
+import { Panel, PageHeading } from 'components/UI';
 import FetchContainer from 'components/FetchManager/FetchContainer';
 
 const OpenLeagues = ({ leagues, joinLeague, createLeague }) => (

@@ -3,7 +3,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment';
 import { Row, Col, Button } from 'reactstrap';
 import { A } from 'components/Utilities';
-import PageHeading from 'components/UI/PageHeading';
+import { PageHeading } from 'components/UI';
 
 const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague }) => {
   const startVerb = moment(league.start).isBefore(moment()) ? 'Started' : 'Starting';

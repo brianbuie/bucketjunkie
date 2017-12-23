@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PageHeading from 'components/UI/PageHeading';
+import { PageHeading } from 'components/UI';
 import Roster from 'components/Rosters/Roster';
 import { sortByScore } from 'helpers';
 

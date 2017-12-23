@@ -76,7 +76,16 @@ img {
   flex-grow: 0;
 }
 
-.striped:nth-child(even),
-.striped:nth-child(even)>.striped-child {
-  background-color: rgba(255, 255, 255, 0.2);  
+.border-top {
+  border-top: 1px solid lighten($body-bg, 10%);
+}
+.border-top-light {
+  border-top: 1px solid lighten($body-bg, 20%);
+}
+
+.border-bottom {
+  border-bottom: 1px solid lighten($body-bg, 10%);
+}
+.border-bottom-light {
+  border-bottom: 1px solid lighten($body-bg, 20%);
 }
