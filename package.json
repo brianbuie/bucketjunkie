@@ -11,7 +11,8 @@
     "get-nba-data": "node ./scripts/get-nba-data.js",
     "rescore-all-games": "node ./scripts/rescore-all-games.js",
     "update-scores": "node ./scripts/update-scores.js",
-    "player-images": "node ./scripts/get-images.js --players"
+    "player-images": "node ./scripts/get-images.js --players",
+    "blast-dist": "rm -rf ./client/public/dist && mkdir ./client/public/dist"
   },
   "repository": {
     "type": "git",
