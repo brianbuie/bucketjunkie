@@ -34,9 +34,7 @@ const Layout = ({ }) => (
       <Col xs="7">
         <Scrollbars autoHide>
           <Container size="4" className="width-100 height-100">
-            <Panel>
-              <DetailView />
-            </Panel>
+            <DetailView />
           </Container>
         </Scrollbars>
       </Col>
