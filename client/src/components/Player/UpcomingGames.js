@@ -7,13 +7,15 @@ import routes from 'routes';
 const UpcomingGames = ({ upcomingGames, team }) => {
   const upcomingDays = upcomingGames.map((g, i) => moment().add(i, 'days'));
   return (
-    <div className="p-3">
+    <div className="px-3">
       <table style={{width: '100%'}}>
         <tbody>
-          <tr>
+          <tr className="pb-2">
             {upcomingDays.map((day, key) => (
-              <td className="one-seventh faded-2 text-center text-sm" key={key}>
-                {day.format('ddd').toUpperCase()}
+              <td className="one-seventh faded-2 text-center" key={key}>
+                <small>
+                  {day.format('ddd').toUpperCase()}
+                </small>
               </td>
             ))}
           </tr>
@@ -28,7 +30,7 @@ const UpcomingGames = ({ upcomingGames, team }) => {
                 <td className="one-seventh text-center text-sm" key={key}>
                   {opponent ?
                     <Link to={`${routes.teams}/${opponent}`}>
-                      <TeamIcon id={opponent} />
+                      <TeamIcon id={opponent} style={{ maxWidth: '40px' }}/>
                     </Link>
                   : ''}
                 </td>

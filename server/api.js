@@ -55,10 +55,7 @@ router.use('/scores', catchErrors(auth.useSession));
 router.get('/scores/league', catchErrors(activity.leagueTotalScores));
 
 // Players
-router.use('/nba', auth.isLoggedIn);
-router.use('/nba', catchErrors(auth.useSession));
-router.get('/nba/players', catchErrors(nba.players));
-router.get('/nba/teams', catchErrors(nba.teams));
+router.get('/nba/boxscores/player/:id', catchErrors(nba.playerBoxscores));
 
 // Errors
 router.use(errorHandlers.notFound);

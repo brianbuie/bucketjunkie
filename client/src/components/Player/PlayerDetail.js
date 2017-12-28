@@ -22,7 +22,7 @@ const PlayerDetail = (props) => (
           <h4 className="font-weight-normal text-truncate mb-2">
             {props.name}
           </h4>
-          <p>
+          <p className="m-0 text-truncate">
             <TeamIcon id={props.team} style={{ width: '10%', marginRight: '5px' }}/>
             <TeamContainer id={props.team} component={props => (
               <span className="faded-3">
@@ -35,7 +35,7 @@ const PlayerDetail = (props) => (
           </p>
         </Col>
         <Col xs="2" className="flex-column justify-content-center text-center">
-          <h1 className="faded-1 m-0">
+          <h1 className="m-0">
             {Math.round(props.score) || 0}
           </h1>
           <p className="faded-2 m-0">AVG</p>
@@ -49,13 +49,10 @@ const PlayerDetail = (props) => (
       />
     </div>
     <Panel className="p-3">
-      <h4 className="text-center mb-2">Averages</h4>
-      <PlayerAverages averages={props.averages} />
-    </Panel>
-    <Panel className="p-3">
-      <h4 className="text-center mb-2">Upcoming Games</h4>
+      <h5 className="font-weight-normal pb-3 faded-2">Upcoming Games</h5>
       <UpcomingGames upcomingGames={props.upcomingGames} team={props.team} />
     </Panel>
+    <PlayerAverages averages={props.averages} />
   </div>
 );
 
