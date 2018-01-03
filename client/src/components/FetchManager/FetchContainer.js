@@ -7,21 +7,20 @@ class FetchContainer extends React.Component {
     this.setState({ status: 'loading' });
   }
 
-  fetch = () => {
+  fetch = url => {
     this.setState({ status: 'loading' });
-    get(this.props.url)
-      .then(res => this.setState({
-        status: res.meta.ok ? 'ok' : 'error',
-        res
-      }));
+    get(url).then(res => this.setState({
+      status: res.meta.ok ? 'ok' : 'error',
+      res
+    }));
   }
 
   componentDidMount = () => { 
-    this.fetch(); 
+    this.fetch(this.props.url); 
   }
 
-  componentWillReceiveProps = () => {
-    this.fetch();
+  componentWillReceiveProps = newProps => {
+    this.fetch(newProps.url);
   }
 
   render = () => {
