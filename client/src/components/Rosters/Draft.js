@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { movePlayer } from 'actions';
 import { A } from 'components/Utilities';
 import { Panel } from 'components/UI';
-import PageHeading from 'components/UI/PageHeading';
+import { PageHeading } from 'components/UI';
 import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerListItem from 'components/Player/PlayerListItem';
 
