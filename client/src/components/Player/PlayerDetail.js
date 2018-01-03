@@ -6,6 +6,7 @@ import TeamIcon from 'components/Team/TeamIcon';
 import TeamContainer from 'components/Team/TeamContainer';
 import UpcomingGames from 'components/Player/UpcomingGames';
 import PlayerAverages from 'components/Player/PlayerAverages';
+import PlayerBoxscores from 'components/Player/PlayerBoxscores';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerDetail = (props) => (
@@ -53,6 +54,7 @@ const PlayerDetail = (props) => (
       <UpcomingGames upcomingGames={props.upcomingGames} team={props.team} />
     </Panel>
     <PlayerAverages averages={props.averages} />
+    <PlayerBoxscores id={props._id} />
   </div>
 );
 
