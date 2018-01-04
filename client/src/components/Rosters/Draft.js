@@ -14,6 +14,7 @@ const Draft = ({ draft, movePlayer, league }) => (
       <span className="faded-2">{league.name}</span>
       <Countdown end={league.start} />
     </div>
+    <h4 className="text-center mb-3 faded-2">My Draft List</h4>
     <Panel>
       {draft.players ? draft.players.map(player => (
         <div className="flex-row align-items-center pl-2" key={player._id}>
