@@ -15,9 +15,9 @@ import LeagueOverviewFetch from 'components/League/LeagueOverviewFetch';
 const Layout = ({ }) => (
   <div className="full-height flex-row">
     <div className="height-100 text-center" style={{ width: "200px" }}>
-      <NoScrollbars>
+      <Scrollbars autoHide>
         <Nav />
-      </NoScrollbars>
+      </Scrollbars>
     </div>
     <Row noGutters className="flex-grow height-100">
       <Col xs="5" className="height-100">
