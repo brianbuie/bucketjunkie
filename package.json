@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pm2 start ecosystem.config.js -s --no-daemon",
     "prod": "webpack && pm2 start ./server/start.js --name nfa",
-    "deploy": "git pull origin master && npm install && webpack && pm2 restart nfa",
+    "deploy": "git pull origin master && webpack && pm2 restart nfa",
     "test": "eslint .",
     "get-nba-data": "node ./scripts/get-nba-data.js",
     "rescore-all-games": "node ./scripts/rescore-all-games.js",
