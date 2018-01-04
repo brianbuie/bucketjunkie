@@ -6,10 +6,14 @@ import { Panel } from 'components/UI';
 import { PageHeading } from 'components/UI';
 import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerListItem from 'components/Player/PlayerListItem';
+import Countdown from 'components/League/Countdown';
 
 const Draft = ({ draft, movePlayer, league }) => (
   <div>
-    <PageHeading eyebrow={league.name} headline="Draft List" />
+    <div className="mb-3 pb-3 border-bottom">
+      <span className="faded-2">{league.name}</span>
+      <Countdown end={league.start} />
+    </div>
     <Panel>
       {draft.players ? draft.players.map(player => (
         <div className="flex-row align-items-center pl-2" key={player._id}>
