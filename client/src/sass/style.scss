@@ -27,6 +27,10 @@ button:hover,
   cursor: pointer;
 }
 
+.btn-outline-primary:hover {
+  color: darken($body-color, 20%);
+}
+
 input, 
 .form-control {
   border: none;

@@ -38,7 +38,7 @@ const AccountModal = ({
           <FormGroup className="text-center">
             <input type="file" name="photo" accept="image/gif, image/png, image/jpeg" />
           </FormGroup>
-          <Button type="submit" color="success" block>
+          <Button type="submit" color="primary" block outline>
              Save →
           </Button>
         </form>
