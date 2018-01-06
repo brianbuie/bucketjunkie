@@ -31,7 +31,7 @@ module.exports = function(io) {
         populate: 'user players'
       },
     },
-    debug: true
+    debug: process.env.DEBUG
   });
 
   return mongoose.model('Draft', draftSchema);

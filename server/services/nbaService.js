@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('request');
 const moment = require('moment');
+const log = require('./logService');
 
 const Player = mongoose.model('Player');
 const Team = mongoose.model('Team');
@@ -72,20 +73,20 @@ const mutateTeam = team => {
 
 exports.fetchAllPlayers = () => fetch('/player', {})
   .then(players => players.map(mutatePlayer))
-  .catch(err => console.log(`Error fetching players: ${err}`));
+  .catch(err => log.error(`Error fetching players: ${err}`));
 
 exports.fetchAllTeams = () => fetch('/team', {})
   .then(teams => teams.map(mutateTeam))
-  .catch(err => console.log(`Error fetching teams: ${err}`));
+  .catch(err => log.error(`Error fetching teams: ${err}`));
 
 // Fetch all games and mark as not final
 exports.fetchAllGamesNotFinal = () => fetch('/game', { season: 2017 }) // Todo: predict season
   .then(games => games.map(mutateGame).map(mutateGameFinal))
-  .catch(err => console.log(`Error fetching games: ${err}`));
+  .catch(err => log.error(`Error fetching games: ${err}`));
 
 exports.fetchGame = id => fetch('/game', { game_id: id })
   .then(game => game ? mutateGame(game[0]) : null)
-  .catch(err => console.log(`Error fetching game ${id}: ${err}`));
+  .catch(err => log.error(`Error fetching game ${id}: ${err}`));
 
 exports.fetchBoxscoresByGame = async id => {
   const boxscores = await fetch('/boxscore/player', { game_id: id })

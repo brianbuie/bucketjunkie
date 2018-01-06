@@ -76,7 +76,6 @@ exports.createLeague = async (req, res) => {
 };
 
 exports.updateLeague = async (req, res) => {
-  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.oops({ message: `Error! ${errors.array().map(e => e.msg).join(', ')}` });

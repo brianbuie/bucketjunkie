@@ -39,7 +39,7 @@ module.exports = function(io) {
         populate: 'user'
       }
     },
-    debug: true
+    debug: process.env.DEBUG
   });
 
   return mongoose.model('Activity', activitySchema);

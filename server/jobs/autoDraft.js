@@ -3,6 +3,7 @@ const schedule = require('node-schedule');
 const suffix = require('ordinal-number-suffix');
 const rosterService = require('../services/rosterService');
 const moment = require('moment');
+const log = require('../services/logService');
 
 const League = mongoose.model('League');
 const Draft = mongoose.model('Draft');
@@ -16,7 +17,7 @@ const autoDraft = async id => {
   if (!league.uniqueRosters) {
     return league.set({ started: true }).save();
   }
-  console.log(`Autodrafting for ${league.name}`);
+  log.info({ msg: `Autodrafting for ${league.name}`, force: true });
   const drafts = await Draft.find({ league }).populate('players').populate('user');
   const rosters = league.members.map(user => { return { league, user, players: [] } });
   const actions = [];
@@ -56,13 +57,13 @@ const scheduleDrafts = async () => {
   leagues.forEach(league => {
     if (autoDrafts[league._id]){
       if (moment(autoDrafts[league._id].start).isSame(league.start)) return;
-      console.log(`league start changed for ${league.name}`);
+      log.status(`league start changed for ${league.name}`);
       autoDrafts[league._id].job.cancel();
     }
     if (moment(league.start).isBefore(moment())) {
       return autoDraft(league._id);
     }
-    console.log(`Scheduling autodraft for ${league.name} \t${league.start}`);
+    log.status({ msg: `Scheduling autodraft for '${league.name}' ${league.start}`, force: true });
     autoDrafts[league._id] = {
       start: league.start,
       job: schedule.scheduleJob(league.start, function() { autoDraft(league._id); })

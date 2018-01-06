@@ -1,3 +1,8 @@
+// Config & logging
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
+const log = require('./services/logService');
+
 // Server
 const express = require('express');
 const app = express();
@@ -6,11 +11,9 @@ const io = require('socket.io')(server);
 
 // Database
 const mongoose = require('mongoose');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '..', 'variables.env') });
 mongoose.connect(process.env.DATABASE, { useMongoClient: true });
 mongoose.Promise = global.Promise;
-mongoose.connection.on('error', err => console.error(`🚫 → ${err.message}`));
+mongoose.connection.on('error', err => log.error(`MongoError - ${err.message}`));
 
 // Models
 require('./models/User');
@@ -26,7 +29,7 @@ require('./models/Box');
 
 // Server listen
 server.listen(process.env.PORT, function() {
-  console.log(`Express listening on port ${process.env.PORT}`);
+  log.success({ msg: `Express listening on port ${process.env.PORT}`, force: true });
 });
 
 // Automatic jobs
@@ -100,7 +103,7 @@ io.use(passportSocketIo.authorize({
   store: sessionStore,
   success: (data, accept) => accept(null, true),
   fail: (data, message, error, accept) => {
-    console.log('Failed to Authorize');
+    log.status('socket.io connection failed to authorize, closing connection.');
     accept(null, false);
   }
 }));
@@ -112,7 +115,7 @@ io.sockets.on('connection', function(socket) {
       let session = JSON.parse(result.session);
       if (!session.league || !session.passport || !session.passport.user) return socket.disconnect();
       socket.join(session.league._id, () => {
-        console.log(`${session.passport.user} connected to ${session.league.name} socket`);
+        log.success(`${session.passport.user} connected to ${session.league.name} socket`);
         socket.nsp.to(session.league._id).emit('message', `${session.passport.user} connected`);
       });
     });

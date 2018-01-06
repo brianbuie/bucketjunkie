@@ -3,24 +3,36 @@ const pug = require('pug');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
 const promisify = require('es6-promisify');
+const log = require('./logService');
 
-const transport = nodemailer.createTransport({
+const smtpTransport = {
   host: process.env.SMTP_HOST,
   port: process.env.SMTP_PORT,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
-});
+};
 
-// verify connection configuration
-transport.verify(function(error, success) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Server is ready to take our messages');
-  }
-}); 
+const trapTransport = {
+  host: process.env.MAILTRAP_HOST,
+  port: process.env.MAILTRAP_PORT,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS,
+  },
+};
+
+const transport = process.env.TRAP_MAIL 
+  ? nodemailer.createTransport(trapTransport)
+  : nodemailer.createTransport(smtpTransport);
+
+if (process.env.DEBUG) {
+  transport.verify((error, success) => {
+    if (error) return log.error(error);
+    log.success(`Mail transport ready to send from ${transport.options.host}`);
+  });
+}
 
 const generateHTML = (options = {}) => juice(pug.render(`
 doctype html

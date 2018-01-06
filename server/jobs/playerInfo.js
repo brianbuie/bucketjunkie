@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const nbaService = require('../services/nbaService');
+const log = require('../services/logService');
 
 const Player = mongoose.model('Player');
 
@@ -11,5 +12,5 @@ exports.update = async () => {
     .filter(player => !!player.team)
     .map(player => Player.findOneAndUpdate({ _id: player.id }, player, { upsert: true, new: true }))
   );
-  console.log(`${moment().format()}: Updated player info in ${Date.now() - start}ms`);
+  log.status({ msg: `Updated player info in ${Date.now() - start}ms`, force: true });
 };

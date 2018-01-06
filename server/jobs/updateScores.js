@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const nbaService = require('../services/nbaService');
+const log = require('../services/logService');
 
 const Game = mongoose.model('Game');
 const Roster = mongoose.model('Roster');
@@ -20,7 +21,7 @@ exports.updateAverages = async () => {
     categories.forEach(cat => update[`averages.${cat}`] = player.averages[cat]);
     return Player.findOneAndUpdate({ _id: player._id }, update, { new: true });
   }));
-  console.log(`${moment().format()}: Updated player averages in ${Date.now() - start}ms`);
+  log.status({ msg: `Updated player averages in ${Date.now() - start}ms`, force: true });
 };
 
 const updateScores = async () => {
@@ -33,7 +34,7 @@ const updateScores = async () => {
   await Promise.all(unscoredGames.map(async game => {
     let start = Date.now();
     const boxes = await nbaService.fetchBoxscoresByGame(game._id).catch(err => {
-      console.log(`error fetching boxscore ${game._id}: ${err}`);
+      log.status(`error fetching boxscore ${game._id}: ${err}`);
       shouldRetry = true;
     });
     if (!boxes || !boxes.length || boxes[0].period !== "f") return;
@@ -70,7 +71,7 @@ const updateScores = async () => {
       }));
     }));
     await Game.findOneAndUpdate({ _id: game.id }, { final: true });
-    console.log(`${moment().format()}: Updated scores for game ${game._id} in ${Date.now() - start}ms`);
+    log.status(`Updated scores for game ${game._id} in ${Date.now() - start}ms`);
     return;
   }));
   return { shouldUpdateAverages, shouldRetry };
@@ -79,7 +80,7 @@ const updateScores = async () => {
 exports.update = async () => {
   let status = await updateScores();
   while (status.shouldRetry) {
-    console.log('Errors detected, retrying...');
+    log.error('Errors fetching boxscores, retrying...');
     status = await updateScores();
   }
   if (status.shouldUpdateAverages) await this.updateAverages();

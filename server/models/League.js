@@ -90,7 +90,7 @@ module.exports = function(io) {
         populate: 'creator members moderators blocked'
       }
     },
-    debug: true
+    debug: process.env.DEBUG
   });
 
   return mongoose.model('League', leagueSchema);
