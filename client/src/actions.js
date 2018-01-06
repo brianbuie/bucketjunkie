@@ -96,20 +96,12 @@ export const socketConnected = () => ({
 });
 
 export const viewPlayer = id => ({
-  type: 'CHANGE_DETAIL_VIEW',
-  payload: {
-    view: 'PLAYER',
-    details: { id }
-  }
+  type: 'VIEW_PLAYER_DETAIL',
+  id
 });
 
-export const changeDetailView = payload => ({
-  type: 'CHANGE_DETAIL_VIEW',
-  payload
-});
-
-export const clearDetailView = () => ({
-  type: 'CLEAR_DETAIL_VIEW'
+export const clearPlayerDetail = () => ({
+  type: 'CLEAR_PLAYER_DETAIL'
 });
 
 

@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { changeDetailView } from 'actions';
 import LeagueCard from 'components/League/LeagueCard';
-import { A } from 'components/Utilities';
 import { Panel, PageHeading } from 'components/UI';
 import FetchContainer from 'components/FetchManager/FetchContainer';
+import CenteredLayout from 'components/Layout/CenteredLayout';
 
 const OpenLeagues = ({ createLeague, user }) => (
-  <div>
+  <CenteredLayout>
     <PageHeading eyebrow="Public" headline="Leagues" />
     <FetchContainer url='/api/leagues/public' user={user} component={({ leagues }) => (
       leagues.length ? leagues.map(league => (
@@ -23,18 +21,13 @@ const OpenLeagues = ({ createLeague, user }) => (
       )) : <p className="faded-2 text-center py-4">No open leagues. You should create one...</p> 
     )} />
     <div className="text-center">
-      <Button color="success" onClick={createLeague}>
+      <Link to="/leagues/create" className="btn btn-outline-primary btn-block">
         Create League
-      </Button>
+      </Link>
     </div>
-  </div>
+  </CenteredLayout>
 );
 
 export default connect(
-  ({ user }) => ({ 
-    user 
-  }),
-  dispatch => ({
-    createLeague: () => dispatch(changeDetailView({ view: 'CREATE_LEAGUE' }))
-  })
+  ({ user }) => ({ user })
 )(OpenLeagues);

@@ -3,13 +3,14 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { submitCreateLeague } from 'actions';
 import LeagueForm from 'components/League/LeagueForm';
+import CenteredLayout from 'components/Layout/CenteredLayout';
 
 const blankLeague = {
   name: '',
   description: '',
   public: true,
   open: true,
-  start: moment().add(30, 'minutes'),
+  start: moment().add(7, 'days'),
   rosterSize: 5,
   uniqueRosters: true,
   pointValues: {
@@ -24,15 +25,15 @@ const blankLeague = {
   }
 };
 
-const mapStateToProps = () => ({ 
-  league: blankLeague
-});
-
-const mapDispatchToProps = dispatch => ({
-  submit: data => dispatch(submitCreateLeague(data))
-});
+const CreateLeague = ({ submit }) => (
+  <CenteredLayout>
+    <LeagueForm submit={submit} league={blankLeague} />
+  </CenteredLayout>
+);
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LeagueForm);
+  null,
+  dispatch => ({
+    submit: data => dispatch(submitCreateLeague(data))
+  })
+)(CreateLeague);

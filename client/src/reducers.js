@@ -63,30 +63,16 @@ const feed = combineReducers({
   }
 });
 
-const detailView = combineReducers({
-  type: (state = '', action) => {
-    switch (action.type) {
-      case 'CHANGE_DETAIL_VIEW':
-        return action.payload.view;
-      case 'CREATED_NEW_LEAGUE':
-        return '';
-      case 'CLEAR_DETAIL_VIEW':
-        return '';
-      default:
-        return state;
-    }
-  },
-  details: (state = {}, action) => {
-    switch (action.type) {
-      case 'CHANGE_DETAIL_VIEW':
-        return action.payload.details || {};
-      case 'CLEAR_DETAIL_VIEW':
-        return {};
-      default:
-        return state;
-    }
+const playerDetailView = (state = null, action) => {
+  switch (action.type) {
+    case 'VIEW_PLAYER_DETAIL':
+      return action.id;
+    case 'CLEAR_PLAYER_DETAIL':
+      return null;
+    default:
+      return state;
   }
-});
+}
 
 const dataNeeds = combineReducers({
   myLeagues: (state = 'ok', action) => {
@@ -313,7 +299,7 @@ const user = (state = null, action) => {
 const reducers = combineReducers({
   activity,
   dataNeeds,
-  detailView,
+  playerDetailView,
   feed,
   league,
   myLeagues,

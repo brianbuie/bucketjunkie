@@ -1,12 +1,12 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import { Panel } from 'components/UI';
 import PlayerList from 'components/Player/PlayerList';
 import TeamContainer from 'components/Team/TeamContainer';
 import TeamHeading from 'components/Team/TeamHeading';
+import PlayerDetailLayout from 'components/Layout/PlayerDetailLayout';
 
 const AllPlayers = ({ match }) => (
-  <div>
+  <PlayerDetailLayout>
     <TeamContainer id={match.params.team} component={TeamHeading} />
     <Panel>
       <PlayerList filter={
@@ -15,7 +15,7 @@ const AllPlayers = ({ match }) => (
         : { type: "SHOW_ALL" }
       } />
     </Panel>
-  </div>
+  </PlayerDetailLayout>
 );
 
 export default AllPlayers;
