@@ -5,13 +5,22 @@ const htmlToText = require('html-to-text');
 const promisify = require('es6-promisify');
 
 const transport = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
+
+// verify connection configuration
+transport.verify(function(error, success) {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Server is ready to take our messages');
+  }
+}); 
 
 const generateHTML = (options = {}) => juice(pug.render(`
 doctype html
