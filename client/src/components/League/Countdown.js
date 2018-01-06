@@ -12,6 +12,10 @@ class Countdown extends React.Component {
     this.startTimer(newProps.end);
   }
 
+  componentWillUnmount = () => {
+    if (this.timer) clearInterval(this.timer);
+  }
+
   startTimer = end => {
     let endTime = moment(end).unix();
     let currentTime = moment().unix();

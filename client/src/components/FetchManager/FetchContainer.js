@@ -20,7 +20,7 @@ class FetchContainer extends React.Component {
   }
 
   componentWillReceiveProps = newProps => {
-    this.fetch(newProps.url);
+    if (newProps.url != this.props.url) this.fetch(newProps.url);
   }
 
   render = () => {
