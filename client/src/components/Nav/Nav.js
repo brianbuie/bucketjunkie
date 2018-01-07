@@ -16,7 +16,9 @@ const Nav = ({ teams, loc, league }) => (
     <Scrollbars autoHide>
       <BootstrapNav vertical>
         <li className="brand">
-          <img src="/images/logo-beta.svg" alt="BucketJunkie" />
+          <Link to="/">
+            <img src="/images/logo-beta.svg" alt="BucketJunkie" />
+          </Link>
         </li>
         {league && <NavItem active={loc.pathname === routes.rosters}>
           <Link to={routes.rosters}>
