@@ -7,7 +7,7 @@ export const A = ({ click, className, children, active }) => (
     className={`${className || ''} ${active ? 'active' : ''}`}
     onClick={e => { 
       e.preventDefault(); 
-      click();
+      if (click) click();
     }}
   >
     {children}

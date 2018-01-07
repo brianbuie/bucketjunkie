@@ -1,6 +1,7 @@
 .nav {
   background: $nav-bg;
   text-align: left;
+  min-height: 100%;
   .brand {
     padding: 20px;
   }
@@ -30,4 +31,11 @@
   width: 20px;
   max-height: 20px;
   margin-right: 8px;
+}
+
+.nav-item .nav-caret {
+  float: right;
+  width: auto;
+  margin-right: 0;
+  margin-top: 3px;
 }
