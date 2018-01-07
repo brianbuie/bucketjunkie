@@ -45,7 +45,10 @@ exports.validateLeague = [
     .withMessage('Start time must be at least 5 minutes in the future')
     .optional(),
   body('rosterSize').custom(val => val >= 1 && val <= 20)
-    .withMessage('Roster Size must be between 1 and 20')
+    .withMessage('Roster size must be between 1 and 20')
+    .optional(),
+  body('rosterSize').custom(val => Math.round(val) == val)
+    .withMessage('Roster size must be a whole number')
     .optional(),
   sanitizeBody('pointValues.*')
     .toInt(),
