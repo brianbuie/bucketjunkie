@@ -1,5 +1,5 @@
 .Feed__Container {
-  background-color: lighten($body-bg, 10%);
+  background-color: $nav-bg; 
   display: flex;
   flex-direction: column;
   width: 400px;

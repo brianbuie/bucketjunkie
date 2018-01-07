@@ -15,11 +15,7 @@ export const appendPlayerScore = (player, pointValues) => {
   return player; 
 };
 
-export const sortByScore = (a,b) => {
-  if (a.score < b.score) return 1;
-  if (a.score > b.score) return -1;
-  return 0;
-};
+export const sortByScore = (a,b) => b.score - a.score;
 
 export const truncateText = ({ text, length = 50 }) => text.length > length ? text.substring(0, length) + '...' : text;
 
@@ -37,4 +33,4 @@ export const isMember = (league, user) => league.members.some(member => member._
 
 export const isModerator = (league, user) => league.moderators.some(mod => mod._id === user._id);
 
-export const isCreator = (league, user) => league.creator === user._id;
+export const isCreator = (league, user) => league.creator._id === user._id;

@@ -43,7 +43,11 @@ const FeedBody = ({ view, changeView }) => {
       return (
         <div className="LeagueFeed">
           <LeagueFeedMenu view={view} changeView={changeView} menuItems={menuItems} />
-          <LeagueOverviewConnected goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
+          <Scrollbars autoHide>
+            <div className="p-3">
+              <LeagueOverviewConnected goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
+            </div>
+          </Scrollbars>
         </div>
       );
     case 'LEAGUE_EDIT':
@@ -51,7 +55,9 @@ const FeedBody = ({ view, changeView }) => {
         <div className="LeagueFeed">
           <LeagueFeedMenu view='LEAGUE_INFO' changeView={changeView} menuItems={menuItems} />
           <Scrollbars>
-            <EditLeague />
+            <div className="p-3">
+              <EditLeague />
+            </div>
           </Scrollbars>
         </div>
       );

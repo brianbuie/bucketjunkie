@@ -30,7 +30,7 @@ export const PageHeading = ({ eyebrow, headline, subhead, children }) => (
   <Row className="mb-3 pb-3 border-bottom" noGutters>
     <Col xs="10" className="flex-column justify-content-end px-2">
       {eyebrow ? <span className="faded-2">{eyebrow}</span> : ''}
-      <h2 className="text-truncate">{headline}</h2>
+      <h2 className="text-truncate pb-1">{headline}</h2>
       <small className="mt-2 faded-2">{subhead}</small>
     </Col>
     <Col xs="2" className="flex-column justify-content-center">

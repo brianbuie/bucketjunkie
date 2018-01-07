@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { A } from 'components/Utilities';
+import { PageHeading } from 'components/UI';
 
 class LeagueForm extends React.Component {
   componentDidMount = () => {
@@ -43,9 +44,7 @@ class LeagueForm extends React.Component {
   render = () => {
     return this.state ? (
       <div className="p-3 height-100">
-        <h2 className="text-center">
-          {this.state._id ? 'Edit League' : 'Create League'}
-        </h2>
+        <PageHeading headline={this.state._id ? 'Edit League' : 'Create League'} />
         <form onSubmit={this.submitForm}>
 
           <FormGroup>
