@@ -17,14 +17,11 @@ class Countdown extends React.Component {
   }
 
   startTimer = end => {
-    let endTime = moment(end).unix();
-    let currentTime = moment().unix();
-    let diffTime = endTime - currentTime;
-    let duration = moment.duration(diffTime * 1000, 'milliseconds');
     let interval = 1000;
     this.timer = setInterval(() => {
-      duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
-      if (duration < 0) return clearInterval(this.timer);
+      let diff = (moment(end).unix() - moment().unix()) * 1000;
+      if (diff < 0) return clearInterval(this.timer);
+      let duration = moment.duration(diff, 'milliseconds');
       let timePeriods = [duration.days(), duration.hours(), duration.minutes(), duration.seconds()];
       this.setState({
         timePeriods: timePeriods.map(p => p.toString().length === 1 ? '0' + p : p)
