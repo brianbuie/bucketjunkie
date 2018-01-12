@@ -23,7 +23,7 @@ const Nav = ({ teams, loc, league }) => (
         {league && <NavItem active={loc.pathname === routes.rosters}>
           <Link to={routes.rosters}>
             <i className="fa fa-user-circle" />
-            Rosters
+            {league.started ? 'Rosters' : 'My Draft List'}
           </Link>
         </NavItem>}
         <NavItem active={loc.pathname === routes.publicLeagues}>
@@ -32,26 +32,28 @@ const Nav = ({ teams, loc, league }) => (
             Leagues
           </Link>
         </NavItem>
+        <NavItem active={loc.pathname === routes.teams}>
+          <Link to={routes.teams}>
+            <i className="fa fa-user-plus" />
+            Top Players
+          </Link>
+        </NavItem>
         <Collapse toggler={({ onClick, isOpen }) => (
           <NavItem>
             <A click={onClick}>
-              <i className="fa fa-user-plus" />
-              Players
+              <TeamIcon id='nba' />
+              Teams
               <i className={`nav-caret fa fa-${isOpen ? 'caret-down' : 'caret-left'}`} />
             </A>
           </NavItem>
         )}>
-          <NavItem active={loc.pathname === routes.teams}>
-            <Link to={routes.teams}>
-              <TeamIcon id='nba' />
-              Top Players
-            </Link>
-          </NavItem>
-          {teams.map(team => (
+          {teams
+            .sort((a,b) => a.name < b.name ? -1 : 1)
+            .map(team => (
             <NavItem active={loc.pathname === routes.teams + '/' + team._id} key={team._id}>
               <Link to={`${routes.teams}/${team._id}`}>
                 <TeamIcon id={team._id} />
-                {team.abbreviation}
+                {team.name}
               </Link>
             </NavItem>
           ))}

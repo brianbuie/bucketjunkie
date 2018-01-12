@@ -14,7 +14,6 @@ const Draft = ({ draft, movePlayer, league }) => (
       <span className="faded-2">{league.name}</span>
       <Countdown end={league.start} />
     </div>
-    <h4 className="text-center mb-3 faded-2">My Draft List</h4>
     {(draft && draft.players && draft.players.length) ? (
       <Panel>
         {draft.players.map(player => (
