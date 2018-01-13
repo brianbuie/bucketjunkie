@@ -2,6 +2,7 @@ const express = require('express');
 const activity = require('./controllers/activityController');
 const league = require('./controllers/leagueController');
 const roster = require('./controllers/rosterController');
+const render = require('./controllers/renderController');
 const nba = require('./controllers/nbaController');
 const auth = require('./controllers/authController');
 const user = require('./controllers/userController');
@@ -18,6 +19,8 @@ router.post('/account/register', catchErrors(user.validateRegister), catchErrors
 router.post('/account/forgot-password', catchErrors(user.createResetToken));
 router.post('/account/validate-token', catchErrors(user.validatePasswordToken));
 router.post('/account/reset-password', user.validatePasswordReset, catchErrors(user.updatePassword));
+
+router.post('/session/initial-state', render.updateSessionInitialState);
 
 // Leagues
 router.post('/leagues/create', auth.isLoggedIn, league.stripFields, league.validateLeague, catchErrors(league.createLeague));

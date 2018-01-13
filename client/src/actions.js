@@ -7,11 +7,6 @@ export const appInit = initialState => ({
   initialState
 });
 
-export const changeFeedPosition = position => ({
-  type: 'FEED_POSITION',
-  position
-});
-
 export const changeFeedView = view => ({
   type: 'CHANGE_FEED_VIEW',
   view
@@ -110,6 +105,14 @@ export const clearPlayerDetail = () => ({
   Dispatchers
   responsible for chained actions
 */
+
+export const changeFeedPosition = position => dispatch => {
+  dispatch({
+    type: 'FEED_POSITION',
+    position
+  });
+  return post({ feed: { position } }, '/api/session/initial-state');
+};
 
 let nextToastId = 0;
 export const newToast = (text, toastType) => dispatch => {

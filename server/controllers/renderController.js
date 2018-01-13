@@ -36,6 +36,10 @@ exports.initialState = async (req, res) => {
     players
   };
 
+  const initialState = req.session.initialState
+    ? Object.assign(state, req.session.initialState)
+    : state;
+
   return res.set('Content-Type', 'text/html').status(200).end(`
     <!doctype html>
     <html>
@@ -51,10 +55,17 @@ exports.initialState = async (req, res) => {
       <body>
         <div id="app"></div>
         <script>
-            window.__INITIAL_STATE__ = ${JSON.stringify(state)}
+            window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
         <script src="/dist/app.bundle.js" type="text/javascript"></script>
       </body>
     </html>
   `);
+};
+
+exports.updateSessionInitialState = (req, res) => {
+  req.session.initialState = req.session.initialState 
+    ? Object.assign(req.session.initialState, req.body) 
+    : req.body;
+  return res.greatJob();
 };
