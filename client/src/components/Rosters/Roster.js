@@ -19,9 +19,9 @@ const Roster = ({ user, score, players, leader, emptySpots }) => (
       </Col>
     </Row>
     <PlayerList filter={{ type: 'SORTED_LIST', list: players }} />
-    {[...Array(emptySpots)].map((p, k) => (
+    {emptySpots > 0 ? [...Array(emptySpots)].map((p, k) => (
       <PlayerListItem key={k} />
-    ))}
+    )) : ''}
   </Panel>
 );
 
