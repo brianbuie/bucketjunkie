@@ -33,39 +33,48 @@ class PlayerBoxscores extends React.Component {
         </div>
       </div>
       <FetchContainer url={`/api/nba/boxscores/player/${this.props.id}`} component={({ boxscores }) => {
-        let columns = this.categories.length + (this.state.viewPts ? 3 : 2);
+        let columns = this.categories.length + 2 + (this.state.viewPts ? 1 : 0);
         let tdStyle = { width: `${100/columns}%` };
         return boxscores.length ? (
           <table style={{ width: '100%' }}>
             <tbody>
               <tr>
-                <td></td>
-                <td className="faded-2 text-center" style={tdStyle}> VS </td>
+                <td colSpan="2"></td>
                 {this.categories.map(category => (
-                  <td className="faded-2 text-center" style={tdStyle} key={category}>
-                    <span>
-                      {category.toUpperCase()}
-                      {this.state.viewPts ? <sup>{this.props.pointValues[category]}</sup> : ''}
-                    </span>
+                  <td className="text-center" style={tdStyle} key={category}>
+                    {category.toUpperCase()}
                   </td>
                 ))}
-                {this.state.viewPts && <td className="faded-2 text-center bright" style={tdStyle}> TOT </td>}
+                {this.state.viewPts && <td></td>}
               </tr>
+              {this.state.viewPts && (
+                <tr>
+                  <td colSpan="2"></td>
+                  {this.categories.map(category => (
+                    <td className="faded-2 text-center" style={tdStyle} key={category}>
+                      <sup>
+                        {this.props.pointValues[category]}
+                      </sup>
+                    </td>
+                  ))}
+                  <td></td>
+                </tr>
+              )}
               {boxscores.map(boxscore => (
-                <tr key={boxscore._id}>
+                <tr key={boxscore._id} className="border-top">
                   <td className="text-center">
-                    {moment(boxscore.game.date).format('MM/D')}
+                    {moment(boxscore.game.date).format('M/D')}
                   </td>
-                  <td className="text-center">
+                  <td className="text-center" style={tdStyle}>
                     <TeamIcon id={boxscore.opponent} />
                   </td>
                   {this.categories.map(category => (
                     <td className="text-center" key={category}>
-                      {Math.round(boxscore[category] * (this.state.viewPts ? this.props.pointValues[category] : 1))}
+                      {(Math.round(boxscore[category] * (this.state.viewPts ? this.props.pointValues[category] : 1))) || '-'}
                     </td>
                   ))}
                   {this.state.viewPts && (
-                    <td className="text-center bright"> 
+                    <td className="text-center text-primary">
                       {Math.round(this.categories.reduce((sum, stat) => sum + (boxscore[stat] * this.props.pointValues[stat]), 0))}
                     </td>
                   )}

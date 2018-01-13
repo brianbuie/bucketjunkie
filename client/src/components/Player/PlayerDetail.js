@@ -53,7 +53,7 @@ const PlayerDetail = (props) => (
       <h5 className="font-weight-normal pb-3 faded-2">Upcoming Games</h5>
       <UpcomingGames upcomingGames={props.upcomingGames} team={props.team} />
     </Panel>
-    <PlayerAverages averages={props.averages} />
+    <PlayerAverages averages={props.averages} score={Math.round(props.score) || 0} />
     <PlayerBoxscores id={props._id} />
   </div>
 );
