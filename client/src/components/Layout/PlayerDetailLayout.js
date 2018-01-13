@@ -10,11 +10,7 @@ import PlayerDetail from 'components/Player/PlayerDetail';
 const PlayerDetailLayout = ({ children, id, close }) => (
   <Row noGutters className="flex-grow height-100">
     <Col xs="5">
-      <Scrollbars autoHide>
-        <Container size="4" className="width-100 height-100">
-          {children}
-        </Container>
-      </Scrollbars>
+      {children}
     </Col>
     <Col xs="7">
       <Scrollbars autoHide>
