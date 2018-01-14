@@ -4,16 +4,35 @@
   flex-direction: column;
   position: fixed;
   bottom: 0;
-  right: $spacer-xl;
-  width: 300px;
+  width: 100%;
+  z-index: 9;
 
   &.open {
-    width: 400px;
-    height: 60vh;
+    height: 100vh;
+  }
 
-    &.docked {
-      height: 100%;
-      position: static;
+  .DockButton {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .Feed__Container {
+    right: $spacer-xl;
+    width: 300px;
+
+    &.open {
+      width: 400px;
+      height: 60vh;
+
+      &.docked {
+        height: 100%;
+        position: static;
+      }
+    }
+
+    .DockButton {
+      display: flex;
     }
   }
 }

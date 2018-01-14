@@ -3,22 +3,24 @@ import { connect } from 'react-redux';
 import { UncontrolledDropdown as Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { setLeague } from 'actions';
 
-const LeagueSwitcher = ({ league, myLeagues, setLeague, readOnly }) => {
+const LeagueSwitcher = ({ league, myLeagues, setLeague, readOnly, className }) => {
   if (!league) return '';
   if (myLeagues.length < 2 || readOnly) return league.name;
   return (
-    <Dropdown>
-      <DropdownToggle color="link" caret>
-        {league.name}
-      </DropdownToggle>
-      <DropdownMenu>
-        {myLeagues.map(league => (
-          <DropdownItem onClick={() => setLeague(league._id)} key={league._id}>
-            {league.name}
-          </DropdownItem>
-        ))}
-      </DropdownMenu>
-    </Dropdown>
+    <div className={className || ''}>
+      <Dropdown>
+        <DropdownToggle color="link" caret>
+          {league.name}
+        </DropdownToggle>
+        <DropdownMenu>
+          {myLeagues.map(league => (
+            <DropdownItem onClick={() => setLeague(league._id)} key={league._id}>
+              {league.name}
+            </DropdownItem>
+          ))}
+        </DropdownMenu>
+      </Dropdown>
+    </div>
   );
 };
 
