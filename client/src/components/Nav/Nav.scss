@@ -1,3 +1,28 @@
+.Nav--Desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .Nav--Desktop {
+    display: block;
+  }
+  .Nav--Mobile {
+    display: none;
+  }
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 20px;
+  height: 15px;
+  left: 10px;
+  top: 10px;
+}
+
+.bm-burger-bars {
+  background: $brand-gold;
+}
+
 .nav {
   background: $nav-bg;
   text-align: left;

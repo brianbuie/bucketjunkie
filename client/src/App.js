@@ -4,7 +4,7 @@ import FetchManager from 'components/FetchManager/FetchManager';
 import Loading from 'components/Loading/Loading';
 import Toast from 'components/Toast/Toast';
 import Feed from 'components/Feed/Feed';
-import Nav from 'components/Nav/Nav';
+import NavWrapper from 'components/Nav/NavWrapper';
 import AllPlayers from 'components/Pages/AllPlayers';
 import LeagueStandings from 'components/Pages/LeagueStandings';
 import OpenLeagues from 'components/Pages/OpenLeagues';
@@ -17,7 +17,7 @@ const App = () => (
     <FetchManager />
     <Loading />
     <Toast />
-    <Nav />
+    <NavWrapper />
     <Switch>
       <Route path="/teams/:team" component={AllPlayers} />
       <Route path="/teams" component={AllPlayers} />
