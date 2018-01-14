@@ -4,52 +4,25 @@ import { submitNewPhoto, submitLogout } from 'actions';
 import UserPhoto from 'components/User/UserPhoto';
 import AccountModal from 'components/Account/AccountModal';
 import { A } from 'components/Utilities';
+import Toggle from 'components/Utilities/Toggle';
 
-class AccountLauncher extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  render() {
-    const user = this.props.user;
-    if (!user) return '';
-    return (
-      <div>
-        <div style={{ width: '30px' }}>
-          <A click={this.toggle}>
-            <UserPhoto photo={user.photo} />
-          </A>
-        </div>
-        <AccountModal 
-          user={user} 
-          toggle={this.toggle} 
-          isOpen={this.state.isOpen} 
-          submitNewPhoto={this.props.submitNewPhoto}
-          logout={this.props.logout} 
-        />
+const AccountLauncher = props => props.user ? (
+  <Toggle {...props} toggleState={false} Component={({ user, submitNewPhoto, logout, toggle, toggleState }) => (
+    <div>
+      <div style={{ width: '30px' }}>
+        <A click={toggle}>
+          <UserPhoto photo={user.photo} />
+        </A>
       </div>
-    );
-  }
-};
-
-const mapStateToProps = ({ user }) => ({ user });
-
-const mapDispatchToProps = dispatch => ({
-  submitNewPhoto: photo => dispatch(submitNewPhoto(photo)),
-  logout: () => dispatch(submitLogout())
-});
+      <AccountModal user={user} toggle={toggle} isOpen={toggleState} submitNewPhoto={submitNewPhoto} logout={logout} />
+    </div>
+  )} />
+) : '';
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  ({ user }) => ({ user }),
+  dispatch => ({
+    submitNewPhoto: photo => dispatch(submitNewPhoto(photo)),
+    logout: () => dispatch(submitLogout())
+  })
 )(AccountLauncher);

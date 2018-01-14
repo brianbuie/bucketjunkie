@@ -1,17 +1,10 @@
 import './AccountModal.scss';
-
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, FormGroup, Button, Label } from 'reactstrap';
 import { A } from 'components/Utilities';
 import UserPhoto from 'components/User/UserPhoto';
 
-const AccountModal = ({
-  user,
-  toggle,
-  isOpen,
-  submitNewPhoto,
-  logout
-}) => {
+const AccountModal = ({ user, toggle, isOpen, submitNewPhoto, logout }) => {
   let form;
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
