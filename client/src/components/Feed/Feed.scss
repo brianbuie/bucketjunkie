@@ -42,6 +42,15 @@
   display: flex;
   flex-direction: row;
   padding: $spacer-sm;
+  min-height: 20px;
+}
+
+#Feed__Menu__Target {
+  min-height: 20px;
+}
+
+#Feed__Menu__Target:hover {
+  cursor: pointer;
 }
 
 .LeagueFeed {

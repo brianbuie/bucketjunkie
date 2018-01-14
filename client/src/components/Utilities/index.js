@@ -1,7 +1,7 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-export const A = ({ click, className, children, active }) => (
+export const A = ({ click, className, children, active, style }) => (
   <a
     href=""
     className={`${className || ''} ${active ? 'active' : ''}`}
@@ -9,6 +9,7 @@ export const A = ({ click, className, children, active }) => (
       e.preventDefault(); 
       if (click) click();
     }}
+    style={style || {}}
   >
     {children}
   </a>

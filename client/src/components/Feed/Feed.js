@@ -7,27 +7,29 @@ import FeedBody from 'components/Feed/FeedBody';
 import { A } from 'components/Utilities';
 import { openFeed, closeFeed, dockFeed, undockFeed } from 'actions';
 
-const Feed = ({ open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => (
+const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => (
   <div className={`Feed__Container ${open && 'open'} ${docked && 'docked'}`}>
-    <div className="Feed__Menu">
+    <div className="Feed__Menu" onClick={e => {
+      if (e.target.id === "Feed__Menu__Target") {
+        !docked ? closeFeed() : undockFeed()
+      }
+    }}>
       {open ? (
-        <div className="flex-row justify-content-center width-100">
-          <LeagueSwitcher />
-          <A className="flex-grow width-100" click={!docked ? closeFeed : undockFeed}></A>
+        <div className="flex-row justify-content-end width-100" id="Feed__Menu__Target">
+          <LeagueSwitcher className="mr-auto" />
           <AccountLauncher />
-          {docked ? (
-            <A click={undockFeed} className="flex-column justify-content-center DockButton">
-              <i className="fa fa-toggle-left m-1"></i>
-            </A>
-          ) : (
-            <A click={dockFeed} className="flex-column justify-content-center DockButton">
-              <i className="fa fa-toggle-right m-1"></i>
-            </A>
-          )}
+          <A click={docked ? undockFeed : dockFeed} className="flex-column justify-content-center DockButton">
+            <i className="fa fa-exchange m-1"></i>
+          </A>
         </div>
       ) : (
-        <A click={openFeed} className="width-100 p-1">
-          <LeagueSwitcher readOnly className="mr-auto" />
+        <A click={openFeed} className="width-100 p-1 text-center">
+          {!user
+            ? 'Login'
+            : league 
+              ? league.name 
+              : 'Select a League'
+          }
         </A>
       )}
     </div>
@@ -36,7 +38,7 @@ const Feed = ({ open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => (
 );
 
 export default connect(
-  ({ feed }) => ({ ...feed }),
+  ({ feed, user, league }) => ({ ...feed, user, league }),
   dispatch => ({
     openFeed: () => dispatch(openFeed()), 
     closeFeed: () => dispatch(closeFeed()), 

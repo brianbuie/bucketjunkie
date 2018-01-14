@@ -10,11 +10,13 @@ const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
     <LocalFetch fetch={getMyLeagues}>
       <div className="p-3">
         <h2 className="text-center mb-3">My Leagues</h2>
-        {myLeagues.map(league => (
+        {myLeagues.length ? myLeagues.map(league => (
           <A click={() => setLeague(league.id)} key={league.id} className="link-discreet">
             <LeagueCard {...league} />
           </A>
-        ))}
+        )) : (
+          <p className="text-center faded-2">Join a League to get started!</p>
+        )}
       </div>
     </LocalFetch>
   </FullHeight>
