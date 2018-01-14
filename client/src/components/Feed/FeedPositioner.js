@@ -1,39 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { A } from 'components/Utilities';
-import { changeFeedPosition } from 'actions';
+import { openFeed, closeFeed, dockFeed, undockFeed } from 'actions';
 
-const FeedPositioner = ({ position, changeFeedPosition }) => {
+const FeedPositioner = ({ open, docked, openFeed, closeFeed, dockFeed, undockFeed }) => {
   const minimize = (
-    <A click={() => changeFeedPosition('minimized')} key="minimize" className="flex-column justify-content-center">
+    <A click={closeFeed} key="minimize" className="flex-column justify-content-center">
       <i className="fa fa-minus m-1"></i>
     </A>
   );
   const float = (
-    <A click={() => changeFeedPosition('floating')} key="float" className="flex-column justify-content-center">
+    <A click={() => { openFeed(); undockFeed(); }} key="float" className="flex-column justify-content-center">
       <i className="fa fa-toggle-left m-1"></i>
     </A>
   );
   const dock = (
-    <A click={() => changeFeedPosition('docked')} key="dock" className="flex-column justify-content-center">
+    <A click={dockFeed} key="dock" className="flex-column justify-content-center">
       <i className="fa fa-toggle-right m-1"></i>
     </A>
   );
 
-  switch (position) {
-    case 'minimized':
-      return float;
-    case 'floating':
-      return [minimize, dock];
-    case 'docked':
-      return float;
-  }
+  if (!open) return float;
+  if (open && !docked) return [minimize, dock];
+  return float;
 };
 
-const mapStateToProps = ({ feed }) => ({ position: feed.position });
-
-const mapDispatchToProps = dispatch => ({
-  changeFeedPosition: position => dispatch(changeFeedPosition(position))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(FeedPositioner);
+export default connect(
+  ({ feed }) => ({ ...feed }),
+  dispatch => ({
+    openFeed: () => dispatch(openFeed()), 
+    closeFeed: () => dispatch(closeFeed()), 
+    dockFeed: () => dispatch(dockFeed()), 
+    undockFeed: () => dispatch(undockFeed()) 
+  })
+)(FeedPositioner);

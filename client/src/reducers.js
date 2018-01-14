@@ -24,14 +24,25 @@ const activity = combineReducers({
 });
 
 const feed = combineReducers({
-  position: (state = 'floating', action) => {
+  open: (state = true, action) => {
     switch (action.type) {
-      case 'FEED_POSITION':
-        return action.position;
+      case 'CLOSE_FEED':
+        return false;
+      case 'OPEN_FEED':
+        return true;
       case 'CREATED_NEW_LEAGUE':
-        return state === 'minimized' ? 'floating' : state;
+        return true;
       default:
         return state;
+    }
+  },
+  docked: (state = false, action) => {
+    switch (action.type) {
+      case 'DOCK_FEED':
+        return true;
+      case 'UNDOCK_FEED':
+        return false;
+      default: return state;
     }
   },
   view: (state = 'ACTIVITY', action) => {

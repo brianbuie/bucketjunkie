@@ -8,27 +8,19 @@ import FeedPositioner from 'components/Feed/FeedPositioner';
 import FeedBody from 'components/Feed/FeedBody';
 import { FullHeight } from 'components/Utilities';
 
-const Feed = ({ position }) => {
-  const classNames = ["Feed__Container", position];
-  return (
-    <div className={classNames.join(' ')}>
-      <div className="Feed__Menu">
-        <div className="mr-auto">
-          <LeagueSwitcher />
-        </div>
-        <AccountLauncher />
-        <FeedPositioner />
+const Feed = ({ open, docked }) => (
+  <div className={`Feed__Container ${open && 'open'} ${docked && 'docked'}`}>
+    <div className="Feed__Menu">
+      <div className="mr-auto">
+        <LeagueSwitcher readOnly={!open} />
       </div>
-      {position != 'minimized'
-        ? <FeedBody />
-        : ''
-      }
+      {open && <AccountLauncher />}
+      <FeedPositioner />
     </div>
-  );
-};
-
-const mapStateToProps = ({ feed }) => ({ position: feed.position });
+    {open && <FeedBody />}
+  </div>
+);
 
 export default connect(
-  mapStateToProps
+  ({ feed }) => ({ ...feed })
 )(Feed);

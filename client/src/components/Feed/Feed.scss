@@ -2,19 +2,19 @@
   background-color: $nav-bg; 
   display: flex;
   flex-direction: column;
-  width: 400px;
+  position: fixed;
+  bottom: 0;
+  right: $spacer-xl;
+  width: 300px;
 
-  &.docked {
-    height: 100%;
-  }
-  &.floating,
-  &.minimized {
-    position: fixed;
-    bottom: 0;
-    right: $spacer-xl;
-  }
-  &.floating {
+  &.open {
+    width: 400px;
     height: 60vh;
+
+    &.docked {
+      height: 100%;
+      position: static;
+    }
   }
 }
 

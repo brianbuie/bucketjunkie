@@ -106,12 +106,24 @@ export const clearPlayerDetail = () => ({
   responsible for chained actions
 */
 
-export const changeFeedPosition = position => dispatch => {
-  dispatch({
-    type: 'FEED_POSITION',
-    position
-  });
-  return post({ feed: { position } }, '/api/session/initial-state');
+export const openFeed = () => dispatch => {
+  dispatch({ type: 'OPEN_FEED' });
+  return post({ feed: { open: true } }, '/api/session/initial-state')
+};
+
+export const closeFeed = () => dispatch => {
+  dispatch({ type: 'CLOSE_FEED' });
+  return post({ feed: { open: false } }, '/api/session/initial-state')
+};
+
+export const dockFeed = () => dispatch => {
+  dispatch({ type: 'DOCK_FEED' });
+  return post({ feed: { docked: true } }, '/api/session/initial-state')
+};
+
+export const undockFeed = () => dispatch => {
+  dispatch({ type: 'UNDOCK_FEED' });
+  return post({ feed: { docked: false } }, '/api/session/initial-state')
 };
 
 let nextToastId = 0;
