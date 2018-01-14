@@ -1,5 +1,6 @@
 const nbaService = require('../services/nbaService');
 const fs = require('fs');
+const objectAssignDeep = require('object-assign-deep');
 
 const appendUpcomingGames = (player, upcomingGames) => { 
   player.upcomingGames = upcomingGames.map(day => { 
@@ -37,7 +38,7 @@ exports.initialState = async (req, res) => {
   };
 
   const initialState = req.session.initialState
-    ? Object.assign(state, req.session.initialState)
+    ? objectAssignDeep(state, req.session.initialState)
     : state;
 
   return res.set('Content-Type', 'text/html').status(200).end(`
@@ -65,7 +66,7 @@ exports.initialState = async (req, res) => {
 
 exports.updateSessionInitialState = (req, res) => {
   req.session.initialState = req.session.initialState 
-    ? Object.assign(req.session.initialState, req.body) 
+    ? objectAssignDeep(req.session.initialState, req.body) 
     : req.body;
-  return res.greatJob();
+  return res.greatJob(req.session.initialState);
 };
