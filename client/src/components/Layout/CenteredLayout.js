@@ -6,7 +6,7 @@ const CenteredLayout = ({ children }) => (
   <div className="flex-grow height-100 pb-3">
     <Scrollbars autoHide>
       <div className="flex-row justify-content-center">
-        <div className="col-8">
+        <div className="col-lg-8">
           <Container size="4" className="width-100">
             {children}
           </Container>

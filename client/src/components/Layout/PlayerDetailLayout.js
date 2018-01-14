@@ -8,11 +8,11 @@ import PlayerContainer from 'components/Player/PlayerContainer';
 import PlayerDetail from 'components/Player/PlayerDetail';
 
 const PlayerDetailLayout = ({ children, id, close }) => (
-  <Row noGutters className="flex-grow height-100">
-    <Col xs="5">
+  <Row noGutters className="flex-grow full-height">
+    <Col xs="12" lg="5" className="height-100">
       {children}
     </Col>
-    <Col xs="7">
+    <Col xs="12" lg="7" className="height-100">
       <Scrollbars autoHide>
         <Container size="4" className="width-100 height-100">
           {id && <PlayerContainer id={id} component={PlayerDetail} close={close} />}

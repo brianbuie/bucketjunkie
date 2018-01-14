@@ -4,7 +4,7 @@ import Nav from 'components/Nav/Nav';
 import { A } from 'components/Utilities';
 
 const NavWrapper = () => (
-  <div>
+  <div className="full-height">
     <div className="Nav--Mobile height-100">
       <BurgerMenu>
         <Nav />

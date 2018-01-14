@@ -5,6 +5,12 @@ html {
   font-size: 14px;
 }
 
+html,
+body,
+#app {
+  height: 100vh;
+}
+
 h1, h2, h3, h4, h5 {
   margin: 0;
   color: $gray-200;
@@ -42,4 +48,8 @@ input,
   position: absolute;
   top: .75rem;
   right: .75rem;
+}
+
+.debug {
+  background: red !important;
 }
