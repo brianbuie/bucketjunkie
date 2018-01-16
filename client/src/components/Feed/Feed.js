@@ -19,7 +19,7 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
           <LeagueSwitcher className="mr-auto" />
           <AccountLauncher />
           <A click={docked ? undockFeed : dockFeed} className="flex-column justify-content-center DockButton">
-            <i className="fa fa-exchange m-1"></i>
+            <i className="fa fa-exchange m-1 ml-2"></i>
           </A>
         </div>
       ) : (

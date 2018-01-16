@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { UncontrolledDropdown as Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { setLeague } from 'actions';
 
-const LeagueSwitcher = ({ league, myLeagues, setLeague, readOnly, className }) => {
+const LeagueSwitcher = ({ league, myLeagues, setLeague, className }) => {
   if (!league) return '';
-  if (myLeagues.length < 2 || readOnly) return league.name;
+  if (myLeagues.length < 2) return league.name;
   return (
     <div className={className || ''}>
       <Dropdown>
