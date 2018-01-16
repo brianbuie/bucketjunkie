@@ -40,13 +40,13 @@ exports.register = async (req, res, next) => {
 exports.uploadPhoto = multer({
     storage: multer.memoryStorage(),
     fileFilter(req, file, next) {
-      if (file.mimetype.startsWith('image/')) return next(null, true);
+      if (file.mimetype.startsWith('image/') && file.mimetype.split('/')[1] != 'gif') return next(null, true);
       return next({ message: 'That filetype is not allowed' }, false);
     },
   }).single('photo');
 
 exports.resizePhoto = async (req, res, next) => {
-  if (!req.file) return next();
+  if (!req.file) throw Error('No Image');
   const extension = req.file.mimetype.split('/')[1];
   req.body.photo = `${uuid.v4()}.${extension}`;
   const photo = await jimp.read(req.file.buffer);
