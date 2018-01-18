@@ -10,10 +10,12 @@ import PlayerBoxscores from 'components/Player/PlayerBoxscores';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';
 
 const PlayerDetail = ({ close, image, name, team, position, score, _id, availableAction, addPlayer, removePlayer, upcomingGames, averages }) => (
-  <div className="position-relative">
-    <Button className="close" onClick={close}>
-      &times;
-    </Button>
+  <div>
+    <div className="flex-row justify-content-end position-relative PlayerDetail__close__wrapper">
+      <Button className="close PlayerDetail__close" onClick={close}>
+        &times;
+      </Button>
+    </div>
     <div className="flex-row align-items-center">
       <Row className="no-gutters py-3 flex-grow">
         <Col xs="2" className="flex-column justify-content-center position-relative">

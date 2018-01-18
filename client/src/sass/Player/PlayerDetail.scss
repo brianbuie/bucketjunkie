@@ -1,0 +1,14 @@
+.PlayerDetail__close {
+  position: static;
+}
+
+@media (max-width: $tablet-max) {
+  .PlayerDetail__close__wrapper {
+    height: 2rem;
+  }
+  
+  .PlayerDetail__close {
+    width: 100%;
+    text-align: right;
+  }
+}
