@@ -33,7 +33,7 @@ class AllPlayers extends React.Component {
     return (
       <PlayerDetailLayout handleScrollStop={this.handleScrollStop}>
         <ScrollbarsWithEvents nearBottom={this.increaseLimit} autoHide>
-          <Container size="4" className="width-100 height-100">
+          <Container size="4" className="width-100 height-100 MenuButtonBreather">
             <TeamContainer id={match.params.team} component={TeamHeading} />
             <Panel>
               <PlayerList filter={filter} limit={this.state.limit} />

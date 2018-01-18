@@ -12,13 +12,13 @@ const PlayerDetailLayout = ({ children, id, close }) => (
     <Col xs="12" lg="5" className="height-100">
       {children}
     </Col>
-    <Col xs="12" lg="7" className="height-100">
+    {id && <Col xs="12" lg="7" className="height-100 PlayerDetail__Wrapper">
       <Scrollbars autoHide>
         <Container size="4" className="width-100 height-100">
-          {id && <PlayerContainer id={id} component={PlayerDetail} close={close} />}
+          <PlayerContainer id={id} component={PlayerDetail} close={close} />
         </Container>
       </Scrollbars>
-    </Col>
+    </Col>}
   </Row>
 );
 

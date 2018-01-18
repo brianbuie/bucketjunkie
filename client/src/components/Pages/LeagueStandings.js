@@ -9,7 +9,7 @@ import PlayerDetailLayout from 'components/Layout/PlayerDetailLayout';
 const LeagueStandings = ({ league }) => league ? (
   <PlayerDetailLayout>
     <Scrollbars autoHide>
-      <Container size="4" className="width-100 height-100">
+      <Container size="4" className="width-100 height-100 MenuButtonBreather">
         {!league.started && league.uniqueRosters
           ? <Draft />
           : <Rosters />

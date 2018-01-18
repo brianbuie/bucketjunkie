@@ -2,7 +2,7 @@
   display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $desktop-min) {
   .Nav--Desktop {
     display: block;
   }
@@ -13,10 +13,11 @@
 
 .bm-burger-button {
   position: fixed;
-  width: 20px;
-  height: 15px;
-  left: 10px;
-  top: 10px;
+  width: $spacer-lg;
+  height: $spacer-md;
+  left: $spacer-md;
+  top: $spacer-md;
+  z-index: 7 !important;
 }
 
 .bm-burger-bars {

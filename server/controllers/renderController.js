@@ -46,7 +46,7 @@ exports.initialState = async (req, res) => {
     <html>
       <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
         <meta http-equiv="x-ua-compatible" content="ie-edge">
         <title>BucketJunkie</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700">
