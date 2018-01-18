@@ -41,6 +41,12 @@
   color: $body-color;
 }
 
+@media (min-width: $tablet-min) and (max-width: $tablet-max) {
+  .Chat__Form:focus {
+    margin-bottom: 4rem;
+  }
+}
+
 .Chat__photo {
   width: 30px;
   margin-right: $spacer-sm;
