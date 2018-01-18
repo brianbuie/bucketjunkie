@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import FetchManager from 'components/FetchManager/FetchManager';
 import Loading from 'components/Loading/Loading';
 import Toast from 'components/Toast/Toast';
@@ -12,7 +13,7 @@ import LeaguePage from 'components/Pages/LeaguePage';
 import CreateLeague from 'components/Pages/CreateLeague';
 import NotFound from 'components/Pages/NotFound';
 
-const App = () => (
+const App = ({ league }) => (
   <div className="full-height flex-row">
     <FetchManager />
     <Loading />
@@ -21,7 +22,7 @@ const App = () => (
     <Switch>
       <Route path="/teams/:team" component={AllPlayers} />
       <Route path="/teams" component={AllPlayers} />
-      <Route path="/rosters" component={LeagueStandings} />
+      <Route path="/rosters" render={() => league ? <LeagueStandings /> : <Redirect to="/"/> } />
       <Route path="/leagues/public" component={OpenLeagues} />
       <Route path="/leagues/create" component={CreateLeague} />
       <Route path="/league/:id" component={LeaguePage} />
@@ -32,4 +33,6 @@ const App = () => (
   </div>
 );
 
-export default App;
+export default withRouter(connect(
+  ({ league }) => ({ league })
+)(App));
