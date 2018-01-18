@@ -44,10 +44,11 @@ input,
   cursor: pointer;
   opacity: 0.6;
   font-size: 2rem;
-  line-height: .75rem;
+  line-height: 2rem;
   position: absolute;
-  top: .75rem;
-  right: .75rem;
+  top: 0;
+  right: 0;
+  overflow: visible;
 }
 
 .debug {

@@ -36,13 +36,13 @@ const Toast = ({ toasts, hideToast }) => (
         {state => (
           <div
             style={{ ...defaultStyle, ...transitionStyles[state] }}
-            className={`alert alert-${toast.toastType}`} 
+            className={`alert alert-${toast.toastType} flex-row justify-content-center`} 
             role="alert"
           >
+            <span className="flex-grow">{toast.text}</span>
             <button className="close" type="button" onClick={() => hideToast(toast.id)}> 
               <span> &times; </span>
             </button>
-            {toast.text}
           </div>
         )}
       </Transition>
