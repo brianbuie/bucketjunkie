@@ -23,6 +23,10 @@ img {
   background-color: $nav-bg !important;
 }
 
+.bg-body-light {
+  background-color: lighten($body-bg, 5%);
+}
+
 .text-sm {
   font-size: 0.5rem;
 }

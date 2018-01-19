@@ -188,6 +188,11 @@ const league = (state = null, action) => {
   switch (action.type) {
     case 'REPLACE_LEAGUE':
       return action.league;
+    case 'REPLACE_MEMBER':
+      return {...state, members: [
+        ...state.members.filter(member => member._id != action.user._id),
+        action.user
+      ]};
     case 'REMOVE_LEAGUE':
       return null;
     case 'LOGOUT_SUCCESS':

@@ -70,15 +70,9 @@ exports.resizePhoto = async (req, res, next) => {
 // };
 
 exports.updateAccount = async (req, res) => {
-  const updates = {
-    photo: req.body.photo,
-  };
-  let user = await User.findOneAndUpdate(
-    { _id: req.user._id },
-    { $set: updates },
-    { new: true, runValidators: true, context: 'query' },
-  );
-  return res.greatJob({ message: 'Updated profile', user });
+  req.user.set({ photo: req.body.photo });
+  await req.user.save(err => err ? new Error(err.message) : null);
+  return res.greatJob({ message: 'Updated profile', user: req.user });
 };
 
 exports.createResetToken = async (req, res) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PlayerList from 'components/Player/PlayerList';
 import PlayerListItem from 'components/Player/PlayerListItem';
-import UserPhoto from 'components/User/UserPhoto';
+import MemberPhoto from 'components/User/MemberPhoto';
 import { Row, Col } from 'reactstrap';
 import { Panel } from 'components/UI';
 
@@ -9,7 +9,7 @@ const Roster = ({ user, score, players, leader, emptySpots }) => (
   <Panel>
     <Row className="px-3 py-3 bg-dark" noGutters>
       <Col xs="2" className="flex-column justify-content-center pr-2">
-        <UserPhoto photo={user.photo} />
+        <MemberPhoto id={user._id} />
       </Col>
       <Col xs="6" className="flex-column justify-content-center pr-2">
         <h3 className={`font-weight-normal ${leader ? 'text-primary' : ''}`}> {user.username} </h3>

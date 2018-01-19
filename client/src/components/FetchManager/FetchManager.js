@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import io from 'socket.io-client';
-
+import { isMember } from 'helpers';
 import { 
   addActivityItem, 
   replaceRoster, 
   replaceLeague,
+  replaceMember,
   getActivity,
   getRosters,
   getScores,
@@ -24,6 +25,7 @@ class FetchManager extends React.Component {
     this.io.on('league:update', league => this.props.replaceLeague(league));
     this.io.on('draft:update', draft => draft.user._id === this.props.user._id ? this.props.replaceRoster(draft) : null);
     this.io.on('draft:create', draft => draft.user._id === this.props.user._id ? this.props.replaceRoster(draft) : null);
+    this.io.on('user:update', user => this.props.league && isMember(this.props.league, user) && this.props.replaceMember(user));
     this.io.on('message', message => console.log(message));
     this.evaluateNeeds(this.props.dataNeeds);
   }
@@ -50,9 +52,10 @@ class FetchManager extends React.Component {
   }
 }
 
-const mapStateToProps = ({ dataNeeds, user, router }) => ({ 
+const mapStateToProps = ({ dataNeeds, user, league, router }) => ({ 
   dataNeeds, 
   user,
+  league,
   token: queryString.parse(router.location.search)['password-reset']
 });
 
@@ -60,6 +63,7 @@ const mapDispatchToProps = dispatch => ({
   addActivityItem: item => dispatch(addActivityItem(item)),
   replaceRoster: roster => dispatch(replaceRoster(roster)),
   replaceLeague: league => dispatch(replaceLeague(league)),
+  replaceMember: user => dispatch(replaceMember(user)),
   getActivity: () => dispatch(getActivity()),
   getRosters: () => dispatch(getRosters()),
   getScores: () => dispatch(getScores()),
