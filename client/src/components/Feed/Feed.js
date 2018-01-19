@@ -17,9 +17,9 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
       {open ? (
         <div className="flex-row justify-content-end width-100" id="Feed__Menu__Target">
           <LeagueSwitcher className="mr-auto" />
-          <div style={{ width: '30px' }}>
-            <MemberPhoto id={user._id} />
-          </div>
+          {user && <div style={{ width: '30px' }}>
+            <MemberPhoto {...user} />
+          </div>}
           <A click={docked ? undockFeed : dockFeed} className="flex-column justify-content-center DockButton">
             <i className="fa fa-exchange m-1 ml-2"></i>
           </A>

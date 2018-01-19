@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, FormGroup, Button, Label } from 'reactstrap';
 import { A } from 'components/Utilities';
-import MemberPhoto from 'components/User/MemberPhoto';
+import UserPhoto from 'components/User/UserPhoto';
 
 const UserModal = ({ user, toggle, isOpen, submitNewPhoto, logout, isSelf }) => {
   let form;
@@ -14,7 +14,7 @@ const UserModal = ({ user, toggle, isOpen, submitNewPhoto, logout, isSelf }) => 
           </Button>
         </div>
         <h1 className="text-center">
-          {user.username}
+          {user && user.username}
         </h1>
         {isSelf && <p className="text-center">
           <A className="text-danger" click={() => { logout(); toggle(); }}>
@@ -22,7 +22,7 @@ const UserModal = ({ user, toggle, isOpen, submitNewPhoto, logout, isSelf }) => 
           </A>
         </p>}
         <div className="mx-auto p-3" style={{ width: '150px' }}>
-          <MemberPhoto id={user._id} noLink />
+          <UserPhoto photo={user.photo} />
         </div>
         {isSelf && <form 
           encType="multipart/form-data"
