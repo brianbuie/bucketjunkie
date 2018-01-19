@@ -29,7 +29,7 @@ const AccountModal = ({ user, toggle, isOpen, submitNewPhoto, logout }) => {
           ref={el => form = el}
         >
           <FormGroup className="text-center">
-            <input type="file" name="photo" accept="image/gif, image/png, image/jpeg" />
+            <input type="file" name="photo" accept="image/png, image/jpeg" />
           </FormGroup>
           <Button type="submit" color="primary" block outline>
              Save →
