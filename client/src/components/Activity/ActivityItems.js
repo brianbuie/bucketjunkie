@@ -1,13 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { calendarFormat } from 'helpers';
-import UserPhoto from 'components/User/UserPhoto';
+import MemberPhoto from 'components/User/MemberPhoto';
 
 const ActivityItemChat = ({ user, date, message, self }) => (
   <div className={`Activity__Item Activity__Item--chat ${self && 'self'}`}>
     <div className="Chat">
       <div className="Chat__photo">
-        <UserPhoto photo={user.photo} />
+        <MemberPhoto id={user._id} />
       </div>
       <div className="Chat__content">
         <small className="Chat__username">{user.username}</small>
