@@ -37,6 +37,11 @@ export const replaceUser = user => ({
   user
 });
 
+export const replaceMember = user => ({
+  type: 'REPLACE_MEMBER',
+  user
+});
+
 export const replaceLeague = league => ({
   type: 'REPLACE_LEAGUE',
   league

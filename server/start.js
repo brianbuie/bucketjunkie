@@ -16,7 +16,7 @@ mongoose.Promise = global.Promise;
 mongoose.connection.on('error', err => log.error(`MongoError - ${err.message}`));
 
 // Models
-require('./models/User');
+require('./models/User')(io);
 require('./models/Activity')(io);
 require('./models/Player');
 require('./models/Team');
