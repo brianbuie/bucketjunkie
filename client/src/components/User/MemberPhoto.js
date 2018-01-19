@@ -7,32 +7,35 @@ import UserModal from 'components/User/UserModal';
 import { submitNewPhoto, submitLogout } from 'actions';
 import { A } from 'components/Utilities';
 
-const MemberPhoto = props => (
-  <MemberContainer {...props} Component={props => (
-    <Toggle {...props} toggleState={false} Component={props => props.noLink
-      ? (
-        <UserPhoto photo={props.photo} />
-      ) : (
-        <div>
-          <A click={props.toggle} key="link">
-            <UserPhoto photo={props.photo} />
-          </A>
-          <UserModal 
-            user={{ _id: props._id, photo: props.photo, username: props.username }} 
-            toggle={props.toggle} 
-            isOpen={props.toggleState} 
-            submitNewPhoto={props.submitNewPhoto} 
-            logout={props.logout} 
-            isSelf={props.user._id == props._id}
-          />
-        </div>
-      )
-    } />
-  )} />
-);
+const MemberPhoto = props => props.noLink 
+  ? (
+    <UserPhoto photo={props.photo} />
+  ) : (
+    <Toggle {...props} toggleState={false} Component={props => (
+      <div>
+        <A click={props.toggle} key="link">
+          {props.league
+            ? <MemberContainer id={props.id} {...props} Component={UserPhoto} />
+            : <UserPhoto photo={props.photo} />
+          }
+        </A>
+        <UserModal 
+          user={props.user._id == props.id 
+            ? props.user
+            : props.league.members.find(member => member._id == props.id)
+          }
+          toggle={props.toggle} 
+          isOpen={props.toggleState} 
+          submitNewPhoto={props.submitNewPhoto} 
+          logout={props.logout} 
+          isSelf={props.user._id == props.id}
+        />
+      </div>
+    )} />
+  );
 
 export default connect(
-  ({ user }) => ({ user }),
+  ({ user, league }) => ({ user, league }),
   dispatch => ({
     submitNewPhoto: photo => dispatch(submitNewPhoto(photo)),
     logout: () => dispatch(submitLogout())

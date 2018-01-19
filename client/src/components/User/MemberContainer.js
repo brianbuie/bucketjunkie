@@ -7,5 +7,5 @@ const MemberContainer = props => {
 };
 
 export default connect(
-  ({ league }, ownProps) => ({ ...league.members.filter(member => member._id == ownProps.id)[0] })
+  ({ league }, ownProps) => league ? { ...league.members.filter(member => member._id == ownProps.id)[0] } : {}
 )(MemberContainer);
