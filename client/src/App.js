@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import FetchManager from 'components/FetchManager/FetchManager';
+import FetchManager from 'components/Fetch/FetchManager';
 import Loading from 'components/Loading/Loading';
 import Toast from 'components/Toast/Toast';
 import Feed from 'components/Feed/Feed';
