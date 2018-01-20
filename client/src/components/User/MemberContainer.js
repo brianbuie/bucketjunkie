@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const MemberContainer = props => {
-  const { Component, ...newProps } = props;
+  const { Component, fallback, ...newProps } = props;
   return <Component {...newProps} />
 };
 
 export default connect(
-  ({ league }, ownProps) => league ? { ...league.members.filter(member => member._id == ownProps.id)[0] } : {}
+  ({ league }, ownProps) => {
+    const user = (league && league.members.find(member => member._id == ownProps.id)) || ownProps.fallback;
+    return ({ ...user });
+  }
 )(MemberContainer);

@@ -1,7 +1,7 @@
 import './Feed.scss';
 import React from 'react';
 import { connect } from 'react-redux';
-import MemberPhoto from 'components/User/MemberPhoto';
+import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
 import LeagueSwitcher from 'components/League/LeagueSwitcher';
 import FeedBody from 'components/Feed/FeedBody';
 import { A } from 'components/Utilities';
@@ -18,7 +18,7 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
         <div className="flex-row justify-content-end width-100" id="Feed__Menu__Target">
           <LeagueSwitcher className="mr-auto" />
           {user && <div style={{ width: '30px' }}>
-            <MemberPhoto {...user} />
+            <UserPhotoAndModal {...user} />
           </div>}
           <A click={docked ? undockFeed : dockFeed} className="flex-column justify-content-center DockButton">
             <i className="fa fa-exchange m-1 ml-2"></i>
