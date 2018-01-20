@@ -1,9 +1,5 @@
-import './Nav.scss';
-
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Nav as BootstrapNav, NavItem } from 'reactstrap';
 import TeamIcon from 'components/Team/TeamIcon';
@@ -63,8 +59,4 @@ const Nav = ({ teams, loc, league }) => (
   </div>
 );
 
-const mapStateToProps = ({ teams, router, league }) => ({ teams, league, loc: router.location });
-
-export default withRouter(connect(
-  mapStateToProps
-)(Nav));
+export default Nav;

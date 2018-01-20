@@ -1,16 +1,3 @@
-.Nav--Desktop {
-  display: none;
-}
-
-@media (min-width: $desktop-min) {
-  .Nav--Desktop {
-    display: block;
-  }
-  .Nav--Mobile {
-    display: none;
-  }
-}
-
 .bm-burger-button {
   position: fixed;
   width: $spacer-lg;
