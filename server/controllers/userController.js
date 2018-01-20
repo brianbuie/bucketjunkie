@@ -82,11 +82,11 @@ exports.createResetToken = async (req, res) => {
   user.resetPasswordExpires = Date.now() + 3600000;
   await user.save();
   const resetURL = `http://${req.headers.host}?password-reset=${user.resetPasswordToken}`;
-  mail.send({
+  await mail.send({
     user,
     subject: 'BucketJunkie Password Reset',
     resetURL,
-  });
+  }).catch(e => console.log(e));
   return res.greatJob('You have been emailed a password reset link.');
 };
 
