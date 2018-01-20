@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Row, Col, Button } from 'reactstrap';
 import { A } from 'components/Utilities';
 import { PageHeading } from 'components/UI';
+import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
 import { isMember } from 'helpers';
 
 const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague }) => {
@@ -23,7 +24,7 @@ const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague 
         </p>
         <Row>
           <Col xs="6">
-            <h5>Point Values</h5>
+            <h5 className="mb-2">Point Values</h5>
             {Object.keys(league.pointValues).map(pointValueName => (
               <div key={pointValueName} className="flex-row justify-content-between py-1 pr-3">
                 <div className="faded-1">
@@ -36,10 +37,13 @@ const LeagueOverview = ({ league, user, goToLeagueEdit, leaveLeague, joinLeague 
             ))}
           </Col>
           <Col xs="6">
-            <h5>Members</h5>
+            <h5 className="mb-2">Members</h5>
             {league.members.map(member => (
-              <div key={member.username} className="flex-row justify-content-between py-1 pr-3">
-                <p className="my-0">{member.username}</p>
+              <div key={member.username} className="flex-row justify-content-start align-items-center py-2">
+                <div style={{ width: '30px' }} className="mr-2">
+                  <UserPhotoAndModal {...member} />
+                </div>
+                <p>{member.username}</p>
               </div>
             ))}
           </Col>

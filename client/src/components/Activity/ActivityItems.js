@@ -1,13 +1,14 @@
 import React from 'react';
 import moment from 'moment';
 import { calendarFormat } from 'helpers';
-import MemberPhoto from 'components/User/MemberPhoto';
+import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
+import MemberContainer from 'components/League/MemberContainer';
 
 const ActivityItemChat = ({ user, date, message, self }) => (
   <div className={`Activity__Item Activity__Item--chat ${self && 'self'}`}>
     <div className="Chat">
       <div className="Chat__photo">
-        <MemberPhoto id={user._id} />
+        <MemberContainer id={user._id} fallback={user} Component={UserPhotoAndModal} />
       </div>
       <div className="Chat__content">
         <small className="Chat__username">{user.username}</small>
