@@ -23,21 +23,15 @@ const trapTransport = {
   },
 };
 
-const transport = process.env.TRAP_MAIL == "true"
-  ? nodemailer.createTransport(trapTransport)
-  : nodemailer.createTransport(smtpTransport);
-
-if (process.env.TRAP_MAIL == "true") {
-  console.log('attempting to trap mail');
-  console.log(trapTransport)
-} else {
-  console.log('attempting to use SMTP');
-  console.log(smtpTransport);
-}
+const useTransport = process.env.TRAP_MAIL == "true" ? trapTransport : smtpTransport;
+const transport = nodemailer.createTransport(useTransport);
 
 if (process.env.DEBUG) {
   transport.verify((error, success) => {
-    if (error) return log.error(error);
+    if (error) {
+      log.error(`Error verifying transport using host:${useTransport.host}`);
+      return log.error(error);
+    }
     log.success(`Mail transport ready to send from ${transport.options.host}`);
   });
 }
@@ -48,7 +42,7 @@ html
   head
   body
     h2 Password Reset
-    p Hello. You have requested a password reset. Please click 
+    p You have requested a password reset. Please click 
       a(href="${options.resetURL}") here
       span  to continue on with resetting your password or visit ${options.resetURL} in your browser.
     p Please note this link is only valid for the next hour.
