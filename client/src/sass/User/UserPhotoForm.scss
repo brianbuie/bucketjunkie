@@ -1,0 +1,19 @@
+.UserPhotoForm__FileButton {
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 0;
+  text-align: center;
+  color: $nav-bg;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: $brand-gold;
+  box-shadow: -1px -1px 7px $nav-bg;
+
+  i {
+    width: 18px;
+    height: 18px;
+  }
+}
