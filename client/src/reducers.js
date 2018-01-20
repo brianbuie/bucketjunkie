@@ -189,10 +189,11 @@ const league = (state = null, action) => {
     case 'REPLACE_LEAGUE':
       return action.league;
     case 'REPLACE_MEMBER':
+      let memberIndex = state.members.findIndex(member => member._id == action.user._id);
       return {...state, members: [
-        ...state.members.slice(0, state.members.findIndex(member => member._id == action.user._id)),
+        ...state.members.slice(0, memberIndex),
         action.user,
-        ...state.members.slice(state.members.findIndex(member => member._id == action.user._id) + 1)
+        ...state.members.slice(memberIndex + 1)
       ]};
     case 'REMOVE_LEAGUE':
       return null;
