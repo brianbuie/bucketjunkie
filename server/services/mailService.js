@@ -27,6 +27,10 @@ const transport = process.env.TRAP_MAIL == "true"
   ? nodemailer.createTransport(trapTransport)
   : nodemailer.createTransport(smtpTransport);
 
+process.env.TRAP_MAIL == "true"
+  ? console.log(trapTransport)
+  : console.log(smtpTransport);
+
 if (process.env.DEBUG) {
   transport.verify((error, success) => {
     if (error) return log.error(error);
