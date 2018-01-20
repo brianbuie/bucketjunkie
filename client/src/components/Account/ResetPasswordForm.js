@@ -5,12 +5,15 @@ import { submitPasswordReset } from 'actions';
 import A from 'components/Utilities/A';
 import Form from 'components/Utilities/Form';
 
-const ResetPasswordForm = ({ fields, submitPasswordReset }) => (
+const ResetPasswordForm = ({ fields, submitPasswordReset, goToLogin }) => (
   <div className="p-3 height-100">
     <h2 className="text-center">
       Reset Password
     </h2>
     <Form fields={fields} submit={submitPasswordReset} buttonText="Reset →" />
+    <p className="text-center">
+      <A className="link-discreet" click={goToLogin}>Cancel</A>
+    </p>
   </div>
 );
 
