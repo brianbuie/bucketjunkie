@@ -8,7 +8,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Nav as BootstrapNav, NavItem } from 'reactstrap';
 import TeamIcon from 'components/Team/TeamIcon';
 import Collapse from 'components/Utilities/Collapse';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import routes from 'routes';
 
 const Nav = ({ teams, loc, league }) => (

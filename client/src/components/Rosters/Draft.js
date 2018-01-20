@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { movePlayer } from 'actions';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { Panel } from 'components/UI';
 import { PageHeading } from 'components/UI';
 import PlayerContainer from 'components/Player/PlayerContainer';

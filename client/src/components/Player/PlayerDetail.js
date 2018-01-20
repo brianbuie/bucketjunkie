@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Button } from 'reactstrap';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { ImageRound, Panel } from 'components/UI';
 import TeamIcon from 'components/Team/TeamIcon';
 import TeamContainer from 'components/Team/TeamContainer';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { ImageRound } from 'components/UI';
 import TeamIcon from 'components/Team/TeamIcon';
 import PlayerRosterButton from 'components/Player/PlayerRosterButton';

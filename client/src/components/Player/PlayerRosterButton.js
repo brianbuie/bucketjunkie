@@ -1,5 +1,5 @@
 import React from 'react';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 
 const PlayerRosterButton = ({ id, availableAction, addPlayer, removePlayer }) => {
   switch (availableAction) {

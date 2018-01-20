@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Row, Col } from 'reactstrap';
 import { isModerator, isMember, isCreator } from 'helpers';
 import { leaveLeague } from 'actions';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import LeagueOverview from 'components/League/LeagueOverview';
 
 const LeagueOverviewConnected = ({ league, user, goToLeagueEdit, leaveLeague }) => (

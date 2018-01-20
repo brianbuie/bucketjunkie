@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { Panel } from 'components/UI';
-import { A } from 'components/Utilities'
+import A from 'components/Utilities/A'
 import { defaultPointValues } from 'helpers';
 import TeamIcon from 'components/Team/TeamIcon';
 import FetchContainer from 'components/FetchManager/FetchContainer';

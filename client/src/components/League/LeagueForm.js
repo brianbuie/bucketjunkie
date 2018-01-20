@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { PageHeading } from 'components/UI';
 
 class LeagueForm extends React.Component {

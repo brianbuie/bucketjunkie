@@ -4,7 +4,7 @@ import UserPhoto from 'components/User/UserPhoto';
 import Toggle from 'components/Utilities/Toggle';
 import UserModal from 'components/User/UserModal';
 import { submitNewPhoto, submitLogout } from 'actions';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 
 const UserPhotoAndModal = props => (
   <Toggle {...props} toggleState={false} Component={props => (

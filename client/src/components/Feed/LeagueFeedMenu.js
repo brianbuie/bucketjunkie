@@ -1,5 +1,5 @@
 import React from 'react';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 
 const LeagueFeedMenu = ({ view, changeView, menuItems }) => (
   <div className="LeagueFeed__Menu">

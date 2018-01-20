@@ -1,7 +1,7 @@
 import React from 'react';
 import BurgerMenu from 'react-burger-menu/lib/menus/slide';
 import Nav from 'components/Nav/Nav';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 
 const NavWrapper = () => (
   <div className="full-height">

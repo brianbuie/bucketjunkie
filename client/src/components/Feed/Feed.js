@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
 import LeagueSwitcher from 'components/League/LeagueSwitcher';
 import FeedBody from 'components/Feed/FeedBody';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { openFeed, closeFeed, dockFeed, undockFeed } from 'actions';
 
 const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => (

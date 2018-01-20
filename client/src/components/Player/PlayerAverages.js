@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Panel } from 'components/UI';
-import { A } from 'components/Utilities'
+import A from 'components/Utilities/A';
 import { defaultPointValues } from 'helpers';
 
 class PlayerAverages extends React.Component {

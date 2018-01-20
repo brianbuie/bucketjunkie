@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import LeagueCard from 'components/League/LeagueCard';
-import { A, FullHeight } from 'components/Utilities';
+import A from 'components/Utilities/A';
+import FullHeight from 'components/Utilities/FullHeight';
 import { setLeague, getMyLeagues } from 'actions';
 import LocalFetch from 'components/FetchManager/LocalFetch';
 
@@ -22,14 +23,10 @@ const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
   </FullHeight>
 );
 
-const mapStateToProps = ({ myLeagues }) => ({ myLeagues });
-
-const mapDispatchToProps = dispatch => ({
-  setLeague: id => dispatch(setLeague(id)),
-  getMyLeagues: () => dispatch(getMyLeagues())
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  ({ myLeagues }) => ({ myLeagues }),
+  dispatch => ({
+    setLeague: id => dispatch(setLeague(id)),
+    getMyLeagues: () => dispatch(getMyLeagues())
+  })
 )(MyLeagues);

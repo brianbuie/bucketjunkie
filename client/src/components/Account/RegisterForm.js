@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitRegister } from 'actions';
-import { A, FullHeight } from 'components/Utilities';
+import A from 'components/Utilities/A';
+import FullHeight from 'components/Utilities/FullHeight';
 import Form from 'components/Utilities/Form';
 
 const fields = [
@@ -26,11 +27,9 @@ const RegisterForm = ({ submitRegister, goToLogin }) => (
   </FullHeight>
 );
 
-const mapDispatchToProps = dispatch => ({
-  submitRegister: data => dispatch(submitRegister(data))
-});
-
 export default connect(
   null,
-  mapDispatchToProps
+  dispatch => ({
+    submitRegister: data => dispatch(submitRegister(data))
+  })
 )(RegisterForm);
