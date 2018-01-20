@@ -4,7 +4,7 @@ import LeagueCard from 'components/League/LeagueCard';
 import A from 'components/Utilities/A';
 import FullHeight from 'components/Utilities/FullHeight';
 import { setLeague, getMyLeagues } from 'actions';
-import LocalFetch from 'components/FetchManager/LocalFetch';
+import LocalFetch from 'components/Fetch/LocalFetch';
 
 const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
   <FullHeight>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FetchContainer from 'components/FetchManager/FetchContainer';
+import FetchContainer from 'components/Fetch/FetchContainer';
 import LeagueOverview from 'components/League/LeagueOverview';
 import { joinLeague } from 'actions';
 import CenteredLayout from 'components/Layout/CenteredLayout';

@@ -5,7 +5,7 @@ import { Panel } from 'components/UI';
 import A from 'components/Utilities/A'
 import { defaultPointValues } from 'helpers';
 import TeamIcon from 'components/Team/TeamIcon';
-import FetchContainer from 'components/FetchManager/FetchContainer';
+import FetchContainer from 'components/Fetch/FetchContainer';
 
 class PlayerBoxscores extends React.Component {
 

@@ -38,7 +38,7 @@ const Nav = ({ teams, loc, league }) => (
             Top Players
           </Link>
         </NavItem>
-        <Collapse toggler={({ onClick, isOpen }) => (
+        <Collapse Toggler={({ onClick, isOpen }) => (
           <NavItem>
             <A click={onClick}>
               <TeamIcon id='nba' />
