@@ -23,7 +23,7 @@ const trapTransport = {
   },
 };
 
-const transport = process.env.TRAP_MAIL 
+const transport = process.env.TRAP_MAIL == "true"
   ? nodemailer.createTransport(trapTransport)
   : nodemailer.createTransport(smtpTransport);
 
