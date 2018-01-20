@@ -1,5 +1,4 @@
 import React from 'react';
-// import findOrientation from 'exif-orientation';
 import { FormGroup, Button, Label } from 'reactstrap';
 import A from 'components/Utilities/A';
 import { ImageRound } from 'components/UI';
@@ -9,14 +8,12 @@ class UserPhotoForm extends React.Component {
     const initialPhoto = this.props.photo ? `/images/uploads/${this.props.photo}` : '/images/player-default.png';
     this.setState({
       photo: initialPhoto,
-      // orientation: {},
       changed: false
     });
   }
 
   handleFile = () => {
     const file = this.refs.file.files[0];
-    // findOrientation(file, (err, orientation) => this.setState({ orientation }));
     const reader = new FileReader();
     const url = reader.readAsDataURL(file);
     reader.onloadend = e => {
