@@ -1,14 +1,10 @@
-import './Nav.scss';
-
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Nav as BootstrapNav, NavItem } from 'reactstrap';
 import TeamIcon from 'components/Team/TeamIcon';
 import Collapse from 'components/Utilities/Collapse';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import routes from 'routes';
 
 const Nav = ({ teams, loc, league }) => (
@@ -38,7 +34,7 @@ const Nav = ({ teams, loc, league }) => (
             Top Players
           </Link>
         </NavItem>
-        <Collapse toggler={({ onClick, isOpen }) => (
+        <Collapse Toggler={({ onClick, isOpen }) => (
           <NavItem>
             <A click={onClick}>
               <TeamIcon id='nba' />
@@ -63,8 +59,4 @@ const Nav = ({ teams, loc, league }) => (
   </div>
 );
 
-const mapStateToProps = ({ teams, router, league }) => ({ teams, league, loc: router.location });
-
-export default withRouter(connect(
-  mapStateToProps
-)(Nav));
+export default Nav;

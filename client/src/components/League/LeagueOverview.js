@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Row, Col, Button } from 'reactstrap';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import { PageHeading } from 'components/UI';
 import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
 import { isMember } from 'helpers';

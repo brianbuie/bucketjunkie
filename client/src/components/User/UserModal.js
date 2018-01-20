@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, FormGroup, Button, Label } from 'reactstrap';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import UserPhoto from 'components/User/UserPhoto';
 
 const UserModal = ({ username, photo, toggle, isOpen, submitNewPhoto, logout }) => {

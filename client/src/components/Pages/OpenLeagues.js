@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import LeagueCard from 'components/League/LeagueCard';
 import { Panel, PageHeading } from 'components/UI';
-import FetchContainer from 'components/FetchManager/FetchContainer';
+import FetchContainer from 'components/Fetch/FetchContainer';
 import CenteredLayout from 'components/Layout/CenteredLayout';
 
 const OpenLeagues = ({ createLeague, user }) => (

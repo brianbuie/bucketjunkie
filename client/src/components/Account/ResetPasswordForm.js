@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { submitPasswordReset } from 'actions';
-import { A } from 'components/Utilities';
+import A from 'components/Utilities/A';
 import Form from 'components/Utilities/Form';
 
 const ResetPasswordForm = ({ fields, submitPasswordReset }) => (
