@@ -2,7 +2,7 @@ import React from 'react';
 import PlayerList from 'components/Player/PlayerList';
 import PlayerListItem from 'components/Player/PlayerListItem';
 import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
-import MemberContainer from 'components/User/MemberContainer';
+import MemberContainer from 'components/League/MemberContainer';
 import { Row, Col } from 'reactstrap';
 import { Panel } from 'components/UI';
 

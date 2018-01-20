@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { calendarFormat } from 'helpers';
 import UserPhotoAndModal from 'components/User/UserPhotoAndModal';
-import MemberContainer from 'components/User/MemberContainer';
+import MemberContainer from 'components/League/MemberContainer';
 
 const ActivityItemChat = ({ user, date, message, self }) => (
   <div className={`Activity__Item Activity__Item--chat ${self && 'self'}`}>
