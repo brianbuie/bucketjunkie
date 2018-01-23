@@ -7,7 +7,7 @@ import Collapse from 'components/Utilities/Collapse';
 import A from 'components/Utilities/A';
 import routes from 'routes';
 
-const Nav = ({ teams, loc, league }) => (
+const Nav = ({ teams, loc, league, user }) => (
   <div className="height-100 text-center" style={{ width: "200px" }}>
     <Scrollbars autoHide>
       <BootstrapNav vertical>
@@ -20,6 +20,12 @@ const Nav = ({ teams, loc, league }) => (
           <Link to={routes.rosters}>
             <i className="fa fa-user-circle" />
             {league.started ? 'Rosters' : 'My Draft List'}
+          </Link>
+        </NavItem>}
+        {!user && <NavItem active={loc.pathname === routes.login}>
+          <Link to={routes.login}>
+            <i className="fa fa-user-circle" />
+            Login
           </Link>
         </NavItem>}
         <NavItem active={loc.pathname === routes.publicLeagues}>

@@ -13,7 +13,6 @@ import {
   getScores,
   getMyLeagues,
   socketConnected,
-  validatePasswordResetToken
 } from 'actions';
 
 class FetchManager extends React.Component {
@@ -35,7 +34,6 @@ class FetchManager extends React.Component {
   }
 
   evaluateNeeds(dataNeeds) {
-    if (dataNeeds.passwordReset === 'need') this.props.validatePasswordResetToken(this.props.token);
     if (dataNeeds.myLeagues === 'need') this.props.getMyLeagues();
     if (dataNeeds.activity === 'need') this.props.getActivity();
     if (dataNeeds.rosters === 'need') this.props.getRosters();
@@ -56,7 +54,6 @@ const mapStateToProps = ({ dataNeeds, user, league, router }) => ({
   dataNeeds, 
   user,
   league,
-  token: queryString.parse(router.location.search)['password-reset']
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -69,7 +66,6 @@ const mapDispatchToProps = dispatch => ({
   getScores: () => dispatch(getScores()),
   getMyLeagues: () => dispatch(getMyLeagues()),
   socketConnected: () => dispatch(socketConnected()),
-  validatePasswordResetToken: token => dispatch(validatePasswordResetToken(token))
 });
 
 export default connect(

@@ -30,5 +30,5 @@ class NavContainer extends React.Component {
 }
 
 export default withRouter(connect(
-  ({ teams, router, league }) => ({ teams, league, loc: router.location })
+  ({ teams, router, league, user }) => ({ teams, league, user, loc: router.location })
 )(NavContainer));

@@ -155,21 +155,6 @@ const dataNeeds = combineReducers({
       default:
         return state;
     }
-  },
-  passwordReset: (state = 'ok', action) => {
-    switch (action.type) {
-      case '@@router/LOCATION_CHANGE':
-        if (queryString.parse(action.payload.search)['password-reset']) return 'need';
-        return state;
-      case 'VALIDATING_PASSWORD_RESET_TOKEN':
-        return 'fetching';
-      case 'VALID_PASSWORD_RESET_TOKEN':
-        return 'ok';
-      case 'INVALID_PASSWORD_RESET_TOKEN':
-        return 'ok';
-      default:
-        return state;
-    }
   }
 });
 
