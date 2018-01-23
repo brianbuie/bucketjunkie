@@ -36,7 +36,7 @@ const FeedBody = ({ view, changeView }) => {
     case 'FORGOT_PASSWORD':
       return <ForgotPasswordForm goToLogin={() => changeView('LOGIN')} />
     case 'RESET_PASSWORD':
-      return <ResetPasswordForm />
+      return <ResetPasswordForm goToLogin={() => changeView('LOGIN')} />
     case 'MY_LEAGUES':
       return <MyLeagues />
     case 'LEAGUE_INFO':
