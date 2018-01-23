@@ -8,7 +8,7 @@ import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
 import ResetPasswordForm from 'components/Account/ResetPasswordForm';
 
 const Account = () => (
-  <SingleColumnSmall>
+  <SingleColumnSmall className="AccountForm">
     <Switch>
       <Route path={routes.login} component={LoginForm} />
       <Route path={routes.register} component={RegisterForm} />

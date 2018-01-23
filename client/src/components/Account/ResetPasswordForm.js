@@ -23,7 +23,7 @@ const ResetPasswordForm = (props) => !props.user
               { name: 'token', type: 'hidden', value: token } 
             ]}
             submit={submitPasswordReset} 
-            buttonText="Reset →" 
+            buttonText="Reset →"
           />
           <p className="text-center">
             <Link to={routes.login}>Cancel</Link>

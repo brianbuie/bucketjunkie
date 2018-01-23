@@ -3,8 +3,8 @@ import { Row, Col } from 'reactstrap';
 import { Container } from 'components/UI';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-const CenteredLayout = ({ children }) => (
-  <div className="flex-grow height-100 pb-3">
+const CenteredLayout = ({ children, className }) => (
+  <div className={`${className || ''} flex-grow height-100 pb-3`}>
     <Scrollbars autoHide>
       <div className="flex-column justify-content-center height-100">
         <Row className="justify-content-center">
