@@ -48,20 +48,9 @@ const feed = combineReducers({
   view: (state = 'ACTIVITY', action) => {
     switch (action.type) {
       case 'APP_INIT':
-        if (action.initialState.league) return 'ACTIVITY_ALL';
-        if (!action.initialState.user) return 'LOGIN';
-        if (!action.initialState.league) return 'MY_LEAGUES';
-        return state;
-      case 'PASSWORD_RESET_TOKEN_CREATED':
-        return 'LOGIN';
-      case 'INVALID_PASSWORD_RESET_TOKEN':
-        return 'FORGOT_PASSWORD';
-      case 'VALID_PASSWORD_RESET_TOKEN':
-        return 'RESET_PASSWORD';
-      case 'LOGIN_SUCCESS':
-        return 'MY_LEAGUES';
-      case 'LOGOUT_SUCCESS':
-        return 'LOGIN';
+        return action.initialState.league
+          ? 'ACTIVITY_ALL'
+          : 'MY_LEAGUES';
       case 'RECEIVED_NEW_LEAGUE': 
         return 'ACTIVITY_ALL';
       case 'REMOVE_LEAGUE':

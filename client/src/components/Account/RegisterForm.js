@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { submitRegister } from 'actions';
-import A from 'components/Utilities/A';
-import FullHeight from 'components/Utilities/FullHeight';
+import { Link, Redirect } from 'react-router-dom';
+import routes from 'routes';
 import Form from 'components/Utilities/Form';
 
 const fields = [
@@ -12,8 +12,8 @@ const fields = [
   { name: 'confirm-password', label: 'Again', type: 'password' }
 ];
 
-const RegisterForm = ({ submitRegister, goToLogin }) => (
-  <FullHeight>
+const RegisterForm = ({ user, submitRegister }) => !user
+  ? (
     <div className="height-100 p-3">
       <h2 className="text-center">
         Register
@@ -21,14 +21,15 @@ const RegisterForm = ({ submitRegister, goToLogin }) => (
       <Form fields={fields} submit={submitRegister} buttonText="Register →" />
       <p className="text-center">
         <span className="faded-2">Already have an account?</span>
-        <A className="link-discreet" click={goToLogin}> Login</A>
+        <Link to={routes.login}> Login</Link>
       </p>
     </div>
-  </FullHeight>
-);
+  ) : (
+    <Redirect to="/" />
+  );
 
 export default connect(
-  null,
+  ({ user }) => ({ user }),
   dispatch => ({
     submitRegister: data => dispatch(submitRegister(data))
   })

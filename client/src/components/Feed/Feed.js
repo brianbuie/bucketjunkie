@@ -7,7 +7,7 @@ import FeedBody from 'components/Feed/FeedBody';
 import A from 'components/Utilities/A';
 import { openFeed, closeFeed, dockFeed, undockFeed } from 'actions';
 
-const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => (
+const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undockFeed}) => user ? (
   <div className={`Feed__Container ${open && 'open'} ${docked && 'docked'}`}>
     <div className="Feed__Menu" onClick={e => {
       if (e.target.id === "Feed__Menu__Target") {
@@ -37,7 +37,7 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
     </div>
     {open && <FeedBody />}
   </div>
-);
+) : '';
 
 export default connect(
   ({ feed, user, league }) => ({ ...feed, user, league }),

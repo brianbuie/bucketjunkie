@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { changeFeedView } from 'actions';
 import Scrollbars from 'react-custom-scrollbars';
-import LoginForm from 'components/Account/LoginForm';
-import RegisterForm from 'components/Account/RegisterForm';
-import ForgotPasswordForm from 'components/Account/ForgotPasswordForm';
-import ResetPasswordForm from 'components/Account/ResetPasswordForm';
 import MyLeagues from 'components/League/MyLeagues';
 import LeagueOverviewConnected from 'components/League/LeagueOverviewConnected';
 import EditLeague from 'components/League/EditLeague';
@@ -29,14 +25,6 @@ const menuItems = activityViews.concat(leagueViews);
 const FeedBody = ({ view, changeView }) => {
   // account views
   switch (view) {
-    case 'LOGIN':
-      return <LoginForm goToRegister={() => changeView('REGISTER')} goToForgotPassword={() => changeView('FORGOT_PASSWORD')} />
-    case 'REGISTER':
-      return <RegisterForm goToLogin={() => changeView('LOGIN')} />
-    case 'FORGOT_PASSWORD':
-      return <ForgotPasswordForm goToLogin={() => changeView('LOGIN')} />
-    case 'RESET_PASSWORD':
-      return <ResetPasswordForm goToLogin={() => changeView('LOGIN')} />
     case 'MY_LEAGUES':
       return <MyLeagues />
     case 'LEAGUE_INFO':

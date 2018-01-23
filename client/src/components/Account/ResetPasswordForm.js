@@ -2,17 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { submitPasswordReset } from 'actions';
-import A from 'components/Utilities/A';
+import { Link } from 'react-router-dom';
+import routes from 'routes';
 import Form from 'components/Utilities/Form';
 
-const ResetPasswordForm = ({ fields, submitPasswordReset, goToLogin }) => (
+const ResetPasswordForm = ({ fields, submitPasswordReset }) => (
   <div className="p-3 height-100">
     <h2 className="text-center">
       Reset Password
     </h2>
     <Form fields={fields} submit={submitPasswordReset} buttonText="Reset →" />
     <p className="text-center">
-      <A className="link-discreet" click={goToLogin}>Cancel</A>
+      <Link to={routes.login}>Cancel</Link>
     </p>
   </div>
 );

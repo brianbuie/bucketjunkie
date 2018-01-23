@@ -224,7 +224,7 @@ export const submitForgotPassword = data => dispatch => {
       let toastType = res.meta.ok ? 'success' : 'danger';
       dispatch(newToast(res.json.message, toastType));
       if (res.meta.ok) {
-        dispatch({ type: 'PASSWORD_RESET_TOKEN_CREATED' });
+        dispatch(push('/account/login'));
       }
     });
 };
