@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { changeFeedView } from 'actions';
+import A from 'components/Utilities/A';
 import Scrollbars from 'react-custom-scrollbars';
-import MyLeagues from 'components/League/MyLeagues';
 import LeagueOverviewConnected from 'components/League/LeagueOverviewConnected';
 import EditLeague from 'components/League/EditLeague';
-import LeagueFeedMenu from 'components/Feed/LeagueFeedMenu';
 import ActivityList from 'components/Activity/ActivityList';
 import ChatForm from 'components/Activity/ChatForm';
 
@@ -22,52 +21,50 @@ const leagueViews = [
 
 const menuItems = activityViews.concat(leagueViews);
 
+const FeedMenu = ({ active, changeView }) => (
+  <div className="LeagueFeed__Menu">
+    {menuItems.map(item => (
+      <A 
+        className="LeagueFeed__Menu__Item py-2"
+        click={() => changeView(item.name)} 
+        active={active === item.name}
+        key={item.name}
+      >
+        {item.text}
+      </A>
+    ))}
+  </div>
+);
+
 const FeedBody = ({ view, changeView }) => {
-  // account views
-  switch (view) {
-    case 'MY_LEAGUES':
-      return <MyLeagues />
-    case 'LEAGUE_INFO':
-      return (
-        <div className="LeagueFeed">
-          <LeagueFeedMenu view={view} changeView={changeView} menuItems={menuItems} />
-          <Scrollbars autoHide>
-            <div className="p-3">
-              <LeagueOverviewConnected goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
-            </div>
-          </Scrollbars>
-        </div>
-      );
-    case 'LEAGUE_EDIT':
-      return (
-        <div className="LeagueFeed">
-          <LeagueFeedMenu view='LEAGUE_INFO' changeView={changeView} menuItems={menuItems} />
-          <Scrollbars>
-            <div className="p-3">
-              <EditLeague />
-            </div>
-          </Scrollbars>
-        </div>
-      );
-  }
-  // activity views
-  let activityView = activityViews.filter(v => v.name === view)[0];
-  if (!!activityView) return (
+  if (['LEAGUE_INFO', 'LEAGUE_EDIT'].includes(view)) return (
     <div className="LeagueFeed">
-      <LeagueFeedMenu view={view} changeView={changeView} menuItems={menuItems} />
-      <ActivityList filter={activityView.filter} />
-      {activityView.showChat ? <ChatForm /> : ''}
+      <FeedMenu active='LEAGUE_INFO' changeView={changeView} />
+      <Scrollbars autoHide>
+        <div className="p-3">
+          {view === 'LEAGUE_INFO' ? (
+            <LeagueOverviewConnected goToLeagueEdit={() => changeView('LEAGUE_EDIT')}/>
+          ) : (
+            <EditLeague />
+          )}
+        </div>
+      </Scrollbars>
+    </div>
+  );
+
+  let activityView = activityViews.find(v => v.name === view);
+  return (
+    <div className="LeagueFeed">
+      <FeedMenu active={view} changeView={changeView} />
+      {activityView && <ActivityList filter={activityView.filter} />}
+      {activityView && (activityView.showChat ? <ChatForm /> : '')}
     </div>
   );
 };
 
-const mapStateToProps = ({ feed }) => ({ view: feed.view });
-
-const mapDispatchToProps = dispatch => ({
-  changeView: view => dispatch(changeFeedView(view))
-});
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  ({ feed }) => ({ view: feed.view }),
+  dispatch => ({
+    changeView: view => dispatch(changeFeedView(view))
+  })
 )(FeedBody);

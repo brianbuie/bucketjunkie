@@ -11,6 +11,8 @@ const activity = combineReducers({
           ...state,
           action.item
         ];
+      case 'RECEIVED_NEW_LEAGUE':
+        return [];
       case 'REPLACE_ACTIVITY':
         return action.activity;
       case 'LOGOUT_SUCCESS':
@@ -45,16 +47,10 @@ const feed = combineReducers({
       default: return state;
     }
   },
-  view: (state = 'ACTIVITY', action) => {
+  view: (state = 'ACTIVITY_ALL', action) => {
     switch (action.type) {
-      case 'APP_INIT':
-        return action.initialState.league
-          ? 'ACTIVITY_ALL'
-          : 'MY_LEAGUES';
       case 'RECEIVED_NEW_LEAGUE': 
         return 'ACTIVITY_ALL';
-      case 'REMOVE_LEAGUE':
-        return 'MY_LEAGUES';
       case 'CHANGE_FEED_VIEW':
         return action.view;
       default:
