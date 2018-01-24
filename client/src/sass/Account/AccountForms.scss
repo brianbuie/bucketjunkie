@@ -1,0 +1,17 @@
+.AccountForm {
+  background-image: url('/images/background/gradient-test-3.png');
+  background-size: cover;
+  background-position: center center;
+  color: $gray-200;
+
+  text-shadow: 0 0 3px $body-bg;
+
+  label {
+    color: $gray-200;
+  }
+
+  a,
+  a:hover {
+    color: $brand-gold;
+  }
+}

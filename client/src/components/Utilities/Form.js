@@ -29,7 +29,7 @@ class Form extends React.Component {
           <Input type={field.type} name={field.name} value={this.state[field.name]} onChange={this.fieldChange} />
         </FormGroup>
       ))}
-      <Button type="submit" color="primary" className="my-4" block outline>
+      <Button type="submit" color="primary" className="my-4" block outline={this.props.buttonOutline}>
          {this.props.buttonText || 'Submit →'}
       </Button>
     </form>

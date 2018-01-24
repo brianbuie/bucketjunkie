@@ -4,11 +4,13 @@ const routes = {
   players: '/players',
   teams: '/teams',
   rosters: '/rosters',
-  myLeagues: '/leagues/mine',
+  myLeagues: '/leagues',
   publicLeagues: '/leagues/public',
   account: '/account',
   login: '/account/login',
-  register: '/account/register'
+  register: '/account/register',
+  forgotPassword: '/account/forgot-password',
+  resetPassword: '/account/reset-password'
 };
 
 export default routes;

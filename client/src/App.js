@@ -6,6 +6,7 @@ import Loading from 'components/Loading/Loading';
 import Toast from 'components/Toast/Toast';
 import Feed from 'components/Feed/Feed';
 import NavContainer from 'components/Nav/NavContainer';
+import Account from 'components/Pages/Account';
 import AllPlayers from 'components/Pages/AllPlayers';
 import LeagueStandings from 'components/Pages/LeagueStandings';
 import OpenLeagues from 'components/Pages/OpenLeagues';
@@ -20,6 +21,7 @@ const App = ({ league }) => (
     <Toast />
     <NavContainer />
     <Switch>
+      <Route path="/account" component={Account} />
       <Route path="/teams/:team" component={AllPlayers} />
       <Route path="/teams" component={AllPlayers} />
       <Route path="/rosters" render={() => league ? <LeagueStandings /> : <Redirect to="/"/> } />
