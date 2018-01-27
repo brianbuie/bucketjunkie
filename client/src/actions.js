@@ -104,6 +104,24 @@ export const clearPlayerDetail = () => ({
   type: 'CLEAR_PLAYER_DETAIL'
 });
 
+export const replacePageTitle = title => ({
+  type: 'REPLACE_PAGE_TITLE',
+  title
+});
+
+export const replacePageDescription = description => ({
+  type: 'REPLACE_PAGE_DESCRIPTION',
+  description
+});
+
+export const addNotification = () => ({
+  type: 'ADD_NOTIFICATION'
+});
+
+export const clearNotifications = () => ({
+  type: 'CLEAR_NOTIFICATIONS'
+});
+
 
 
 /*
