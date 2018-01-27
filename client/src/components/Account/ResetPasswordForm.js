@@ -9,7 +9,8 @@ import AsyncContainer from 'components/Fetch/AsyncContainer';
 
 const ResetPasswordForm = (props) => !props.user 
  ? (
-    <AsyncContainer {...props} 
+    <AsyncContainer 
+      {...props} 
       asyncAction={() => props.validatePasswordResetToken(props.token)} 
       Component={({ token, submitPasswordReset }) => (
         <div className="p-3 height-100">
