@@ -4,11 +4,11 @@ import LeagueCard from 'components/League/LeagueCard';
 import A from 'components/Utilities/A';
 import FullHeight from 'components/Utilities/FullHeight';
 import { setLeague, getMyLeagues } from 'actions';
-import LocalFetch from 'components/Fetch/LocalFetch';
+import AsyncContainer from 'components/Fetch/AsyncContainer';
 
-const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
+const MyLeagues = props => (
   <FullHeight>
-    <LocalFetch fetch={getMyLeagues}>
+    <AsyncContainer {...props} asyncAction={props.getMyLeagues} Component={({ myLeagues, setLeague }) => (
       <div className="p-3">
         <h2 className="text-center mb-3">My Leagues</h2>
         {myLeagues.length ? myLeagues.map(league => (
@@ -19,7 +19,7 @@ const MyLeagues = ({ myLeagues, setLeague, getMyLeagues }) => (
           <p className="text-center faded-2">Join a League to get started!</p>
         )}
       </div>
-    </LocalFetch>
+    )} />
   </FullHeight>
 );
 

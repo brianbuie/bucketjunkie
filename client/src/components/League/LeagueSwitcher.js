@@ -5,7 +5,11 @@ import { setLeague } from 'actions';
 
 const LeagueSwitcher = ({ league, myLeagues, setLeague, className }) => {
   if (!league) return '';
-  if (myLeagues.length < 2) return league.name;
+  if (myLeagues.length < 2) return (
+    <span className={`${className || ''} py-2 px-3`}>
+      {league.name}
+    </span>
+  );
   return (
     <div className={className || ''}>
       <Dropdown>
