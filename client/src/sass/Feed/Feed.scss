@@ -56,6 +56,14 @@
   cursor: pointer;
 }
 
+.Feed__Notification {
+  margin-left: $spacer-sm;
+  border-radius: 50%;
+  font-weight: normal;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
 .LeagueFeed {
   height: 100%;
   display: flex;

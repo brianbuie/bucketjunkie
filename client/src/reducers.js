@@ -3,6 +3,9 @@ import { routerReducer as router } from 'react-router-redux';
 import queryString from 'query-string';
 import { defaultPointValues, appendPlayerScore } from 'helpers';
 
+// imported reducers
+import { notifications } from 'features/notifications/reducers';
+
 const activity = combineReducers({
   items: (state = [], action) => {
     switch (action.type) {
@@ -206,16 +209,7 @@ const myLeagues = (state = [], action) => {
   }
 };
 
-const notifications = (state = 0, action) => {
-  switch (action.type) {
-    case 'ADD_NOTIFICATION':
-      return state + 1;
-    case 'CLEAR_NOTIFICATIONS':
-      return 0;
-    default:
-      return state;
-  }
-};
+
 
 const playerDetailView = (state = null, action) => {
   switch (action.type) {

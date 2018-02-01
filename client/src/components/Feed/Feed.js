@@ -7,7 +7,7 @@ import FeedBody from 'components/Feed/FeedBody';
 import A from 'components/Utilities/A';
 import { openFeed, closeFeed, dockFeed, undockFeed } from 'actions';
 
-const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undockFeed }) => user ? (
+const Feed = ({ league, user, feedNotifications, open, docked, openFeed, closeFeed, dockFeed, undockFeed }) => user ? (
   <div className={`Feed__Container ${open && 'open'} ${docked && 'docked'}`}>
     <div className="Feed__Menu" onClick={e => {
       if (e.target.id === "Feed__Menu__Target") {
@@ -27,6 +27,11 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
       ) : (
         <A click={openFeed} className="width-100 p-1 text-center">
           {league ? league.name : 'Select a League'}
+          {
+            feedNotifications.shouldDisplay && feedNotifications.amount
+              ? <span className="badge badge-pill badge-danger Feed__Notification">{feedNotifications.amount}</span>
+              : ''
+          }
         </A>
       )}
     </div>
@@ -35,7 +40,7 @@ const Feed = ({ league, user, open, docked, openFeed, closeFeed, dockFeed, undoc
 ) : '';
 
 export default connect(
-  ({ feed, user, league }) => ({ ...feed, user, league }),
+  ({ feed, user, league, notifications }) => ({ ...feed, ...notifications, user, league }),
   dispatch => ({
     openFeed: () => dispatch(openFeed()), 
     closeFeed: () => dispatch(closeFeed()), 

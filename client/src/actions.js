@@ -114,14 +114,6 @@ export const replacePageDescription = description => ({
   description
 });
 
-export const addNotification = () => ({
-  type: 'ADD_NOTIFICATION'
-});
-
-export const clearNotifications = () => ({
-  type: 'CLEAR_NOTIFICATIONS'
-});
-
 
 
 /*
