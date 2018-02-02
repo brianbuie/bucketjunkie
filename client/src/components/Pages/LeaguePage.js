@@ -4,6 +4,7 @@ import AsyncContainer from 'components/Fetch/AsyncContainer';
 import LeagueOverview from 'components/League/LeagueOverview';
 import { joinLeague, get } from 'actions';
 import CenteredLayout from 'components/Layout/CenteredLayout';
+import { SpinningBallLoader } from 'features/loading/BallLoaders';
 
 const LeaguePage= props => (
   <CenteredLayout>
@@ -11,7 +12,7 @@ const LeaguePage= props => (
       {...props}
       asyncAction={() => get(`/api/leagues/public/${props.match.params.id}`)} 
       Component={LeagueOverview}
-      LoadingComponent={() => 'Loading'}
+      LoadingComponent={SpinningBallLoader}
     />
   </CenteredLayout>
 );

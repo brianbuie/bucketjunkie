@@ -32,11 +32,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 150px;
 }
 
 .BallLoader__Ball {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   background: url('/images/icons/icon.svg');
   background-size: cover;
 }
@@ -81,6 +82,7 @@
   border-radius: 50%;
   background-color: black;
   z-index: 997;
+  opacity: 0;
   animation: shrink-and-pan 1s ease-in-out .5s infinite;
 }
 

@@ -5,21 +5,27 @@ import A from 'components/Utilities/A';
 import FullHeight from 'components/Utilities/FullHeight';
 import { setLeague, getMyLeagues } from 'actions';
 import AsyncContainer from 'components/Fetch/AsyncContainer';
+import { SpinningBallLoader } from 'features/loading/BallLoaders';
 
 const MyLeagues = props => (
   <FullHeight>
-    <AsyncContainer {...props} asyncAction={props.getMyLeagues} Component={({ myLeagues, setLeague }) => (
-      <div className="p-3">
-        <h2 className="text-center mb-3">My Leagues</h2>
-        {myLeagues.length ? myLeagues.map(league => (
-          <A click={() => setLeague(league.id)} key={league.id} className="link-discreet">
-            <LeagueCard {...league} />
-          </A>
-        )) : (
-          <p className="text-center faded-2">Join a League to get started!</p>
-        )}
-      </div>
-    )} />
+    <AsyncContainer 
+      {...props} 
+      asyncAction={props.getMyLeagues} 
+      Component={({ myLeagues, setLeague }) => (
+        <div className="p-3">
+          <h2 className="text-center mb-3">My Leagues</h2>
+          {myLeagues.length ? myLeagues.map(league => (
+            <A click={() => setLeague(league.id)} key={league.id} className="link-discreet">
+              <LeagueCard {...league} />
+            </A>
+          )) : (
+            <p className="text-center faded-2">Join a League to get started!</p>
+          )}
+        </div>
+      )}
+      LoadingComponent={SpinningBallLoader}
+    />
   </FullHeight>
 );
 
