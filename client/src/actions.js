@@ -2,6 +2,9 @@ import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 import routes from 'routes';
 
+// features
+import { loading, doneLoading } from 'features/loading/loadingActions';
+
 export const appInit = initialState => ({
   type: 'APP_INIT',
   initialState
@@ -71,14 +74,6 @@ export const logoutSuccess = () => ({
   type: 'LOGOUT_SUCCESS' 
 });
 
-export const loading = () => ({ 
-  type: 'LOADING' 
-});
-
-export const doneLoading = () => ({ 
-  type: 'DONE_LOADING' 
-});
-
 export const showToast = (text, toastType, id) => ({
   type: 'SHOW_TOAST',
   text,
@@ -102,6 +97,16 @@ export const viewPlayer = id => ({
 
 export const clearPlayerDetail = () => ({
   type: 'CLEAR_PLAYER_DETAIL'
+});
+
+export const replacePageTitle = title => ({
+  type: 'REPLACE_PAGE_TITLE',
+  title
+});
+
+export const replacePageDescription = description => ({
+  type: 'REPLACE_PAGE_DESCRIPTION',
+  description
 });
 
 

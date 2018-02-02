@@ -8,6 +8,7 @@ import { defaultPointValues } from 'helpers';
 import { get } from 'actions';
 import TeamIcon from 'components/Team/TeamIcon';
 import AsyncContainer from 'components/Fetch/AsyncContainer';
+import { SpinningBallLoader } from 'features/loading/BallLoaders';
 
 const PlayerBoxscores = props => (
   <AsyncContainer
@@ -81,8 +82,8 @@ const PlayerBoxscores = props => (
           <Panel className="p-3">
             <div className="flex-row">
               <h5 className="font-weight-normal pb-3 faded-2 flex-grow">Latest Performances</h5>
-              <p className="faded-2 text-center py-4">No Recent Games</p>
             </div>
+            <p className="faded-2 text-center py-4">No Recent Games</p>
           </Panel>
         );
       }} /> // Toggle
@@ -91,8 +92,8 @@ const PlayerBoxscores = props => (
       <Panel className="p-3">
         <div className="flex-row">
           <h5 className="font-weight-normal pb-3 faded-2 flex-grow">Latest Performances</h5>
-          <p className="faded-2 text-center py-4">Loading</p>
         </div>
+        <SpinningBallLoader />
       </Panel>
     )} // LoadingComponent
   /> //AsyncComponent

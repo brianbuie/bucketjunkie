@@ -1,23 +1,27 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import FetchManager from 'components/Fetch/FetchManager';
-import Loading from 'components/Loading/Loading';
-import Toast from 'components/Toast/Toast';
-import Feed from 'components/Feed/Feed';
-import NavContainer from 'components/Nav/NavContainer';
 import Account from 'components/Pages/Account';
 import AllPlayers from 'components/Pages/AllPlayers';
-import LeagueStandings from 'components/Pages/LeagueStandings';
-import OpenLeagues from 'components/Pages/OpenLeagues';
-import LeaguePage from 'components/Pages/LeaguePage';
 import CreateLeague from 'components/Pages/CreateLeague';
+import Feed from 'components/Feed/Feed';
+import FetchManager from 'components/Fetch/FetchManager';
+import Head from 'components/Head/Head';
+import LeaguePage from 'components/Pages/LeaguePage';
+import LeagueStandings from 'components/Pages/LeagueStandings';
+import NavContainer from 'components/Nav/NavContainer';
+import NotificationListener from 'features/notifications/NotificationListener';
 import NotFound from 'components/Pages/NotFound';
+import OpenLeagues from 'components/Pages/OpenLeagues';
+import PageBlockingLoader from 'features/loading/PageBlockingLoader';
+import Toast from 'components/Toast/Toast';
 
 const App = ({ league }) => (
   <div className="full-height flex-row">
+    <PageBlockingLoader />
+    <NotificationListener />
+    <Head />
     <FetchManager />
-    <Loading />
     <Toast />
     <NavContainer />
     <Switch>

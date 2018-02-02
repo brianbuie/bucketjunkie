@@ -5,6 +5,7 @@ import { get } from 'actions';
 import { Panel, PageHeading } from 'components/UI';
 import AsyncContainer from 'components/Fetch/AsyncContainer';
 import CenteredLayout from 'components/Layout/CenteredLayout';
+import { SpinningBallLoader } from 'features/loading/BallLoaders';
 
 const OpenLeagues = props => (
   <CenteredLayout>
@@ -23,7 +24,7 @@ const OpenLeagues = props => (
           </Link>
         )) : <p className="faded-2 text-center py-4">No open leagues. You should create one...</p> 
       )}
-      LoadingComponent={() => 'Loading'}
+      LoadingComponent={SpinningBallLoader}
     />
     <div className="text-center">
       <Link to="/leagues/create" className="btn btn-outline-primary btn-block">

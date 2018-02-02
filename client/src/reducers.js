@@ -3,6 +3,11 @@ import { routerReducer as router } from 'react-router-redux';
 import queryString from 'query-string';
 import { defaultPointValues, appendPlayerScore } from 'helpers';
 
+// features
+import { globalLoading } from 'features/loading/loadingReducers';
+import { notifications } from 'features/notifications/reducers';
+
+
 const activity = combineReducers({
   items: (state = [], action) => {
     switch (action.type) {
@@ -24,51 +29,6 @@ const activity = combineReducers({
     }
   },
 });
-
-const feed = combineReducers({
-  open: (state = true, action) => {
-    switch (action.type) {
-      case 'CLOSE_FEED':
-        return false;
-      case 'OPEN_FEED':
-        return true;
-      case 'CREATED_NEW_LEAGUE':
-        return true;
-      default:
-        return state;
-    }
-  },
-  docked: (state = false, action) => {
-    switch (action.type) {
-      case 'DOCK_FEED':
-        return true;
-      case 'UNDOCK_FEED':
-        return false;
-      default: return state;
-    }
-  },
-  view: (state = 'ACTIVITY_ALL', action) => {
-    switch (action.type) {
-      case 'RECEIVED_NEW_LEAGUE': 
-        return 'ACTIVITY_ALL';
-      case 'CHANGE_FEED_VIEW':
-        return action.view;
-      default:
-        return state;
-    }
-  }
-});
-
-const playerDetailView = (state = null, action) => {
-  switch (action.type) {
-    case 'VIEW_PLAYER_DETAIL':
-      return action.id;
-    case 'CLEAR_PLAYER_DETAIL':
-      return null;
-    default:
-      return state;
-  }
-}
 
 const dataNeeds = combineReducers({
   myLeagues: (state = 'ok', action) => {
@@ -154,6 +114,59 @@ const dataNeeds = combineReducers({
   }
 });
 
+const documentHead = combineReducers({
+  title: (state = 'BucketJunkie', action) => {
+    switch (action.type) {
+      case 'REPLACE_PAGE_TITLE':
+        return action.title;
+      default:
+        return state;
+    }
+  },
+  description: (state = 'Fantasy Basketball', action) => {
+    switch (action.type) {
+      case 'REPLACE_PAGE_DESCRIPTION':
+        return action.description;
+      default:
+        return state;
+    }
+  }
+});
+
+const feed = combineReducers({
+  open: (state = true, action) => {
+    switch (action.type) {
+      case 'CLOSE_FEED':
+        return false;
+      case 'OPEN_FEED':
+        return true;
+      case 'CREATED_NEW_LEAGUE':
+        return true;
+      default:
+        return state;
+    }
+  },
+  docked: (state = false, action) => {
+    switch (action.type) {
+      case 'DOCK_FEED':
+        return true;
+      case 'UNDOCK_FEED':
+        return false;
+      default: return state;
+    }
+  },
+  view: (state = 'ACTIVITY_ALL', action) => {
+    switch (action.type) {
+      case 'RECEIVED_NEW_LEAGUE': 
+        return 'ACTIVITY_ALL';
+      case 'CHANGE_FEED_VIEW':
+        return action.view;
+      default:
+        return state;
+    }
+  }
+});
+
 const league = (state = null, action) => {
   switch (action.type) {
     case 'REPLACE_LEAGUE':
@@ -187,12 +200,12 @@ const myLeagues = (state = [], action) => {
   }
 };
 
-const loading = (state = false, action) => {
+const playerDetailView = (state = null, action) => {
   switch (action.type) {
-    case 'LOADING':
-      return true;
-    case 'DONE_LOADING':
-      return false;
+    case 'VIEW_PLAYER_DETAIL':
+      return action.id;
+    case 'CLEAR_PLAYER_DETAIL':
+      return null;
     default:
       return state;
   }
@@ -287,11 +300,13 @@ const user = (state = null, action) => {
 const reducers = combineReducers({
   activity,
   dataNeeds,
-  playerDetailView,
+  documentHead,
+  globalLoading,
   feed,
   league,
   myLeagues,
-  loading,
+  notifications,
+  playerDetailView,
   players,
   rosters,
   router,

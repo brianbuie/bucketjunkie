@@ -1,0 +1,102 @@
+.PageBlockingLoader {
+  position: fixed;
+  z-index: 995;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgba($dark-gray, 0.8), rgba(darken($dark-gray, 20%), 0.6));
+  animation: fade-in 0.5s ease 1 forwards;
+}
+
+@keyframes fade-in { 
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.BallLoader__Position {
+  position: relative;
+  margin: auto;
+  text-align: center;
+  z-index: 996;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
+.BallLoader__Ball {
+  width: 60px;
+  height: 60px;
+  background: url('/images/icons/icon.svg');
+  background-size: cover;
+}
+
+.BallLoader__Spin--eased {
+  animation: spin 1s ease-in infinite;
+}
+
+.BallLoader__Spin--constant {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+.BallLoader__Bounce {
+  animation: bounce .5s ease 0s infinite alternate;
+  z-index: 998;
+}
+
+@keyframes bounce {
+  0% { 
+    transform: scaleY(.8); 
+  }
+  100% { 
+    transform: translateY(-80px); 
+  }
+}
+
+.BallLoader__Bounce__Shadow {
+  opacity: .4;
+  width: 30px;
+  height: 5px;
+  position: relative;
+  bottom: 10px;
+  border-radius: 50%;
+  background-color: black;
+  z-index: 997;
+  opacity: 0;
+  animation: shrink-and-pan 1s ease-in-out .5s infinite;
+}
+
+@keyframes shrink-and-pan {
+  0% {
+    transform: scaleX(0.5) translateX(60px);
+    opacity: .01;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(0.5) translateX(-60px);
+    opacity: .01;
+  }
+}
