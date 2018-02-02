@@ -3,8 +3,10 @@ import { routerReducer as router } from 'react-router-redux';
 import queryString from 'query-string';
 import { defaultPointValues, appendPlayerScore } from 'helpers';
 
-// imported reducers
+// features
+import { globalLoading } from 'features/loading/loadingReducers';
 import { notifications } from 'features/notifications/reducers';
+
 
 const activity = combineReducers({
   items: (state = [], action) => {
@@ -185,17 +187,6 @@ const league = (state = null, action) => {
   }
 };
 
-const loading = (state = false, action) => {
-  switch (action.type) {
-    case 'LOADING':
-      return true;
-    case 'DONE_LOADING':
-      return false;
-    default:
-      return state;
-  }
-};
-
 const myLeagues = (state = [], action) => {
   switch (action.type) {
     case 'REPLACE_MY_LEAGUES':
@@ -208,8 +199,6 @@ const myLeagues = (state = [], action) => {
       return state;
   }
 };
-
-
 
 const playerDetailView = (state = null, action) => {
   switch (action.type) {
@@ -312,9 +301,9 @@ const reducers = combineReducers({
   activity,
   dataNeeds,
   documentHead,
+  globalLoading,
   feed,
   league,
-  loading,
   myLeagues,
   notifications,
   playerDetailView,

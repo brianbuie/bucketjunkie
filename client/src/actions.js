@@ -2,6 +2,9 @@ import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 import routes from 'routes';
 
+// features
+import { loading, doneLoading } from 'features/loading/loadingActions';
+
 export const appInit = initialState => ({
   type: 'APP_INIT',
   initialState
@@ -69,14 +72,6 @@ export const loginSuccess = user => ({
 
 export const logoutSuccess = () => ({ 
   type: 'LOGOUT_SUCCESS' 
-});
-
-export const loading = () => ({ 
-  type: 'LOADING' 
-});
-
-export const doneLoading = () => ({ 
-  type: 'DONE_LOADING' 
 });
 
 export const showToast = (text, toastType, id) => ({
