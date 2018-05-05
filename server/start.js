@@ -12,6 +12,7 @@ const io = require('socket.io')(server);
 // Database
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE, { useMongoClient: true });
+console.log('connecting mongo');
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', err => log.error(`MongoError - ${err.message}`));
 
