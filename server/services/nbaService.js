@@ -99,8 +99,12 @@ exports.gamesForDays = async days => {
   for (let i = 0; i < days; i++) {
     dates.push(moment().add(i, 'days').format('MM/DD/YYYY'));
   }
-  const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
-  return gamesByDay.map(day => day.map(mutateGame));
+  // disabled for offseason
+  // const gamesByDay = await Promise.all(dates.map(date => fetch('/game', { date })));
+  // return gamesByDay.map(day => day.map(mutateGame));
+
+  // return no games for every day since this is disabled
+  return dates.map(date => []);
 };
 
 exports.sortPlayers = (playersToSort, pointValues) => {
