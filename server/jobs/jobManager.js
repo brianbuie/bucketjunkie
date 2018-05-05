@@ -12,9 +12,11 @@ exports.startup = () => {
   // manages its own schedule
   autoDraft.startup();
 
+  // Player info and scores disabled for the offseason
+
   // update player scores every 30 minutes
-  setInterval(updateScores.update, 30 * MINUTE);
+  // setInterval(updateScores.update, 30 * MINUTE);
 
   // update player info every 12.25 hours
-  setInterval(playerInfo.update, 12.25 * HOUR);
+  // setInterval(playerInfo.update, 12.25 * HOUR);
 };
