@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const playerSchema = new mongoose.Schema({
   _id: {
     type: Number,
-    index: true,
-    unique: true,
     required: true,
   },
   team: {
